@@ -12,7 +12,7 @@ import {
   useStyles,
   brandName,
   accountMenu,
-} from "../../constants/navbarContants";
+} from "../../constants/navbarConsts";
 
 export default function Navbar(props) {
   const classes = useStyles();

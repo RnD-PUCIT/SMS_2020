@@ -5,12 +5,12 @@ import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { useTheme } from "@material-ui/core/styles";
 import Navbar from "../navbar/navbar";
 
-import { useStyles, sideBarLinks } from "../../constants/sidebarConstants";
+import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
+import MainContent from "../mainContent/mainContent";
 
 function Sidebar(props) {
   const { window } = props;
@@ -49,12 +49,11 @@ function Sidebar(props) {
       <Navbar onMenuClick={handleDrawerToggle} />
 
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}
             variant="temporary"
-            anchor={theme.direction === "rtl" ? "right" : "left"}
+            anchor="left"
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -79,9 +78,7 @@ function Sidebar(props) {
           </Drawer>
         </Hidden>
       </nav>
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-      </main>
+      {props.children}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { drawerWidth } from "./sidebarConstants";
+import { drawerWidth } from "./sidebarConsts";
 
 const accountMenu = [
   {
