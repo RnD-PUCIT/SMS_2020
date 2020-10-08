@@ -11,6 +11,7 @@ import Navbar from "../navbar/navbar";
 
 import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
 import MainContent from "../mainContent/mainContent";
+import { Link } from "react-router-dom";
 
 function Sidebar(props) {
   const { window } = props;
@@ -30,7 +31,7 @@ function Sidebar(props) {
       <List>
         {sideBarLinks.map((item) => {
           return (
-            <ListItem button key={item.text}>
+            <ListItem button key={item.text} component={Link} to={item.url}>
               <ListItemText>{item.text}</ListItemText>
             </ListItem>
           );
