@@ -3,16 +3,14 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+
 import MenuIcon from "@material-ui/icons/Menu";
 
 import {
   useStyles,
   brandName,
-  accountMenu,
 } from "../../constants/navbarConsts";
+import ProfileAvatar from "./profileAvatar";
 
 export default function Navbar(props) {
   const classes = useStyles();
@@ -44,35 +42,8 @@ export default function Navbar(props) {
             {brandName}
           </Typography>
 
-          {/* Profile Avatar Dropdown */}
-          <div>
-            <IconButton onClick={handleMenu} color="inherit">
-              <AccountCircle />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorEl}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={open}
-              onClose={handleClose}
-            >
-              {accountMenu.map((item) => {
-                return (
-                  <MenuItem onClick={handleClose} key={item.text}>
-                    {item.text}
-                  </MenuItem>
-                );
-              })}
-            </Menu>
-          </div>
+          <ProfileAvatar onMenuOpen={handleMenu} onMenuClose={handleClose} anchorEl={anchorEl} open={open} />
+          
         </Toolbar>
       </AppBar>
     </div>
