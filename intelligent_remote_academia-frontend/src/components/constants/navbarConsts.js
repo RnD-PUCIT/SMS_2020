@@ -6,7 +6,6 @@ const accountMenu = [
   {
     text: "Profile",
     url: "/profile",
-    icon: "fa fas-user"
   },
   {
     text: "Logout",

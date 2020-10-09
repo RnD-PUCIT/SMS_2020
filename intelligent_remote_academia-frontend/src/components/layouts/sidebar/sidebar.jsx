@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -6,10 +7,11 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+
 import Navbar from "../navbar/navbar";
+import UserInfo from "./userInfo";
 
 import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
-import { Link } from "react-router-dom";
 
 function Sidebar(props) {
   const { window } = props;
@@ -23,8 +25,12 @@ function Sidebar(props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      {/* Display logged in user information */}
+      <UserInfo />
+
       <Divider />
+      
+      {/* Sidebar Links */}
       <List>
         {sideBarLinks.map((item) => {
           return (
