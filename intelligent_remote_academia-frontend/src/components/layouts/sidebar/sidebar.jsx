@@ -6,17 +6,14 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { useTheme } from "@material-ui/core/styles";
 import Navbar from "../navbar/navbar";
 
 import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
-import MainContent from "../mainContent/mainContent";
 import { Link } from "react-router-dom";
 
 function Sidebar(props) {
   const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
