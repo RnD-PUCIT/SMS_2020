@@ -26,6 +26,7 @@ const useStyles = makeStyles({
       fontSize: "150px",
       color: "red",
       fontWeight: "lighter",
+      letterSpacing: "10px"
   },
 
   headingSub: {
