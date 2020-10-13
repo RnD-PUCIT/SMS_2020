@@ -4,7 +4,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { useStyles } from "../../constants/mainContentConsts";
 import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
-import NotFound from "../../pages/not-found/notFound"
+import NotFound from "../../pages/error/notFound"
 
 const MainContent = (props) => {
   const classes = useStyles();
