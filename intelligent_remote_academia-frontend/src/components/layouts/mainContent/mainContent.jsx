@@ -6,12 +6,14 @@ import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
 
 const MainContent = (props) => {
+  const {subjects} = props;
   const classes = useStyles();
+
   return (
     <main className="container">
       <div className={classes.container}>
         <Switch>
-          <Route path="/subjects" component={Subjects} />
+          <Route path="/subjects" render={() => <Subjects subjects={subjects} />} />
           <Route path="/attendance" component={Attendance} />
           <Redirect from="/" to="/subjects" exact />
         </Switch>
