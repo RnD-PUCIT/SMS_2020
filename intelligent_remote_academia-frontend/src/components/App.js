@@ -1,24 +1,24 @@
 import React, { Component } from 'react';
 import Layout from "./layouts/layout";
 
-import { getParentInfo } from "../services/parentInfoService";
+import { getDashboardInfo } from "../services/parentDashboardService";
 
 import "./App.css";
 
 class App extends Component {
 
-  state= { parentInfo: null };
+  state= { dashboardInfo: null };
   componentDidMount() {
     // Get parent personal info from the service
-    const parentInfo = getParentInfo();
+    const dashboardInfo = getDashboardInfo();
 
     // Set state of the component
-    this.setState({parentInfo});
+    this.setState({dashboardInfo});
   }
 
   render() { 
     // Pass the state to the child components 
-    return ( <Layout parentInfo={this.state.parentInfo} />);
+    return ( <Layout dashboardInfo={this.state.dashboardInfo} />);
   }
 }
  

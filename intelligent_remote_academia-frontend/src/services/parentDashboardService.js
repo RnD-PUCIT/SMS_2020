@@ -1,4 +1,4 @@
-const parent_info = {
+const dashboard = {
     user_info: {
         id: 1,
         first_name: "Harry",
@@ -33,6 +33,6 @@ const parent_info = {
     ]
 }
 
-export function getParentInfo() {
-    return parent_info;
+export function getDashboardInfo() {
+    return dashboard;
 }
