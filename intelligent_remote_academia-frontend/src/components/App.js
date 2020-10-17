@@ -8,6 +8,7 @@ import "./App.css";
 class App extends Component {
 
   state= { dashboardInfo: null };
+
   componentDidMount() {
     // Get parent personal info from the service
     const dashboardInfo = getDashboardInfo();
