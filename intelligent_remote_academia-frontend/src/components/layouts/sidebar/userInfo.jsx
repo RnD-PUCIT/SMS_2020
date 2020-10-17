@@ -14,16 +14,20 @@ const useStyles = makeStyles(() => ({
 }))
 
 const UserInfo = (props) => {
-
     const classes = useStyles();
+    const {parentInfo} = props;
 
-    return ( 
-        <center className={classes.root}>
-            <Typography variant="h6">Parents Portal</Typography>
-            <ImageAvatar className={classes.avatar}/>
-            <Typography>Parent Name</Typography>
-        </center>
-     );
+    if(parentInfo)
+    {
+        return ( 
+            <center className={classes.root}>
+                <Typography variant="h6">Parents Portal</Typography>
+                <ImageAvatar className={classes.avatar}/>
+                <Typography>{parentInfo.first_name + " " + parentInfo.last_name}</Typography>
+            </center>
+         );
+    }
+    return <div></div>;
 }
  
 export default UserInfo;

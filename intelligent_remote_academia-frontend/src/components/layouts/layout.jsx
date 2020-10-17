@@ -5,7 +5,7 @@ import Sidebar from "./sidebar/sidebar";
 const Layout = (props) => {
   return (
     <React.Fragment>
-      <Sidebar>
+      <Sidebar parentInfo={props.parentInfo}>
         <MainContent />
       </Sidebar>
     </React.Fragment>
