@@ -15,7 +15,7 @@ import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
 
 function Sidebar(props) {
   const { window } = props;
-  const {parentInfo} = props;
+  const {userInfo} = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -26,7 +26,7 @@ function Sidebar(props) {
   const drawer = (
     <div>
      {/* Display logged in user information */}
-      <UserInfo parentInfo={parentInfo && parentInfo.user_info}/>
+      <UserInfo parentInfo={ userInfo }/>
 
       <Divider />
       

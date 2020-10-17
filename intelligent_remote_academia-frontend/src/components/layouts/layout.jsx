@@ -5,8 +5,10 @@ import Sidebar from "./sidebar/sidebar";
 const Layout = (props) => {
   return (
     <React.Fragment>
-      <Sidebar parentInfo={props.parentInfo}>
-        <MainContent />
+      {/* With using state hooks, component is rendered twice, hence
+      to make it safe, first checking if parentInfo prop is not null */}
+      <Sidebar userInfo={ props.parentInfo && props.parentInfo.user_info }>
+        <MainContent  />
       </Sidebar>
     </React.Fragment>
   );
