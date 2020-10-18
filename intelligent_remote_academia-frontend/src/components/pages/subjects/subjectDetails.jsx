@@ -20,7 +20,6 @@ class SubjectDetails extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Subject Details</h1>
         <Tabs subjectTabs={subjectTabs} />
       </React.Fragment>
     );
