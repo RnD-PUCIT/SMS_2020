@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
+import SubjectDetails from "../../pages/subjects/subjectDetails";
 
 import { useStyles } from "../../constants/mainContentConsts";
 
@@ -13,6 +14,7 @@ const MainContent = ({ subjects }) => {
     <main className="container">
       <div className={classes.container}>
         <Switch>
+          <Route path="/subjects/:id" component={SubjectDetails} />
           {/* Sending subjects array as a prop to Subject component */}
           <Route
             path="/subjects"
