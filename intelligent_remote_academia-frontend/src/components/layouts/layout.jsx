@@ -5,15 +5,30 @@ import Sidebar from "./sidebar/sidebar";
 const Layout = (props) => {
   const { dashboardInfo } = props;
 
-  return (
-    <React.Fragment>
-      {/* With using state hooks, component is rendered twice, hence
-      to make it safe, first checking if parentInfo prop is not null */}
-      <Sidebar userInfo={dashboardInfo && dashboardInfo.user_info}>
-        <MainContent subjects={dashboardInfo && dashboardInfo.subjects} />
-      </Sidebar>
-    </React.Fragment>
-  );
+  /* With using state hooks, component is rendered twice, hence
+    to make it safe, first checking if dashboardInfo prop is not null */
+
+  if (dashboardInfo) {
+    // Get selected student id
+    const studentId = dashboardInfo.students[0].id;
+
+    // Get selected student's class id
+    const classId = dashboardInfo.students[0].class_id;
+    return (
+      <React.Fragment>
+        <Sidebar userInfo={dashboardInfo.user_info}>
+          <MainContent
+            subjects={dashboardInfo.subjects}
+            studentId={studentId}
+            classId={classId}
+          />
+        </Sidebar>
+      </React.Fragment>
+    );
+  }
+
+  // dashboardInfo is null, render nothing
+  return null;
 };
 
 export default Layout;

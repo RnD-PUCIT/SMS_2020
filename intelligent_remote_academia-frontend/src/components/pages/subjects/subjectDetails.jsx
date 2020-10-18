@@ -16,11 +16,11 @@ class SubjectDetails extends Component {
     // Set state of the component
     this.setState({ subjectDetail });
   }
-
   render() {
+    const { pathname } = this.props.location;
     return (
       <React.Fragment>
-        <Tabs subjectTabs={subjectTabs} />
+        <Tabs subjectTabs={subjectTabs} pathname={pathname} />
       </React.Fragment>
     );
   }
