@@ -2,6 +2,7 @@ const subject = {
   grades: {
     exams: [
       {
+        id: 1,
         grade_date: "12/05/2020",
         total_marks: 100,
         obtained_marks: 85,
@@ -9,6 +10,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 2,
         grade_date: "01/08/2020",
         total_marks: 100,
         obtained_marks: 90,
@@ -16,6 +18,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 3,
         grade_date: "20/10/2020",
         total_marks: 100,
         obtained_marks: 70,
@@ -23,6 +26,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 4,
         grade_date: "10/01/2020",
         total_marks: 100,
         obtained_marks: 95,
@@ -30,6 +34,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 5,
         grade_date: "20/02/2020",
         total_marks: 100,
         obtained_marks: 98,
@@ -39,6 +44,7 @@ const subject = {
     ],
     tests: [
       {
+        id: 6,
         grade_date: "05/05/2020",
         total_marks: 50,
         obtained_marks: 15,
@@ -46,6 +52,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 7,
         grade_date: "12/06/2020",
         total_marks: 50,
         obtained_marks: 32,
@@ -53,6 +60,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 8,
         grade_date: "25/07/2020",
         total_marks: 50,
         obtained_marks: 45,
@@ -60,6 +68,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 9,
         grade_date: "18/08/2020",
         total_marks: 50,
         obtained_marks: 20,
@@ -67,6 +76,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 10,
         grade_date: "09/09/2020",
         total_marks: 50,
         obtained_marks: 46,
@@ -74,6 +84,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 11,
         grade_date: "07/10/2020",
         total_marks: 50,
         obtained_marks: 38,
@@ -81,6 +92,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 12,
         grade_date: "29/10/2020",
         total_marks: 50,
         obtained_marks: 14,
@@ -88,6 +100,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 13,
         grade_date: "23/11/2020",
         total_marks: 50,
         obtained_marks: 37,
@@ -95,6 +108,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 14,
         grade_date: "19/12/2020",
         total_marks: 50,
         obtained_marks: 30,
@@ -102,6 +116,7 @@ const subject = {
         remarks: "none",
       },
       {
+        id: 15,
         grade_date: "12/01/2020",
         total_marks: 50,
         obtained_marks: 48,
@@ -112,50 +127,62 @@ const subject = {
   },
   diary: [
     {
+      id: 1,
       diary_date: "03/05/2020",
       diary_content: "Test 01 on 05/05/2020",
     },
     {
+      id: 2,
       diary_date: "05/05/2020",
       diary_content: "Read page # 13 of the book",
     },
     {
+      id: 3,
       diary_date: "07/05/2020",
       diary_content: "Solve Exercise Questoin 1-3 of chapter 01",
     },
     {
+      id: 4,
       diary_date: "11/05/2020",
       diary_content: "Solve Excersise Questions 4-7 of chapter 01",
     },
     {
+      id: 5,
       diary_date: "13/05/2020",
       diary_content: "Learn Topic # 2 of chapter 01",
     },
     {
+      id: 6,
       diary_date: "15/05/2020",
       diary_content: "Read first 2 pages of chapter 02",
     },
     {
+      id: 7,
       diary_date: "21/05/2020",
       diary_content: "Read page # 26 of the book",
     },
     {
+      id: 8,
       diary_date: "22/05/2020",
       diary_content: "Learn Topic # 4 of chapter 02",
     },
     {
+      id: 9,
       diary_date: "25/05/2020",
       diary_content: "Solve Excercise question 1-4 of chapter 02",
     },
     {
+      id: 10,
       diary_date: "03/06/2020",
       diary_content: "Learn short answers of Chapter #2",
     },
     {
+      id: 11,
       diary_date: "05/06/2020",
       diary_content: "Test 02 of chapter # 1 complete on 10/06/2020",
     },
     {
+      id: 12,
       diary_date: "07/06/2020",
       diary_content: "Solve Excercise question 6-9 of chapter 02",
     },
