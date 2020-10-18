@@ -35,11 +35,6 @@ const attendance = [
     status: "A",
   },
   {
-    id: 1,
-    attendance_date: "12/03/2020",
-    status: "A",
-  },
-  {
     id: 8,
     attendance_date: "13/03/2020",
     status: "P",
