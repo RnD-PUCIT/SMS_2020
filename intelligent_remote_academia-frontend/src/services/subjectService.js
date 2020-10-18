@@ -192,3 +192,11 @@ const subject = {
 export function getSubjectData() {
   return subject;
 }
+
+export function getTestDetails() {
+  return subject.grades.tests;
+}
+
+export function getExamDetails() {
+  return subject.grades.exams;
+}

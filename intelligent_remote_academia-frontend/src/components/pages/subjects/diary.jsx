@@ -6,7 +6,11 @@ const Diary = ({ diary }) => {
       <h1>Diary</h1>
       <ul>
         {diary.map((item) => {
-          return <li key={item.id}>{item.diary_content}</li>;
+          return (
+            <li key={item.id}>
+              {item.diary_content} ({item.diary_date})
+            </li>
+          );
         })}
       </ul>
     </React.Fragment>
