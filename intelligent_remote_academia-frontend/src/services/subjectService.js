@@ -110,6 +110,56 @@ const subject = {
       },
     ],
   },
+  diary: [
+    {
+      diary_date: "03/05/2020",
+      diary_content: "Test 01 on 05/05/2020",
+    },
+    {
+      diary_date: "05/05/2020",
+      diary_content: "Read page # 13 of the book",
+    },
+    {
+      diary_date: "07/05/2020",
+      diary_content: "Solve Exercise Questoin 1-3 of chapter 01",
+    },
+    {
+      diary_date: "11/05/2020",
+      diary_content: "Solve Excersise Questions 4-7 of chapter 01",
+    },
+    {
+      diary_date: "13/05/2020",
+      diary_content: "Learn Topic # 2 of chapter 01",
+    },
+    {
+      diary_date: "15/05/2020",
+      diary_content: "Read first 2 pages of chapter 02",
+    },
+    {
+      diary_date: "21/05/2020",
+      diary_content: "Read page # 26 of the book",
+    },
+    {
+      diary_date: "22/05/2020",
+      diary_content: "Learn Topic # 4 of chapter 02",
+    },
+    {
+      diary_date: "25/05/2020",
+      diary_content: "Solve Excercise question 1-4 of chapter 02",
+    },
+    {
+      diary_date: "03/06/2020",
+      diary_content: "Learn short answers of Chapter #2",
+    },
+    {
+      diary_date: "05/06/2020",
+      diary_content: "Test 02 of chapter # 1 complete on 10/06/2020",
+    },
+    {
+      diary_date: "07/06/2020",
+      diary_content: "Solve Excercise question 6-9 of chapter 02",
+    },
+  ],
 };
 
 export function getSubjectData() {
