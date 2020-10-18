@@ -6,10 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
-import {
-  useStyles,
-  brandName,
-} from "../../constants/navbarConsts";
+import { useStyles, brandName } from "../../constants/navbarConsts";
 import ProfileAvatar from "./profileAvatar";
 
 export default function Navbar(props) {
@@ -42,8 +39,12 @@ export default function Navbar(props) {
             {brandName}
           </Typography>
 
-          <ProfileAvatar onMenuOpen={handleMenu} onMenuClose={handleClose} anchorEl={anchorEl} open={open} />
-          
+          <ProfileAvatar
+            onMenuOpen={handleMenu}
+            onMenuClose={handleClose}
+            anchorEl={anchorEl}
+            open={open}
+          />
         </Toolbar>
       </AppBar>
     </div>

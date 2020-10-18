@@ -6,7 +6,7 @@ import Attendance from "../../pages/attendance/attendance";
 
 import { useStyles } from "../../constants/mainContentConsts";
 
-const MainContent = ({subjects}) => {
+const MainContent = ({ subjects }) => {
   const classes = useStyles();
 
   return (
@@ -14,7 +14,10 @@ const MainContent = ({subjects}) => {
       <div className={classes.container}>
         <Switch>
           {/* Sending subjects array as a prop to Subject component */}
-          <Route path="/subjects" render={() => <Subjects subjects={subjects} />} />
+          <Route
+            path="/subjects"
+            render={() => <Subjects subjects={subjects} />}
+          />
           <Route path="/attendance" component={Attendance} />
           <Redirect from="/" to="/subjects" exact />
         </Switch>
