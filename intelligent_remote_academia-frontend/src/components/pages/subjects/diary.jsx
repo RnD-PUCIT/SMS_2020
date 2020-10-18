@@ -1,7 +1,16 @@
 import React from "react";
 
-const Diary = () => {
-  return <h1>Diary</h1>;
+const Diary = ({ diary }) => {
+  return (
+    <React.Fragment>
+      <h1>Diary</h1>
+      <ul>
+        {diary.map((item) => {
+          return <li key={item.id}>{item.diary_content}</li>;
+        })}
+      </ul>
+    </React.Fragment>
+  );
 };
 
 export default Diary;

@@ -4,7 +4,7 @@ import { Tab as MatTab, Tabs as MatTabs } from "@material-ui/core";
 import Grades from "../../pages/subjects/grades";
 import Diary from "../../pages/subjects/diary";
 
-const Tabs = ({ subjectTabs, pathname }) => {
+const Tabs = ({ subjectTabs, pathname, grades, diary }) => {
   const [selectedTab, setSelectedTab] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -19,8 +19,8 @@ const Tabs = ({ subjectTabs, pathname }) => {
         })}
       </MatTabs>
 
-      {selectedTab === 0 && <Grades pathname={pathname} />}
-      {selectedTab === 1 && <Diary />}
+      {selectedTab === 0 && <Grades pathname={pathname} grades={grades} />}
+      {selectedTab === 1 && <Diary diary={diary} />}
     </React.Fragment>
   );
 };

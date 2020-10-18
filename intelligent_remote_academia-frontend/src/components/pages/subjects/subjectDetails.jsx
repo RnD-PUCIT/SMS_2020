@@ -16,13 +16,31 @@ class SubjectDetails extends Component {
     // Set state of the component
     this.setState({ subjectDetail });
   }
+
   render() {
+    // Get pathname (url)
     const { pathname } = this.props.location;
-    return (
-      <React.Fragment>
-        <Tabs subjectTabs={subjectTabs} pathname={pathname} />
-      </React.Fragment>
-    );
+
+    if (this.state.subjectDetail) {
+      // Get grades data
+      const { grades } = this.state.subjectDetail;
+
+      // Get diary data
+      const { diary } = this.state.subjectDetail;
+
+      return (
+        <React.Fragment>
+          <Tabs
+            subjectTabs={subjectTabs}
+            pathname={pathname}
+            grades={grades}
+            diary={diary}
+          />
+        </React.Fragment>
+      );
+    }
+
+    return null;
   }
 }
 
