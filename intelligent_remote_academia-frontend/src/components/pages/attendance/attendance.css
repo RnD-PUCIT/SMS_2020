@@ -40,6 +40,10 @@
   text-decoration: none;
 }
 
-.present_color {
-  background-color: green;
+.present {
+  background-color: #d4edda;
+}
+
+.absent {
+  background-color: #f8d7da;
 }

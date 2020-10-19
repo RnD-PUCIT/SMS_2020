@@ -21,7 +21,31 @@ class Attendance extends Component {
     if (attendance) {
       return (
         <React.Fragment>
-          <Calendar value={this.state.date} showNeighboringMonth={false} />
+          <Calendar
+            value={this.state.date}
+            showNeighboringMonth={false}
+            tileClassName={({ date }) => {
+              console.log(date.toLocaleDateString());
+              if (
+                attendance.find(
+                  (a) =>
+                    a.attendance_date === date.toLocaleDateString() &&
+                    a.status == "P"
+                )
+              ) {
+                console.log(date.toLocaleDateString());
+                return "present";
+              } else if (
+                attendance.find(
+                  (a) =>
+                    a.attendance_date === date.toLocaleDateString() &&
+                    a.status == "A"
+                )
+              ) {
+                return "absent";
+              }
+            }}
+          />
         </React.Fragment>
       );
     }
