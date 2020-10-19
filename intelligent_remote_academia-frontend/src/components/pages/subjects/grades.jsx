@@ -6,10 +6,14 @@ const Grades = ({ pathname }) => {
     <React.Fragment>
       <ul>
         <li>
-          <Link to={pathname + "/tests"}>Tests</Link>
+          <Link to={{ pathname: pathname + "/tests", gradeData: "abc" }}>
+            Tests
+          </Link>
         </li>
         <li>
-          <Link to={pathname + "/exams"}>Exams</Link>
+          <Link to={{ pathname: pathname + "/exams", gradeData: "123" }}>
+            Exams
+          </Link>
         </li>
       </ul>
     </React.Fragment>

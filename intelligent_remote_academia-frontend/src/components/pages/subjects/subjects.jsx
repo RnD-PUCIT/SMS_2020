@@ -1,5 +1,5 @@
-import React from 'react';
-import Card from '../../common/cards/imageCard';
+import React from "react";
+import Card from "../../common/cards/imageCard";
 
 // Receiving array of subjects as a prop and destructuring it.
 const Subjects = ({ subjects, studentId, classId }) => {
