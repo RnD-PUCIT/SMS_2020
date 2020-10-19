@@ -1,7 +1,6 @@
 import React from "react";
 import { Grid } from "@material-ui/core";
 
-import Card from "../../common/cards/imageCard";
 import Cards from "../../common/cards/imageCard";
 
 // Receiving array of subjects as a prop and destructuring it.

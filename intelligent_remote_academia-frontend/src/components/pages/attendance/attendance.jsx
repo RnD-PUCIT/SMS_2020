@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import Calendar from "react-calendar";
+
+import "react-calendar/dist/Calendar.css";
+import "./attendance.css";
 
 import { getStudentAttendance } from "../../../services/studentAttendanceService";
 
 class Attendance extends Component {
-  state = { attendance: null };
+  state = { attendance: null, date: new Date() };
 
   componentDidMount() {
     const attendance = getStudentAttendance();
@@ -17,16 +21,7 @@ class Attendance extends Component {
     if (attendance) {
       return (
         <React.Fragment>
-          <h1>Attendance</h1>
-          <ul>
-            {attendance.map((item) => {
-              return (
-                <li key={item.id}>
-                  {item.status} ({item.attendance_date})
-                </li>
-              );
-            })}
-          </ul>
+          <Calendar value={this.state.date} showNeighboringMonth={false} />
         </React.Fragment>
       );
     }
