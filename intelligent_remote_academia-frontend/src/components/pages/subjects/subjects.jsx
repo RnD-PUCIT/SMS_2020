@@ -1,22 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import Card from '../../common/cards/imageCard';
 
 // Receiving array of subjects as a prop and destructuring it.
 const Subjects = ({ subjects, studentId, classId }) => {
   return (
-    <ul>
+    <React.Fragment>
       {/* First cheking if the subjects is not null for safety purpose */}
+
       {subjects &&
         subjects.map((subject) => {
           return (
-            <li key={subject.id}>
-              <Link to={`/subjects/${studentId}/${subject.id}/${classId}`}>
-                {subject.subject_name}
-              </Link>
-            </li>
+            <Card
+              key={subject.id}
+              subjectName={subject.subject_name}
+              teacherName={subject.teacher_name}
+              studentId={studentId}
+              classId={classId}
+              subjectID={subject.id}
+            />
           );
         })}
-    </ul>
+    </React.Fragment>
   );
 };
 
