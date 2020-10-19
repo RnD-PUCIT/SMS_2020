@@ -26,12 +26,15 @@ const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
             // insert image here
           />
           <CardContent>
-            <Typography gutterBottom variant='h5' component='h2'>
+            <Typography gutterBottom variant='h6' component='h2'>
               <Link to={`/subjects/${studentId}/${subjectID}/${classId}`}>
                 {subjectName}
               </Link>
             </Typography>
-            <Typography variant='h6' color='textSecondary' component='span'>
+            <Typography
+              variant='subtitle1'
+              color='textSecondary'
+              component='span'>
               {teacherName}
             </Typography>
           </CardContent>
