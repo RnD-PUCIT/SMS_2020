@@ -9,27 +9,21 @@ import { Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
-  root: {
-    // maxWidth: 300,
+  media: {
+    height: 110,
   },
-  //   media: {
-  //     height: 150,
-  //   },
 });
 
 const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} sm={4} md={3}>
-      <Card
-      // className={classes.root}
-      >
+    <Grid item xs={12} sm={6} md={4}>
+      <Card className={classes.root}>
         <CardActionArea>
           <CardMedia
-            //   className={classes.media}
-            image='/static/images/cards/contemplative-reptile.jpg'
-            title='Contemplative Reptile'
+            className={classes.media}
+            // insert image here
           />
           <CardContent>
             <Typography gutterBottom variant='h5' component='h2'>
@@ -42,14 +36,6 @@ const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
             </Typography>
           </CardContent>
         </CardActionArea>
-        {/* <CardActions>
-        <Button size='small' color='primary'>
-          Share
-        </Button>
-        <Button size='small' color='primary'>
-          Learn More
-        </Button>
-      </CardActions> */}
       </Card>
     </Grid>
   );
