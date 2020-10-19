@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 import React from "react";
+import { Grid } from "@material-ui/core";
+
 import Card from "../../common/cards/imageCard";
-=======
-import React from 'react';
-import Cards from '../../common/cards/imageCard';
-import { Grid } from '@material-ui/core';
->>>>>>> 7adff9dfbd3b71d89f24187b1ccedb639dde592c
+import Cards from "../../common/cards/imageCard";
 
 // Receiving array of subjects as a prop and destructuring it.
 const Subjects = ({ subjects, studentId, classId }) => {
