@@ -51,6 +51,47 @@ namespace IRAAPI.DAL
             }
         }
 
+        public Subject GetSubjectDetails(int classId, int subjectId)
+        {
+            Subject subject = new Subject();
+
+            SqlConnection con = new SqlConnection(DBHelper.conStr);
+            try
+            {
+                con.Open();
+                string query = "SELECT sub.id, sub.subject_code, sub.subject_name, sub.subject_slug, teacher_alloc.teacher_id, (teacher.first_name + ' ' + teacher.last_name) as teacher_name "
+                               + "FROM Subjects AS sub, Teacher_Subject_Alloc AS teacher_alloc, Teachers AS teacher "
+                               + "Where (sub.id = @subjectId AND teacher_alloc.class_id = @classId AND teacher_alloc.subject_id = @subjectId AND teacher.id = teacher_alloc.teacher_id)";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@classId", classId);
+                cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    subject.subjectId = (int)reader["id"];
+                    subject.subjectCode = reader["subject_code"].ToString();
+                    subject.subjectName = reader["subject_name"].ToString();
+                    subject.subjectSlug = reader["subject_slug"].ToString();
+                    subject.teacherId = (int)reader["teacher_id"];
+                    subject.teacherName = reader["teacher_name"].ToString();
+                }
+                reader.Close();
+                return subject;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+        }
+
         public List<int> GetSubjectsIdsByClassId(int classId)
         {
             List<int> subjectIds = new List<int>();

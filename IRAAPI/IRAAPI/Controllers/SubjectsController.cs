@@ -60,17 +60,20 @@ namespace IRAAPI.Controllers
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(int studentId, int classId, int subjectId)
         {
+            Subject subject = new SubjectBLL().GetSubjectDetails(classId, subjectId);
+            if (subject == null)
+                return NotFound();
+            
             List<Diary> diary = new DiaryBLL().GetDiary(classId, subjectId);
             if(diary == null)
-            {
                 return NotFound();
-            }
+            
             List<GradeType> gradeTypeNames = new GradeBLL().GetGradeTypes(classId, subjectId);
             if (gradeTypeNames == null)
-            {
                 return NotFound();
-            }
+
             List<Object> data = new List<object>();
+            data.Add(subject);
             data.Add(gradeTypeNames);
             data.Add(diary);
             return data;
