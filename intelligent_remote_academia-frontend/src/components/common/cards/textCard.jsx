@@ -6,11 +6,11 @@ import {
   Typography,
 } from "@material-ui/core";
 
-const TextCard = ({ titleMain, titleSub }) => {
+const TextCard = ({ titleMain, titleSub, variant, component, to }) => {
   return (
     <React.Fragment>
-      <Card variant="outlined">
-        <CardActionArea>
+      <Card variant={variant && variant}>
+        <CardActionArea component={component} to={to}>
           <CardContent>
             <Typography variant="h5" color="textSecondary">
               {titleMain}

@@ -7,14 +7,16 @@ const subject = {
     teacherId: 1,
     teacherName: "Nadeem Abbas",
   },
-  gradesTypes: [
+  gradeTypes: [
     {
       gradeTypeId: 1,
       gradeTypeName: "Test",
+      gradeTypeSlug: "test",
     },
     {
       gradeTypeId: 2,
       gradeTypeName: "Exam",
+      gradeTypeSlug: "exam",
     },
   ],
   diary: [

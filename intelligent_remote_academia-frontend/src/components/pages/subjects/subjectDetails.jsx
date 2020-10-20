@@ -14,8 +14,6 @@ class SubjectDetails extends Component {
     // Get subject details data from the service
     const subjectDetail = getSubjectData();
 
-    console.log(subjectDetail);
-
     // Set state of the component
     this.setState({ subjectDetail });
   }
@@ -25,23 +23,19 @@ class SubjectDetails extends Component {
     const { pathname } = this.props.location;
 
     if (this.state.subjectDetail) {
-      const {
-        grades,
-        diary,
-        gradesType,
-        subjectDetails,
-      } = this.state.subjectDetail;
+      const { diary, gradeTypes, subjectDetails } = this.state.subjectDetail;
 
       return (
         <React.Fragment>
           <TextCard
             titleMain={subjectDetails.subjectName}
             titleSub={subjectDetails.teacherName}
+            variant="outlined"
           />
           <Tabs
             subjectTabs={subjectTabs}
             pathname={pathname}
-            grades={grades}
+            gradeTypes={gradeTypes}
             diary={diary}
           />
         </React.Fragment>

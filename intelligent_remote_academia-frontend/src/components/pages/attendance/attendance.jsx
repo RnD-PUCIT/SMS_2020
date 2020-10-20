@@ -29,7 +29,7 @@ class Attendance extends Component {
                 attendance.find(
                   (a) =>
                     a.attendance_date === date.toLocaleDateString() &&
-                    a.status == "P"
+                    a.status === "P"
                 )
               ) {
                 console.log(date.toLocaleDateString());
@@ -38,7 +38,7 @@ class Attendance extends Component {
                 attendance.find(
                   (a) =>
                     a.attendance_date === date.toLocaleDateString() &&
-                    a.status == "A"
+                    a.status === "A"
                 )
               ) {
                 return "absent";
