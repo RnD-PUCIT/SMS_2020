@@ -5,6 +5,7 @@ import Tabs from "../../common/tabs/tabs";
 import { getSubjectData } from "../../../services/subjectService";
 
 import subjectTabs from "../../constants/tabsConsts";
+import TextCard from "../../common/cards/textCard";
 
 class SubjectDetails extends Component {
   state = { subjectDetail: null };
@@ -19,7 +20,7 @@ class SubjectDetails extends Component {
 
   render() {
     // Get pathname (url)
-    const { pathname } = this.props.location;
+    const { pathname, subject } = this.props.location;
 
     if (this.state.subjectDetail) {
       // Get grades data
@@ -30,6 +31,12 @@ class SubjectDetails extends Component {
 
       return (
         <React.Fragment>
+          {subject && (
+            <TextCard
+              titleMain={subject.subject_name}
+              titleSub={subject.teacher_name}
+            />
+          )}
           <Tabs
             subjectTabs={subjectTabs}
             pathname={pathname}

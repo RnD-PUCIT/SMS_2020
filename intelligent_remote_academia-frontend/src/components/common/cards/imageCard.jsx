@@ -14,7 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
+const Cards = ({ subject, studentId, classId, subjectID }) => {
   const classes = useStyles();
 
   return (
@@ -24,8 +24,20 @@ const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
           <CardMedia className={classes.media} />
           <CardContent>
             <Typography gutterBottom variant="h6" component="h2">
-              <Link to={`/subjects/${studentId}/${subjectID}/${classId}`}>
-                {subjectName}
+              <Link
+                to={{
+                  pathname: "/subjects/" + subject.slug,
+                  search:
+                    "studentId=" +
+                    studentId +
+                    "&classId=" +
+                    classId +
+                    "&subjectId=" +
+                    subjectID,
+                  subject: subject,
+                }}
+              >
+                {subject.subject_name}
               </Link>
             </Typography>
             <Typography
@@ -33,7 +45,7 @@ const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
               color="textSecondary"
               component="span"
             >
-              {teacherName}
+              {subject.teacher_name}
             </Typography>
           </CardContent>
         </CardActionArea>

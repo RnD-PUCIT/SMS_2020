@@ -23,8 +23,7 @@ const Subjects = ({ subjects, studentId, classId }) => {
           return (
             <Cards
               key={subject.id}
-              subjectName={subject.subject_name}
-              teacherName={subject.teacher_name}
+              subject={subject}
               studentId={studentId}
               classId={classId}
               subjectID={subject.id}
