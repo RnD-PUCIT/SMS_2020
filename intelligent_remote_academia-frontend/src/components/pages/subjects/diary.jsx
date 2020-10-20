@@ -1,5 +1,5 @@
-import { Paper, Toolbar, Typography } from "@material-ui/core";
 import React from "react";
+import { Paper, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -27,10 +27,24 @@ const Diary = ({ diary }) => {
             <Toolbar className={classes.toolbar} variant="dense">
               <Typography variant="h6">{item.diary_date}</Typography>
             </Toolbar>
-            <div className={classes.paperBody}>{item.diary_content}</div>
+            <div className={classes.paperBody}>
+              <Typography>{item.diary_title}</Typography>
+              {item.diary_content && (
+                <DiaryContent content={item.diary_content} />
+              )}
+            </div>
           </Paper>
         );
       })}
+    </React.Fragment>
+  );
+};
+
+const DiaryContent = ({ content }) => {
+  return (
+    <React.Fragment>
+      <hr />
+      {content}
     </React.Fragment>
   );
 };
