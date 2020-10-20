@@ -6,6 +6,7 @@ import Attendance from '../../pages/attendance/attendance';
 import SubjectDetails from '../../pages/subjects/subjectDetails';
 import Exams from '../../pages/subjects/exams';
 import Tests from '../../pages/subjects/tests';
+import Login from '../../pages/login/login';
 
 import { useStyles } from '../../constants/mainContentConsts';
 
@@ -39,6 +40,7 @@ const MainContent = ({ subjects, studentId, classId }) => {
               />
             )}
           />
+          <Route path='/login' component={Login} />
           <Route path='/attendance' component={Attendance} />
           <Redirect from='/' to='/subjects' exact />
         </Switch>
