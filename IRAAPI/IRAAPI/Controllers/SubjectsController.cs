@@ -1,16 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.IO;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
 
@@ -65,13 +57,24 @@ namespace IRAAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("{subject-name}/grades/{grade-type}")]
-        public Object GetGradeTypes(int std_id, int class_id, int subj_id)
+        [HttpGet("{subject-name}")]
+        public Object GetGradeTypesAndDiary(int studentId, int classId, int subjectId)
         {
-            return 1;
+            List<Diary> diary = new DiaryBLL().GetDiary(classId, subjectId);
+            if(diary == null)
+            {
+                return NotFound();
+            }
+            List<GradeType> gradeTypeNames = new GradeBLL().GetGradeTypes(classId, subjectId);
+            if (gradeTypeNames == null)
+            {
+                return NotFound();
+            }
+            List<Object> data = new List<object>();
+            data.Add(gradeTypeNames);
+            data.Add(diary);
+            return data;
         }
-
-        
     }
     
     public class ParentDTO
