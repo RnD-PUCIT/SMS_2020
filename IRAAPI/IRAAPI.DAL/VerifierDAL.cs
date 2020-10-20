@@ -7,45 +7,98 @@ namespace IRAAPI.DAL
 {
     public class VerifierDAL
     {
-        //public Boolean verifyStudentByParentId(int parentId, int studentId)
-        //{
-        //    SqlConnection con = new SqlConnection(DBHelper.conStr);
-        //    try
-        //    {
-        //        con.Open();
-        //        string query = "select parent_id from Students Where id = @studentId";
-        //        SqlCommand cmd = new SqlCommand(query, con);
-        //        cmd.Parameters.AddWithValue("@studentId", studentId);
-        //        SqlDataReader reader = cmd.ExecuteReader();
+        public int verifyStudentByParentId(int parentId, int studentId)
+        {
+            SqlConnection con = new SqlConnection(DBHelper.conStr);
+            try
+            {
+                con.Open();
+                string query = "select parent_id from Students Where id = @studentId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@studentId", studentId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                int id = -1;
+                while (reader.Read())
+                {
+                    id = (int)reader["parent_id"];
+                }
+                reader.Close();
+                return id;
+            }
+            catch (Exception ex)
+            {
+                return -2;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+        }
 
-        //        while (reader.Read())
-        //        {
-        //            parent.id = (int)reader["id"];
-        //            parent.firstName = reader["first_name"].ToString();
-        //            parent.lastName = reader["last_name"].ToString();
-        //            parent.email = reader["email"].ToString();
-        //            parent.cnic = reader["cnic"].ToString();
-        //            parent.address = reader["address"].ToString();
-        //            parent.contactPrimary = reader["contact_primary"].ToString();
-        //            parent.contactSecondary = reader["contact_secondary"].ToString();
-        //            parent.occupation = reader["occupation"].ToString();
-        //            parent.jobAddress = reader["job_address"].ToString();
-        //            parent.profilePic = reader["profile_picture"].ToString();
-        //        }
-        //        reader.Close();
-        //        return parent;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return null;
-        //    }
-        //    finally
-        //    {
-        //        if (con.State == ConnectionState.Open)
-        //        {
-        //            con.Close();
-        //        }
-        //    }
-        //}
+        public int verifyClassByStudentId(int studentId, int classId)
+        {
+            SqlConnection con = new SqlConnection(DBHelper.conStr);
+            try
+            {
+                con.Open();
+                string query = "select class_id from Students Where id = @studentId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@studentId", studentId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                int id = -1;
+                while (reader.Read())
+                {
+                    id = (int)reader["class_id"];
+                }
+                reader.Close();
+                return id;
+            }
+            catch (Exception ex)
+            {
+                return -2;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+        }
+
+        public int verifySubjectByClassId(int classId, int subjectId)
+        {
+            SqlConnection con = new SqlConnection(DBHelper.conStr);
+            try
+            {
+                con.Open();
+                string query = "Select subject_id From Class_Subject_Alloc Where class_id = @classId AND subject_id = @subjectId";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@classId", classId);
+                cmd.Parameters.AddWithValue("@subjectId", subjectId);
+                SqlDataReader reader = cmd.ExecuteReader();
+                int id = -1;
+                while (reader.Read())
+                {
+                    id = (int)reader["subject_id"];
+                }
+                reader.Close();
+                return id;
+            }
+            catch (Exception ex)
+            {
+                return -2;
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }

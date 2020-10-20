@@ -25,7 +25,6 @@ namespace IRAAPI.Controllers
         [HttpPost]
         public Object Login()
         {
-
             string cnic = HttpContext.Request.Form["cnic"];
             string pass = HttpContext.Request.Form["pass"];
             int parentId = new ParentBLL().VerifyParent(cnic, pass);

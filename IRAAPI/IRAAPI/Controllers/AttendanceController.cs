@@ -16,9 +16,18 @@ namespace IRAAPI.Controllers
     {
         [Authorize]
         [HttpGet]
-        public Object GetAttendance(int std_id, int class_id)
+        public Object GetAttendance(int studentId, int classId)
         {
-            List<Attendance> attendances = new AttendanceBLL().GetAttendance(std_id, class_id);
+            var claims = User.Claims;
+            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            if (parentId == null)
+                return Unauthorized();
+
+            VerifierBLL verifier = new VerifierBLL();
+            if (!(verifier.verifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.verifyClassByStudentId(studentId, classId)))
+                return Unauthorized();
+
+            List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
             if (attendances == null)
             {
                 return NotFound();

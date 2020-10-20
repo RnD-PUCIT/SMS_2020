@@ -19,19 +19,19 @@ namespace IRAAPI.Controllers
         {
             var claims = User.Claims;
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            if (parentId == null)
+                return NotFound();
+
             Parent parent = new ParentBLL().GetParentInfoById(Convert.ToInt32(parentId));
             if(parent == null)
-            {
                 return NotFound();
-            }
             
             ParentDTO parentDTO = new ParentDTO(parent.id, parent.firstName, parent.lastName, parent.profilePic);
             
             List<Student> students = new StudentBLL().GetStudentsByParentId(Convert.ToInt32(parentId));
             if(students == null)
-            {
                 return NotFound();
-            }
+            
 
             List<Object> subjectsList = new List<Object>();
             for (int i = 0; i < students.Count; i++)
@@ -39,9 +39,8 @@ namespace IRAAPI.Controllers
                 List<Subject> subjects = new List<Subject>();
                 subjects = new SubjectBLL().GetSubjectsDetailsByClassId(students[i].classId);
                 if (subjects == null)
-                {
                     return NotFound();
-                }
+
                 subjectsList.Add(subjects);
             }
 
@@ -50,9 +49,8 @@ namespace IRAAPI.Controllers
             data.Add(students);
             data.Add(subjectsList);
             if (data == null)
-            {
                 return NotFound();
-            }
+
             return new { dashboard = data };
         }
 
@@ -60,6 +58,15 @@ namespace IRAAPI.Controllers
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(int studentId, int classId, int subjectId)
         {
+            var claims = User.Claims;
+            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            if (parentId == null)
+                return Unauthorized();
+
+            VerifierBLL verifier = new VerifierBLL();
+            if (!(verifier.verifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.verifyClassByStudentId(studentId, classId) && verifier.verifySubjectByClassId(classId, subjectId)))
+                return Unauthorized();
+
             Subject subject = new SubjectBLL().GetSubjectDetails(classId, subjectId);
             if (subject == null)
                 return NotFound();
