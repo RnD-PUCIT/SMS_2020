@@ -37,6 +37,7 @@ const MainContent = ({ subjects, studentId, classId }) => {
             )}
           />
           <Route path="/attendance" component={Attendance} />
+          <Redirect from="/" to="/subjects" exact />
         </Switch>
       </div>
     </main>

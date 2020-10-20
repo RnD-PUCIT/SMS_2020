@@ -22,14 +22,14 @@ class App extends Component {
   render() {
     return (
       <Switch>
+        <Route path="/login" component={Login} exact />
         <Route
-          path="/subjects"
+          path="/"
           // Pass the state to the child components
           render={(props) => (
             <Layout dashboardInfo={this.state.dashboardInfo} />
           )}
         />
-        <Route path="/login" component={Login} />
         <Redirect from="/" to="/subjects" exact />
       </Switch>
     );
