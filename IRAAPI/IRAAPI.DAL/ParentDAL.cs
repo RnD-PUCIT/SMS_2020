@@ -15,9 +15,7 @@ namespace IRAAPI.DAL
             SqlConnection con = new SqlConnection(DBHelper.conStr);
             try
             {
-
                 con.Open();
-
                 string query = "select parent_id from Parent_Login Where cnic = @cnic AND password = @password";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@cnic", cnic);
@@ -34,7 +32,7 @@ namespace IRAAPI.DAL
             }
             catch (Exception ex)
             {
-                throw ex;
+                return -2;
 
             }
             finally
@@ -61,19 +59,23 @@ namespace IRAAPI.DAL
                 while (reader.Read())
                 {
                     parent.id = (int)reader["id"];
-                    parent.first_name = reader["first_name"].ToString();
-                    parent.last_name = reader["last_name"].ToString();
+                    parent.firstName = reader["first_name"].ToString();
+                    parent.lastName = reader["last_name"].ToString();
                     parent.email = reader["email"].ToString();
                     parent.cnic = reader["cnic"].ToString();
                     parent.address = reader["address"].ToString();
+                    parent.contactPrimary = reader["contact_primary"].ToString();
+                    parent.contactSecondary = reader["contact_secondary"].ToString();
+                    parent.occupation = reader["occupation"].ToString();
+                    parent.jobAddress = reader["job_address"].ToString();
+                    parent.profilePic = reader["profile_picture"].ToString();
                 }
                 reader.Close();
                 return parent;
             }
             catch (Exception ex)
             {
-                throw ex;
-
+                return null;
             }
             finally
             {

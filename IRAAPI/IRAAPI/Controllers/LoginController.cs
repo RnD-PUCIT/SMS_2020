@@ -30,11 +30,19 @@ namespace IRAAPI.Controllers
             string pass = HttpContext.Request.Form["pass"];
             int parentId = new ParentBLL().VerifyParent(cnic, pass);
             //Password Hashing 
-            if ( parentId != -1)
+            if ( parentId == -1)
+            {
+                return BadRequest("Invalid Credentials");
+            }
+            else if (parentId == -2)
+            {
+                return NotFound();
+            }
+            else
             {
                 return getToken(parentId);
             }
-            return BadRequest("Invalid Credentials");
+            
         }
 
         [NonAction]
