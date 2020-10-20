@@ -1,44 +1,37 @@
-import React, { Component } from 'react';
-import Container from '@material-ui/core/Container';
-import { CssBaseline, withStyles } from '@material-ui/core';
-import Avatar from '@material-ui/core/Avatar';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import InputAdornment from '@material-ui/core/InputAdornment';
-import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-import IconButton from '@material-ui/core/IconButton';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import LockIcon from '@material-ui/icons/Lock';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import React, { Component } from "react";
+import Container from "@material-ui/core/Container";
+import { CssBaseline, withStyles } from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import PermIdentityIcon from "@material-ui/icons/PermIdentity";
+import IconButton from "@material-ui/core/IconButton";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import LockIcon from "@material-ui/icons/Lock";
+import { Formik } from "formik";
+import * as Yup from "yup";
 
 const styles = (theme) => ({
   outerContainer: {
-    position: 'fixed',
-    top: '0',
-    left: '0',
-    width: '100%',
-    height: '100vh',
-    zIndex: '9999',
-    margin: '0',
-    background: 'linear-gradient(180deg, #778ca3 0%, #00d2d3 100%)',
+    background: "linear-gradient(180deg, #778ca3 0%, #00d2d3 100%)",
   },
   root: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    background: 'white',
-    borderRadius: '10px',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    background: "white",
+    borderRadius: "10px",
   },
   container: {
-    display: 'flex',
-    height: '100vh',
-    alignItems: 'center',
+    display: "flex",
+    height: "100vh",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(2, 1, 1, 1),
@@ -54,13 +47,13 @@ const styles = (theme) => ({
 
 const formSchema = Yup.object().shape({
   cnic: Yup.string()
-    .required('Required*')
-    .matches(/^[0-9]+$/, 'Must be only digits')
-    .min(13, 'Must be exactly 13 digits')
-    .max(13, 'Must be exactly 13 digits'),
+    .required("Required*")
+    .matches(/^[0-9]+$/, "Must be only digits")
+    .min(13, "Must be exactly 13 digits")
+    .max(13, "Must be exactly 13 digits"),
   password: Yup.string()
-    .required('Required*')
-    .min(6, 'Must be atleast 6 characters'),
+    .required("Required*")
+    .min(6, "Must be atleast 6 characters"),
 });
 
 class Login extends Component {
@@ -76,73 +69,75 @@ class Login extends Component {
     const { classes } = this.props;
     return (
       <div className={classes.outerContainer}>
-        <Container className={classes.container} maxWidth='sm' component='main'>
+        <Container className={classes.container} maxWidth="sm" component="main">
           <CssBaseline />
           <div className={classes.root}>
             <Avatar className={classes.avatar}>
               <LockOutlinedIcon />
             </Avatar>
-            <Typography component='h1' variant='h5'>
+            <Typography component="h1" variant="h5">
               Sign in
             </Typography>
             <Formik
               initialValues={{
-                cnic: '',
-                password: '',
+                cnic: "",
+                password: "",
               }}
-              validationSchema={formSchema}>
+              validationSchema={formSchema}
+            >
               {({ handleSubmit, getFieldProps, errors, touched }) => {
                 return (
                   <form className={classes.form} onSubmit={handleSubmit}>
                     <TextField
-                      variant='outlined'
-                      margin='normal'
+                      variant="outlined"
+                      margin="normal"
                       error={errors.cnic && touched.cnic ? true : false}
                       fullWidth
                       // id='cnic'
-                      label='CNIC'
-                      name='cnic'
+                      label="CNIC"
+                      name="cnic"
                       autoComplete
                       autoFocus
-                      {...getFieldProps('cnic')}
+                      {...getFieldProps("cnic")}
                       helperText={
-                        errors.cnic && touched.cnic ? errors.cnic : ''
+                        errors.cnic && touched.cnic ? errors.cnic : ""
                       }
                       InputProps={{
                         startAdornment: (
-                          <InputAdornment position='start'>
+                          <InputAdornment position="start">
                             <PermIdentityIcon />
                           </InputAdornment>
                         ),
                       }}
                     />
                     <TextField
-                      variant='outlined'
-                      margin='normal'
+                      variant="outlined"
+                      margin="normal"
                       error={errors.password && touched.password ? true : false}
                       fullWidth
-                      name='password'
-                      label='Password'
-                      type={this.state.showPassword ? 'text' : 'password'}
+                      name="password"
+                      label="Password"
+                      type={this.state.showPassword ? "text" : "password"}
                       // id='password'
-                      {...getFieldProps('password')}
+                      {...getFieldProps("password")}
                       helperText={
                         errors.password && touched.password
                           ? errors.password
-                          : ''
+                          : ""
                       }
                       InputProps={{
                         startAdornment: (
-                          <InputAdornment position='start'>
+                          <InputAdornment position="start">
                             <LockIcon />
                           </InputAdornment>
                         ),
                         endAdornment: (
-                          <InputAdornment position='end'>
+                          <InputAdornment position="end">
                             <IconButton
                               onClick={this.handleClickShowPassword}
-                              aria-label='toggle password visibility'
-                              edge='end'>
+                              aria-label="toggle password visibility"
+                              edge="end"
+                            >
                               {this.state.showPassword ? (
                                 <Visibility />
                               ) : (
@@ -154,15 +149,16 @@ class Login extends Component {
                       }}
                     />
                     <FormControlLabel
-                      control={<Checkbox value='remember' color='primary' />}
-                      label='Remember me'
+                      control={<Checkbox value="remember" color="primary" />}
+                      label="Remember me"
                     />
                     <Button
-                      type='submit'
+                      type="submit"
                       fullWidth
-                      variant='contained'
-                      color='primary'
-                      className={classes.submit}>
+                      variant="contained"
+                      color="primary"
+                      className={classes.submit}
+                    >
                       Sign In
                     </Button>
                   </form>
