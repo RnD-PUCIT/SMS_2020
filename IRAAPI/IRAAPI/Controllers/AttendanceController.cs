@@ -24,7 +24,7 @@ namespace IRAAPI.Controllers
                 return Unauthorized();
 
             VerifierBLL verifier = new VerifierBLL();
-            if (!(verifier.verifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.verifyClassByStudentId(studentId, classId)))
+            if (!(verifier.VerifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.VerifyClassByStudentId(studentId, classId)))
                 return Unauthorized();
 
             List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);

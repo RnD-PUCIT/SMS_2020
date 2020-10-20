@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System.IO;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
 
@@ -26,8 +21,8 @@ namespace IRAAPI.Controllers
         public Object Login()
         {
             string cnic = HttpContext.Request.Form["cnic"];
-            string pass = HttpContext.Request.Form["pass"];
-            int parentId = new ParentBLL().VerifyParent(cnic, pass);
+            string password = HttpContext.Request.Form["password"];
+            int parentId = new ParentBLL().VerifyParent(cnic, password);
             //Password Hashing 
             if ( parentId == -1)
             {
@@ -40,8 +35,7 @@ namespace IRAAPI.Controllers
             else
             {
                 return getToken(parentId);
-            }
-            
+            }            
         }
 
         [NonAction]

@@ -21,7 +21,6 @@ namespace IRAAPI.DAL
                 cmd.Parameters.AddWithValue("@password", password);
                 SqlDataReader reader = cmd.ExecuteReader();
             
-                
                 while (reader.Read())
                 {
                     parentId = (int)reader["parent_id"];

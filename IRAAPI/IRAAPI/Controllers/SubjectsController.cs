@@ -64,7 +64,7 @@ namespace IRAAPI.Controllers
                 return Unauthorized();
 
             VerifierBLL verifier = new VerifierBLL();
-            if (!(verifier.verifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.verifyClassByStudentId(studentId, classId) && verifier.verifySubjectByClassId(classId, subjectId)))
+            if (!(verifier.VerifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.VerifyClassByStudentId(studentId, classId) && verifier.VerifySubjectByClassId(classId, subjectId)))
                 return Unauthorized();
 
             Subject subject = new SubjectBLL().GetSubjectDetails(classId, subjectId);

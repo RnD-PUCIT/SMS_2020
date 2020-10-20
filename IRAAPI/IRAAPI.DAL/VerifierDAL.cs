@@ -7,7 +7,7 @@ namespace IRAAPI.DAL
 {
     public class VerifierDAL
     {
-        public int verifyStudentByParentId(int parentId, int studentId)
+        public int VerifyStudentByParentId(int parentId, int studentId)
         {
             SqlConnection con = new SqlConnection(DBHelper.conStr);
             try
@@ -38,7 +38,7 @@ namespace IRAAPI.DAL
             }
         }
 
-        public int verifyClassByStudentId(int studentId, int classId)
+        public int VerifyClassByStudentId(int studentId, int classId)
         {
             SqlConnection con = new SqlConnection(DBHelper.conStr);
             try
@@ -69,7 +69,7 @@ namespace IRAAPI.DAL
             }
         }
 
-        public int verifySubjectByClassId(int classId, int subjectId)
+        public int VerifySubjectByClassId(int classId, int subjectId)
         {
             SqlConnection con = new SqlConnection(DBHelper.conStr);
             try
