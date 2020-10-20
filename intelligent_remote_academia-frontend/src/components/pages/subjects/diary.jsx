@@ -1,5 +1,5 @@
 import React from "react";
-import { Paper, Toolbar, Typography } from "@material-ui/core";
+import { Button, Paper, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -17,10 +17,20 @@ const useStyles = makeStyles({
   },
 });
 
+const buttonStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+
 const Diary = ({ diary }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
+      <DiaryFilterMenu />
+      <DiaryFilterButtons />
       {diary.map((item) => {
         return (
           <Paper className={classes.paper}>
@@ -37,6 +47,36 @@ const Diary = ({ diary }) => {
         );
       })}
     </React.Fragment>
+  );
+};
+
+const DiaryFilterMenu = () => {
+  return <h1>Menu</h1>;
+};
+
+const DiaryFilterButtons = () => {
+  const classes = buttonStyles();
+  return (
+    <center>
+      <div className={classes.root} style={{ marginTop: "20px" }}>
+        <Button variant="outlined">All</Button>
+        <Button variant="outlined" color="secondary ">
+          Monday
+        </Button>
+        <Button variant="outlined" color="primary ">
+          Tuesday
+        </Button>
+        <Button variant="outlined" color="primary ">
+          Wednesday
+        </Button>
+        <Button variant="outlined" color="primary ">
+          Thursday
+        </Button>
+        <Button variant="outlined" color="primary ">
+          Friday
+        </Button>
+      </div>
+    </center>
   );
 };
 
