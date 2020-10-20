@@ -34,7 +34,6 @@ const Cards = ({ subject, studentId, classId, subjectID }) => {
                     classId +
                     "&subjectId=" +
                     subjectID,
-                  subject: subject,
                 }}
               >
                 {subject.subject_name}

@@ -56,12 +56,12 @@ const Diary = ({ diary }) => {
         return (
           <Paper className={classes.paper}>
             <div className={classes.toolbar} variant="dense">
-              <Typography variant="h6">{item.diary_date}</Typography>
+              <Typography variant="h6">{item.diaryDate}</Typography>
             </div>
             <div className={classes.paperBody}>
-              <Typography>{item.diary_title}</Typography>
-              {item.diary_content && (
-                <DiaryContent content={item.diary_content} />
+              <Typography>{item.diaryTitle}</Typography>
+              {item.diaryContent && (
+                <DiaryContent content={item.diaryContent} />
               )}
             </div>
           </Paper>
