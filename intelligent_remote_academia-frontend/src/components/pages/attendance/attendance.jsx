@@ -25,7 +25,6 @@ class Attendance extends Component {
             value={this.state.date}
             showNeighboringMonth={false}
             tileClassName={({ date }) => {
-              console.log(date.toLocaleDateString());
               if (
                 attendance.find(
                   (a) =>

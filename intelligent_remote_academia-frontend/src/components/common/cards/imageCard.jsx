@@ -21,10 +21,7 @@ const Cards = ({ subjectName, teacherName, studentId, classId, subjectID }) => {
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
         <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            // insert image here
-          />
+          <CardMedia className={classes.media} />
           <CardContent>
             <Typography gutterBottom variant="h6" component="h2">
               <Link to={`/subjects/${studentId}/${subjectID}/${classId}`}>
