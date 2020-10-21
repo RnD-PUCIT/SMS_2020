@@ -30,7 +30,12 @@ const MainContent = ({ subjects, studentId, classId }) => {
               />
             )}
           />
-          <Route path="/attendance" component={Attendance} />
+          <Route
+            path="/attendance"
+            render={() => (
+              <Attendance studentId={studentId} classId={classId} />
+            )}
+          />
           <Redirect from="/" to="/subjects" exact />
         </Switch>
       </div>

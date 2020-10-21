@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar";
-import { getStudentAttendance } from "../../../services/studentAttendanceService";
+
+import http from "../../../services/httpService";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
@@ -8,8 +9,13 @@ import "./attendance.css";
 class Attendance extends Component {
   state = { attendance: null, date: new Date() };
 
-  componentDidMount() {
-    const attendance = getStudentAttendance();
+  async componentDidMount() {
+    const { studentId, classId } = this.props;
+
+    const url = "/attendance?studentId=" + studentId + "&classId=" + classId;
+
+    const { data } = await http.get(`${url}`);
+    const { attendance } = data;
 
     this.setState({ attendance });
   }
@@ -27,7 +33,7 @@ class Attendance extends Component {
               if (
                 attendance.find(
                   (a) =>
-                    a.attendance_date === date.toLocaleDateString() &&
+                    a.attendanceDate === date.toLocaleDateString() &&
                     a.status === "P"
                 )
               ) {
