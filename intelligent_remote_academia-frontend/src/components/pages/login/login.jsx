@@ -17,6 +17,8 @@ import LockIcon from "@material-ui/icons/Lock";
 import { Formik } from "formik";
 import * as Yup from "yup";
 
+import axios from "axios";
+
 const styles = (theme) => ({
   outerContainer: {
     background: "linear-gradient(180deg, #778ca3 0%, #00d2d3 100%)",
@@ -49,11 +51,11 @@ const formSchema = Yup.object().shape({
   cnic: Yup.string()
     .required("Required*")
     .matches(/^[0-9]+$/, "Must be only digits")
-    .min(13, "Must be exactly 13 digits")
-    .max(13, "Must be exactly 13 digits"),
+    .min(4, "Must be exactly 13 digits")
+    .max(4, "Must be exactly 13 digits"),
   password: Yup.string()
     .required("Required*")
-    .min(6, "Must be atleast 6 characters"),
+    .min(3, "Must be atleast 6 characters"),
 });
 
 class Login extends Component {
@@ -66,6 +68,29 @@ class Login extends Component {
   };
 
   render() {
+    const handleLogin = async (values) => {
+      // To send data in form-body, use FormData class
+      const formData = new FormData();
+      const { cnic, password } = values;
+      formData.set("cnic", cnic);
+      formData.set("password", password);
+
+      const { data } = await axios.post(
+        "https://localhost:44334/account/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      // Get token
+      const { token: jwt } = data;
+      // store it to local storage
+      localStorage.setItem("token", jwt);
+
+      window.location = "/";
+    };
     const { classes } = this.props;
     return (
       <div className={classes.outerContainer}>
@@ -85,7 +110,7 @@ class Login extends Component {
               }}
               validationSchema={formSchema}
             >
-              {({ handleSubmit, getFieldProps, errors, touched }) => {
+              {({ handleSubmit, getFieldProps, errors, touched, values }) => {
                 return (
                   <form className={classes.form} onSubmit={handleSubmit}>
                     <TextField
@@ -96,7 +121,7 @@ class Login extends Component {
                       // id='cnic'
                       label="CNIC"
                       name="cnic"
-                      autoComplete
+                      autoComplete="true"
                       autoFocus
                       {...getFieldProps("cnic")}
                       helperText={
@@ -158,6 +183,7 @@ class Login extends Component {
                       variant="contained"
                       color="primary"
                       className={classes.submit}
+                      onClick={() => handleLogin(values)}
                     >
                       Sign In
                     </Button>
