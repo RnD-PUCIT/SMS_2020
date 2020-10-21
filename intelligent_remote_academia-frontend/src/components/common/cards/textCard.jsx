@@ -26,7 +26,6 @@ const TextCard = ({ titleMain, titleSub, variant, isLink, link }) => {
 
 const CardTitle = ({ titleMain, isLink, link }) => {
   if (isLink) {
-    console.log(link);
     return <Link to={link}>{titleMain}</Link>;
   }
   return titleMain;

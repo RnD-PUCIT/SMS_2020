@@ -3,10 +3,6 @@ import React from "react";
 
 import TextCard from "../../common/cards/textCard";
 
-const handleCardClick = (pathname, gradeTypeId) => {
-  window.location = pathname + "/" + gradeTypeId;
-};
-
 const Grades = ({ pathname, gradeTypes }) => {
   return (
     <React.Fragment>
@@ -30,7 +26,7 @@ const GradeItem = ({ grade, pathname }) => {
     <Grid item md={6} xs={12}>
       <TextCard
         titleMain={grade.gradeTypeName}
-        link={pathname + "/" + grade.gradeTypeId}
+        link={pathname + "/" + grade.gradeTypeSlug}
         isLink="true"
       />
     </Grid>

@@ -15,8 +15,11 @@ const MainContent = ({ subjects, studentId, classId }) => {
     <main className="container">
       <div className={classes.container}>
         <Switch>
-          <Route path="/subjects/:slug/:gradeTypeId" component={GradeDetails} />
-          <Route path="/subjects/:slug" component={SubjectDetails} />
+          <Route
+            path="/subjects/:subjectSlug/:gradeTypeSlug"
+            component={GradeDetails}
+          />
+          <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
           {/* Sending subjects array as a prop to Subject component */}
           <Route
             path="/subjects"
