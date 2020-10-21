@@ -3,19 +3,20 @@ import Layout from "./layouts/layout";
 
 import Login from "./pages/login/login";
 
-import { getDashboardInfo } from "../services/parentDashboardService";
-
 import "./App.css";
 import { Redirect, Route, Switch } from "react-router-dom";
+
+import http from "../services/httpService";
 
 class App extends Component {
   state = { dashboardInfo: null };
 
-  componentDidMount() {
+  async componentDidMount() {
     // Get parent personal info from the service
-    const dashboardInfo = getDashboardInfo();
+    const { data } = await http.get(`/subjects`);
 
-    // Set state of the component
+    const { dashboard: dashboardInfo } = data;
+
     this.setState({ dashboardInfo });
   }
 

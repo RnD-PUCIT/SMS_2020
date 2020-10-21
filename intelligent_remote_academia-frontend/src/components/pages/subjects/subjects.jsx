@@ -20,6 +20,7 @@ const Subjects = ({ subjects, studentId, classId }) => {
 
       {subjects &&
         subjects.map((subject) => {
+          console.log(subject);
           return (
             <Cards
               key={subject.id}

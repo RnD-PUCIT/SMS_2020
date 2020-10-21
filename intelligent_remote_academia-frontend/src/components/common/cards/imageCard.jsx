@@ -7,6 +7,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import SubImg from "../../../static/images/subjects/img_code.jpg";
 
 const useStyles = makeStyles({
   media: {
@@ -16,12 +17,11 @@ const useStyles = makeStyles({
 
 const Cards = ({ subject, studentId, classId, subjectID }) => {
   const classes = useStyles();
-
   return (
     <Grid item xs={12} sm={6} md={4}>
       <Card className={classes.root}>
         <CardActionArea>
-          <CardMedia className={classes.media} />
+          <CardMedia className={classes.media} image={SubImg} />
           <CardContent>
             <Typography gutterBottom variant="h6" component="h2">
               <Link
@@ -36,7 +36,7 @@ const Cards = ({ subject, studentId, classId, subjectID }) => {
                     subjectID,
                 }}
               >
-                {subject.subject_name}
+                {subject.subjectName}
               </Link>
             </Typography>
             <Typography
@@ -44,7 +44,7 @@ const Cards = ({ subject, studentId, classId, subjectID }) => {
               color="textSecondary"
               component="span"
             >
-              {subject.teacher_name}
+              {subject.teacherName}
             </Typography>
           </CardContent>
         </CardActionArea>

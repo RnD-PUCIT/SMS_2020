@@ -23,7 +23,7 @@ const UserInfo = (props) => {
         <Typography variant="h6">Parents Portal</Typography>
         <ImageAvatar className={classes.avatar} />
         <Typography>
-          {parentInfo.first_name + " " + parentInfo.last_name}
+          {parentInfo.firstName + " " + parentInfo.lastName}
         </Typography>
       </center>
     );

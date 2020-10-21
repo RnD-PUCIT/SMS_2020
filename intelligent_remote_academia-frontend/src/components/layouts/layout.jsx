@@ -16,9 +16,9 @@ const Layout = (props) => {
     const classId = dashboardInfo.students[0].class_id;
     return (
       <React.Fragment>
-        <Sidebar userInfo={dashboardInfo.user_info}>
+        <Sidebar userInfo={dashboardInfo.parentInfo}>
           <MainContent
-            subjects={dashboardInfo.subjects}
+            subjects={dashboardInfo.subjects[0]}
             studentId={studentId}
             classId={classId}
           />
