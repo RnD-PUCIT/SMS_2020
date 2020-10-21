@@ -2,28 +2,39 @@ import React, { Component } from "react";
 
 import Tabs from "../../common/tabs/tabs";
 
-import { getSubjectData } from "../../../services/subjectDetailService";
-
 import subjectTabs from "../../constants/tabsConsts";
 import TextCard from "../../common/cards/textCard";
 
+import http from "../../../services/httpService";
+
 class SubjectDetails extends Component {
-  state = { subjectDetail: null };
+  state = { subjectDetails: null };
 
-  componentDidMount() {
+  async componentDidMount() {
+    const { pathname, search } = this.props.location;
+
+    const url = pathname + search;
+
     // Get subject details data from the service
-    const subjectDetail = getSubjectData();
+    const { data } = await http.get(`${url}`);
 
-    // Set state of the component
-    this.setState({ subjectDetail });
+    const { subjectService: subjectDetails } = data;
+
+    this.setState({ subjectDetails });
+
+    console.log(this.state.subjectDetails);
   }
 
   render() {
     // Get pathname (url)
     const { pathname } = this.props.location;
 
-    if (this.state.subjectDetail) {
-      const { diary, gradeTypes, subjectDetails } = this.state.subjectDetail;
+    if (this.state.subjectDetails) {
+      const {
+        diary,
+        gradeTypes,
+        subjectInfo: subjectDetails,
+      } = this.state.subjectDetails;
 
       return (
         <React.Fragment>

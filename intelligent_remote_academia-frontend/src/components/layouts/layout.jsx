@@ -13,7 +13,7 @@ const Layout = (props) => {
     const studentId = dashboardInfo.students[0].id;
 
     // Get selected student's class id
-    const classId = dashboardInfo.students[0].class_id;
+    const classId = dashboardInfo.students[0].classId;
     return (
       <React.Fragment>
         <Sidebar userInfo={dashboardInfo.parentInfo}>

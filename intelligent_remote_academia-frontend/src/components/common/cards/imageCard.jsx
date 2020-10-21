@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Cards = ({ subject, studentId, classId, subjectID }) => {
+const Cards = ({ subject, studentId, classId }) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -26,14 +26,14 @@ const Cards = ({ subject, studentId, classId, subjectID }) => {
             <Typography gutterBottom variant="h6" component="h2">
               <Link
                 to={{
-                  pathname: "/subjects/" + subject.slug,
+                  pathname: "/subjects/" + subject.subjectSlug,
                   search:
                     "studentId=" +
                     studentId +
                     "&classId=" +
                     classId +
                     "&subjectId=" +
-                    subjectID,
+                    subject.subjectId,
                 }}
               >
                 {subject.subjectName}

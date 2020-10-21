@@ -10,7 +10,6 @@ import { useStyles } from "../../constants/mainContentConsts";
 
 const MainContent = ({ subjects, studentId, classId }) => {
   const classes = useStyles();
-
   return (
     <main className="container">
       <div className={classes.container}>
