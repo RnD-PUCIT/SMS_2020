@@ -11,12 +11,10 @@ const subject = {
     {
       gradeTypeId: 1,
       gradeTypeName: "Test",
-      gradeTypeSlug: "test",
     },
     {
       gradeTypeId: 2,
       gradeTypeName: "Exam",
-      gradeTypeSlug: "exam",
     },
   ],
   diary: [

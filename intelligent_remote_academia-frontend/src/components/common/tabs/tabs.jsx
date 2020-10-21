@@ -13,7 +13,12 @@ const Tabs = ({ subjectTabs, pathname, gradeTypes, diary }) => {
 
   return (
     <React.Fragment>
-      <MatTabs value={selectedTab} onChange={handleChange} centered>
+      <MatTabs
+        value={selectedTab}
+        onChange={handleChange}
+        centered
+        style={{ margin: "30px 0 40px 0" }}
+      >
         {subjectTabs.map((tab) => {
           return <MatTab key={tab.id} label={tab.name} />;
         })}
