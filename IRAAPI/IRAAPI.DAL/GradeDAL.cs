@@ -16,8 +16,8 @@ namespace IRAAPI.DAL
             try
             {
                 con.Open();
-                string query = "Select grade.id, grade.grade_type" +
-                    " from Grade_Types AS grade, Subject_GradeType_Alloc AS alloc" +
+                string query = "Select grade.id, grade.grade_type, grade.grade_type_slug" +
+                    " From Grade_Types AS grade, Subject_GradeType_Alloc AS alloc" +
                     " Where alloc.class_id = @classId AND alloc.subject_id = @subjectId AND grade.id = alloc.grade_type_id";
                 
                 SqlCommand cmd = new SqlCommand(query, con);
@@ -30,6 +30,7 @@ namespace IRAAPI.DAL
                     GradeType gradeType = new GradeType();
                     gradeType.gradeTypeId = (int)reader["id"];
                     gradeType.gradeTypeName = reader["grade_type"].ToString();
+                    gradeType.gradeTypeSlug = reader["grade_type_slug"].ToString();
 
                     gradeTypes.Add(gradeType);
                 }

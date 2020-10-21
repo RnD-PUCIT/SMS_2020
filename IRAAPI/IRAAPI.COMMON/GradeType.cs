@@ -8,5 +8,6 @@ namespace IRAAPI.COMMON
     {
         public int gradeTypeId { get; set; }
         public string gradeTypeName { get; set; }
+        public string gradeTypeSlug { get; set; }
     }
 }

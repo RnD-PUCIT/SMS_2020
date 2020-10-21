@@ -24,7 +24,7 @@ namespace IRAAPI.Controllers
             string cnic = HttpContext.Request.Form["cnic"];
             string password = HttpContext.Request.Form["password"];
             int parentId = new ParentBLL().VerifyParent(cnic, password);
-            //Password Hashing 
+            
             if ( parentId == -1)
             {
                 return BadRequest("Invalid Credentials");

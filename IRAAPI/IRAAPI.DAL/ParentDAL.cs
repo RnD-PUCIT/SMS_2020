@@ -1,32 +1,44 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using BCrypt.Net;
 using IRAAPI.COMMON;
 
 namespace IRAAPI.DAL
 {
     public class ParentDAL
     {
+       
         public int VerifyParent(string cnic, string password)
         {
             int parentId = -1;
+            string parentPassword = "";
+            bool passwordVerified = false;
 
             SqlConnection con = new SqlConnection(DBHelper.conStr);
             try
             {
                 con.Open();
-                string query = "select parent_id from Parent_Login Where cnic = @cnic AND password = @password";
+                string query = "select parent_id, password From Parent_Login Where cnic = @cnic";
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@cnic", cnic);
-                cmd.Parameters.AddWithValue("@password", password);
                 SqlDataReader reader = cmd.ExecuteReader();
             
                 while (reader.Read())
                 {
                     parentId = (int)reader["parent_id"];
+                    parentPassword = reader["password"].ToString();
                 }
                 reader.Close();
-                return parentId;
+                if(parentId != -1 && parentPassword != "")
+                {
+                    passwordVerified = BCrypt.Net.BCrypt.Verify(password, parentPassword);
+                }
+
+                if (passwordVerified)
+                    return parentId;
+                else
+                    return -1;
             }
             catch (Exception ex)
             {
