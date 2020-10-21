@@ -12,5 +12,10 @@ namespace IRAAPI.BLL
         {
             return new GradeDAL().GetGradeTypes(classId, subjectId);
         }
+
+        public List<Grade> GetGradeDetails(int studentId, int classId, int subjectId, int gradeTypeId)
+        {
+            return new GradeDAL().GetGradeDetails(studentId, classId, subjectId, gradeTypeId);
+        }
     }
 }

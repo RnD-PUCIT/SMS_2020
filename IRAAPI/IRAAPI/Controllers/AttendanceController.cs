@@ -29,10 +29,19 @@ namespace IRAAPI.Controllers
 
             List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
             if (attendances == null)
-            {
                 return NotFound();
-            }
-            return attendances;
+
+            return new AttendanceDTO(attendances);
         }
+    }
+
+    public class AttendanceDTO
+    {
+        public List<Attendance> attendance { get; set; }
+        public AttendanceDTO(List<Attendance> attendance)
+        {
+            this.attendance = attendance;
+        }
+
     }
 }

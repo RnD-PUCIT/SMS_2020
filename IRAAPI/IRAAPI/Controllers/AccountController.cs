@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
 
-
 namespace IRAAPI.Controllers
 {
 
     [ApiController]
-    [Route("login")]
-    public class LoginController : ControllerBase
+    [Route("account")]
+    public class AccountController : ControllerBase
     { 
-        [HttpPost]
+        [HttpPost("login")]
         public Object Login()
         {
             string cnic = HttpContext.Request.Form["cnic"];
@@ -58,7 +59,7 @@ namespace IRAAPI.Controllers
                             signingCredentials: credentials);
             var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new { data = jwt_token };
+            return new { token = jwt_token };
         }
     }
 }

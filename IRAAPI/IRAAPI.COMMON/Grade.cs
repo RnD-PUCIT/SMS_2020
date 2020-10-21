@@ -11,8 +11,8 @@ namespace IRAAPI.COMMON
         public int classId { get; set; }
         public int subjectId { get; set; }
         public string gradeDate { get; set; }
-        public string totalMarks { get; set; }
-        public string obtainedMarks { get; set; }
+        public int totalMarks { get; set; }
+        public int obtainedMarks { get; set; }
         public int gradeTypeId { get; set; }
         public string gradeTitle { get; set; }
         public string remarks { get; set; }

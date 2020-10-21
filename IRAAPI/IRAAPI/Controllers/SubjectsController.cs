@@ -44,14 +44,9 @@ namespace IRAAPI.Controllers
                 subjectsList.Add(subjects);
             }
 
-            List<Object> data = new List<Object>();
-            data.Add(parentDTO);
-            data.Add(students);
-            data.Add(subjectsList);
-            if (data == null)
-                return NotFound();
+            DashboardDTO dashboardDTO = new DashboardDTO(parentDTO, students, subjectsList);
 
-            return new { dashboard = data };
+            return new { dashboard = dashboardDTO};
         }
 
         [Authorize]
@@ -70,23 +65,44 @@ namespace IRAAPI.Controllers
             Subject subject = new SubjectBLL().GetSubjectDetails(classId, subjectId);
             if (subject == null)
                 return NotFound();
-            
-            List<Diary> diary = new DiaryBLL().GetDiary(classId, subjectId);
-            if(diary == null)
-                return NotFound();
-            
+
             List<GradeType> gradeTypeNames = new GradeBLL().GetGradeTypes(classId, subjectId);
             if (gradeTypeNames == null)
                 return NotFound();
 
-            List<Object> data = new List<object>();
-            data.Add(subject);
-            data.Add(gradeTypeNames);
-            data.Add(diary);
-            return data;
+            List<Diary> diary = new DiaryBLL().GetDiary(classId, subjectId);
+            if(diary == null)
+                return NotFound();
+
+            SubjectDTO subjectDTO = new SubjectDTO(subject, gradeTypeNames, diary);
+            return new { subjectService = subjectDTO };
         }
     }
-    
+
+    public class DashboardDTO
+    {
+        public ParentDTO parentInfo { get; set; }
+        public List<Student> students { get; set; }
+        public List<Object> subjects { get; set; }
+        public DashboardDTO(ParentDTO parentInfo, List<Student> students, List<Object> subjects)
+        {
+            this.parentInfo = parentInfo;
+            this.students = students;
+            this.subjects = subjects;
+        }
+    }
+    public class SubjectDTO
+    {
+        public Subject subjectInfo { get; set; }
+        public List<GradeType> gradeTypes { get; set; }
+        public List<Diary> diary { get; set; }
+        public SubjectDTO(Subject subjectInfo, List<GradeType> gradeTypes, List<Diary> diary)
+        {
+            this.subjectInfo = subjectInfo;
+            this.gradeTypes = gradeTypes;
+            this.diary = diary;
+        }
+    }
     public class ParentDTO
     {
         public int id { get; set; }
