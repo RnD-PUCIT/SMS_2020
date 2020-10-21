@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar";
+import { getStudentAttendance } from "../../../services/studentAttendanceService";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
-
-import { getStudentAttendance } from "../../../services/studentAttendanceService";
 
 class Attendance extends Component {
   state = { attendance: null, date: new Date() };

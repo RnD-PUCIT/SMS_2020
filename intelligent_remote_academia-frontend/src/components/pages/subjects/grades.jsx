@@ -27,10 +27,11 @@ const Grades = ({ pathname, gradeTypes }) => {
 
 const GradeItem = ({ grade, pathname }) => {
   return (
-    <Grid item xs={6}>
+    <Grid item md={6} xs={12}>
       <TextCard
         titleMain={grade.gradeTypeName}
-        onCardClick={() => handleCardClick(pathname, grade.gradeTypeId)}
+        link={pathname + "/" + grade.gradeTypeId}
+        isLink="true"
       />
     </Grid>
   );

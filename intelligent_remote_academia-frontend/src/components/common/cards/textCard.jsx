@@ -5,15 +5,16 @@ import {
   CardContent,
   Typography,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
-const TextCard = ({ titleMain, titleSub, variant, onCardClick }) => {
+const TextCard = ({ titleMain, titleSub, variant, isLink, link }) => {
   return (
     <React.Fragment>
-      <Card variant={variant && variant} onClick={onCardClick}>
+      <Card variant={variant && variant}>
         <CardActionArea>
           <CardContent>
             <Typography variant="h5" color="textSecondary">
-              {titleMain}
+              <CardTitle isLink={isLink} titleMain={titleMain} link={link} />
             </Typography>
             <Typography color="textSecondary">{titleSub}</Typography>
           </CardContent>
@@ -21,6 +22,14 @@ const TextCard = ({ titleMain, titleSub, variant, onCardClick }) => {
       </Card>
     </React.Fragment>
   );
+};
+
+const CardTitle = ({ titleMain, isLink, link }) => {
+  if (isLink) {
+    console.log(link);
+    return <Link to={link}>{titleMain}</Link>;
+  }
+  return titleMain;
 };
 
 export default TextCard;
