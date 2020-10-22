@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 
-import Tabs from "../../common/tabs/tabs";
-
 import subjectTabs from "../../constants/tabsConsts";
 import TextCard from "../../common/cards/textCard";
 
 import http from "../../../services/httpService";
+import { Route, Switch } from "react-router-dom";
+import GradeDetails from "./gradeDetails";
+import SubjectTabs from "./subjectTabs";
 
 class SubjectDetails extends Component {
   state = { subjectDetails: null };
@@ -43,12 +44,23 @@ class SubjectDetails extends Component {
             titleSub={subjectDetails.teacherName}
             variant="outlined"
           />
-          <Tabs
-            subjectTabs={subjectTabs}
-            pathname={pathname}
-            gradeTypes={gradeTypes}
-            diary={diary}
-          />
+          <Switch>
+            <Route
+              path="/subjects/:subjectSlug/:gradeTypeSlug"
+              component={GradeDetails}
+            />
+            <Route
+              path="/subjects/:subjectSlug"
+              render={() => (
+                <SubjectTabs
+                  subjectTabs={subjectTabs}
+                  pathname={pathname}
+                  gradeTypes={gradeTypes}
+                  diary={diary}
+                />
+              )}
+            />
+          </Switch>
         </React.Fragment>
       );
     }
