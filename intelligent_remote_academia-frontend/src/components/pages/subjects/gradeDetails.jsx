@@ -25,7 +25,7 @@ class GradeDetails extends Component {
   }
 
   render() {
-    const handleMilestoneClick = () => {
+    const handleTimelineClick = () => {
       if (this.state.displayType != 0) this.setState({ displayType: 0 });
     };
 
@@ -37,7 +37,7 @@ class GradeDetails extends Component {
     return (
       <React.Fragment>
         <GradeFilterButtons
-          onMilestoneClick={handleMilestoneClick}
+          onTimelineClick={handleTimelineClick}
           onGraphicalClick={handleGraphicalClick}
         />
         <Paper
@@ -51,15 +51,15 @@ class GradeDetails extends Component {
   }
 }
 
-const GradeFilterButtons = ({ onMilestoneClick, onGraphicalClick }) => {
+const GradeFilterButtons = ({ onTimelineClick, onGraphicalClick }) => {
   return (
     <React.Fragment>
       <div style={{ margin: "20px 0" }}>
-        <Button variant="outlined" onClick={onMilestoneClick}>
-          Milestone Form
+        <Button variant="outlined" onClick={onTimelineClick}>
+          Timeline View
         </Button>
         <Button variant="outlined" onClick={onGraphicalClick}>
-          Graphical Form
+          Graphical View
         </Button>
       </div>
     </React.Fragment>
