@@ -1,19 +1,15 @@
 import React, { Component } from "react";
-import { Button, Paper, Typography } from "@material-ui/core";
-import {
-  VerticalTimeline,
-  VerticalTimelineElement,
-} from "react-vertical-timeline-component";
+import { Button, Paper } from "@material-ui/core";
 
-import months from "../../constants/monthConsts";
+import GradesGraphical from "./gradesGraphical";
+import GradesTimeline from "./gradesTimeline";
 
-import "react-vertical-timeline-component/style.min.css";
 import "./gradeDetails.css";
 
 import http from "../../../services/httpService";
 
 class GradeDetails extends Component {
-  state = { grades: null };
+  state = { grades: null, displayType: 0 };
 
   async componentDidMount() {
     // Get url to send request to server
@@ -29,91 +25,53 @@ class GradeDetails extends Component {
   }
 
   render() {
+    const handleMilestoneClick = () => {
+      if (this.state.displayType != 0) this.setState({ displayType: 0 });
+    };
+
+    const handleGraphicalClick = () => {
+      if (this.state.displayType != 1) this.setState({ displayType: 1 });
+    };
+
     const { grades } = this.state;
     return (
       <React.Fragment>
-        <GradeFilterButtons />
+        <GradeFilterButtons
+          onMilestoneClick={handleMilestoneClick}
+          onGraphicalClick={handleGraphicalClick}
+        />
         <Paper
           variant="outlined"
           style={{ backgroundColor: "rgb(227, 227, 227)" }}
         >
-          <GradeData grades={grades} />
+          <GradeData grades={grades} displayType={this.state.displayType} />
         </Paper>
       </React.Fragment>
     );
   }
 }
 
-const GradeFilterButtons = () => {
+const GradeFilterButtons = ({ onMilestoneClick, onGraphicalClick }) => {
   return (
     <React.Fragment>
       <div style={{ margin: "20px 0" }}>
-        <Button variant="outlined">Milestone Form</Button>
-        <Button variant="outlined">Graphical Form</Button>
+        <Button variant="outlined" onClick={onMilestoneClick}>
+          Milestone Form
+        </Button>
+        <Button variant="outlined" onClick={onGraphicalClick}>
+          Graphical Form
+        </Button>
       </div>
     </React.Fragment>
   );
 };
 
-const GradeData = ({ grades }) => {
+const GradeData = ({ grades, displayType }) => {
   if (grades) {
-    return (
-      <React.Fragment>
-        <VerticalTimeline>
-          {grades.map((grade) => {
-            let gradeDate = new Date(grade.gradeDate);
-            return (
-              <VerticalTimelineElement
-                className="vertical-timeline-element--work"
-                key={grade.id}
-                date={
-                  months[gradeDate.getMonth()] +
-                  " " +
-                  gradeDate.getDate() +
-                  ", " +
-                  gradeDate.getFullYear()
-                }
-                iconStyle={{ background: "rgb(33, 150, 243)", color: "#fff" }}
-              >
-                <Typography variant="h6" color="textSecondary">
-                  <strong>{grade.gradeTitle}</strong>{" "}
-                </Typography>
-                <hr />
-                <p>
-                  <Typography color="textSecondary">
-                    <strong>Total Marks: </strong>
-                    {grade.totalMarks}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    <strong>Obtained Marks: </strong>
-                    {grade.obtainedMarks}
-                  </Typography>
-                  <Typography color="textSecondary">
-                    <strong>Percentage </strong>
-                    {(grade.obtainedMarks / grade.totalMarks) * 100}%
-                  </Typography>
-                  {grade.remarks && <GradeRemarks remarks={grade.remarks} />}
-                </p>
-              </VerticalTimelineElement>
-            );
-          })}
-        </VerticalTimeline>
-      </React.Fragment>
-    );
-  }
-  return null;
-};
-
-const GradeRemarks = ({ remarks }) => {
-  if (remarks) {
-    return (
-      <React.Fragment>
-        <hr />
-        <Typography color="textSecondary">
-          <strong>Remarks: </strong>
-          {remarks}
-        </Typography>
-      </React.Fragment>
+    return displayType === 0 ? (
+      <GradesTimeline grades={grades} />
+    ) : (
+      <GradesGraphical />
     );
   }
   return null;
