@@ -3,7 +3,7 @@ import React from "react";
 
 import TextCard from "../../common/cards/textCard";
 
-const Grades = ({ pathname, gradeTypes }) => {
+const Grades = ({ pathname, search, gradeTypes }) => {
   return (
     <React.Fragment>
       <Grid container spacing={3}>
@@ -13,6 +13,7 @@ const Grades = ({ pathname, gradeTypes }) => {
               key={grade.gradeTypeId}
               grade={grade}
               pathname={pathname}
+              search={search}
             />
           );
         })}
@@ -21,12 +22,13 @@ const Grades = ({ pathname, gradeTypes }) => {
   );
 };
 
-const GradeItem = ({ grade, pathname }) => {
+const GradeItem = ({ grade, pathname, search }) => {
   return (
     <Grid item md={6} xs={12}>
       <TextCard
         titleMain={grade.gradeTypeName}
         link={pathname + "/" + grade.gradeTypeSlug}
+        search={search + "&gradeTypeId=" + grade.gradeTypeId}
         isLink="true"
       />
     </Grid>

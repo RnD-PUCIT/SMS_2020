@@ -7,14 +7,19 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-const TextCard = ({ titleMain, titleSub, variant, isLink, link }) => {
+const TextCard = ({ titleMain, titleSub, variant, isLink, link, search }) => {
   return (
     <React.Fragment>
       <Card variant={variant && variant}>
         <CardActionArea>
           <CardContent>
             <Typography variant="h5" color="textSecondary">
-              <CardTitle isLink={isLink} titleMain={titleMain} link={link} />
+              <CardTitle
+                isLink={isLink}
+                titleMain={titleMain}
+                link={link}
+                search={search}
+              />
             </Typography>
             <Typography color="textSecondary">{titleSub}</Typography>
           </CardContent>
@@ -24,9 +29,18 @@ const TextCard = ({ titleMain, titleSub, variant, isLink, link }) => {
   );
 };
 
-const CardTitle = ({ titleMain, isLink, link }) => {
+const CardTitle = ({ titleMain, isLink, link, search }) => {
   if (isLink) {
-    return <Link to={link}>{titleMain}</Link>;
+    return (
+      <Link
+        to={{
+          pathname: link,
+          search: search,
+        }}
+      >
+        {titleMain}
+      </Link>
+    );
   }
   return titleMain;
 };
