@@ -22,6 +22,7 @@ class Attendance extends Component {
 
   render() {
     const { attendance } = this.state;
+    console.log(attendance);
 
     if (attendance) {
       return (
@@ -30,6 +31,7 @@ class Attendance extends Component {
             value={this.state.date}
             showNeighboringMonth={false}
             tileClassName={({ date }) => {
+              console.log(date.toLocaleDateString());
               if (
                 attendance.find(
                   (a) =>
@@ -37,16 +39,23 @@ class Attendance extends Component {
                     a.status === "P"
                 )
               ) {
-                console.log(date.toLocaleDateString());
                 return "present";
               } else if (
                 attendance.find(
                   (a) =>
-                    a.attendance_date === date.toLocaleDateString() &&
+                    a.attendanceDate === date.toLocaleDateString() &&
                     a.status === "A"
                 )
               ) {
                 return "absent";
+              } else if (
+                attendance.find(
+                  (a) =>
+                    a.attendanceDate === date.toLocaleDateString() &&
+                    a.status === "L"
+                )
+              ) {
+                return "leave";
               }
             }}
           />
