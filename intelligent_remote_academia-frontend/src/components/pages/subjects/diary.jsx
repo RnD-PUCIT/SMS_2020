@@ -46,6 +46,7 @@ class Diary extends Component {
 
       // Get diary object from state
       let diary = [...this.state.allDiary];
+      let { isWeekSelected } = this.state;
 
       if (selectedWeek != 0) {
         // Filter the contnet of diary according to the month selected.
@@ -54,10 +55,13 @@ class Diary extends Component {
           const week = Math.floor(diaryDate.getDate() / 7);
           return week == selectedWeek;
         });
+        isWeekSelected = true;
+      } else {
+        isWeekSelected = false;
       }
 
       // Update the state of diary
-      this.setState({ diary });
+      this.setState({ diary, isWeekSelected });
     };
 
     const handleMonthChange = (event) => {
@@ -90,7 +94,7 @@ class Diary extends Component {
           onMonthChange={handleMonthChange}
           disableWeek={this.state.isMonthSelected}
         />
-        <DayFilterButtons />
+        <DayFilterButtons disableDays={this.state.isWeekSelected} />
         {diary.map((item) => {
           let diaryDate = new Date(item.diaryDate);
           return (
@@ -157,7 +161,7 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
   );
 };
 
-const DayFilterButtons = () => {
+const DayFilterButtons = ({ disableDays }) => {
   const days = getDays();
   return (
     <Grid container spacing={1} justify="center" style={{ margin: "20px 0" }}>
@@ -167,7 +171,9 @@ const DayFilterButtons = () => {
       {days.map((day) => {
         return (
           <Grid item key={day.id}>
-            <Button variant="outlined">{day.name}</Button>
+            <Button variant="outlined" disabled={!disableDays}>
+              {day.name}
+            </Button>
           </Grid>
         );
       })}
