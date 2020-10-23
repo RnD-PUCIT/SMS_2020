@@ -8,6 +8,12 @@ const calendar = {
     { id: 6, name: "Saturday" },
     { id: 7, name: "Sunday" },
   ],
+  weeks: [
+    { id: 1, name: "Week 01" },
+    { id: 2, name: "Week 02" },
+    { id: 3, name: "Week 03" },
+    { id: 4, name: "Week 04" },
+  ],
   months: [
     { id: 1, name: "January" },
     { id: 2, name: "February" },
@@ -30,4 +36,8 @@ export function getDays() {
 
 export function getMonths() {
   return calendar.months;
+}
+
+export function getWeeks() {
+  return calendar.weeks;
 }

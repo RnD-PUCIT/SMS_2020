@@ -1,17 +1,8 @@
 import React from "react";
-import {
-  Button,
-  Grow,
-  MenuItem,
-  MenuList,
-  Paper,
-  Popper,
-  Typography,
-} from "@material-ui/core";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import { Button, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getMonths } from "../../constants/calendarConsts";
+import { getMonths, getDays, getWeeks } from "../../constants/calendarConsts";
 
 const useStyles = makeStyles({
   paper: {
@@ -27,26 +18,14 @@ const useStyles = makeStyles({
     color: "white",
     padding: "5px 20px",
   },
-});
-
-const buttonStyles = makeStyles((theme) => ({
-  root: {
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-}));
-
-const menuStyles = makeStyles({
-  root: {
-    display: "flex",
-    flexGrow: 1,
-  },
-  paper: {
-    position: "relative",
-    zIndex: 9999,
+  selectDropdown: {
+    padding: "8px 10px",
   },
 });
+
+const handleWeekChange = () => {
+  alert("changed");
+};
 
 const months = getMonths();
 
@@ -55,7 +34,7 @@ const Diary = ({ diary }) => {
   return (
     <React.Fragment>
       <DiaryFilterMenu />
-      <DiaryFilterButtons />
+      <DayFilterButtons />
       {diary.map((item) => {
         let diaryDate = new Date(item.diaryDate);
         return (
@@ -85,76 +64,45 @@ const Diary = ({ diary }) => {
 };
 
 const DiaryFilterMenu = () => {
-  const anchorRef = React.useRef(null);
-  const [open, setOpen] = React.useState(false);
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  const classes = menuStyles();
+  const weeks = getWeeks();
+  const classes = useStyles();
   return (
-    <React.Fragment>
-      <div className={classes.root}></div>
-      <Button ref={anchorRef} onClick={handleToggle} variant="outlined">
-        Select Month
-      </Button>
-      <Popper
-        open={open}
-        anchorEl={anchorRef.current}
-        role={undefined}
-        transition
-        disablePortal
-      >
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin:
-                placement === "bottom" ? "center top" : "center bottom",
-            }}
-          >
-            <Paper className={classes.paper}>
-              <ClickAwayListener onClickAway={handleClose}>
-                <MenuList autoFocusItem={open} id="menu-list-grow">
-                  {months.map((month) => {
-                    return (
-                      <MenuItem onClick={handleClose} key={month.id}>
-                        {month.name}
-                      </MenuItem>
-                    );
-                  })}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </React.Fragment>
+    <Grid container spacing={1} justify="flex-end">
+      <Grid item>
+        <select className={classes.selectDropdown} onChange={handleWeekChange}>
+          <option value="0">Select Week</option>
+          {weeks.map((week) => {
+            return <option key={week.id}>{week.name}</option>;
+          })}
+        </select>
+      </Grid>
+      <Grid item>
+        <select className={classes.selectDropdown}>
+          <option value="0">Select Month</option>
+          {months.map((month) => {
+            return <option key={month.id}>{month.name}</option>;
+          })}
+        </select>
+      </Grid>
+    </Grid>
   );
 };
 
-const DiaryFilterButtons = () => {
-  const classes = buttonStyles();
+const DayFilterButtons = () => {
+  const days = getDays();
   return (
-    <center>
-      <div className={classes.root} style={{ marginTop: "20px" }}>
+    <Grid container spacing={1} justify="center" style={{ margin: "20px 0" }}>
+      <Grid item>
         <Button variant="outlined">All</Button>
-        <Button variant="outlined">Monday</Button>
-        <Button variant="outlined">Tuesday</Button>
-        <Button variant="outlined">Wednesday</Button>
-        <Button variant="outlined">Thursday</Button>
-        <Button variant="outlined">Friday</Button>
-      </div>
-    </center>
+      </Grid>
+      {days.map((day) => {
+        return (
+          <Grid item key={day.id}>
+            <Button variant="outlined">{day.name}</Button>
+          </Grid>
+        );
+      })}
+    </Grid>
   );
 };
 
