@@ -36,7 +36,23 @@ class Diary extends Component {
     const { classes } = this.props;
 
     const handleWeekChange = (event) => {
+      // Get selected week from dropdown
       const selectedWeek = event.target.value;
+
+      // Get diary object from state
+      let diary = [...this.state.allDiary];
+
+      if (selectedWeek != 0) {
+        // Filter the contnet of diary according to the month selected.
+        diary = diary.filter((d) => {
+          const diaryDate = new Date(d.diaryDate);
+          const week = Math.floor(diaryDate.getDate() / 7);
+          return week == selectedWeek;
+        });
+      }
+
+      // Update the state of diary
+      this.setState({ diary });
     };
 
     const handleMonthChange = (event) => {
@@ -46,13 +62,16 @@ class Diary extends Component {
       // Get diary object from state
       let diary = [...this.state.allDiary];
 
-      // Filter the contnet of diary according to the month selected.
-      diary = diary.filter((d) => {
-        const diaryDate = new Date(d.diaryDate);
-        const month = diaryDate.getMonth() + 1;
-        return month == selectedMonth;
-      });
+      if (selectedMonth != 0) {
+        // Filter the contnet of diary according to the month selected.
+        diary = diary.filter((d) => {
+          const diaryDate = new Date(d.diaryDate);
+          const month = diaryDate.getMonth() + 1;
+          return month == selectedMonth;
+        });
+      }
 
+      // Update the state of diary
       this.setState({ diary });
     };
 

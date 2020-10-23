@@ -13,6 +13,7 @@ const calendar = {
     { id: 2, name: "Week 02" },
     { id: 3, name: "Week 03" },
     { id: 4, name: "Week 04" },
+    { id: 5, name: "Week 05" },
   ],
   months: [
     { id: 1, name: "January" },
