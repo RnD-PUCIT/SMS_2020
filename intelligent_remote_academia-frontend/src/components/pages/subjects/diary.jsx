@@ -54,7 +54,7 @@ const Diary = ({ diary }) => {
       <DiaryFilterButtons />
       {diary.map((item) => {
         return (
-          <Paper className={classes.paper}>
+          <Paper className={classes.paper} key={item.id}>
             <div className={classes.toolbar} variant="dense">
               <Typography variant="h6">{item.diaryDate}</Typography>
             </div>
@@ -135,21 +135,11 @@ const DiaryFilterButtons = () => {
     <center>
       <div className={classes.root} style={{ marginTop: "20px" }}>
         <Button variant="outlined">All</Button>
-        <Button variant="outlined" color="secondary ">
-          Monday
-        </Button>
-        <Button variant="outlined" color="primary ">
-          Tuesday
-        </Button>
-        <Button variant="outlined" color="primary ">
-          Wednesday
-        </Button>
-        <Button variant="outlined" color="primary ">
-          Thursday
-        </Button>
-        <Button variant="outlined" color="primary ">
-          Friday
-        </Button>
+        <Button variant="outlined">Monday</Button>
+        <Button variant="outlined">Tuesday</Button>
+        <Button variant="outlined">Wednesday</Button>
+        <Button variant="outlined">Thursday</Button>
+        <Button variant="outlined">Friday</Button>
       </div>
     </center>
   );

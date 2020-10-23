@@ -32,21 +32,19 @@ const GradesTimeline = ({ grades }) => {
                 <strong>{grade.gradeTitle}</strong>{" "}
               </Typography>
               <hr />
-              <p>
-                <Typography color="textSecondary">
-                  <strong>Total Marks: </strong>
-                  {grade.totalMarks}
-                </Typography>
-                <Typography color="textSecondary">
-                  <strong>Obtained Marks: </strong>
-                  {grade.obtainedMarks}
-                </Typography>
-                <Typography color="textSecondary">
-                  <strong>Percentage </strong>
-                  {(grade.obtainedMarks / grade.totalMarks) * 100}%
-                </Typography>
-                {grade.remarks && <GradeRemarks remarks={grade.remarks} />}
-              </p>
+              <Typography color="textSecondary">
+                <strong>Total Marks: </strong>
+                {grade.totalMarks}
+              </Typography>
+              <Typography color="textSecondary">
+                <strong>Obtained Marks: </strong>
+                {grade.obtainedMarks}
+              </Typography>
+              <Typography color="textSecondary">
+                <strong>Percentage </strong>
+                {(grade.obtainedMarks / grade.totalMarks) * 100}%
+              </Typography>
+              {grade.remarks && <GradeRemarks remarks={grade.remarks} />}
             </VerticalTimelineElement>
           );
         })}

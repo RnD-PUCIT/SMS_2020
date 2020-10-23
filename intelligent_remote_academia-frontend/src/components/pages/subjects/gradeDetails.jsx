@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Paper } from "@material-ui/core";
+import { Button, Grid, Paper } from "@material-ui/core";
 
 import GradesGraphical from "./gradesGraphical";
 import GradesTimeline from "./gradesTimeline";
@@ -9,7 +9,7 @@ import "./gradeDetails.css";
 import http from "../../../services/httpService";
 
 class GradeDetails extends Component {
-  state = { grades: null, displayType: 0 };
+  state = { grades: null, viewType: 0 };
 
   async componentDidMount() {
     // Get url to send request to server
@@ -26,11 +26,11 @@ class GradeDetails extends Component {
 
   render() {
     const handleTimelineClick = () => {
-      if (this.state.displayType != 0) this.setState({ displayType: 0 });
+      if (this.state.viewType !== 0) this.setState({ viewType: 0 });
     };
 
     const handleGraphicalClick = () => {
-      if (this.state.displayType != 1) this.setState({ displayType: 1 });
+      if (this.state.viewType !== 1) this.setState({ viewType: 1 });
     };
 
     const { grades } = this.state;
@@ -39,36 +39,57 @@ class GradeDetails extends Component {
         <GradeFilterButtons
           onTimelineClick={handleTimelineClick}
           onGraphicalClick={handleGraphicalClick}
+          viewType={this.state.viewType}
         />
         <Paper
           variant="outlined"
           style={{ backgroundColor: "rgb(227, 227, 227)" }}
         >
-          <GradeData grades={grades} displayType={this.state.displayType} />
+          <GradeData grades={grades} viewType={this.state.viewType} />
         </Paper>
       </React.Fragment>
     );
   }
 }
 
-const GradeFilterButtons = ({ onTimelineClick, onGraphicalClick }) => {
+// Component for the filtering buttons.
+const GradeFilterButtons = ({
+  onTimelineClick,
+  onGraphicalClick,
+  viewType,
+}) => {
   return (
     <React.Fragment>
-      <div style={{ margin: "20px 0" }}>
-        <Button variant="outlined" onClick={onTimelineClick}>
-          Timeline View
-        </Button>
-        <Button variant="outlined" onClick={onGraphicalClick}>
-          Graphical View
-        </Button>
-      </div>
+      <Grid
+        container
+        justify="flex-end"
+        spacing={1}
+        style={{ margin: "20px 0" }}
+      >
+        <Grid item>
+          <Button
+            variant={viewType === 0 ? "contained" : "outlined"}
+            onClick={onTimelineClick}
+          >
+            Timeline View
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant={viewType === 1 ? "contained" : "outlined"}
+            onClick={onGraphicalClick}
+          >
+            Graphical View
+          </Button>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
 
-const GradeData = ({ grades, displayType }) => {
+const GradeData = ({ grades, viewType }) => {
   if (grades) {
-    return displayType === 0 ? (
+    return viewType === 0 ? (
       <GradesTimeline grades={grades} />
     ) : (
       <GradesGraphical />

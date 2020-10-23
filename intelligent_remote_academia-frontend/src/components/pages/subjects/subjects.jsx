@@ -17,12 +17,11 @@ const Subjects = ({ subjects, studentId, classId }) => {
   return (
     <Grid container spacing={3} className={classes.gridContainer}>
       {/* First cheking if the subjects is not null for safety purpose */}
-
       {subjects &&
         subjects.map((subject) => {
           return (
             <Cards
-              key={subject.id}
+              key={subject.subjectId}
               subject={subject}
               studentId={studentId}
               classId={classId}

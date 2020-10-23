@@ -22,7 +22,7 @@ const UserInfo = (props) => {
       <center className={classes.root}>
         <Typography variant="h6">Parents Portal</Typography>
         <ImageAvatar className={classes.avatar} />
-        <Typography>
+        <Typography style={{ textTransform: "capitalize" }}>
           {parentInfo.firstName + " " + parentInfo.lastName}
         </Typography>
       </center>
