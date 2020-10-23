@@ -29,7 +29,12 @@ const useStyles = makeStyles({
 const months = getMonths();
 
 class Diary extends Component {
-  state = { diary: this.props.diary, allDiary: this.props.diary };
+  state = {
+    diary: this.props.diary,
+    allDiary: this.props.diary,
+    isMonthSelected: false,
+    isWeekSelected: false,
+  };
 
   render() {
     const { diary } = this.state;
@@ -61,6 +66,7 @@ class Diary extends Component {
 
       // Get diary object from state
       let diary = [...this.state.allDiary];
+      let { isMonthSelected } = this.state;
 
       if (selectedMonth != 0) {
         // Filter the contnet of diary according to the month selected.
@@ -69,10 +75,12 @@ class Diary extends Component {
           const month = diaryDate.getMonth() + 1;
           return month == selectedMonth;
         });
+        isMonthSelected = true;
+      } else {
+        isMonthSelected = false;
       }
-
       // Update the state of diary
-      this.setState({ diary });
+      this.setState({ diary, isMonthSelected });
     };
 
     return (
@@ -80,6 +88,7 @@ class Diary extends Component {
         <DiaryFilterMenu
           onWeekChange={handleWeekChange}
           onMonthChange={handleMonthChange}
+          disableWeek={this.state.isMonthSelected}
         />
         <DayFilterButtons />
         {diary.map((item) => {
@@ -111,13 +120,17 @@ class Diary extends Component {
   }
 }
 
-const DiaryFilterMenu = ({ onWeekChange, onMonthChange }) => {
+const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
   const weeks = getWeeks();
   const classes = useStyles();
   return (
     <Grid container spacing={1} justify="flex-end">
       <Grid item>
-        <select className={classes.selectDropdown} onChange={onWeekChange}>
+        <select
+          className={classes.selectDropdown}
+          onChange={onWeekChange}
+          disabled={!disableWeek}
+        >
           <option value="0">Select Week</option>
           {weeks.map((week) => {
             return (
