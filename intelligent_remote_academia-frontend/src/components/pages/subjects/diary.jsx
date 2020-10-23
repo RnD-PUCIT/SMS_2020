@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Button, Grid, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import { getMonths, getDays, getWeeks } from "../../constants/calendarConsts";
 
-const useStyles = makeStyles({
+const styles = {
   paper: {
     marginTop: "30px",
   },
@@ -18,69 +18,106 @@ const useStyles = makeStyles({
     color: "white",
     padding: "5px 20px",
   },
+};
+
+const useStyles = makeStyles({
   selectDropdown: {
     padding: "8px 10px",
   },
 });
 
-const handleWeekChange = () => {
-  alert("changed");
-};
-
 const months = getMonths();
 
-const Diary = ({ diary }) => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <DiaryFilterMenu />
-      <DayFilterButtons />
-      {diary.map((item) => {
-        let diaryDate = new Date(item.diaryDate);
-        return (
-          <Paper className={classes.paper} key={item.id}>
-            {/* Toolbar Starts */}
-            <div className={classes.toolbar} variant="dense">
-              <Typography variant="h6">
-                {months[diaryDate.getMonth()].name +
-                  " " +
-                  diaryDate.getDate() +
-                  ", " +
-                  diaryDate.getFullYear()}
-              </Typography>
-            </div>
-            {/* Toolbar Ends */}
-            <div className={classes.paperBody}>
-              <Typography>{item.diaryTitle}</Typography>
-              {item.diaryContent && (
-                <DiaryContent content={item.diaryContent} />
-              )}
-            </div>
-          </Paper>
-        );
-      })}
-    </React.Fragment>
-  );
-};
+class Diary extends Component {
+  state = { diary: this.props.diary, allDiary: this.props.diary };
 
-const DiaryFilterMenu = () => {
+  render() {
+    const { diary } = this.state;
+    const { classes } = this.props;
+
+    const handleWeekChange = (event) => {
+      const selectedWeek = event.target.value;
+    };
+
+    const handleMonthChange = (event) => {
+      // Get selected month from dropdown
+      const selectedMonth = event.target.value;
+
+      // Get diary object from state
+      let diary = [...this.state.allDiary];
+
+      // Filter the contnet of diary according to the month selected.
+      diary = diary.filter((d) => {
+        const diaryDate = new Date(d.diaryDate);
+        const month = diaryDate.getMonth() + 1;
+        return month == selectedMonth;
+      });
+
+      this.setState({ diary });
+    };
+
+    return (
+      <React.Fragment>
+        <DiaryFilterMenu
+          onWeekChange={handleWeekChange}
+          onMonthChange={handleMonthChange}
+        />
+        <DayFilterButtons />
+        {diary.map((item) => {
+          let diaryDate = new Date(item.diaryDate);
+          return (
+            <Paper className={classes.paper} key={item.id}>
+              {/* Toolbar Starts */}
+              <div className={classes.toolbar} variant="dense">
+                <Typography variant="h6">
+                  {months[diaryDate.getMonth()].name +
+                    " " +
+                    diaryDate.getDate() +
+                    ", " +
+                    diaryDate.getFullYear()}
+                </Typography>
+              </div>
+              {/* Toolbar Ends */}
+              <div className={classes.paperBody}>
+                <Typography>{item.diaryTitle}</Typography>
+                {item.diaryContent && (
+                  <DiaryContent content={item.diaryContent} />
+                )}
+              </div>
+            </Paper>
+          );
+        })}
+      </React.Fragment>
+    );
+  }
+}
+
+const DiaryFilterMenu = ({ onWeekChange, onMonthChange }) => {
   const weeks = getWeeks();
   const classes = useStyles();
   return (
     <Grid container spacing={1} justify="flex-end">
       <Grid item>
-        <select className={classes.selectDropdown} onChange={handleWeekChange}>
+        <select className={classes.selectDropdown} onChange={onWeekChange}>
           <option value="0">Select Week</option>
           {weeks.map((week) => {
-            return <option key={week.id}>{week.name}</option>;
+            return (
+              <option key={week.id} value={week.id}>
+                {week.name}
+              </option>
+            );
           })}
         </select>
       </Grid>
       <Grid item>
-        <select className={classes.selectDropdown}>
+        <select className={classes.selectDropdown} onChange={onMonthChange}>
           <option value="0">Select Month</option>
           {months.map((month) => {
-            return <option key={month.id}>{month.name}</option>;
+            return (
+              <option key={month.id} value={month.id}>
+                {month.name}
+              </option>
+            );
           })}
         </select>
       </Grid>
@@ -115,4 +152,4 @@ const DiaryContent = ({ content }) => {
   );
 };
 
-export default Diary;
+export default withStyles(styles)(Diary);
