@@ -71,26 +71,39 @@ class Login extends Component {
     const handleLogin = async (values) => {
       // To send data in form-body, use FormData class
       const formData = new FormData();
+
+      // Get form input values
       const { cnic, password } = values;
+
+      // Add the input values in form-data
       formData.set("cnic", cnic);
       formData.set("password", password);
 
-      const { data } = await axios.post(
-        "https://localhost:44334/account/login",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      // Get token
-      const { token: jwt } = data;
-      // store it to local storage
-      localStorage.setItem("token", jwt);
+      try {
+        // Send Ajax call to the server
+        const { data } = await axios.post(
+          "https://localhost:44334/account/login",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-      window.location = "/";
+        // Get token
+        const { token: jwt } = data;
+
+        // store it to local storage
+        localStorage.setItem("token", jwt);
+
+        // Redirect the user to dashboard
+        window.location = "/";
+      } catch (error) {
+        alert("Invalid Credentials");
+      }
     };
+
     const { classes } = this.props;
     return (
       <div className={classes.outerContainer}>

@@ -1,15 +1,16 @@
 import React from "react";
+import { Typography } from "@material-ui/core";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
 } from "react-vertical-timeline-component";
-import { Typography } from "@material-ui/core";
 
-import months from "../../constants/monthConsts";
+import { getMonths } from "../../constants/calendarConsts";
 
 import "react-vertical-timeline-component/style.min.css";
 
 const GradesTimeline = ({ grades }) => {
+  const months = getMonths();
   return (
     <React.Fragment>
       <VerticalTimeline>
@@ -17,10 +18,9 @@ const GradesTimeline = ({ grades }) => {
           let gradeDate = new Date(grade.gradeDate);
           return (
             <VerticalTimelineElement
-              className="vertical-timeline-element--work"
               key={grade.id}
               date={
-                months[gradeDate.getMonth()] +
+                months[gradeDate.getMonth()].name +
                 " " +
                 gradeDate.getDate() +
                 ", " +

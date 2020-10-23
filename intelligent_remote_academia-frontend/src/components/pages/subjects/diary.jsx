@@ -11,6 +11,8 @@ import {
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { getMonths } from "../../constants/calendarConsts";
+
 const useStyles = makeStyles({
   paper: {
     marginTop: "30px",
@@ -46,6 +48,8 @@ const menuStyles = makeStyles({
   },
 });
 
+const months = getMonths();
+
 const Diary = ({ diary }) => {
   const classes = useStyles();
   return (
@@ -53,11 +57,20 @@ const Diary = ({ diary }) => {
       <DiaryFilterMenu />
       <DiaryFilterButtons />
       {diary.map((item) => {
+        let diaryDate = new Date(item.diaryDate);
         return (
           <Paper className={classes.paper} key={item.id}>
+            {/* Toolbar Starts */}
             <div className={classes.toolbar} variant="dense">
-              <Typography variant="h6">{item.diaryDate}</Typography>
+              <Typography variant="h6">
+                {months[diaryDate.getMonth()].name +
+                  " " +
+                  diaryDate.getDate() +
+                  ", " +
+                  diaryDate.getFullYear()}
+              </Typography>
             </div>
+            {/* Toolbar Ends */}
             <div className={classes.paperBody}>
               <Typography>{item.diaryTitle}</Typography>
               {item.diaryContent && (
@@ -155,54 +168,3 @@ const DiaryContent = ({ content }) => {
 };
 
 export default Diary;
-
-const months = [
-  {
-    id: 1,
-    name: "January",
-  },
-  {
-    id: 2,
-    name: "February",
-  },
-  {
-    id: 3,
-    name: "March",
-  },
-  {
-    id: 4,
-    name: "April",
-  },
-  {
-    id: 5,
-    name: "May",
-  },
-  {
-    id: 6,
-    name: "June",
-  },
-  {
-    id: 7,
-    name: "July",
-  },
-  {
-    id: 8,
-    name: "August",
-  },
-  {
-    id: 9,
-    name: "September",
-  },
-  {
-    id: 10,
-    name: "October",
-  },
-  {
-    id: 11,
-    name: "November",
-  },
-  {
-    id: 12,
-    name: "December",
-  },
-];
