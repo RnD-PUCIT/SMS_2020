@@ -1,34 +1,47 @@
-import React from "react";
+import React, { Component } from "react";
 import MainContent from "./mainContent/mainContent";
 import Sidebar from "./sidebar/sidebar";
 
-const Layout = (props) => {
-  const { dashboardInfo } = props;
+import http from "../../services/httpService";
 
-  /* With using state hooks, component is rendered twice, hence
-    to make it safe, first checking if dashboardInfo prop is not null */
+class Layout extends Component {
+  state = { dashboardInfo: null };
 
-  if (dashboardInfo) {
-    // Get selected student id
-    const studentId = dashboardInfo.students[0].id;
+  async componentDidMount() {
+    try {
+      // Get parent personal info from the service
+      const { data } = await http.get(`/subjects`);
 
-    // Get selected student's class id
-    const classId = dashboardInfo.students[0].classId;
-    return (
-      <React.Fragment>
-        <Sidebar userInfo={dashboardInfo.parentInfo}>
-          <MainContent
-            subjects={dashboardInfo.subjects[0]}
-            studentId={studentId}
-            classId={classId}
-          />
-        </Sidebar>
-      </React.Fragment>
-    );
+      const { dashboard: dashboardInfo } = data;
+
+      this.setState({ dashboardInfo });
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        alert("Not logged in");
+        window.location = "/login";
+      }
+    }
   }
+  render() {
+    const { dashboardInfo } = this.state;
+    if (dashboardInfo) {
+      const studentId = dashboardInfo.students[0].id;
+      const classId = dashboardInfo.students[0].classId;
 
-  // dashboardInfo is null, render nothing
-  return null;
-};
+      return (
+        <React.Fragment>
+          <Sidebar userInfo={dashboardInfo.parentInfo}>
+            <MainContent
+              subjects={dashboardInfo.subjects[0]}
+              studentId={studentId}
+              classId={classId}
+            />
+          </Sidebar>
+        </React.Fragment>
+      );
+    }
+    return null;
+  }
+}
 
 export default Layout;

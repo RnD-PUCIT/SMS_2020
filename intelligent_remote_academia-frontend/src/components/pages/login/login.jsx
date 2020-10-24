@@ -90,7 +90,6 @@ class Login extends Component {
             },
           }
         );
-
         // Get token
         const { token: jwt } = data;
 
@@ -100,7 +99,9 @@ class Login extends Component {
         // Redirect the user to dashboard
         window.location = "/";
       } catch (error) {
-        alert("Invalid Credentials");
+        if (error.response && error.response.status === 400) {
+          alert(error.response.data);
+        }
       }
     };
 
