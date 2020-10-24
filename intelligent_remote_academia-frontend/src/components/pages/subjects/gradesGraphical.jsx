@@ -1,18 +1,25 @@
 import React from "react";
 import { Bar } from "react-chartjs-2";
 import Grid from "@material-ui/core/Grid";
-import { Container } from "@material-ui/core";
 
 const GradesGraphical = ({ grades }) => {
-  const testTitle = grades.map((g) => g.gradeTitle);
-  const marks = grades.map((g) => g.obtainedMarks);
+  const gradeTitle = grades.map((g) => g.gradeTitle);
+  const obtainedMarks = grades.map((g) => g.obtainedMarks);
+  const percentage = grades.map((g) =>
+    ((g.obtainedMarks / g.totalMarks) * 100).toFixed(2)
+  );
+  const barColors = percentage.map((p) => {
+    if (p >= 85) return "#5cb85c";
+    else if (p >= 50 && p < 85) return "#ffbb33";
+    else return "red";
+  });
   const chartData = {
-    labels: testTitle,
+    labels: gradeTitle,
     datasets: [
       {
-        label: "Marks Obtained",
-        data: marks,
-        backgroundColor: "rgb(255,99,132,0.6)",
+        label: "Percentage",
+        data: percentage,
+        backgroundColor: barColors,
       },
     ],
   };

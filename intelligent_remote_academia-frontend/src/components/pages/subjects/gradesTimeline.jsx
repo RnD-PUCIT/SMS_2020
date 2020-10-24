@@ -42,7 +42,7 @@ const GradesTimeline = ({ grades }) => {
               </Typography>
               <Typography color="textSecondary">
                 <strong>Percentage </strong>
-                {(grade.obtainedMarks / grade.totalMarks) * 100}%
+                {((grade.obtainedMarks / grade.totalMarks) * 100).toFixed(2)}%
               </Typography>
               {grade.remarks && <GradeRemarks remarks={grade.remarks} />}
             </VerticalTimelineElement>

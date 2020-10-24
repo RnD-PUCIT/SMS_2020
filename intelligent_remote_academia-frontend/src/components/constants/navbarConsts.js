@@ -1,12 +1,11 @@
 import { makeStyles } from "@material-ui/core/styles";
 import { drawerWidth } from "./sidebarConsts";
 
-
 const accountMenu = [
-  {
-    text: "Profile",
-    url: "/profile",
-  },
+  // {
+  //   text: "Profile",
+  //   url: "/profile",
+  // },
   {
     text: "Logout",
     url: "/logout",
