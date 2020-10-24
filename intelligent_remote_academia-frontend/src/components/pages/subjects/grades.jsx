@@ -5,7 +5,7 @@ import TextCard from "../../common/cards/textCard";
 import AlertDescriptive from "../../common/alerts/alertDescriptive";
 
 const Grades = ({ pathname, search, gradeTypes }) => {
-  if (gradeTypes.length) {
+  if (gradeTypes && gradeTypes.length) {
     return (
       <React.Fragment>
         <Grid container spacing={3}>
@@ -22,14 +22,16 @@ const Grades = ({ pathname, search, gradeTypes }) => {
         </Grid>
       </React.Fragment>
     );
+  } else if (gradeTypes) {
+    return (
+      <AlertDescriptive
+        severity="error"
+        title="No Grade Types found"
+        description="Looks like the teacher haven't added any grade type yet."
+      />
+    );
   }
-  return (
-    <AlertDescriptive
-      severity="error"
-      title="No Grade Types found"
-      description="Looks like the teacher haven't added any grade type yet."
-    />
-  );
+  return null;
 };
 
 const GradeItem = ({ grade, pathname, search }) => {
