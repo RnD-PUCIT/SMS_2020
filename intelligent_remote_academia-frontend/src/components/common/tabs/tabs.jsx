@@ -18,6 +18,7 @@ const Tabs = ({ subjectTabs, pathname, gradeTypes, diary, search }) => {
         onChange={handleChange}
         centered
         style={{ margin: "30px 0 40px 0" }}
+        indicatorColor="primary"
       >
         {subjectTabs.map((tab) => {
           return <MatTab key={tab.id} label={tab.name} />;

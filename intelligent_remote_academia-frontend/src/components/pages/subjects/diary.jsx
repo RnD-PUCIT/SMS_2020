@@ -35,6 +35,7 @@ class Diary extends Component {
     isMonthSelected: false,
     isWeekSelected: false,
     selectedMonth: null,
+    selectedWeek: null,
     selectedDay: 0,
   };
 
@@ -43,8 +44,27 @@ class Diary extends Component {
     const { classes } = this.props;
 
     const handleDayChange = (buttonId) => {
+      // Get selected week and month from the state
+      const { selectedWeek, selectedMonth } = this.state;
       const selectedDay = buttonId;
-      this.setState({ selectedDay });
+
+      let diary = [...this.state.allDiary];
+
+      if (buttonId !== 0) {
+        diary = diary.filter((d) => {
+          const diaryDate = new Date(d.diaryDate);
+          const month = diaryDate.getMonth() + 1;
+          const week = Math.floor(diaryDate.getDate() / 7);
+          const day = diaryDate.getDay();
+          return (
+            week == selectedWeek && month == selectedMonth && day == selectedDay
+          );
+        });
+      } else {
+      }
+
+      // Change the selected day value to toggle button selection
+      this.setState({ diary, selectedDay });
     };
 
     const handleWeekChange = (event) => {
@@ -70,7 +90,7 @@ class Diary extends Component {
       }
 
       // Update the state of diary
-      this.setState({ diary, isWeekSelected });
+      this.setState({ diary, isWeekSelected, selectedWeek });
     };
 
     const handleMonthChange = (event) => {
