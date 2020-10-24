@@ -34,6 +34,7 @@ class Diary extends Component {
     allDiary: this.props.diary,
     isMonthSelected: false,
     isWeekSelected: false,
+    selectedMonth: null,
   };
 
   render() {
@@ -43,6 +44,7 @@ class Diary extends Component {
     const handleWeekChange = (event) => {
       // Get selected week from dropdown
       const selectedWeek = event.target.value;
+      let { selectedMonth } = this.state;
 
       // Get diary object from state
       let diary = [...this.state.allDiary];
@@ -52,8 +54,9 @@ class Diary extends Component {
         // Filter the contnet of diary according to the month selected.
         diary = diary.filter((d) => {
           const diaryDate = new Date(d.diaryDate);
+          const month = diaryDate.getMonth() + 1;
           const week = Math.floor(diaryDate.getDate() / 7);
-          return week == selectedWeek;
+          return week == selectedWeek && month == selectedMonth;
         });
         isWeekSelected = true;
       } else {
@@ -66,7 +69,7 @@ class Diary extends Component {
 
     const handleMonthChange = (event) => {
       // Get selected month from dropdown
-      const selectedMonth = event.target.value;
+      let selectedMonth = event.target.value;
 
       // Get diary object from state
       let diary = [...this.state.allDiary];
@@ -84,7 +87,7 @@ class Diary extends Component {
         isMonthSelected = false;
       }
       // Update the state of diary
-      this.setState({ diary, isMonthSelected });
+      this.setState({ diary, isMonthSelected, selectedMonth });
     };
 
     return (
