@@ -19,6 +19,7 @@ const Tabs = ({ subjectTabs, pathname, gradeTypes, diary, search }) => {
         centered
         style={{ margin: "30px 0 40px 0" }}
         indicatorColor="primary"
+        textColor="primary"
       >
         {subjectTabs.map((tab) => {
           return <MatTab key={tab.id} label={tab.name} />;

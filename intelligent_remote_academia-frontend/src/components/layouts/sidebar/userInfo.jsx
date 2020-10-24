@@ -11,6 +11,10 @@ const useStyles = makeStyles(() => ({
     height: "100px",
     margin: "20px 0",
   },
+  portalHeading: {
+    fontSize: "16px",
+    fontWeight: "500",
+  },
 }));
 
 const UserInfo = (props) => {
@@ -20,7 +24,13 @@ const UserInfo = (props) => {
   if (parentInfo) {
     return (
       <center className={classes.root}>
-        <Typography variant="h6">Parents Portal</Typography>
+        <Typography
+          variant="h6"
+          className={classes.portalHeading}
+          color="textSecondary"
+        >
+          Parents Portal
+        </Typography>
         <ImageAvatar className={classes.avatar} />
         <Typography style={{ textTransform: "capitalize" }}>
           {parentInfo.firstName + " " + parentInfo.lastName}

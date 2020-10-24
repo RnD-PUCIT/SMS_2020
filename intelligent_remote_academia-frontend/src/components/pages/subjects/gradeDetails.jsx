@@ -17,12 +17,18 @@ class GradeDetails extends Component {
     const { pathname, search } = this.props.location;
     const url = pathname + search;
 
-    // Send ajax call to server
-    const { data } = await http.get(`${url}`);
-    const { grades } = data;
+    try {
+      // Send ajax call to server
+        const { data } = await http.get(`${url}`);
+        const { grades } = data;
 
-    // Save grades in the satate
-    this.setState({ grades });
+        // Save grades in the satate
+        this.setState({ grades });
+    } catch (ex) {
+      if(ex.response && ex.response.status === 401){
+        window.location = "/notFound";
+    }
+  }
   }
 
   render() {

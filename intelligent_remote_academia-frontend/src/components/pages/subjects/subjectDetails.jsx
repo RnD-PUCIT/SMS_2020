@@ -15,14 +15,20 @@ class SubjectDetails extends Component {
 
     const url = pathname + search;
 
-    // Get subject details data from the service
+    try {
+      // Get subject details data from the service
     const { data } = await http.get(`${url}`);
 
     const { subjectService: subjectDetails } = data;
 
     this.setState({ subjectDetails });
 
-    console.log(this.state.subjectDetails);
+    } catch (ex) {
+      if(ex.response && ex.response.status === 401){
+        window.location = "/notFound";
+      }
+    }
+    
   }
 
   render() {

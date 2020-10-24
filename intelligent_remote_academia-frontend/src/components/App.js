@@ -5,14 +5,17 @@ import Login from "./pages/login/login";
 
 import "./App.css";
 import { Redirect, Route, Switch } from "react-router-dom";
+import NotFound from "./pages/error/notFound";
 
 class App extends Component {
   render() {
     return (
       <Switch>
+        <Route path="/notFound" component={NotFound} exact />
         <Route path="/login" component={Login} exact />
         <Route path="/" component={Layout} />
         <Redirect from="/" to="/subjects" exact />
+        <Route component={NotFound} />
       </Switch>
     );
   }

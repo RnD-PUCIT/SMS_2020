@@ -105,6 +105,8 @@ class Login extends Component {
         if (ex.response && ex.response.status === 400) {
           const error = ex.response.data;
           this.setState({ error });
+        } else if (ex.response && ex.response.status === 404) {
+          window.location = "/notFound";
         }
       }
     };

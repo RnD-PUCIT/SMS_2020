@@ -29,6 +29,15 @@ const GradesGraphical = ({ grades }) => {
         <Bar
           data={chartData}
           options={{
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
             title: {
               display: true,
               text: "Graphical View",

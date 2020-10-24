@@ -17,8 +17,9 @@ class Layout extends Component {
       this.setState({ dashboardInfo });
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        alert("Not logged in");
         window.location = "/login";
+      } else if (error.response && error.response.status === 404) {
+        window.location = "/notFound";
       }
     }
   }

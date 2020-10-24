@@ -12,7 +12,7 @@ const accountMenu = [
   },
 ];
 
-const brandName = "Intelli School";
+const brandName = "Intelligent Remote Academia";
 
 const useStyles = makeStyles((theme) => ({
   root: {
