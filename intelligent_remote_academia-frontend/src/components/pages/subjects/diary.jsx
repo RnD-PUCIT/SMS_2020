@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Button, Grid, Paper, Typography } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { getMonths, getDays, getWeeks } from "../../constants/calendarConsts";
+import AlertDescriptive from "../../common/alerts/alertDescriptive";
 
-const styles = {
+const useStyles = makeStyles({
   paper: {
     marginTop: "30px",
   },
@@ -18,9 +19,6 @@ const styles = {
     color: "white",
     padding: "5px 20px",
   },
-};
-
-const useStyles = makeStyles({
   selectDropdown: {
     padding: "8px 10px",
   },
@@ -41,8 +39,6 @@ class Diary extends Component {
 
   render() {
     const { diary } = this.state;
-    const { classes } = this.props;
-
     const handleDayChange = (buttonId) => {
       // Get selected week and month from the state
       const { selectedWeek, selectedMonth } = this.state;
@@ -133,30 +129,7 @@ class Diary extends Component {
         />
 
         {/* Diary content */}
-        {diary.map((item) => {
-          let diaryDate = new Date(item.diaryDate);
-          return (
-            <Paper className={classes.paper} key={item.id}>
-              {/* Toolbar Starts */}
-              <div className={classes.toolbar} variant="dense">
-                <Typography variant="h6">
-                  {months[diaryDate.getMonth()].name +
-                    " " +
-                    diaryDate.getDate() +
-                    ", " +
-                    diaryDate.getFullYear()}
-                </Typography>
-              </div>
-              {/* Toolbar Ends */}
-              <div className={classes.paperBody}>
-                <Typography>{item.diaryTitle}</Typography>
-                {item.diaryContent && (
-                  <DiaryContent content={item.diaryContent} />
-                )}
-              </div>
-            </Paper>
-          );
-        })}
+        <DiaryContent diary={diary} />
       </React.Fragment>
     );
   }
@@ -231,7 +204,46 @@ const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
   );
 };
 
-const DiaryContent = ({ content }) => {
+const DiaryContent = ({ diary }) => {
+  const classes = useStyles();
+  if (diary.length) {
+    return (
+      <React.Fragment>
+        {diary.map((item) => {
+          let diaryDate = new Date(item.diaryDate);
+          return (
+            <Paper className={classes.paper} key={item.id}>
+              {/* Toolbar Starts */}
+              <div className={classes.toolbar} variant="dense">
+                <Typography variant="h6">
+                  {months[diaryDate.getMonth()].name +
+                    " " +
+                    diaryDate.getDate() +
+                    ", " +
+                    diaryDate.getFullYear()}
+                </Typography>
+              </div>
+              {/* Toolbar Ends */}
+              <div className={classes.paperBody}>
+                <Typography>{item.diaryTitle}</Typography>
+                {item.diaryContent && <DiaryItem content={item.diaryContent} />}
+              </div>
+            </Paper>
+          );
+        })}
+      </React.Fragment>
+    );
+  }
+  return (
+    <AlertDescriptive
+      severity="error"
+      title="No Diary Content Found"
+      description="Oops! Looks like no diary is found of the selected day. Enjoy the relaxation!!"
+    />
+  );
+};
+
+const DiaryItem = ({ content }) => {
   return (
     <React.Fragment>
       <hr />
@@ -240,4 +252,4 @@ const DiaryContent = ({ content }) => {
   );
 };
 
-export default withStyles(styles)(Diary);
+export default Diary;

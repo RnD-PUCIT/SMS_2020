@@ -7,6 +7,7 @@ import GradesTimeline from "./gradesTimeline";
 import "./gradeDetails.css";
 
 import http from "../../../services/httpService";
+import AlertDescriptive from "../../common/alerts/alertDescriptive";
 
 class GradeDetails extends Component {
   state = { grades: null, viewType: 0 };
@@ -34,21 +35,32 @@ class GradeDetails extends Component {
     };
 
     const { grades } = this.state;
-    return (
-      <React.Fragment>
-        <GradeFilterButtons
-          onTimelineClick={handleTimelineClick}
-          onGraphicalClick={handleGraphicalClick}
-          viewType={this.state.viewType}
+    if (grades && grades.length) {
+      return (
+        <React.Fragment>
+          <GradeFilterButtons
+            onTimelineClick={handleTimelineClick}
+            onGraphicalClick={handleGraphicalClick}
+            viewType={this.state.viewType}
+          />
+          <Paper
+            variant="outlined"
+            style={{ backgroundColor: "rgb(227, 227, 227)" }}
+          >
+            <GradeData grades={grades} viewType={this.state.viewType} />
+          </Paper>
+        </React.Fragment>
+      );
+    } else if (grades) {
+      return (
+        <AlertDescriptive
+          severity="error"
+          title="Grade Data Not Found"
+          description="Looks like there is no data added for this assesment. Stay Tuned!"
         />
-        <Paper
-          variant="outlined"
-          style={{ backgroundColor: "rgb(227, 227, 227)" }}
-        >
-          <GradeData grades={grades} viewType={this.state.viewType} />
-        </Paper>
-      </React.Fragment>
-    );
+      );
+    }
+    return null;
   }
 }
 
@@ -68,6 +80,7 @@ const GradeFilterButtons = ({
       >
         <Grid item>
           <Button
+            color="primary"
             variant={viewType === 0 ? "contained" : "outlined"}
             onClick={onTimelineClick}
           >
@@ -76,6 +89,7 @@ const GradeFilterButtons = ({
         </Grid>
         <Grid item>
           <Button
+            color="primary"
             variant={viewType === 1 ? "contained" : "outlined"}
             onClick={onGraphicalClick}
           >
@@ -92,7 +106,7 @@ const GradeData = ({ grades, viewType }) => {
     return viewType === 0 ? (
       <GradesTimeline grades={grades} />
     ) : (
-      <GradesGraphical />
+      <GradesGraphical grades={grades} />
     );
   }
   return null;
