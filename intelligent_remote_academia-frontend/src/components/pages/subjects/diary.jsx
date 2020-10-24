@@ -35,11 +35,17 @@ class Diary extends Component {
     isMonthSelected: false,
     isWeekSelected: false,
     selectedMonth: null,
+    selectedDay: 0,
   };
 
   render() {
     const { diary } = this.state;
     const { classes } = this.props;
+
+    const handleDayChange = (buttonId) => {
+      const selectedDay = buttonId;
+      this.setState({ selectedDay });
+    };
 
     const handleWeekChange = (event) => {
       // Get selected week from dropdown
@@ -92,12 +98,21 @@ class Diary extends Component {
 
     return (
       <React.Fragment>
+        {/* Component for Months and Weeks dropdown */}
         <DiaryFilterMenu
           onWeekChange={handleWeekChange}
           onMonthChange={handleMonthChange}
           disableWeek={this.state.isMonthSelected}
         />
-        <DayFilterButtons disableDays={this.state.isWeekSelected} />
+
+        {/* Component for Day buttons */}
+        <DayFilterButtons
+          disableDays={this.state.isWeekSelected}
+          onDayChange={handleDayChange}
+          selectedDay={this.state.selectedDay}
+        />
+
+        {/* Diary content */}
         {diary.map((item) => {
           let diaryDate = new Date(item.diaryDate);
           return (
@@ -164,17 +179,29 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
   );
 };
 
-const DayFilterButtons = ({ disableDays }) => {
+const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
   const days = getDays();
   return (
     <Grid container spacing={1} justify="center" style={{ margin: "20px 0" }}>
       <Grid item>
-        <Button variant="outlined">All</Button>
+        <Button
+          color="primary"
+          variant={selectedDay === 0 ? "contained" : "outlined"}
+          onClick={() => onDayChange(0)}
+        >
+          All
+        </Button>
       </Grid>
       {days.map((day) => {
         return (
           <Grid item key={day.id}>
-            <Button variant="outlined" disabled={!disableDays}>
+            <Button
+              variant="outlined"
+              disabled={!disableDays}
+              color="primary"
+              variant={selectedDay === day.id ? "contained" : "outlined"}
+              onClick={() => onDayChange(day.id)}
+            >
               {day.name}
             </Button>
           </Grid>
