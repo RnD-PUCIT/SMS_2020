@@ -28,7 +28,7 @@ namespace IRAAPI.DAL
                     diary.id = (int)reader["id"];
                     diary.classId = (int)reader["class_id"];
                     diary.subjectId = (int)reader["subject_id"];
-                    diary.diaryDate = Convert.ToDateTime(reader["diary_date"]).ToString("MM/dd/yyyy");
+                    diary.diaryDate = Convert.ToDateTime(reader["diary_date"]).ToString("MM/d/yyyy");
                     diary.diaryTitle = reader["diary_title"].ToString();
                     diary.diaryContent = reader["diary_content"].ToString();
 

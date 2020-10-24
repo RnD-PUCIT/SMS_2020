@@ -35,7 +35,7 @@ namespace IRAAPI.DAL
                     {
                         attendance.subjectId = (int)reader["subject_id"];
                     }
-                    attendance.attendanceDate = Convert.ToDateTime(reader["attendance_date"]).ToString("MM/dd/yyyy");
+                    attendance.attendanceDate = Convert.ToDateTime(reader["attendance_date"]).ToString("MM/d/yyyy");
                     attendance.status = Convert.ToChar(reader["status"]);
 
                     attendanceList.Add(attendance);
