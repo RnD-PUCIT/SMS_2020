@@ -19,6 +19,8 @@ import * as Yup from "yup";
 
 import axios from "axios";
 
+import AlertSimple from "../../common/alerts/alertSimple";
+
 const styles = (theme) => ({
   outerContainer: {
     background: "linear-gradient(180deg, #778ca3 0%, #00d2d3 100%)",
@@ -61,6 +63,7 @@ const formSchema = Yup.object().shape({
 class Login extends Component {
   state = {
     showPassword: false,
+    error: null,
   };
 
   handleClickShowPassword = () => {
@@ -98,9 +101,10 @@ class Login extends Component {
 
         // Redirect the user to dashboard
         window.location = "/";
-      } catch (error) {
-        if (error.response && error.response.status === 400) {
-          alert(error.response.data);
+      } catch (ex) {
+        if (ex.response && ex.response.status === 400) {
+          const error = ex.response.data;
+          this.setState({ error });
         }
       }
     };
@@ -187,6 +191,12 @@ class Login extends Component {
                         ),
                       }}
                     />
+                    {this.state.error && (
+                      <AlertSimple
+                        severity="error"
+                        message={this.state.error}
+                      />
+                    )}
                     <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
                       label="Remember me"
