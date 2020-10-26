@@ -95,6 +95,54 @@ namespace IRAAPI.DAL
                 }
             }
         }
+        public int UpdateStudent(Student u)
+        {
+            //Step 1 connection String
+            // string conStr = @"server=HAIER-PC\SQLEXPRESS;database=TMS;Integrated Security=SSPI;";
+            //step 2 open the connection
+            SqlConnection con = new SqlConnection(DBHelper.conStr);
+            try
+            {
+
+                con.Open();
+                //Step 3
+                string query = "Update Students set id=@id,rollNo=@rollNo,firstName=@firstName,lastName=@lastName,dob=@dob,parentId=@parentId,classId=@classId,className=@className,section=@section,isActive=@isActive,profilePic=@profilePic";
+                //step 4 using sqlCommand
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@id", u.id);
+                cmd.Parameters.AddWithValue("@rollNo", u.rollNo);
+                cmd.Parameters.AddWithValue("@firstName", u.firstName);
+                cmd.Parameters.AddWithValue("@lastName", u.lastName);
+                cmd.Parameters.AddWithValue("@dob", u.dob);
+                cmd.Parameters.AddWithValue("@parentId", u.parentId);
+                cmd.Parameters.AddWithValue("@classid", u.classId);
+                cmd.Parameters.AddWithValue("@className", u.className);
+                cmd.Parameters.AddWithValue("@section", u.section);
+                cmd.Parameters.AddWithValue("@isActive", u.isActive);
+                cmd.Parameters.AddWithValue("@profilePic", u.profilePic);
+                var result = cmd.ExecuteNonQuery();      //if any function returns an  integer then it uses nion querry like insert update delete
+
+
+                cmd.Dispose();
+                con.Dispose();
+                return result;
+            }
+            catch (SqlException ex)
+            {
+
+                throw ex;
+
+            }
+            finally
+            {
+                if (con.State == ConnectionState.Open)
+                {
+                    con.Close();
+                }
+
+            }
+        }
+
 
     }
 }
