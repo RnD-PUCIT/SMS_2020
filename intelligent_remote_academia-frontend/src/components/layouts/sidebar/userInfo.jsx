@@ -1,29 +1,44 @@
-import React from 'react';
-import ImageAvatar from "@material-ui/core/Avatar"
+import React from "react";
+import ImageAvatar from "@material-ui/core/Avatar";
 import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
-    root: {
-        padding: "20px 0"
-    },
-    avatar: {
-        width: "100px",
-        height: "100px",
-        margin: "20px 0"
-    }
-}))
+  root: {
+    padding: "20px 0",
+  },
+  avatar: {
+    width: "100px",
+    height: "100px",
+    margin: "20px 0",
+  },
+  portalHeading: {
+    fontSize: "16px",
+    fontWeight: "500",
+  },
+}));
 
 const UserInfo = (props) => {
+  const classes = useStyles();
+  const { parentInfo } = props;
 
-    const classes = useStyles();
+  if (parentInfo) {
+    return (
+      <center className={classes.root}>
+        <Typography
+          variant="h6"
+          className={classes.portalHeading}
+          color="textSecondary"
+        >
+          Parents Portal
+        </Typography>
+        <ImageAvatar className={classes.avatar} />
+        <Typography style={{ textTransform: "capitalize" }}>
+          {parentInfo.firstName + " " + parentInfo.lastName}
+        </Typography>
+      </center>
+    );
+  }
+  return <div></div>;
+};
 
-    return ( 
-        <center className={classes.root}>
-            <Typography variant="h6">Parents Portal</Typography>
-            <ImageAvatar className={classes.avatar}/>
-            <Typography>Parent Name</Typography>
-        </center>
-     );
-}
- 
 export default UserInfo;

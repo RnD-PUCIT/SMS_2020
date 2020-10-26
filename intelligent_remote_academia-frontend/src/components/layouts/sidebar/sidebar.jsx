@@ -15,21 +15,21 @@ import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
 
 function Sidebar(props) {
   const { window } = props;
+  const { userInfo } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
-    console.log("handled");
     setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
     <div>
       {/* Display logged in user information */}
-      <UserInfo />
+      <UserInfo parentInfo={userInfo} />
 
       <Divider />
-      
+
       {/* Sidebar Links */}
       <List>
         {sideBarLinks.map((item) => {

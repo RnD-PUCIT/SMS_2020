@@ -1,18 +1,41 @@
 import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 
-import { useStyles } from "../../constants/mainContentConsts";
 import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
+import SubjectDetails from "../../pages/subjects/subjectDetails";
+import GradeDetails from "../../pages/subjects/gradeDetails";
 
-const MainContent = (props) => {
+import { useStyles } from "../../constants/mainContentConsts";
+
+const MainContent = ({ subjects, studentId, classId }) => {
   const classes = useStyles();
   return (
     <main className="container">
       <div className={classes.container}>
         <Switch>
-          <Route path="/subjects" component={Subjects} />
-          <Route path="/attendance" component={Attendance} />
+          <Route
+            path="/subjects/:subjectSlug/:gradeTypeSlug"
+            component={GradeDetails}
+          />
+          <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
+          {/* Sending subjects array as a prop to Subject component */}
+          <Route
+            path="/subjects"
+            render={() => (
+              <Subjects
+                subjects={subjects}
+                studentId={studentId}
+                classId={classId}
+              />
+            )}
+          />
+          <Route
+            path="/attendance"
+            render={() => (
+              <Attendance studentId={studentId} classId={classId} />
+            )}
+          />
           <Redirect from="/" to="/subjects" exact />
         </Switch>
       </div>
