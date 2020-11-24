@@ -5,7 +5,13 @@ import Sidebar from "./sidebar/sidebar";
 import http from "../../services/httpService";
 
 class Layout extends Component {
-  state = { dashboardInfo: null };
+  state = {
+    dashboardInfo: null,
+    studentList: null,
+    subjects: null,
+    studentId: null,
+    classId: null,
+  };
 
   async componentDidMount() {
     try {
@@ -13,8 +19,18 @@ class Layout extends Component {
       const { data } = await http.get(`/subjects`);
 
       const { dashboard: dashboardInfo } = data;
+      const studentList = dashboardInfo.students;
+      const subjects = dashboardInfo.subjects[0];
+      const studentId = dashboardInfo.students[0].id;
+      const classId = dashboardInfo.students[0].classId;
 
-      this.setState({ dashboardInfo });
+      this.setState({
+        dashboardInfo,
+        studentList,
+        subjects,
+        studentId,
+        classId,
+      });
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location = "/login";
@@ -23,19 +39,19 @@ class Layout extends Component {
       }
     }
   }
+
   render() {
     const { dashboardInfo } = this.state;
     if (dashboardInfo) {
-      const studentId = dashboardInfo.students[0].id;
-      const classId = dashboardInfo.students[0].classId;
-
       return (
         <React.Fragment>
           <Sidebar userInfo={dashboardInfo.parentInfo}>
             <MainContent
-              subjects={dashboardInfo.subjects[0]}
-              studentId={studentId}
-              classId={classId}
+              studentList={this.state.studentList}
+              subjects={this.state.subjects}
+              studentId={this.state.studentId}
+              classId={this.state.classId}
+              onChange={this.handleChange}
             />
           </Sidebar>
         </React.Fragment>
@@ -43,6 +59,22 @@ class Layout extends Component {
     }
     return null;
   }
+
+  handleChange = (event) => {
+    const seletedID = event.target.value;
+
+    const studentsList = [...this.state.studentList];
+    const selectedStudent = studentsList.filter((s) => s.id == seletedID)[0];
+
+    const index = studentsList.indexOf(selectedStudent);
+
+    const subjects = this.state.dashboardInfo.subjects[index];
+
+    const studentId = selectedStudent.id;
+    const classId = selectedStudent.classId;
+
+    this.setState({ subjects, studentId, classId });
+  };
 }
 
 export default Layout;

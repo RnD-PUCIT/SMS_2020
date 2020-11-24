@@ -8,11 +8,26 @@ import GradeDetails from "../../pages/subjects/gradeDetails";
 
 import { useStyles } from "../../constants/mainContentConsts";
 
-const MainContent = ({ subjects, studentId, classId }) => {
+const MainContent = ({
+  subjects,
+  studentList,
+  studentId,
+  classId,
+  onChange,
+}) => {
   const classes = useStyles();
   return (
     <main className="container">
       <div className={classes.container}>
+        <select onChange={onChange}>
+          {studentList.map((student) => {
+            return (
+              <option value={student.id} key={student.id}>
+                {student.firstName}
+              </option>
+            );
+          })}
+        </select>
         <Switch>
           <Route
             path="/subjects/:subjectSlug/:gradeTypeSlug"
