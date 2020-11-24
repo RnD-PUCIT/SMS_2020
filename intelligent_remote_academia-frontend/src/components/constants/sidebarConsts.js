@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  active: {
+    backgroundColor: "#E1F0FF",
+  },
 }));
 
 export { useStyles, sideBarLinks, drawerWidth };

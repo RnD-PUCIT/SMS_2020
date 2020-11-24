@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -34,7 +34,13 @@ function Sidebar(props) {
       <List>
         {sideBarLinks.map((item) => {
           return (
-            <ListItem button key={item.text} component={Link} to={item.url}>
+            <ListItem
+              button
+              key={item.text}
+              component={NavLink}
+              to={item.url}
+              activeClassName={classes.active}
+            >
               <ListItemText>{item.text}</ListItemText>
             </ListItem>
           );
