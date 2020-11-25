@@ -8,9 +8,9 @@ class Layout extends Component {
   state = {
     dashboardInfo: null,
     studentList: null,
+    selectedStudent: null,
     subjects: null,
-    studentId: null,
-    classId: null,
+    showDropdown: false,
   };
 
   async componentDidMount() {
@@ -21,15 +21,13 @@ class Layout extends Component {
       const { dashboard: dashboardInfo } = data;
       const studentList = dashboardInfo.students;
       const subjects = dashboardInfo.subjects[0];
-      const studentId = dashboardInfo.students[0].id;
-      const classId = dashboardInfo.students[0].classId;
+      const selectedStudent = dashboardInfo.students[0];
 
       this.setState({
         dashboardInfo,
         studentList,
+        selectedStudent,
         subjects,
-        studentId,
-        classId,
       });
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -49,8 +47,10 @@ class Layout extends Component {
             <MainContent
               studentList={this.state.studentList}
               subjects={this.state.subjects}
-              studentId={this.state.studentId}
-              classId={this.state.classId}
+              selectedStudent={this.state.selectedStudent}
+              studentId={this.state.selectedStudent.id}
+              classId={this.state.selectedStudent.classId}
+              showDropdown={this.state.showDropdown}
               onChange={this.handleChange}
             />
           </Sidebar>
@@ -70,10 +70,7 @@ class Layout extends Component {
 
     const subjects = this.state.dashboardInfo.subjects[index];
 
-    const studentId = selectedStudent.id;
-    const classId = selectedStudent.classId;
-
-    this.setState({ subjects, studentId, classId });
+    this.setState({ subjects, selectedStudent });
   };
 }
 
