@@ -10,7 +10,6 @@ class Layout extends Component {
     studentList: null,
     selectedStudent: null,
     subjects: null,
-    anchorEl: null,
   };
 
   async componentDidMount() {
@@ -50,8 +49,6 @@ class Layout extends Component {
               selectedStudent={this.state.selectedStudent}
               studentId={this.state.selectedStudent.id}
               classId={this.state.selectedStudent.classId}
-              anchorEl={this.state.anchorEl}
-              onChange={this.handleChange}
               onClick={this.handleClick}
             />
           </Sidebar>
@@ -61,22 +58,19 @@ class Layout extends Component {
     return null;
   }
 
-  handleChange = (event) => {
-    const seletedID = event.target.value;
+  handleClick = (value) => {
+    if (value) {
+      const seletedID = value.id;
 
-    const studentsList = [...this.state.studentList];
-    const selectedStudent = studentsList.filter((s) => s.id == seletedID)[0];
+      const studentsList = [...this.state.studentList];
+      const selectedStudent = studentsList.filter((s) => s.id == seletedID)[0];
 
-    const index = studentsList.indexOf(selectedStudent);
+      const index = studentsList.indexOf(selectedStudent);
 
-    const subjects = this.state.dashboardInfo.subjects[index];
+      const subjects = this.state.dashboardInfo.subjects[index];
 
-    this.setState({ subjects, selectedStudent });
-  };
-
-  handleClick = (event) => {
-    const { anchorEl } = true;
-    this.setState({ anchorEl });
+      this.setState({ subjects, selectedStudent });
+    }
   };
 }
 

@@ -7,7 +7,6 @@ import {
   CardActionArea,
   CardContent,
   Typography,
-  Grid,
   Dialog,
   ListItemAvatar,
   ListItem,
@@ -42,6 +41,7 @@ const MainContent = ({
   };
 
   const handleClose = (value) => {
+    onClick(value);
     setOpen(false);
   };
   return (
@@ -49,13 +49,14 @@ const MainContent = ({
       <div className={classes.container}>
         <div>
           <StudentCard student={selectedStudent} onClick={handleClickOpen} />
-          <SimpleDialog
-            selectedValue={selectedStudent}
-            students={studentList}
-            open={open}
-            onClose={handleClose}
-          />
-          {/* {showDropdownMenu(studentList)} */}
+          {studentList.length > 1 && (
+            <SimpleDialog
+              selectedValue={selectedStudent.firstName}
+              students={studentList.filter((s) => s.id !== selectedStudent.id)}
+              open={open}
+              onClose={handleClose}
+            />
+          )}
         </div>
         {/* <select onChange={onChange}>
           {studentList.map((student) => {
@@ -99,35 +100,24 @@ const MainContent = ({
 const StudentCard = ({ student, onClick }) => {
   return (
     <React.Fragment>
-      <Card>
+      <Card style={{ borderRadius: "500px" }} variant="outlined">
         <CardActionArea onClick={onClick}>
-          <CardContent>
+          <CardContent style={{ padding: "15px" }}>
             <ListItem>
               <ListItemAvatar>
-                <ImageAvatar />
+                <ImageAvatar
+                  style={{ width: "60px", height: "60px", marginRight: "20px" }}
+                />
               </ListItemAvatar>
               <ListItemText>
-                <Typography variant="h5" color="textSecondary">
-                  {student.firstName + " " + student.lastName}
-                </Typography>
-              </ListItemText>
-            </ListItem>
-            {/* <Grid container spacing={2}>
-              <Grid item md={1}>
-                <center>
-                  <ImageAvatar style={{ width: 50, height: 50 }} />
-                </center>
-              </Grid>
-              <Grid item md={10}>
-                <Typography variant="h5" color="textSecondary">
+                <Typography variant="h6" color="textSecondary">
                   {student.firstName + " " + student.lastName}
                 </Typography>
                 <Typography color="textSecondary">
                   {student.className + " - " + student.section}
                 </Typography>
-              </Grid>
-              <Grid item md={1}></Grid>
-            </Grid> */}
+              </ListItemText>
+            </ListItem>
           </CardContent>
         </CardActionArea>
       </Card>
@@ -142,10 +132,10 @@ function showDropdownMenu(studentList) {
 }
 
 function SimpleDialog(props) {
-  const { onClose, selectedValue, open, students } = props;
+  const { onClose, open, students } = props;
 
   const handleClose = () => {
-    onClose(selectedValue);
+    onClose();
   };
 
   const handleListItemClick = (value) => {
@@ -153,12 +143,9 @@ function SimpleDialog(props) {
   };
 
   return (
-    <Dialog onClose={handleClose} open={open}>
+    <Dialog onClose={handleClose} open={open} fullWidth maxWidth="md">
       <DialogTitle>Select Child</DialogTitle>
-      {students.map((student) => {
-        return <StudentCard student={student} />;
-      })}
-      {/* <List>
+      <List>
         {students.map((student) => (
           <ListItem
             button
@@ -170,10 +157,17 @@ function SimpleDialog(props) {
                 <PersonIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={student.firstName} />
+            <ListItemText>
+              <Typography variant="h6" color="textSecondary">
+                {student.firstName + " " + student.lastName}
+              </Typography>
+              <Typography color="textSecondary">
+                {student.className + " - " + student.section}
+              </Typography>{" "}
+            </ListItemText>
           </ListItem>
         ))}
-      </List> */}
+      </List>
     </Dialog>
   );
 }
