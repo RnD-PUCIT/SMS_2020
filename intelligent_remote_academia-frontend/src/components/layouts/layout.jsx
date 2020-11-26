@@ -10,7 +10,7 @@ class Layout extends Component {
     studentList: null,
     selectedStudent: null,
     subjects: null,
-    showDropdown: false,
+    anchorEl: null,
   };
 
   async componentDidMount() {
@@ -50,8 +50,9 @@ class Layout extends Component {
               selectedStudent={this.state.selectedStudent}
               studentId={this.state.selectedStudent.id}
               classId={this.state.selectedStudent.classId}
-              showDropdown={this.state.showDropdown}
+              anchorEl={this.state.anchorEl}
               onChange={this.handleChange}
+              onClick={this.handleClick}
             />
           </Sidebar>
         </React.Fragment>
@@ -71,6 +72,11 @@ class Layout extends Component {
     const subjects = this.state.dashboardInfo.subjects[index];
 
     this.setState({ subjects, selectedStudent });
+  };
+
+  handleClick = (event) => {
+    const { anchorEl } = true;
+    this.setState({ anchorEl });
   };
 }
 

@@ -5,6 +5,10 @@ const useStyles = makeStyles({
     marginTop: "40px",
     padding: "40px 20px",
   },
+
+  menu: {
+    width: "1500px",
+  },
 });
 
 export { useStyles };

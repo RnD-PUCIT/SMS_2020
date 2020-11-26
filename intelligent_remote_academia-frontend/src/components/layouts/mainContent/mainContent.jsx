@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { Redirect, Route, Switch } from "react-router-dom";
 import {
   Card,
@@ -6,7 +8,15 @@ import {
   CardContent,
   Typography,
   Grid,
+  Dialog,
+  ListItemAvatar,
+  ListItem,
+  ListItemText,
+  List,
+  Avatar,
+  DialogTitle,
 } from "@material-ui/core";
+import PersonIcon from "@material-ui/icons/Person";
 import ImageAvatar from "@material-ui/core/Avatar";
 
 import Subjects from "../../pages/subjects/subjects";
@@ -22,21 +32,30 @@ const MainContent = ({
   selectedStudent,
   studentId,
   classId,
-  onChange,
-  showDropdown,
+  onClick,
 }) => {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
 
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+  };
   return (
     <main className="container">
       <div className={classes.container}>
-        <div style={{ padding: "0 40px" }}>
-          <StudentCard student={selectedStudent} />
-
-          {showDropdown &&
-            studentList.map((student) => {
-              return <StudentCard student={student} />;
-            })}
+        <div>
+          <StudentCard student={selectedStudent} onClick={handleClickOpen} />
+          <SimpleDialog
+            selectedValue={selectedStudent}
+            students={studentList}
+            open={open}
+            onClose={handleClose}
+          />
+          {/* {showDropdownMenu(studentList)} */}
         </div>
         {/* <select onChange={onChange}>
           {studentList.map((student) => {
@@ -77,13 +96,23 @@ const MainContent = ({
   );
 };
 
-const StudentCard = ({ student }) => {
+const StudentCard = ({ student, onClick }) => {
   return (
     <React.Fragment>
       <Card>
-        <CardActionArea>
+        <CardActionArea onClick={onClick}>
           <CardContent>
-            <Grid container spacing={2}>
+            <ListItem>
+              <ListItemAvatar>
+                <ImageAvatar />
+              </ListItemAvatar>
+              <ListItemText>
+                <Typography variant="h5" color="textSecondary">
+                  {student.firstName + " " + student.lastName}
+                </Typography>
+              </ListItemText>
+            </ListItem>
+            {/* <Grid container spacing={2}>
               <Grid item md={1}>
                 <center>
                   <ImageAvatar style={{ width: 50, height: 50 }} />
@@ -98,12 +127,61 @@ const StudentCard = ({ student }) => {
                 </Typography>
               </Grid>
               <Grid item md={1}></Grid>
-            </Grid>
+            </Grid> */}
           </CardContent>
         </CardActionArea>
       </Card>
     </React.Fragment>
   );
+};
+
+function showDropdownMenu(studentList) {
+  return studentList.map((student) => {
+    return <StudentCard student={student} />;
+  });
+}
+
+function SimpleDialog(props) {
+  const { onClose, selectedValue, open, students } = props;
+
+  const handleClose = () => {
+    onClose(selectedValue);
+  };
+
+  const handleListItemClick = (value) => {
+    onClose(value);
+  };
+
+  return (
+    <Dialog onClose={handleClose} open={open}>
+      <DialogTitle>Select Child</DialogTitle>
+      {students.map((student) => {
+        return <StudentCard student={student} />;
+      })}
+      {/* <List>
+        {students.map((student) => (
+          <ListItem
+            button
+            onClick={() => handleListItemClick(student)}
+            key={student.id}
+          >
+            <ListItemAvatar>
+              <Avatar>
+                <PersonIcon />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText primary={student.firstName} />
+          </ListItem>
+        ))}
+      </List> */}
+    </Dialog>
+  );
+}
+
+SimpleDialog.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
+  selectedValue: PropTypes.string.isRequired,
 };
 
 export default MainContent;
