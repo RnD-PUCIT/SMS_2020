@@ -58,15 +58,6 @@ const MainContent = ({
             />
           )}
         </div>
-        {/* <select onChange={onChange}>
-          {studentList.map((student) => {
-            return (
-              <option value={student.id} key={student.id}>
-                {student.firstName}
-              </option>
-            );
-          })}
-        </select> */}
         <Switch>
           <Route
             path="/subjects/:subjectSlug/:gradeTypeSlug"
@@ -124,12 +115,6 @@ const StudentCard = ({ student, onClick }) => {
     </React.Fragment>
   );
 };
-
-function showDropdownMenu(studentList) {
-  return studentList.map((student) => {
-    return <StudentCard student={student} />;
-  });
-}
 
 function SimpleDialog(props) {
   const { onClose, open, students } = props;
