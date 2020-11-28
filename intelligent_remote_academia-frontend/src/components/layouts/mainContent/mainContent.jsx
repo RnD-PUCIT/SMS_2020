@@ -7,6 +7,7 @@ import SubjectDetails from "../../pages/subjects/subjectDetails";
 import GradeDetails from "../../pages/subjects/gradeDetails";
 
 import { useStyles } from "../../constants/mainContentConsts";
+import FeeChallan from "../../pages/fee-challan/feeChallan";
 
 const MainContent = ({ subjects, studentId, classId }) => {
   const classes = useStyles();
@@ -34,6 +35,12 @@ const MainContent = ({ subjects, studentId, classId }) => {
             path="/attendance"
             render={() => (
               <Attendance studentId={studentId} classId={classId} />
+            )}
+          />
+          <Route
+            path="/challan"
+            render={() => (
+              <FeeChallan studentId={studentId} classId={classId} />
             )}
           />
           <Redirect from="/" to="/subjects" exact />

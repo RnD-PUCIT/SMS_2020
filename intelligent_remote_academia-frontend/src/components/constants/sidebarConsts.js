@@ -10,6 +10,10 @@ const sideBarLinks = [
     text: "Attendance",
     url: "/attendance",
   },
+  {
+    text: "Fee Challan",
+    url: "/challan",
+  },
 ];
 
 //Sidebar Css constants
