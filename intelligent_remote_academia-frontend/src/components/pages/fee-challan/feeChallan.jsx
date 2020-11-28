@@ -1,5 +1,6 @@
-import React, { Component, useRef } from "react";
+import React, { Component } from "react";
 import { Button, Divider, Grid, Paper, Typography } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 import ReactToPrint from "react-to-print";
 
 import useStyles from "../../../styles/feeChallanStyle";
@@ -16,16 +17,21 @@ class FeeChallan extends Component {
           Fee Challan Form
         </Typography>
         <div>
-          <ReactToPrint
-            trigger={() => {
-              return (
-                <Button variant="contained" color="primary">
-                  Print Challan
-                </Button>
-              );
-            }}
-            content={() => this.componentRef}
-          />
+          <div style={{ margin: "20px 0" }}>
+            {showFeeStatus(this.state.challan)}
+          </div>
+          <Grid justify="flex-end" container>
+            <ReactToPrint
+              trigger={() => {
+                return (
+                  <Button variant="contained" color="primary">
+                    Print Challan
+                  </Button>
+                );
+              }}
+              content={() => this.componentRef}
+            />
+          </Grid>
           <Form
             ref={(el) => (this.componentRef = el)}
             challan={this.state.challan}
@@ -62,40 +68,37 @@ const ChallanForm = ({ challan }) => {
 const ChallanHeader = ({ challan }) => {
   return (
     <React.Fragment>
-      <Grid container>
-        <Grid item xs={6}>
-          <Typography color="textSecondary">
-            <table width="100%">
-              <tbody>
-                <tr>
-                  <th>Challan #</th>
-                  <td>{challan.challanNo}</td>
-                </tr>
-                <tr>
-                  <th>Issue Date:</th>
-                  <td>{challan.issueDate}</td>
-                </tr>
-                <tr>
-                  <th>Billing Month:</th>
-                  <td>{challan.billingMonth}</td>
-                </tr>
-              </tbody>
-            </table>
-          </Typography>
+      <Typography>
+        <Grid container spacing={1}>
+          <Grid item md={6}>
+            <Grid container spacing={1}>
+              <Grid item md={4} xs={6}>
+                <strong>Challan #: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {challan.challanNo}
+              </Grid>
+              <Grid item md={4} xs={6}>
+                <strong>Issue Date: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {challan.issueDate}
+              </Grid>
+              <Grid item md={4} xs={6}>
+                <strong>Billing Month: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {challan.billingMonth}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={6} xs={12}>
+            <Alert severity="warning">
+              <strong>Due Date: </strong> {challan.dueDate}
+            </Alert>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography color="textSecondary">
-            <table width="100%">
-              <tbody>
-                <tr>
-                  <th>Due Date</th>
-                  <td>{challan.dueDate}</td>
-                </tr>
-              </tbody>
-            </table>
-          </Typography>
-        </Grid>
-      </Grid>
+      </Typography>
     </React.Fragment>
   );
 };
@@ -104,27 +107,41 @@ const StudentInfo = ({ challan }) => {
   const { student } = challan;
   return (
     <React.Fragment>
-      <Typography color="textSecondary">
-        <table>
-          <tbody>
-            <tr>
-              <th>Student Name:</th>
-              <td>{student.firstName + " " + student.lastName}</td>
-            </tr>
-            <tr>
-              <th>Roll #</th>
-              <td>{student.rollNo}</td>
-            </tr>
-            <tr>
-              <th>Class:</th>
-              <td>{student.className}</td>
-            </tr>
-            <tr>
-              <th>Section:</th>
-              <td>{student.section}</td>
-            </tr>
-          </tbody>
-        </table>
+      <Typography>
+        <Grid container spacing={1}>
+          <Grid item md={6}>
+            <Grid container spacing={1}>
+              <Grid item md={4} xs={6}>
+                <strong>Student Name: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {student.firstName + " " + student.lastName}
+              </Grid>
+              <Grid item md={4} xs={6}>
+                <strong>Roll #: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {student.rollNo}
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item md={6}>
+            <Grid container spacing={1}>
+              <Grid item md={4} xs={6}>
+                <strong>Class: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {student.className}
+              </Grid>
+              <Grid item md={4} xs={6}>
+                <strong>Section: </strong>
+              </Grid>
+              <Grid item md={8} xs={6}>
+                {student.section}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Typography>
     </React.Fragment>
   );
@@ -142,10 +159,10 @@ const Dues = ({ challan }) => {
   const tableHead = ["Sr. #", "Description", "Amount"];
   return (
     <React.Fragment>
-      <Typography color="textSecondary" align="center">
-        <strong>Total Fee: </strong> Rs. {totalAmount.toLocaleString()}
+      <Typography align="center">
+        <strong>Total Fee: </strong> Rs. {totalAmount.toLocaleString()}/-
       </Typography>
-      <Typography color="textSecondary">
+      <Typography style={{ margin: "10px 0" }}>
         <strong>Dues Description:</strong>
       </Typography>
       <TableSimple tableHead={tableHead} tableBody={dues} />
@@ -153,11 +170,36 @@ const Dues = ({ challan }) => {
   );
 };
 
+function showFeeStatus(challan) {
+  const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+  const dueDate = new Date(challan.dueDate);
+  const currentDate = new Date();
+
+  if (currentDate > dueDate) {
+    const noOfDays = Math.round(Math.abs((currentDate - dueDate) / oneDay));
+    return (
+      <Alert severity="error">
+        Fee is Overdue <strong>{noOfDays} days</strong>! Kindly clear all the
+        dues as soon as possible to avoid fine.
+      </Alert>
+    );
+  } else if (dueDate > currentDate) {
+    const noOfDays = Math.round(Math.abs((dueDate - currentDate) / oneDay));
+    return (
+      <Alert severity="info">
+        You have
+        <strong> {noOfDays} days </strong> to submit all the dues. Kindly clear
+        them at your earliest to avoid any fine.
+      </Alert>
+    );
+  }
+}
+
 const challanConst = {
   challanNo: "881236-123",
   issueDate: "28/11/2020",
   billingMonth: "November",
-  dueDate: "10/12/2020",
+  dueDate: "12/12/2020",
 
   student: {
     firstName: "Shahid",

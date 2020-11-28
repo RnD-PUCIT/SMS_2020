@@ -10,6 +10,9 @@ const useStyles = makeStyles({
   divider: {
     margin: "20px 0",
   },
+  column: {
+    marginRight: "15px",
+  },
 });
 
 export default useStyles;
