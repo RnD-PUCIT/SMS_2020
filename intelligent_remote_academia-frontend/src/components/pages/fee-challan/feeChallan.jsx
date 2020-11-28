@@ -1,5 +1,6 @@
-import React, { Component } from "react";
-import { Divider, Grid, Paper, Typography } from "@material-ui/core";
+import React, { Component, useRef } from "react";
+import { Button, Divider, Grid, Paper, Typography } from "@material-ui/core";
+import ReactToPrint from "react-to-print";
 
 import useStyles from "../../../styles/feeChallanStyle";
 import TableSimple from "../../common/tables/tableSimple";
@@ -9,7 +10,35 @@ class FeeChallan extends Component {
     challan: challanConst,
   };
   render() {
-    return <ChallanForm challan={this.state.challan} />;
+    return (
+      <React.Fragment>
+        <Typography variant="h5" align="center">
+          Fee Challan Form
+        </Typography>
+        <div>
+          <ReactToPrint
+            trigger={() => {
+              return (
+                <Button variant="contained" color="primary">
+                  Print Challan
+                </Button>
+              );
+            }}
+            content={() => this.componentRef}
+          />
+          <Form
+            ref={(el) => (this.componentRef = el)}
+            challan={this.state.challan}
+          />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
+
+class Form extends Component {
+  render() {
+    return <ChallanForm challan={this.props.challan} />;
   }
 }
 
@@ -17,9 +46,6 @@ const ChallanForm = ({ challan }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Typography variant="h5" align="center">
-        Fee Challan Form
-      </Typography>
       <div className={classes.root}>
         <Paper variant="outlined" className={classes.paper}>
           <ChallanHeader challan={challan} />
