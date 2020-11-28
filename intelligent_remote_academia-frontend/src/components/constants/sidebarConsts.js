@@ -11,7 +11,7 @@ const sideBarLinks = [
     url: "/attendance",
   },
   {
-    text: "Fee Challan",
+    text: "Fee Challan Form",
     url: "/challan",
   },
 ];
