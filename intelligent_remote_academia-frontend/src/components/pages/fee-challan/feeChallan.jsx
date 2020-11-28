@@ -1,10 +1,21 @@
 import React, { Component } from "react";
-import { Button, Divider, Grid, Paper, Typography } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 import ReactToPrint from "react-to-print";
 
 import useStyles from "../../../styles/feeChallanStyle";
-import TableSimple from "../../common/tables/tableSimple";
 
 class FeeChallan extends Component {
   state = {
@@ -68,37 +79,43 @@ const ChallanForm = ({ challan }) => {
 const ChallanHeader = ({ challan }) => {
   return (
     <React.Fragment>
-      <Typography>
-        <Grid container spacing={1}>
-          <Grid item md={6}>
-            <Grid container spacing={1}>
-              <Grid item md={4} xs={6}>
+      <Grid container spacing={1}>
+        <Grid item md={6}>
+          <Grid container spacing={1}>
+            <Grid item md={4} xs={6}>
+              <Typography>
                 <strong>Challan #: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {challan.challanNo}
-              </Grid>
-              <Grid item md={4} xs={6}>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{challan.challanNo}</Typography>
+            </Grid>
+            <Grid item md={4} xs={6}>
+              <Typography>
                 <strong>Issue Date: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {challan.issueDate}
-              </Grid>
-              <Grid item md={4} xs={6}>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{challan.issueDate}</Typography>
+            </Grid>
+            <Grid item md={4} xs={6}>
+              <Typography>
                 <strong>Billing Month: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {challan.billingMonth}
-              </Grid>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{challan.billingMonth}</Typography>
             </Grid>
           </Grid>
-          <Grid item md={6} xs={12}>
-            <Alert severity="warning">
-              <strong>Due Date: </strong> {challan.dueDate}
-            </Alert>
-          </Grid>
         </Grid>
-      </Typography>
+        <Grid item md={6} xs={12}>
+          <Alert severity="warning">
+            <Typography>
+              <strong>Due Date: </strong> {challan.dueDate}
+            </Typography>
+          </Alert>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
@@ -107,47 +124,56 @@ const StudentInfo = ({ challan }) => {
   const { student } = challan;
   return (
     <React.Fragment>
-      <Typography>
-        <Grid container spacing={1}>
-          <Grid item md={6}>
-            <Grid container spacing={1}>
-              <Grid item md={4} xs={6}>
+      <Grid container spacing={1}>
+        <Grid item md={6}>
+          <Grid container spacing={1}>
+            <Grid item md={4} xs={6}>
+              <Typography>
                 <strong>Student Name: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {student.firstName + " " + student.lastName}
-              </Grid>
-              <Grid item md={4} xs={6}>
-                <strong>Roll #: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {student.rollNo}
-              </Grid>
+              </Typography>
             </Grid>
-          </Grid>
-          <Grid item md={6}>
-            <Grid container spacing={1}>
-              <Grid item md={4} xs={6}>
-                <strong>Class: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {student.className}
-              </Grid>
-              <Grid item md={4} xs={6}>
-                <strong>Section: </strong>
-              </Grid>
-              <Grid item md={8} xs={6}>
-                {student.section}
-              </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>
+                {student.firstName + " " + student.lastName}
+              </Typography>
+            </Grid>
+            <Grid item md={4} xs={6}>
+              <Typography>
+                <strong>Roll #: </strong>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{student.rollNo}</Typography>
             </Grid>
           </Grid>
         </Grid>
-      </Typography>
+        <Grid item md={6}>
+          <Grid container spacing={1}>
+            <Grid item md={4} xs={6}>
+              <Typography>
+                <strong>Class: </strong>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{student.className}</Typography>
+            </Grid>
+            <Grid item md={4} xs={6}>
+              <Typography>
+                <strong>Section: </strong>
+              </Typography>
+            </Grid>
+            <Grid item md={8} xs={6}>
+              <Typography>{student.section}</Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
 
 const Dues = ({ challan }) => {
+  const classes = useStyles();
   const { dues } = challan;
 
   // Calculate Total Fee
@@ -160,12 +186,50 @@ const Dues = ({ challan }) => {
   return (
     <React.Fragment>
       <Typography align="center">
-        <strong>Total Fee: </strong> Rs. {totalAmount.toLocaleString()}/-
+        <span className={classes.highlight}>
+          <strong>Total Payable Fee: </strong> Rs.
+          {" " + totalAmount.toLocaleString()}/-
+        </span>
       </Typography>
       <Typography style={{ margin: "10px 0" }}>
         <strong>Dues Description:</strong>
       </Typography>
-      <TableSimple tableHead={tableHead} tableBody={dues} />
+      {/* DUES TABLE */}
+      <Paper variant="outlined">
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                {tableHead.map((cell, index) => {
+                  return (
+                    <TableCell key={index}>
+                      <strong>{cell}</strong>
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {dues.map((charge, index) => (
+                <TableRow key={charge.chargeId}>
+                  <TableCell component="th" scope="row">
+                    {++index}
+                  </TableCell>
+                  <TableCell>{charge.chargeName}</TableCell>
+                  <TableCell>{charge.amount}/-</TableCell>
+                </TableRow>
+              ))}
+              <TableRow>
+                <TableCell colSpan={2}></TableCell>
+                <TableCell>
+                  <strong>Total Amount: </strong> Rs.
+                  {" " + totalAmount.toLocaleString()}/-
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </React.Fragment>
   );
 };

@@ -13,6 +13,11 @@ const useStyles = makeStyles({
   column: {
     marginRight: "15px",
   },
+  highlight: {
+    padding: "10px 20px",
+    backgroundColor: "#e0e0e0",
+    borderRadius: "3px",
+  },
 });
 
 export default useStyles;
