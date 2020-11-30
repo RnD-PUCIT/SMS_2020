@@ -16,10 +16,13 @@ import { Alert } from "@material-ui/lab";
 import ReactToPrint from "react-to-print";
 
 import useStyles from "../../../styles/feeChallanStyle";
+import "./feeChallan.css";
 
 class FeeChallan extends Component {
   state = {
     challan: challanConst,
+    institution: institutionConst,
+    instructions: instructionsConst,
   };
   render() {
     return (
@@ -46,6 +49,8 @@ class FeeChallan extends Component {
           <Form
             ref={(el) => (this.componentRef = el)}
             challan={this.state.challan}
+            institution={this.state.institution}
+            instructions={this.state.instructions}
           />
         </div>
       </React.Fragment>
@@ -55,68 +60,98 @@ class FeeChallan extends Component {
 
 class Form extends Component {
   render() {
-    return <ChallanForm challan={this.props.challan} />;
+    return (
+      <ChallanForm
+        challan={this.props.challan}
+        institution={this.props.institution}
+        instructions={this.props.instructions}
+      />
+    );
   }
 }
 
-const ChallanForm = ({ challan }) => {
+const ChallanForm = ({ challan, institution, instructions }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <div className={classes.root}>
         <Paper variant="outlined" className={classes.paper}>
-          <ChallanHeader challan={challan} />
+          <ChallanHeader challan={challan} institution={institution} />
           <Divider className={classes.divider} />
           <StudentInfo challan={challan} />
           <Divider className={classes.divider} />
           <Dues challan={challan} />
+          <Instructions instructions={instructions} />
         </Paper>
       </div>
     </React.Fragment>
   );
 };
 
-const ChallanHeader = ({ challan }) => {
+const ChallanHeader = ({ challan, institution }) => {
   return (
     <React.Fragment>
-      <Grid container spacing={1}>
-        <Grid item md={6}>
-          <Grid container spacing={1}>
-            <Grid item md={4} xs={6}>
-              <Typography>
-                <strong>Challan #: </strong>
-              </Typography>
-            </Grid>
-            <Grid item md={8} xs={6}>
-              <Typography>{challan.challanNo}</Typography>
-            </Grid>
-            <Grid item md={4} xs={6}>
-              <Typography>
-                <strong>Issue Date: </strong>
-              </Typography>
-            </Grid>
-            <Grid item md={8} xs={6}>
-              <Typography>{challan.issueDate}</Typography>
-            </Grid>
-            <Grid item md={4} xs={6}>
-              <Typography>
-                <strong>Billing Month: </strong>
-              </Typography>
-            </Grid>
-            <Grid item md={8} xs={6}>
-              <Typography>{challan.billingMonth}</Typography>
-            </Grid>
+      <InstituteInfo institution={institution} />
+      <ChallanInfo challan={challan} />
+    </React.Fragment>
+  );
+};
+
+const InstituteInfo = ({ institution }) => {
+  const classes = useStyles();
+  return (
+    <React.Fragment>
+      <div className="print-source">
+        <div className={classes.center}>
+          <Typography variant="h5">{institution.name}</Typography>
+          <Typography>{institution.address}</Typography>
+          <Typography variant="h6">{institution.bankName}</Typography>
+          <Divider className={classes.divider} />
+        </div>
+      </div>
+    </React.Fragment>
+  );
+};
+
+const ChallanInfo = ({ challan }) => {
+  return (
+    <Grid container spacing={1}>
+      <Grid item md={6}>
+        <Grid container spacing={1}>
+          <Grid item md={4} xs={6}>
+            <Typography>
+              <strong>Challan #: </strong>
+            </Typography>
+          </Grid>
+          <Grid item md={8} xs={6}>
+            <Typography>{challan.challanNo}</Typography>
+          </Grid>
+          <Grid item md={4} xs={6}>
+            <Typography>
+              <strong>Issue Date: </strong>
+            </Typography>
+          </Grid>
+          <Grid item md={8} xs={6}>
+            <Typography>{challan.issueDate}</Typography>
+          </Grid>
+          <Grid item md={4} xs={6}>
+            <Typography>
+              <strong>Billing Month: </strong>
+            </Typography>
+          </Grid>
+          <Grid item md={8} xs={6}>
+            <Typography>{challan.billingMonth}</Typography>
           </Grid>
         </Grid>
-        <Grid item md={6} xs={12}>
-          <Alert severity="warning">
-            <Typography>
-              <strong>Due Date: </strong> {challan.dueDate}
-            </Typography>
-          </Alert>
-        </Grid>
       </Grid>
-    </React.Fragment>
+      <Grid item md={6} xs={12}>
+        <Alert severity="warning">
+          <Typography>
+            <strong>Due Date: </strong> {challan.dueDate}
+          </Typography>
+        </Alert>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -270,6 +305,29 @@ function showFeeStatus(challan) {
   }
 }
 
+const Instructions = ({ instructions }) => {
+  const classes = useStyles();
+  if (instructions && instructions.length > 0) {
+    return (
+      <React.Fragment>
+        <div className="print-source">
+          <div className={classes.margin}>
+            <Typography variant="h6" style={{ textDecoration: "underline" }}>
+              Instructions:
+            </Typography>
+            <ul>
+              {instructions.map((item) => {
+                return <li>{item}</li>;
+              })}
+            </ul>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+  return null;
+};
+
 const challanConst = {
   challanNo: "881236-123",
   issueDate: "28/11/2020",
@@ -291,5 +349,21 @@ const challanConst = {
     { chargeId: 3, chargeName: "Library Charges", amount: 300 },
   ],
 };
+
+const institutionConst = {
+  name: "The Intelli School",
+  address: "PUCIT Old Campus, Lahore, Pakistan",
+  bankName: "Habib Bank Limited",
+};
+
+const instructionsConst = [
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
+];
 
 export default FeeChallan;

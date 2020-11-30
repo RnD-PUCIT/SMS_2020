@@ -18,6 +18,12 @@ const useStyles = makeStyles({
     backgroundColor: "#e0e0e0",
     borderRadius: "3px",
   },
+  center: {
+    textAlign: "center",
+  },
+  margin: {
+    margin: "20px 0",
+  },
 });
 
 export default useStyles;
