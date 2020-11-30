@@ -1,26 +1,26 @@
-import React, { Component } from "react";
-import { Button, Grid, Paper, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { Component } from 'react';
+import { Button, Grid, Paper, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 
-import { getMonths, getDays, getWeeks } from "../../constants/calendarConsts";
-import AlertDescriptive from "../../common/alerts/alertDescriptive";
+import { getMonths, getDays, getWeeks } from '../../constants/calendarConsts';
+import AlertDescriptive from '../../common/alerts/alertDescriptive';
 
 const useStyles = makeStyles({
   paper: {
-    marginTop: "30px",
+    marginTop: '30px',
   },
   paperBody: {
-    padding: "20px 30px",
+    padding: '20px 30px',
   },
   toolbar: {
-    backgroundColor: "#2875c7",
-    borderTopLeftRadius: "4px",
-    borderTopRightRadius: "4px",
-    color: "white",
-    padding: "5px 20px",
+    backgroundColor: '#2875c7',
+    borderTopLeftRadius: '4px',
+    borderTopRightRadius: '4px',
+    color: 'white',
+    padding: '5px 20px',
   },
   selectDropdown: {
-    padding: "8px 10px",
+    padding: '8px 10px',
   },
 });
 
@@ -53,7 +53,9 @@ class Diary extends Component {
           const week = Math.floor(diaryDate.getDate() / 7);
           const day = diaryDate.getDay();
           return (
-            week == selectedWeek && month == selectedMonth && day == selectedDay
+            week === selectedWeek &&
+            month === selectedMonth &&
+            day === selectedDay
           );
         });
       } else {
@@ -72,13 +74,13 @@ class Diary extends Component {
       let diary = [...this.state.allDiary];
       let { isWeekSelected } = this.state;
 
-      if (selectedWeek != 0) {
+      if (selectedWeek !== 0) {
         // Filter the contnet of diary according to the month selected.
         diary = diary.filter((d) => {
           const diaryDate = new Date(d.diaryDate);
           const month = diaryDate.getMonth() + 1;
           const week = Math.floor(diaryDate.getDate() / 7);
-          return week == selectedWeek && month == selectedMonth;
+          return week === selectedWeek && month === selectedMonth;
         });
         isWeekSelected = true;
       } else {
@@ -97,12 +99,12 @@ class Diary extends Component {
       let diary = [...this.state.allDiary];
       let { isMonthSelected } = this.state;
 
-      if (selectedMonth != 0) {
+      if (selectedMonth !== 0) {
         // Filter the contnet of diary according to the month selected.
         diary = diary.filter((d) => {
           const diaryDate = new Date(d.diaryDate);
           const month = diaryDate.getMonth() + 1;
-          return month == selectedMonth;
+          return month === selectedMonth;
         });
         isMonthSelected = true;
       } else {
@@ -139,14 +141,13 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
   const weeks = getWeeks();
   const classes = useStyles();
   return (
-    <Grid container spacing={1} justify="flex-end">
+    <Grid container spacing={1} justify='flex-end'>
       <Grid item>
         <select
           className={classes.selectDropdown}
           onChange={onWeekChange}
-          disabled={!disableWeek}
-        >
-          <option value="0">Select Week</option>
+          disabled={!disableWeek}>
+          <option value='0'>Select Week</option>
           {weeks.map((week) => {
             return (
               <option key={week.id} value={week.id}>
@@ -158,7 +159,7 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
       </Grid>
       <Grid item>
         <select className={classes.selectDropdown} onChange={onMonthChange}>
-          <option value="0">Select Month</option>
+          <option value='0'>Select Month</option>
           {months.map((month) => {
             return (
               <option key={month.id} value={month.id}>
@@ -175,13 +176,12 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
 const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
   const days = getDays();
   return (
-    <Grid container spacing={1} justify="center" style={{ margin: "20px 0" }}>
+    <Grid container spacing={1} justify='center' style={{ margin: '20px 0' }}>
       <Grid item>
         <Button
-          color="primary"
-          variant={selectedDay === 0 ? "contained" : "outlined"}
-          onClick={() => onDayChange(0)}
-        >
+          color='primary'
+          variant={selectedDay === 0 ? 'contained' : 'outlined'}
+          onClick={() => onDayChange(0)}>
           All
         </Button>
       </Grid>
@@ -189,12 +189,11 @@ const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
         return (
           <Grid item key={day.id}>
             <Button
-              variant="outlined"
+              // variant='outlined'
               disabled={!disableDays}
-              color="primary"
-              variant={selectedDay === day.id ? "contained" : "outlined"}
-              onClick={() => onDayChange(day.id)}
-            >
+              color='primary'
+              variant={selectedDay === day.id ? 'contained' : 'outlined'}
+              onClick={() => onDayChange(day.id)}>
               {day.name}
             </Button>
           </Grid>
@@ -214,12 +213,12 @@ const DiaryContent = ({ diary }) => {
           return (
             <Paper className={classes.paper} key={item.id}>
               {/* Toolbar Starts */}
-              <div className={classes.toolbar} variant="dense">
-                <Typography variant="h6">
+              <div className={classes.toolbar} variant='dense'>
+                <Typography variant='h6'>
                   {months[diaryDate.getMonth()].name +
-                    " " +
+                    ' ' +
                     diaryDate.getDate() +
-                    ", " +
+                    ', ' +
                     diaryDate.getFullYear()}
                 </Typography>
               </div>
@@ -236,9 +235,9 @@ const DiaryContent = ({ diary }) => {
   }
   return (
     <AlertDescriptive
-      severity="error"
-      title="No Diary Content Found"
-      description="Oops! Looks like no diary is found of the selected day. Enjoy the relaxation!!"
+      severity='error'
+      title='No Diary Content Found'
+      description='Oops! Looks like no diary is found of the selected day. Enjoy the relaxation!!'
     />
   );
 };

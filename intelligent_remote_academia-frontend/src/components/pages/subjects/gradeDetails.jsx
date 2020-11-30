@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Button, Grid, Paper } from "@material-ui/core";
+import React, { Component } from 'react';
+import { Button, Grid, Paper } from '@material-ui/core';
 
-import GradesGraphical from "./gradesGraphical";
-import GradesTimeline from "./gradesTimeline";
+import GradesGraphical from './gradesGraphical';
+import GradesTimeline from './gradesTimeline';
 
-import "./gradeDetails.css";
+import './gradeDetails.css';
 
-import http from "../../../services/httpService";
-import AlertDescriptive from "../../common/alerts/alertDescriptive";
+import http from '../../../services/httpService';
+import AlertDescriptive from '../../common/alerts/alertDescriptive';
 
 class GradeDetails extends Component {
   state = { grades: null, viewType: 0 };
@@ -19,16 +19,16 @@ class GradeDetails extends Component {
 
     try {
       // Send ajax call to server
-        const { data } = await http.get(`${url}`);
-        const { grades } = data;
+      const { data } = await http.get(`${url}`);
+      const { grades } = data;
 
-        // Save grades in the satate
-        this.setState({ grades });
+      // Save grades in the state
+      this.setState({ grades });
     } catch (ex) {
-      if(ex.response && ex.response.status === 401){
-        window.location = "/notFound";
+      if (ex.response && ex.response.status === 401) {
+        window.location = '/notFound';
+      }
     }
-  }
   }
 
   render() {
@@ -50,9 +50,8 @@ class GradeDetails extends Component {
             viewType={this.state.viewType}
           />
           <Paper
-            variant="outlined"
-            style={{ backgroundColor: "rgb(227, 227, 227)" }}
-          >
+            variant='outlined'
+            style={{ backgroundColor: 'rgb(227, 227, 227)' }}>
             <GradeData grades={grades} viewType={this.state.viewType} />
           </Paper>
         </React.Fragment>
@@ -60,9 +59,9 @@ class GradeDetails extends Component {
     } else if (grades) {
       return (
         <AlertDescriptive
-          severity="error"
-          title="Grade Data Not Found"
-          description="Looks like there is no data added for this assesment. Stay Tuned!"
+          severity='error'
+          title='Grade Data Not Found'
+          description='Looks like there is no data added for this assesment. Stay Tuned!'
         />
       );
     }
@@ -80,25 +79,22 @@ const GradeFilterButtons = ({
     <React.Fragment>
       <Grid
         container
-        justify="flex-end"
+        justify='flex-end'
         spacing={1}
-        style={{ margin: "20px 0" }}
-      >
+        style={{ margin: '20px 0' }}>
         <Grid item>
           <Button
-            color="primary"
-            variant={viewType === 0 ? "contained" : "outlined"}
-            onClick={onTimelineClick}
-          >
+            color='primary'
+            variant={viewType === 0 ? 'contained' : 'outlined'}
+            onClick={onTimelineClick}>
             Timeline View
           </Button>
         </Grid>
         <Grid item>
           <Button
-            color="primary"
-            variant={viewType === 1 ? "contained" : "outlined"}
-            onClick={onGraphicalClick}
-          >
+            color='primary'
+            variant={viewType === 1 ? 'contained' : 'outlined'}
+            onClick={onGraphicalClick}>
             Graphical View
           </Button>
         </Grid>

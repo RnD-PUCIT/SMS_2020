@@ -11,6 +11,6 @@ namespace IRAAPI.DAL
         {
             AplicationStartupPath = applicationPath;
         }
-        public static string conStr = @"server=DESKTOP-3OD19GS\SQLEXPRESS;database=IRA_API;Integrated Security=SSPI;";
+        public static string conStr = @"server=DESKTOP-N6KSGAQ\SQLEXPRESS;database=IRA_API;Integrated Security=SSPI;";
     }
 }

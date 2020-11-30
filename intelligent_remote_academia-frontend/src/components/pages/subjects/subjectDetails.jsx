@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Tabs from "../../common/tabs/tabs";
 
-import subjectTabs from "../../constants/tabsConsts";
+import {subjectTabs} from "../../constants/tabsConsts";
 import TextCard from "../../common/cards/textCard";
 
 import http from "../../../services/httpService";
