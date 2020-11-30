@@ -182,6 +182,9 @@ const Dues = ({ challan }) => {
     totalAmount += dues[i].amount;
   }
 
+  const numberToWord = require("number-to-words");
+  const totalInWords = numberToWord.toWords(totalAmount);
+
   const tableHead = ["Sr. #", "Description", "Amount"];
   return (
     <React.Fragment>
@@ -220,10 +223,18 @@ const Dues = ({ challan }) => {
                 </TableRow>
               ))}
               <TableRow>
-                <TableCell colSpan={2}></TableCell>
-                <TableCell>
-                  <strong>Total Amount: </strong> Rs.
-                  {" " + totalAmount.toLocaleString()}/-
+                <TableCell colSpan={1}></TableCell>
+                <TableCell style={{ fontSize: "18px" }}>
+                  <strong>Total Amount: </strong>
+                </TableCell>
+                <TableCell style={{ fontSize: "18px" }}>
+                  <strong>Rs. {totalAmount.toLocaleString()}/-</strong>{" "}
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell colSpan={3} style={{ fontSize: "16px" }}>
+                  <strong>Total Amount in Words:</strong> Rs. {totalInWords}{" "}
+                  only
                 </TableCell>
               </TableRow>
             </TableBody>
