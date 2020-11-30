@@ -10,10 +10,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
+using IRAAPI.Models;
 
 namespace IRAAPI.Controllers
 {
-
     [ApiController]
     [Route("account")]
     public class AccountController : ControllerBase
@@ -23,20 +23,52 @@ namespace IRAAPI.Controllers
         {
             string cnic = HttpContext.Request.Form["cnic"];
             string password = HttpContext.Request.Form["password"];
-            int parentId = new ParentBLL().VerifyParent(cnic, password);
+            bool passwordVerified = false;
+
+            using IRAAPIContext context = new IRAAPIContext();
+
+            try
+            {
+                var parentData = context.ParentLogins.Where(a => a.Cnic == cnic).SingleOrDefault();
+                if (parentData != null)
+                {
+                    passwordVerified = BCrypt.Net.BCrypt.Verify(password, parentData.Password);
+                    if (passwordVerified)
+                    {
+                        return getToken(parentData.Id);
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid Credentials");
+                    }
+                }
+                else
+                {
+                    return BadRequest("User Not Registered");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
             
-            if ( parentId == -1)
-            {
-                return BadRequest("Invalid Credentials");
-            }
-            else if (parentId == -2)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return getToken(parentId);
-            }            
+            
+            //int parentId = new ParentBLL().VerifyParent(cnic, password);
+            
+            //if ( parentId == -1)
+            //{
+            //    return BadRequest("Invalid Credentials");
+
+            //}
+            //else if (parentId == -2)
+            //{
+            //    return NotFound();
+            //}
+            //else
+            //{
+            //    return getToken(parentId);
+            //}            
         }
 
         [NonAction]
