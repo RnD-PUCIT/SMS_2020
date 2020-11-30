@@ -248,28 +248,33 @@ const Dues = ({ challan }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dues.map((charge, index) => (
-                <TableRow key={charge.chargeId}>
-                  <TableCell component="th" scope="row">
-                    {++index}
-                  </TableCell>
-                  <TableCell>{charge.chargeName}</TableCell>
-                  <TableCell>{charge.amount}/-</TableCell>
-                </TableRow>
-              ))}
+              {dues.map((charge, index) => {
+                const amount = charge.amount;
+                return (
+                  <TableRow key={charge.chargeId}>
+                    <TableCell component="th" scope="row">
+                      {++index}
+                    </TableCell>
+                    <TableCell>{charge.chargeName}</TableCell>
+                    <TableCell>{amount.toLocaleString()}/-</TableCell>
+                  </TableRow>
+                );
+              })}
               <TableRow>
                 <TableCell colSpan={1}></TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
                   <strong>Total Amount: </strong>
                 </TableCell>
                 <TableCell style={{ fontSize: "18px" }}>
-                  <strong>Rs. {totalAmount.toLocaleString()}/-</strong>{" "}
+                  <strong>Rs. {totalAmount.toLocaleString()}/-</strong>
                 </TableCell>
               </TableRow>
               <TableRow>
                 <TableCell colSpan={3} style={{ fontSize: "16px" }}>
-                  <strong>Total Amount in Words:</strong> Rs. {totalInWords}{" "}
-                  only
+                  <strong>Total Amount in Words: </strong>
+                  <span style={{ textTransform: "capitalize" }}>
+                    Rs. {totalInWords} only
+                  </span>
                 </TableCell>
               </TableRow>
             </TableBody>
@@ -278,6 +283,29 @@ const Dues = ({ challan }) => {
       </Paper>
     </React.Fragment>
   );
+};
+
+const Instructions = ({ instructions }) => {
+  const classes = useStyles();
+  if (instructions && instructions.length > 0) {
+    return (
+      <React.Fragment>
+        <div className="print-source">
+          <div className={classes.margin}>
+            <Typography variant="h6" style={{ textDecoration: "underline" }}>
+              Instructions:
+            </Typography>
+            <ul>
+              {instructions.map((item) => {
+                return <li>{item}</li>;
+              })}
+            </ul>
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  }
+  return null;
 };
 
 function showFeeStatus(challan) {
@@ -304,29 +332,6 @@ function showFeeStatus(challan) {
     );
   }
 }
-
-const Instructions = ({ instructions }) => {
-  const classes = useStyles();
-  if (instructions && instructions.length > 0) {
-    return (
-      <React.Fragment>
-        <div className="print-source">
-          <div className={classes.margin}>
-            <Typography variant="h6" style={{ textDecoration: "underline" }}>
-              Instructions:
-            </Typography>
-            <ul>
-              {instructions.map((item) => {
-                return <li>{item}</li>;
-              })}
-            </ul>
-          </div>
-        </div>
-      </React.Fragment>
-    );
-  }
-  return null;
-};
 
 const challanConst = {
   challanNo: "881236-123",
