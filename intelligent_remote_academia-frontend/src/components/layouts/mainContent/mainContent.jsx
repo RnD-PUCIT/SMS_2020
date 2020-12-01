@@ -22,8 +22,10 @@ import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
 import SubjectDetails from "../../pages/subjects/subjectDetails";
 import GradeDetails from "../../pages/subjects/gradeDetails";
+import Announcements from "../../pages/announcements/announcements";
 
 import { useStyles } from "../../constants/mainContentConsts";
+import FeeChallan from "../../pages/fee-challan/feeChallan";
 
 const MainContent = ({
   subjects,
@@ -64,6 +66,8 @@ const MainContent = ({
             component={GradeDetails}
           />
           <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
+          <Route path="/announcements" component={Announcements} />
+
           {/* Sending subjects array as a prop to Subject component */}
           <Route
             path="/subjects"
@@ -79,6 +83,12 @@ const MainContent = ({
             path="/attendance"
             render={() => (
               <Attendance studentId={studentId} classId={classId} />
+            )}
+          />
+          <Route
+            path="/challan"
+            render={() => (
+              <FeeChallan studentId={studentId} classId={classId} />
             )}
           />
           <Redirect from="/" to="/subjects" exact />
