@@ -17,10 +17,15 @@ class Layout extends Component {
       // Get parent personal info from the service
       const { data } = await http.get(`/subjects`);
 
+      // Get selected student's index from browsers local storage
+      let index = localStorage.getItem("selectedChildIndex");
+
+      if (!index) index = 0;
+
       const { dashboard: dashboardInfo } = data;
       const studentList = dashboardInfo.students;
-      const subjects = dashboardInfo.subjects[0];
-      const selectedStudent = dashboardInfo.students[0];
+      const subjects = dashboardInfo.subjects[index];
+      const selectedStudent = dashboardInfo.students[index];
 
       this.setState({
         dashboardInfo,
@@ -70,6 +75,12 @@ class Layout extends Component {
       const subjects = this.state.dashboardInfo.subjects[index];
 
       this.setState({ subjects, selectedStudent });
+
+      /* 
+      Add selected index to browser's local storage
+      to maintain the selected student on page refresh.
+      */
+      localStorage.setItem("selectedChildIndex", index);
     }
   };
 }
