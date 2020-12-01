@@ -1,22 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { Redirect, Route, Switch } from "react-router-dom";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  Typography,
-  Dialog,
-  ListItemAvatar,
-  ListItem,
-  ListItemText,
-  List,
-  Avatar,
-  DialogTitle,
-} from "@material-ui/core";
-import PersonIcon from "@material-ui/icons/Person";
-import ImageAvatar from "@material-ui/core/Avatar";
 
 import Subjects from "../../pages/subjects/subjects";
 import Attendance from "../../pages/attendance/attendance";
@@ -26,6 +10,7 @@ import Announcements from "../../pages/announcements/announcements";
 
 import { useStyles } from "../../constants/mainContentConsts";
 import FeeChallan from "../../pages/fee-challan/feeChallan";
+import StudentDropdown from "../../studentDropdown/studentDropdown";
 
 const MainContent = ({
   subjects,
@@ -36,59 +21,68 @@ const MainContent = ({
   onClick,
 }) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (value) => {
-    onClick(value);
-    setOpen(false);
-  };
   return (
     <main className="container">
       <div className={classes.container}>
-        <div>
-          <StudentCard student={selectedStudent} onClick={handleClickOpen} />
-          {studentList.length > 1 && (
-            <SimpleDialog
-              selectedValue={selectedStudent.firstName}
-              students={studentList.filter((s) => s.id !== selectedStudent.id)}
-              open={open}
-              onClose={handleClose}
-            />
-          )}
-        </div>
         <Switch>
           <Route
             path="/subjects/:subjectSlug/:gradeTypeSlug"
             component={GradeDetails}
           />
           <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
-          <Route path="/announcements" component={Announcements} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
             path="/subjects"
             render={() => (
-              <Subjects
-                subjects={subjects}
-                studentId={studentId}
-                classId={classId}
-              />
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <Subjects
+                  subjects={subjects}
+                  studentId={studentId}
+                  classId={classId}
+                />
+              </StudentDropdown>
             )}
           />
           <Route
             path="/attendance"
             render={() => (
-              <Attendance studentId={studentId} classId={classId} />
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <Attendance studentId={studentId} classId={classId} />
+              </StudentDropdown>
+            )}
+          />
+          <Route
+            path="/announcements"
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <Announcements />
+              </StudentDropdown>
             )}
           />
           <Route
             path="/challan"
             render={() => (
-              <FeeChallan studentId={studentId} classId={classId} />
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <FeeChallan studentId={studentId} classId={classId} />
+              </StudentDropdown>
             )}
           />
           <Redirect from="/" to="/subjects" exact />
@@ -96,81 +90,6 @@ const MainContent = ({
       </div>
     </main>
   );
-};
-
-const StudentCard = ({ student, onClick }) => {
-  return (
-    <React.Fragment>
-      <Card style={{ borderRadius: "500px" }} variant="outlined">
-        <CardActionArea onClick={onClick}>
-          <CardContent style={{ padding: "15px" }}>
-            <ListItem>
-              <ListItemAvatar>
-                <ImageAvatar
-                  style={{ width: "60px", height: "60px", marginRight: "20px" }}
-                />
-              </ListItemAvatar>
-              <ListItemText>
-                <Typography variant="h6" color="textSecondary">
-                  {student.firstName + " " + student.lastName}
-                </Typography>
-                <Typography color="textSecondary">
-                  {student.className + " - " + student.section}
-                </Typography>
-              </ListItemText>
-            </ListItem>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    </React.Fragment>
-  );
-};
-
-function SimpleDialog(props) {
-  const { onClose, open, students } = props;
-
-  const handleClose = () => {
-    onClose();
-  };
-
-  const handleListItemClick = (value) => {
-    onClose(value);
-  };
-
-  return (
-    <Dialog onClose={handleClose} open={open} fullWidth maxWidth="md">
-      <DialogTitle>Select Child</DialogTitle>
-      <List>
-        {students.map((student) => (
-          <ListItem
-            button
-            onClick={() => handleListItemClick(student)}
-            key={student.id}
-          >
-            <ListItemAvatar>
-              <Avatar>
-                <PersonIcon />
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText>
-              <Typography variant="h6" color="textSecondary">
-                {student.firstName + " " + student.lastName}
-              </Typography>
-              <Typography color="textSecondary">
-                {student.className + " - " + student.section}
-              </Typography>{" "}
-            </ListItemText>
-          </ListItem>
-        ))}
-      </List>
-    </Dialog>
-  );
-}
-
-SimpleDialog.propTypes = {
-  onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
-  selectedValue: PropTypes.string.isRequired,
 };
 
 export default MainContent;
