@@ -14,6 +14,10 @@ const sideBarLinks = [
     text: 'Announcements',
     url: '/announcements',
   },
+  {
+    text: "Fee Challan Form",
+    url: "/challan",
+  },
 ];
 
 //Sidebar Css constants
