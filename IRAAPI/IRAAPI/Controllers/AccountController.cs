@@ -52,23 +52,6 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-            
-            
-            //int parentId = new ParentBLL().VerifyParent(cnic, password);
-            
-            //if ( parentId == -1)
-            //{
-            //    return BadRequest("Invalid Credentials");
-
-            //}
-            //else if (parentId == -2)
-            //{
-            //    return NotFound();
-            //}
-            //else
-            //{
-            //    return getToken(parentId);
-            //}            
         }
 
         [NonAction]
