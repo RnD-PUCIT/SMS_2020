@@ -41,4 +41,13 @@ namespace IRAAPI.Models
         [InverseProperty("Announcements")]
         public virtual Student Student { get; set; }
     }
+    public class AnnouncementDTO
+    {
+        public string Title { get; set; }
+        public string Announcement1 { get; set; }
+        public DateTime Date { get; set; }
+        public bool Read { get; set; }
+        public int? SessionId { get; set; }
+    }
+
 }

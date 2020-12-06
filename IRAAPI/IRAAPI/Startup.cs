@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -69,7 +70,8 @@ namespace IRAAPI
                       }
                   };
               });
-           // services.AddDbContext()
+            services.AddAutoMapper(typeof(Startup));
+            // services.AddDbContext()
             services.AddControllers();
         }
 
