@@ -27,19 +27,21 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
-                    b.Property<string>("Announcement1")
+                    b.Property<string>("Announcment")
                         .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)")
-                        .HasColumnName("announcement");
+                        .HasColumnName("announcment");
 
                     b.Property<int?>("ClassId")
                         .HasColumnType("int")
                         .HasColumnName("class_id");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime")
-                        .HasColumnName("date");
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<bool>("Read")
                         .HasColumnType("bit")
@@ -55,9 +57,9 @@ namespace IRAAPI.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(200)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(200)")
                         .HasColumnName("title");
 
                     b.HasKey("Id");
@@ -86,6 +88,12 @@ namespace IRAAPI.Migrations
                     b.Property<int>("ClassId")
                         .HasColumnType("int")
                         .HasColumnName("class_id");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<int>("SessionId")
                         .HasColumnType("int")
@@ -118,7 +126,42 @@ namespace IRAAPI.Migrations
                     b.ToTable("Attendance");
                 });
 
-            modelBuilder.Entity("IRAAPI.Models.ChallanChargesAllocation", b =>
+            modelBuilder.Entity("IRAAPI.Models.BankDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<long>("AccountNo")
+                        .HasColumnType("bigint")
+                        .HasColumnName("account_no");
+
+                    b.Property<string>("BankBranch")
+                        .IsRequired()
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("bank_branch");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("bank_name");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Bank_Details");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.Charge", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -130,38 +173,19 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("amount");
 
-                    b.Property<int>("ChallanId")
+                    b.Property<int>("ClassId")
                         .HasColumnType("int")
-                        .HasColumnName("challan_id");
+                        .HasColumnName("class_id");
 
-                    b.Property<int>("ChargesId")
-                        .HasColumnType("int")
-                        .HasColumnName("charges_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ChallanId");
-
-                    b.HasIndex("ChargesId");
-
-                    b.ToTable("Challan_Charges_Allocation");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.Charge", b =>
-                {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Guid")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("ChargesName")
-                        .IsRequired()
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(max)")
-                        .HasColumnName("charges_name");
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
 
                     b.ToTable("Charges");
                 });
@@ -180,6 +204,12 @@ namespace IRAAPI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)")
                         .HasColumnName("class_name");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("Section")
                         .HasMaxLength(50)
@@ -245,6 +275,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(200)")
                         .HasColumnName("diary_title");
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
                     b.Property<int>("SessionId")
                         .HasColumnType("int")
                         .HasColumnName("session_id");
@@ -272,9 +308,28 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
+                    b.Property<int>("BankId")
+                        .HasColumnType("int")
+                        .HasColumnName("bank_id");
+
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("date")
                         .HasColumnName("due_date");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
+                    b.Property<string>("Instructions")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)")
+                        .HasColumnName("instructions");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit")
+                        .HasColumnName("is_paid");
 
                     b.Property<DateTime>("IssueDate")
                         .HasColumnType("date")
@@ -283,6 +338,10 @@ namespace IRAAPI.Migrations
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
                         .HasColumnName("student_id");
+
+                    b.Property<int>("UnpaidCharges")
+                        .HasColumnType("int")
+                        .HasColumnName("unpaid_charges");
 
                     b.HasKey("Id");
 
@@ -317,6 +376,12 @@ namespace IRAAPI.Migrations
                     b.Property<int>("GradeTypeId")
                         .HasColumnType("int")
                         .HasColumnName("grade_type_id");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<int>("ObtainedMarks")
                         .HasColumnType("int")
@@ -380,6 +445,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("grade_type_slug");
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
                     b.HasKey("Id");
 
                     b.ToTable("Grade_Types");
@@ -431,6 +502,12 @@ namespace IRAAPI.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(75)")
                         .HasColumnName("first_name");
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("JobAddress")
                         .IsUnicode(false)
@@ -513,6 +590,12 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
                     b.Property<string>("Question")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -532,6 +615,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .UseIdentityColumn();
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("SessionYear")
                         .IsRequired()
@@ -572,6 +661,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(75)")
                         .HasColumnName("first_name");
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit")
                         .HasColumnName("is_active");
@@ -608,6 +703,8 @@ namespace IRAAPI.Migrations
 
                     b.HasIndex("ClassId");
 
+                    b.HasIndex("SessionId");
+
                     b.ToTable("Students");
                 });
 
@@ -618,6 +715,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .UseIdentityColumn();
+
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
 
                     b.Property<string>("SubjectCode")
                         .IsRequired()
@@ -727,6 +830,12 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(70)")
                         .HasColumnName("first_name");
 
+                    b.Property<Guid>("Guid")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid")
+                        .HasDefaultValueSql("(newid())");
+
                     b.Property<DateTime>("JoiningDate")
                         .HasColumnType("date")
                         .HasColumnName("joining_date");
@@ -795,18 +904,18 @@ namespace IRAAPI.Migrations
                     b.HasOne("IRAAPI.Models.Class", "Class")
                         .WithMany("Announcements")
                         .HasForeignKey("ClassId")
-                        .HasConstraintName("FK_Table_Classes");
+                        .HasConstraintName("FK_Announcements_Classes");
 
                     b.HasOne("IRAAPI.Models.Session", "Session")
                         .WithMany("Announcements")
                         .HasForeignKey("SessionId")
-                        .HasConstraintName("FK_Table_Sessions")
+                        .HasConstraintName("FK_Announcements_Sessions")
                         .IsRequired();
 
                     b.HasOne("IRAAPI.Models.Student", "Student")
                         .WithMany("Announcements")
                         .HasForeignKey("StudentId")
-                        .HasConstraintName("FK_Table_Students");
+                        .HasConstraintName("FK_Announcements_Students");
 
                     b.Navigation("Class");
 
@@ -842,23 +951,15 @@ namespace IRAAPI.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("IRAAPI.Models.ChallanChargesAllocation", b =>
+            modelBuilder.Entity("IRAAPI.Models.Charge", b =>
                 {
-                    b.HasOne("IRAAPI.Models.FeeChallan", "Challan")
-                        .WithMany("ChallanChargesAllocations")
-                        .HasForeignKey("ChallanId")
-                        .HasConstraintName("FK_Challan_Charges_Alocation_Fee_Challan")
+                    b.HasOne("IRAAPI.Models.Class", "Class")
+                        .WithMany("Charges")
+                        .HasForeignKey("ClassId")
+                        .HasConstraintName("FK_Charges_Classes")
                         .IsRequired();
 
-                    b.HasOne("IRAAPI.Models.Charge", "Charges")
-                        .WithMany("ChallanChargesAllocations")
-                        .HasForeignKey("ChargesId")
-                        .HasConstraintName("FK_Challan_Charges_Alocation_Charges")
-                        .IsRequired();
-
-                    b.Navigation("Challan");
-
-                    b.Navigation("Charges");
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.ClassSubjectAlloc", b =>
@@ -979,7 +1080,15 @@ namespace IRAAPI.Migrations
                         .HasConstraintName("FK_Students_Classes")
                         .IsRequired();
 
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany("Students")
+                        .HasForeignKey("SessionId")
+                        .HasConstraintName("FK_Students_Sessions")
+                        .IsRequired();
+
                     b.Navigation("Class");
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SubjectGradeTypeAlloc", b =>
@@ -1036,16 +1145,13 @@ namespace IRAAPI.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("IRAAPI.Models.Charge", b =>
-                {
-                    b.Navigation("ChallanChargesAllocations");
-                });
-
             modelBuilder.Entity("IRAAPI.Models.Class", b =>
                 {
                     b.Navigation("Announcements");
 
                     b.Navigation("Attendances");
+
+                    b.Navigation("Charges");
 
                     b.Navigation("ClassSubjectAllocs");
 
@@ -1058,11 +1164,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("SubjectGradeTypeAllocs");
 
                     b.Navigation("TeacherSubjectAllocs");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.FeeChallan", b =>
-                {
-                    b.Navigation("ChallanChargesAllocations");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
@@ -1086,6 +1187,8 @@ namespace IRAAPI.Migrations
                     b.Navigation("Diaries");
 
                     b.Navigation("Grades");
+
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Student", b =>

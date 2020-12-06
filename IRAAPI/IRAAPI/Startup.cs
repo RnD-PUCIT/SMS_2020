@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +41,7 @@ namespace IRAAPI
                                             .AllowAnyMethod();
                         });
             });
-            services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+            services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer("Data Source=HAIER-PC\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
 
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,7 +69,7 @@ namespace IRAAPI
                       }
                   };
               });
-
+           // services.AddDbContext()
             services.AddControllers();
         }
 

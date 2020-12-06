@@ -17,7 +17,7 @@ namespace IRAAPI.Controllers
     [ApiController]
     [Route("account")]
     public class AccountController : ControllerBase
-    { 
+    {
         [HttpPost("login")]
         public Object Login()
         {
@@ -52,10 +52,10 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-            
-            
+
+
             //int parentId = new ParentBLL().VerifyParent(cnic, password);
-            
+
             //if ( parentId == -1)
             //{
             //    return BadRequest("Invalid Credentials");
@@ -82,7 +82,7 @@ namespace IRAAPI.Controllers
             var permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
             permClaims.Add(new Claim("parent_id", parentId.ToString()));
-            
+
 
             var token = new JwtSecurityToken(issuer,
                             issuer,

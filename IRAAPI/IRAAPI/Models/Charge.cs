@@ -10,19 +10,18 @@ namespace IRAAPI.Models
 {
     public partial class Charge
     {
-        public Charge()
-        {
-            ChallanChargesAllocations = new HashSet<ChallanChargesAllocation>();
-        }
-
         [Key]
         [Column("id")]
         public int Id { get; set; }
-        [Required]
-        [Column("charges_name")]
-        public string ChargesName { get; set; }
+        [Column("amount")]
+        public int Amount { get; set; }
+        [Column("class_id")]
+        public int ClassId { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
-        [InverseProperty(nameof(ChallanChargesAllocation.Charges))]
-        public virtual ICollection<ChallanChargesAllocation> ChallanChargesAllocations { get; set; }
+        [ForeignKey(nameof(ClassId))]
+        [InverseProperty("Charges")]
+        public virtual Class Class { get; set; }
     }
 }

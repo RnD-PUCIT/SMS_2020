@@ -19,7 +19,7 @@ namespace IRAAPI.Models
 
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
-        public virtual DbSet<ChallanChargesAllocation> ChallanChargesAllocations { get; set; }
+        public virtual DbSet<BankDetail> BankDetails { get; set; }
         public virtual DbSet<Charge> Charges { get; set; }
         public virtual DbSet<Class> Classes { get; set; }
         public virtual DbSet<ClassSubjectAlloc> ClassSubjectAllocs { get; set; }
@@ -42,7 +42,7 @@ namespace IRAAPI.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=(locadb)\\MSSQLLocalDB;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Data Source=HAIER-PC\\SQLEXPRESS;initial catalog=IRA_API;Integrated Security=True;ConnectRetryCount=0");
             }
         }
 
@@ -50,29 +50,33 @@ namespace IRAAPI.Models
         {
             modelBuilder.Entity<Announcement>(entity =>
             {
-                entity.Property(e => e.Announcement1).IsUnicode(false);
+                entity.Property(e => e.Announcment).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Title).IsUnicode(false);
 
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Announcements)
                     .HasForeignKey(d => d.ClassId)
-                    .HasConstraintName("FK_Table_Classes");
+                    .HasConstraintName("FK_Announcements_Classes");
 
                 entity.HasOne(d => d.Session)
                     .WithMany(p => p.Announcements)
                     .HasForeignKey(d => d.SessionId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Table_Sessions");
+                    .HasConstraintName("FK_Announcements_Sessions");
 
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Announcements)
                     .HasForeignKey(d => d.StudentId)
-                    .HasConstraintName("FK_Table_Students");
+                    .HasConstraintName("FK_Announcements_Students");
             });
 
             modelBuilder.Entity<Attendance>(entity =>
             {
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.Status)
                     .IsUnicode(false)
                     .IsFixedLength(true);
@@ -96,29 +100,31 @@ namespace IRAAPI.Models
                     .HasConstraintName("FK_Attendance_Students");
             });
 
-            modelBuilder.Entity<ChallanChargesAllocation>(entity =>
+            modelBuilder.Entity<BankDetail>(entity =>
             {
-                entity.HasOne(d => d.Challan)
-                    .WithMany(p => p.ChallanChargesAllocations)
-                    .HasForeignKey(d => d.ChallanId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Challan_Charges_Alocation_Fee_Challan");
+                entity.Property(e => e.BankBranch).IsUnicode(false);
 
-                entity.HasOne(d => d.Charges)
-                    .WithMany(p => p.ChallanChargesAllocations)
-                    .HasForeignKey(d => d.ChargesId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Challan_Charges_Alocation_Charges");
+                entity.Property(e => e.BankName).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
             });
 
             modelBuilder.Entity<Charge>(entity =>
             {
-                entity.Property(e => e.ChargesName).IsUnicode(false);
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
+                entity.HasOne(d => d.Class)
+                    .WithMany(p => p.Charges)
+                    .HasForeignKey(d => d.ClassId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Charges_Classes");
             });
 
             modelBuilder.Entity<Class>(entity =>
             {
                 entity.Property(e => e.ClassName).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Section).IsUnicode(false);
             });
@@ -144,6 +150,8 @@ namespace IRAAPI.Models
 
                 entity.Property(e => e.DiaryTitle).IsUnicode(false);
 
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
                 entity.HasOne(d => d.Class)
                     .WithMany(p => p.Diaries)
                     .HasForeignKey(d => d.ClassId)
@@ -165,6 +173,10 @@ namespace IRAAPI.Models
 
             modelBuilder.Entity<FeeChallan>(entity =>
             {
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Instructions).IsUnicode(false);
+
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.FeeChallans)
                     .HasForeignKey(d => d.StudentId)
@@ -175,6 +187,8 @@ namespace IRAAPI.Models
             modelBuilder.Entity<Grade>(entity =>
             {
                 entity.Property(e => e.GradeTitle).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Remarks).IsUnicode(false);
 
@@ -214,6 +228,8 @@ namespace IRAAPI.Models
                 entity.Property(e => e.GradeType1).IsUnicode(false);
 
                 entity.Property(e => e.GradeTypeSlug).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
             });
 
             modelBuilder.Entity<Parent>(entity =>
@@ -229,6 +245,8 @@ namespace IRAAPI.Models
                 entity.Property(e => e.Email).IsUnicode(false);
 
                 entity.Property(e => e.FirstName).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.JobAddress).IsUnicode(false);
 
@@ -255,17 +273,23 @@ namespace IRAAPI.Models
 
             modelBuilder.Entity<SecurityQuestion>(entity =>
             {
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.Question).IsUnicode(false);
             });
 
             modelBuilder.Entity<Session>(entity =>
             {
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.SessionYear).IsUnicode(false);
             });
 
             modelBuilder.Entity<Student>(entity =>
             {
                 entity.Property(e => e.FirstName).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.LastName).IsUnicode(false);
 
@@ -278,10 +302,18 @@ namespace IRAAPI.Models
                     .HasForeignKey(d => d.ClassId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Students_Classes");
+
+                entity.HasOne(d => d.Session)
+                    .WithMany(p => p.Students)
+                    .HasForeignKey(d => d.SessionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Students_Sessions");
             });
 
             modelBuilder.Entity<Subject>(entity =>
             {
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
+
                 entity.Property(e => e.SubjectCode).IsUnicode(false);
 
                 entity.Property(e => e.SubjectName).IsUnicode(false);
@@ -323,6 +355,8 @@ namespace IRAAPI.Models
                 entity.Property(e => e.Email).IsUnicode(false);
 
                 entity.Property(e => e.FirstName).IsUnicode(false);
+
+                entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.LastName).IsUnicode(false);
 

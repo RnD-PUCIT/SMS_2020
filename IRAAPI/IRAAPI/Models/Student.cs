@@ -48,10 +48,15 @@ namespace IRAAPI.Models
         public int SessionId { get; set; }
         [Column("enrollment_date", TypeName = "date")]
         public DateTime EnrollmentDate { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [ForeignKey(nameof(ClassId))]
         [InverseProperty("Students")]
         public virtual Class Class { get; set; }
+        [ForeignKey(nameof(SessionId))]
+        [InverseProperty("Students")]
+        public virtual Session Session { get; set; }
         [InverseProperty(nameof(Announcement.Student))]
         public virtual ICollection<Announcement> Announcements { get; set; }
         [InverseProperty(nameof(Attendance.Student))]
