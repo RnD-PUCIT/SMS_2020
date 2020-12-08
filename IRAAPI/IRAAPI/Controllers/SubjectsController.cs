@@ -52,6 +52,8 @@ namespace IRAAPI.Controllers
                         classId = context.Classes.Where(c => c.Id == s.ClassId).Select(s => s.Guid).SingleOrDefault(),
                         className = context.Classes.Where(c => c.Id == s.ClassId).Select(s => s.ClassName).SingleOrDefault(),
                         section = context.Classes.Where(c => c.Id == s.ClassId).Select(s => s.Section).SingleOrDefault(),
+                        sessionId = s.Session.Guid,
+                        sessionYear = s.Session.SessionYear,
                         isActive = s.IsActive,
                         profilePic = s.ProfilePicture
 
@@ -250,6 +252,8 @@ namespace IRAAPI.Controllers
         public Guid classId { get; set; }
         public string className { get; set; }
         public string section { get; set; }
+        public Guid sessionId { get; set; }
+        public string sessionYear { get; set; }
         public bool isActive { get; set; }
         public string profilePic { get; set; }
     }
