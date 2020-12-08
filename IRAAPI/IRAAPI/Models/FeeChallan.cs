@@ -35,4 +35,17 @@ namespace IRAAPI.Models
         [InverseProperty("FeeChallans")]
         public virtual Student Student { get; set; }
     }
+    public class FeeChallanDTO
+    {
+        public DateTime IssueDate { get; set; }
+        public DateTime DueDate { get; set; }
+        public string Instructions { get; set; }
+        public bool IsPaid { get; set; }
+        public int UnpaidCharges { get; set; }
+
+        public static implicit operator FeeChallanDTO(ChargeDTO v)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

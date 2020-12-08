@@ -24,4 +24,13 @@ namespace IRAAPI.Models
         [InverseProperty("Charges")]
         public virtual Class Class { get; set; }
     }
+    public class ChargeDTO
+    {
+        public int Amount { get; set; }
+
+        public static implicit operator ChargeDTO(FeeChallanDTO v)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
