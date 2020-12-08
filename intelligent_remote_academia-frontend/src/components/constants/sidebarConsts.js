@@ -1,14 +1,22 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from '@material-ui/core/styles';
 
 //Sidebar link constatnts
 const sideBarLinks = [
   {
-    text: "Subjects",
-    url: "/subjects",
+    text: 'Subjects',
+    url: '/subjects',
   },
   {
-    text: "Attendance",
-    url: "/attendance",
+    text: 'Attendance',
+    url: '/attendance',
+  },
+  {
+    text: 'Announcements',
+    url: '/announcements',
+  },
+  {
+    text: "Fee Challan Form",
+    url: "/challan",
   },
 ];
 
@@ -17,10 +25,10 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },

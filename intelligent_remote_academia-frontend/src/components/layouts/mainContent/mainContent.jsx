@@ -1,19 +1,54 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+
+import Subjects from '../../pages/subjects/subjects';
+import Attendance from '../../pages/attendance/attendance';
+import SubjectDetails from '../../pages/subjects/subjectDetails';
+import GradeDetails from '../../pages/subjects/gradeDetails';
+import Announcements from '../../pages/announcements/announcements';
 
 import { useStyles } from "../../constants/mainContentConsts";
-import Subjects from "../../pages/subjects/subjects";
-import Attendance from "../../pages/attendance/attendance";
+import FeeChallan from "../../pages/fee-challan/feeChallan";
 
-const MainContent = (props) => {
+
+const MainContent = ({ subjects, studentId, classId }) => {
   const classes = useStyles();
   return (
-    <main className="container">
+    <main className='container'>
       <div className={classes.container}>
         <Switch>
-          <Route path="/subjects" component={Subjects} />
-          <Route path="/attendance" component={Attendance} />
+          <Route
+            path='/subjects/:subjectSlug/:gradeTypeSlug'
+            component={GradeDetails}
+          />
+          <Route path='/subjects/:subjectSlug' component={SubjectDetails} />
+          <Route path='/announcements' component={Announcements} />
+
+          {/* Sending subjects array as a prop to Subject component */}
+          <Route
+            path='/subjects'
+            render={() => (
+              <Subjects
+                subjects={subjects}
+                studentId={studentId}
+                classId={classId}
+              />
+            )}
+          />
+          <Route
+            path='/attendance'
+            render={() => (
+              <Attendance studentId={studentId} classId={classId} />
+            )}
+          />
+          <Route
+            path="/challan"
+            render={() => (
+              <FeeChallan studentId={studentId} classId={classId} />
+            )}
+          />
           <Redirect from="/" to="/subjects" exact />
+
         </Switch>
       </div>
     </main>
