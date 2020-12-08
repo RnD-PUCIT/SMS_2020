@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
+using IRAAPI.Models;
+
 
 namespace IRAAPI.Controllers
 {
@@ -16,32 +18,61 @@ namespace IRAAPI.Controllers
     {
         [Authorize]
         [HttpGet]
-        public Object GetAttendance(int studentId, int classId)
+        public Object GetAttendance(Guid studentId, Guid classId, Guid sessionId)
         {
             var claims = User.Claims;
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
+            
+            using IRAAPIContext context = new IRAAPIContext();
 
-            VerifierBLL verifier = new VerifierBLL();
-            if (!(verifier.VerifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.VerifyClassByStudentId(studentId, classId)))
-                return Unauthorized();
+            try
+            {
+                int studentNumericId = context.Students.Where(a => a.Guid == studentId)
+                    .Select(a => a.Id)
+                    .SingleOrDefault();
+                int classNumericId = context.Classes.Where(c => c.Guid == classId)
+                    .Select(c => c.Id)
+                    .SingleOrDefault();
+                int sessionNumericId = context.Sessions.Where(s => s.Guid == sessionId)
+                    .Select(s => s.Id)
+                    .SingleOrDefault();
 
-            List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
-            if (attendances == null)
-                return NotFound();
+                var attendanceData = context.Attendances.Where(a => a.StudentId == studentNumericId && a.ClassId == classNumericId && a.SessionId == sessionNumericId)
+                    .OrderBy(p => p.AttendanceDate)
+                    .Select(p => new AttendanceDTO()
+                    {
+                        id = p.Guid,
+                        attendanceDate = Convert.ToDateTime(p.AttendanceDate).ToString("MM/d/yyyy"),
+                        status = p.Status
+                    })
+                    .ToList();
+                
+                if (attendanceData == null)
+                    return NotFound();
 
-            return new AttendanceDTO(attendances);
+                return new { Attendence = attendanceData };
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            //List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
+            //if (attendances == null)
+            //    return NotFound();
+
+            //return new AttendanceDTO(attendances);
         }
     }
 
     public class AttendanceDTO
     {
-        public List<Attendance> attendance { get; set; }
-        public AttendanceDTO(List<Attendance> attendance)
-        {
-            this.attendance = attendance;
-        }
-
+        public Guid id { get; set; }
+        public string attendanceDate { get; set; }
+        public string status { get; set; }
     }
 }

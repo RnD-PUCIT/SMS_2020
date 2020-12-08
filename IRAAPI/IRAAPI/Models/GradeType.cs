@@ -28,6 +28,8 @@ namespace IRAAPI.Models
         [Column("grade_type_slug")]
         [StringLength(100)]
         public string GradeTypeSlug { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [InverseProperty(nameof(Grade.GradeType))]
         public virtual ICollection<Grade> Grades { get; set; }

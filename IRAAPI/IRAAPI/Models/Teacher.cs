@@ -55,6 +55,8 @@ namespace IRAAPI.Models
         [Column("profile_picture")]
         [StringLength(200)]
         public string ProfilePicture { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [InverseProperty(nameof(TeacherSubjectAlloc.Teacher))]
         public virtual ICollection<TeacherSubjectAlloc> TeacherSubjectAllocs { get; set; }

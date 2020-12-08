@@ -14,6 +14,7 @@ namespace IRAAPI.Models
         {
             Announcements = new HashSet<Announcement>();
             Attendances = new HashSet<Attendance>();
+            Charges = new HashSet<Charge>();
             ClassSubjectAllocs = new HashSet<ClassSubjectAlloc>();
             Diaries = new HashSet<Diary>();
             Grades = new HashSet<Grade>();
@@ -32,11 +33,15 @@ namespace IRAAPI.Models
         [Column("section")]
         [StringLength(50)]
         public string Section { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [InverseProperty(nameof(Announcement.Class))]
         public virtual ICollection<Announcement> Announcements { get; set; }
         [InverseProperty(nameof(Attendance.Class))]
         public virtual ICollection<Attendance> Attendances { get; set; }
+        [InverseProperty(nameof(Charge.Class))]
+        public virtual ICollection<Charge> Charges { get; set; }
         [InverseProperty(nameof(ClassSubjectAlloc.Class))]
         public virtual ICollection<ClassSubjectAlloc> ClassSubjectAllocs { get; set; }
         [InverseProperty(nameof(Diary.Class))]

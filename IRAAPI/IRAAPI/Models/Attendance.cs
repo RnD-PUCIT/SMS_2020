@@ -28,6 +28,8 @@ namespace IRAAPI.Models
         public string Status { get; set; }
         [Column("session_id")]
         public int SessionId { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [ForeignKey(nameof(ClassId))]
         [InverseProperty("Attendances")]

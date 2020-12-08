@@ -12,6 +12,7 @@ using IRAAPI.BLL;
 using IRAAPI.COMMON;
 using IRAAPI.Models;
 
+
 namespace IRAAPI.Controllers
 {
     [ApiController]
@@ -29,13 +30,14 @@ namespace IRAAPI.Controllers
 
             try
             {
-                var parentData = context.ParentLogins.Where(a => a.Cnic == cnic).SingleOrDefault();
+                var parentData = context.ParentLogins.Where(a => a.Cnic == cnic)
+                    .SingleOrDefault();
                 if (parentData != null)
                 {
                     passwordVerified = BCrypt.Net.BCrypt.Verify(password, parentData.Password);
                     if (passwordVerified)
                     {
-                        return getToken(parentData.Id);
+                        return getToken(context.Parents.Where(a=> a.Id == parentData.Id).Select(a=> a.Guid).SingleOrDefault().ToString());
                     }
                     else
                     {
@@ -52,11 +54,11 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-            
-            
+
+
             //int parentId = new ParentBLL().VerifyParent(cnic, password);
-            
-            //if ( parentId == -1)
+
+            //if (parentId == -1)
             //{
             //    return BadRequest("Invalid Credentials");
 
@@ -68,11 +70,11 @@ namespace IRAAPI.Controllers
             //else
             //{
             //    return getToken(parentId);
-            //}            
+            //}
         }
 
         [NonAction]
-        public Object getToken(int parentId)
+        public Object getToken(string parentId)
         {
             string key = "ADSTZ_1226404119";
             var issuer = "http://ira.com";
@@ -81,7 +83,7 @@ namespace IRAAPI.Controllers
 
             var permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            permClaims.Add(new Claim("parent_id", parentId.ToString()));
+            permClaims.Add(new Claim("parent_id", parentId));
             
 
             var token = new JwtSecurityToken(issuer,

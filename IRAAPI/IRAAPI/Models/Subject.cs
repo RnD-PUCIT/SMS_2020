@@ -34,6 +34,8 @@ namespace IRAAPI.Models
         [Column("subject_slug")]
         [StringLength(100)]
         public string SubjectSlug { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [InverseProperty(nameof(ClassSubjectAlloc.Subject))]
         public virtual ICollection<ClassSubjectAlloc> ClassSubjectAllocs { get; set; }

@@ -11,11 +11,6 @@ namespace IRAAPI.Models
     [Table("Fee_Challan")]
     public partial class FeeChallan
     {
-        public FeeChallan()
-        {
-            ChallanChargesAllocations = new HashSet<ChallanChargesAllocation>();
-        }
-
         [Key]
         [Column("id")]
         public int Id { get; set; }
@@ -25,11 +20,19 @@ namespace IRAAPI.Models
         public DateTime IssueDate { get; set; }
         [Column("due_date", TypeName = "date")]
         public DateTime DueDate { get; set; }
+        [Column("bank_id")]
+        public int BankId { get; set; }
+        [Column("instructions")]
+        public string Instructions { get; set; }
+        [Column("is_paid")]
+        public bool IsPaid { get; set; }
+        [Column("unpaid_charges")]
+        public int UnpaidCharges { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [ForeignKey(nameof(StudentId))]
         [InverseProperty("FeeChallans")]
         public virtual Student Student { get; set; }
-        [InverseProperty(nameof(ChallanChargesAllocation.Challan))]
-        public virtual ICollection<ChallanChargesAllocation> ChallanChargesAllocations { get; set; }
     }
 }

@@ -47,5 +47,7 @@ namespace IRAAPI.Models
         [Column("profile_picture")]
         [StringLength(100)]
         public string ProfilePicture { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
     }
 }

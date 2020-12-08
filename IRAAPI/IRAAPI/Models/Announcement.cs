@@ -19,17 +19,17 @@ namespace IRAAPI.Models
         public int? ClassId { get; set; }
         [Required]
         [Column("title")]
-        [StringLength(100)]
+        [StringLength(200)]
         public string Title { get; set; }
         [Required]
-        [Column("announcement")]
-        public string Announcement1 { get; set; }
-        [Column("date", TypeName = "datetime")]
-        public DateTime Date { get; set; }
+        [Column("announcment")]
+        public string Announcment { get; set; }
         [Column("read")]
         public bool Read { get; set; }
         [Column("session_id")]
         public int SessionId { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [ForeignKey(nameof(ClassId))]
         [InverseProperty("Announcements")]

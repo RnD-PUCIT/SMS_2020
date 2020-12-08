@@ -23,6 +23,8 @@ namespace IRAAPI.Models
         [Column("question")]
         [StringLength(150)]
         public string Question { get; set; }
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
         [InverseProperty(nameof(ParentLogin.Sq))]
         public virtual ICollection<ParentLogin> ParentLogins { get; set; }
