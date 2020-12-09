@@ -13,9 +13,9 @@ import {
   List,
   Avatar,
   DialogTitle,
+  Divider,
 } from "@material-ui/core";
 import PersonIcon from "@material-ui/icons/Person";
-import ImageAvatar from "@material-ui/core/Avatar";
 
 const StudentDropdown = ({
   studentList,
@@ -57,12 +57,14 @@ const StudentCard = ({ student, onClick }) => {
         variant="outlined"
       >
         <CardActionArea onClick={onClick}>
-          <CardContent style={{ padding: "15px" }}>
+          <CardContent style={{ padding: "5px" }}>
             <ListItem>
               <ListItemAvatar>
-                <ImageAvatar
-                  style={{ width: "60px", height: "60px", marginRight: "20px" }}
-                />
+                <Avatar
+                  style={{ width: "60px", height: "60px", marginRight: "15px" }}
+                >
+                  {student.firstName.charAt(0)}
+                </Avatar>
               </ListItemAvatar>
               <ListItemText>
                 <Typography variant="h6" color="textSecondary">
@@ -93,7 +95,9 @@ function SimpleDialog(props) {
 
   return (
     <Dialog onClose={handleClose} open={open} fullWidth maxWidth="md">
-      <DialogTitle>Select Child</DialogTitle>
+      <DialogTitle>
+        Select Child <Divider style={{ marginTop: "10px" }} />
+      </DialogTitle>
       <List>
         {students.map((student) => (
           <ListItem
