@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IRAAPI.Controllers
 {
@@ -23,13 +24,14 @@ namespace IRAAPI.Controllers
         }
         private readonly IRAAPIContext _context = new IRAAPIContext();
         // GET: api/FeeChallans
-        [HttpGet]
+
         //public async Task<ActionResult<IEnumerable<FeeChallan>>> GetFeeChallans()
         //{
         //    return await _context.FeeChallans.ToListAsync();
         //}
 
         // GET: api/FeeChallans/5
+        [Authorize]
         [HttpGet]
         public  Object GetFeeChallan(Guid studentid,Guid classid)
         {
@@ -37,8 +39,8 @@ namespace IRAAPI.Controllers
             int classId = _context.Classes.Where(a => a.Guid == classid).Select(a => a.Id).SingleOrDefault();
             try
             {
-                
 
+                Student student=_context.Students.Where(a=>a.Id== studentId).SingleOrDefault();
 
                 FeeChallan unPaidFeeForm =  _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid==false && a.IssueDate.Month==DateTime.Today.Month && a.IssueDate.Year == DateTime.Today.Year).FirstOrDefault();
              
@@ -61,9 +63,6 @@ namespace IRAAPI.Controllers
                 //}
 
                 FeeChallanDTO challan = _mapper.Map<FeeChallanDTO>(unPaidFeeForm);
-                //var currentMonthFee = unPaidFeeList.Where(s => s.IssueDate.Equals(DateTime.Now.Date) );
-                // FeeChallanDTO challan=new FeeChallanDTO();
-                //int sum = 0;
                 
                 FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee };
                 return ww;
