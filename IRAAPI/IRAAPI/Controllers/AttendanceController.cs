@@ -52,7 +52,7 @@ namespace IRAAPI.Controllers
                 if (attendanceData == null)
                     return NotFound();
 
-                return new { Attendence = attendanceData };
+                return new { Attendance = attendanceData };
 
             }
             catch (Exception)
