@@ -61,12 +61,7 @@ namespace IRAAPI.Controllers
                 unPaidFeeForm.UnpaidCharges = sum * Fee.Amount;
                 _context.SaveChanges();
 
-                //for (int i = 0; i < pendingFeeList.Count(); i++)
-                //{
-                //    unPaidFeeForm.UnpaidCharges = unPaidFeeForm.UnpaidCharges + amount.Amount;
-                //    _context.SaveChanges();
-                //}
-
+               
                 FeeChallanDTO challan = _mapper.Map<FeeChallanDTO>(unPaidFeeForm);
                 //var currentMonthFee = unPaidFeeList.Where(s => s.IssueDate.Equals(DateTime.Now.Date) );
                 // FeeChallanDTO challan=new FeeChallanDTO();
