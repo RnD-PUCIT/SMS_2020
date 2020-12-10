@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IRAAPI.Controllers
 {
-    
+
     [Route("feechallan")]
     [ApiController]
     public class FeeChallansController : ControllerBase
@@ -23,33 +24,35 @@ namespace IRAAPI.Controllers
         }
         private readonly IRAAPIContext _context = new IRAAPIContext();
         // GET: api/FeeChallans
-        [HttpGet]
+
         //public async Task<ActionResult<IEnumerable<FeeChallan>>> GetFeeChallans()
         //{
         //    return await _context.FeeChallans.ToListAsync();
         //}
 
         // GET: api/FeeChallans/5
+        [Authorize]
         [HttpGet]
-        public  Object GetFeeChallan(Guid studentid,Guid classid)
+        public Object GetFeeChallan(Guid studentid, Guid classid)
         {
             int studentId = _context.Students.Where(a => a.Guid == studentid).Select(a => a.Id).SingleOrDefault();
             int classId = _context.Classes.Where(a => a.Guid == classid).Select(a => a.Id).SingleOrDefault();
-            try
-            {
+            //try
+           // {
                 Student tempStudent = _context.Students.Where(a => a.Id == studentId).SingleOrDefault();
-                StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
+            // StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
+            StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
                 Class tempClass = _context.Classes.Where(a => a.Id == classId).SingleOrDefault();
                 ClassDTO classs = _mapper.Map<ClassDTO>(tempClass);
 
 
 
-                FeeChallan unPaidFeeForm =  _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid==false && a.IssueDate.Month==DateTime.Today.Month && a.IssueDate.Year == DateTime.Today.Year).FirstOrDefault();
+                FeeChallan unPaidFeeForm = _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid == false && a.IssueDate.Month == DateTime.Today.Month && a.IssueDate.Year == DateTime.Today.Year).FirstOrDefault();
                 if (unPaidFeeForm == null)
                 {
                     return BadRequest("Your current challan may not be uploaded.You may check later. ");
                 }
-                var unPaidpendingFeeList = _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid == false && !(a.IssueDate.Month == DateTime.Today.Month) ).ToList();
+                var unPaidpendingFeeList = _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid == false && !(a.IssueDate.Month == DateTime.Today.Month)).ToList();
                 Charge amount = _context.Charges.Where(a => a.ClassId == classId).FirstOrDefault();
 
                 var bankinfo = _context.BankDetails.FirstOrDefault();
@@ -57,23 +60,23 @@ namespace IRAAPI.Controllers
                 ChargeDTO Fee = _mapper.Map<ChargeDTO>(amount);
                 //var unPaidFeeList = feeChallan.Where(s => s.IsPaid == false).ToList();
                 List<FeeChallan> pendingFeeList = (List<FeeChallan>)(unPaidpendingFeeList);
-                int sum=pendingFeeList.Count();
+                int sum = pendingFeeList.Count();
                 unPaidFeeForm.UnpaidCharges = sum * Fee.Amount;
                 _context.SaveChanges();
 
-               
+
                 FeeChallanDTO challan = _mapper.Map<FeeChallanDTO>(unPaidFeeForm);
                 //var currentMonthFee = unPaidFeeList.Where(s => s.IssueDate.Equals(DateTime.Now.Date) );
                 // FeeChallanDTO challan=new FeeChallanDTO();
                 //int sum = 0;
-                
-                FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee,studentInfo=student,classInfo=classs };
+
+                FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee, studentInfo = student, classInfo = classs };
                 return ww;
-            }
-            catch(Exception ex)
-            {
-                return BadRequest("You do not have Unpaid Fee Charges in your account.It may need Updation. ");
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    return BadRequest("You do not have Unpaid Fee Charges in your account.It may need Updation. ");
+            //}
 
 
             //FeeChallanObject ob=new FeeChallanObject {feeInfo}
