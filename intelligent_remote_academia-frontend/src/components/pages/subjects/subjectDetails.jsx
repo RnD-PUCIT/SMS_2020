@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import Tabs from "../../common/tabs/tabs";
 
-import {subjectTabs} from "../../constants/tabsConsts";
+import { subjectTabs } from "../../constants/tabsConsts";
 import TextCard from "../../common/cards/textCard";
 
 import http from "../../../services/httpService";
@@ -17,18 +17,16 @@ class SubjectDetails extends Component {
 
     try {
       // Get subject details data from the service
-    const { data } = await http.get(`${url}`);
+      const { data } = await http.get(`${url}`);
 
-    const { subjectService: subjectDetails } = data;
+      const { subjectService: subjectDetails } = data;
 
-    this.setState({ subjectDetails });
-
+      this.setState({ subjectDetails });
     } catch (ex) {
-      if(ex.response && ex.response.status === 401){
+      if (ex.response && ex.response.status === 401) {
         window.location = "/notFound";
       }
     }
-    
   }
 
   render() {
@@ -38,8 +36,8 @@ class SubjectDetails extends Component {
     if (this.state.subjectDetails) {
       const {
         diary,
-        gradeTypes,
-        subjectInfo: subjectDetails,
+        gradeTypeNames,
+        subject: subjectDetails,
       } = this.state.subjectDetails;
 
       return (
@@ -53,7 +51,7 @@ class SubjectDetails extends Component {
             subjectTabs={subjectTabs}
             pathname={pathname}
             search={search}
-            gradeTypes={gradeTypes}
+            gradeTypes={gradeTypeNames}
             diary={diary}
           />
         </React.Fragment>

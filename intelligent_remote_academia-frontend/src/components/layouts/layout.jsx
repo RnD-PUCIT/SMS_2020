@@ -26,16 +26,18 @@ class Layout extends Component {
   render() {
     const { dashboardInfo } = this.state;
     if (dashboardInfo) {
-      const studentId = dashboardInfo.students[0].id;
-      const classId = dashboardInfo.students[0].classId;
+      const studentId = dashboardInfo.students[2].id;
+      const classId = dashboardInfo.students[2].classId;
+      const sessionId = dashboardInfo.students[2].sessionId;
 
       return (
         <React.Fragment>
           <Sidebar userInfo={dashboardInfo.parentInfo}>
             <MainContent
-              subjects={dashboardInfo.subjects[0]}
+              subjects={dashboardInfo.subjects[2]}
               studentId={studentId}
               classId={classId}
+              sessionId={sessionId}
             />
           </Sidebar>
         </React.Fragment>
