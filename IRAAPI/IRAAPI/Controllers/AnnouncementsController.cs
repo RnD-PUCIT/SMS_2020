@@ -36,7 +36,7 @@ namespace IRAAPI.Controllers
         [Authorize]
         [HttpGet]
 
-        public Object GetAnnouncement(Guid stdId, Guid clsId, Guid sesnId)
+        public Object GetAnnouncement(Guid studentid, Guid classid, Guid sessionid)
         { 
             try
             {
@@ -44,9 +44,9 @@ namespace IRAAPI.Controllers
                 List<AnnouncementDTO> ClassAnnouncementList = new List<AnnouncementDTO>();
                 List<AnnouncementDTO> StudentAnnouncementList = new List<AnnouncementDTO>();
              
-                int studentId=   _context.Students.Where(a => a.Guid == stdId).Select(a => a.Id).SingleOrDefault();
-              int classId=_context.Classes.Where(a => a.Guid == clsId).Select(a=>a.Id).SingleOrDefault();
-                int sessionId = _context.Sessions.Where(a => a.Guid == sesnId).Select(a => a.Id).SingleOrDefault();
+                int studentId=   _context.Students.Where(a => a.Guid == studentid).Select(a => a.Id).SingleOrDefault();
+              int classId=_context.Classes.Where(a => a.Guid == classid).Select(a=>a.Id).SingleOrDefault();
+                int sessionId = _context.Sessions.Where(a => a.Guid == sessionid).Select(a => a.Id).SingleOrDefault();
 
                 var institutionAnnouncments = _context.Announcements.Where(a => a.SessionId == sessionId && a.ClassId == null && a.StudentId == null).ToList();
               InstAnnouncementList = _mapper.Map<List<AnnouncementDTO>>(institutionAnnouncments);
