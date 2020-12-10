@@ -44,8 +44,12 @@ namespace IRAAPI.Controllers
                 StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
                 Class tempClass = _context.Classes.Where(a => a.Id == classId).SingleOrDefault();
                 ClassDTO classs = _mapper.Map<ClassDTO>(tempClass);
+                
                 FeeChallan unPaidFeeForm =  _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid==false && a.IssueDate.Month==DateTime.Today.Month && a.IssueDate.Year == DateTime.Today.Year).FirstOrDefault();
-             
+                if(unPaidFeeForm==null)
+                {
+                    return BadRequest("Your current challan may not be uploaded.You may check later. ");
+                }
                 var unPaidpendingFeeList = _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid == false && !(a.IssueDate.Month == DateTime.Today.Month) ).ToList();
                 Charge amount = _context.Charges.Where(a => a.ClassId == classId).FirstOrDefault();
 
