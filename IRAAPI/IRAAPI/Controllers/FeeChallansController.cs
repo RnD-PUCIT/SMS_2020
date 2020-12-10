@@ -40,8 +40,8 @@ namespace IRAAPI.Controllers
             //try
            // {
                 Student tempStudent = _context.Students.Where(a => a.Id == studentId).SingleOrDefault();
-            // StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
-            StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
+             STDDTO student = _mapper.Map<STDDTO>(tempStudent);
+            //StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
                 Class tempClass = _context.Classes.Where(a => a.Id == classId).SingleOrDefault();
                 ClassDTO classs = _mapper.Map<ClassDTO>(tempClass);
 
@@ -153,7 +153,7 @@ namespace IRAAPI.Controllers
         public FeeChallanDTO feeInfo { get; set; }
         public ChargeDTO charges { get; set; }
         public BankDetailDTO bankInfo { get; set; }
-        public StudentDTO studentInfo { get; set; }
+        public STDDTO studentInfo { get; set; }
         public ClassDTO classInfo { get; set; }
     }
 }

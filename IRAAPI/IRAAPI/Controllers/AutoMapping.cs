@@ -9,8 +9,9 @@ public class AutoMapping : Profile
         CreateMap<FeeChallan, FeeChallanDTO>();
         CreateMap<BankDetail, BankDetailDTO>();
         CreateMap<Charge, ChargeDTO>();
-        CreateMap<Student, StudentDTO>();
         CreateMap<Class, ClassDTO>();
+        CreateMap<Student, STDDTO>();
+     
        
 
         // means you want to map from User to UserDTO

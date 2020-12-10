@@ -46,6 +46,7 @@ namespace IRAAPI.Models
     }
     public class AnnouncementDTO
     {
+        public Guid Guid { get; set; }
         public string Title { get; set; }
         public string Announcment { get; set; }
         public DateTime Date { get; set; }
