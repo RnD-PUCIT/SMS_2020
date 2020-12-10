@@ -37,11 +37,18 @@ namespace IRAAPI.Controllers
             int classId = _context.Classes.Where(a => a.Guid == classid).Select(a => a.Id).SingleOrDefault();
             try
             {
-                
+                Student tempStudent = _context.Students.Where(a => a.Id == studentId).SingleOrDefault();
+                StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
+                Class tempClass = _context.Classes.Where(a => a.Id == classId).SingleOrDefault();
+                ClassDTO classs = _mapper.Map<ClassDTO>(tempClass);
+
 
 
                 FeeChallan unPaidFeeForm =  _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid==false && a.IssueDate.Month==DateTime.Today.Month && a.IssueDate.Year == DateTime.Today.Year).FirstOrDefault();
-             
+                if (unPaidFeeForm == null)
+                {
+                    return BadRequest("Your current challan may not be uploaded.You may check later. ");
+                }
                 var unPaidpendingFeeList = _context.FeeChallans.Where(a => a.StudentId == studentId && a.IsPaid == false && !(a.IssueDate.Month == DateTime.Today.Month) ).ToList();
                 Charge amount = _context.Charges.Where(a => a.ClassId == classId).FirstOrDefault();
 
@@ -65,7 +72,7 @@ namespace IRAAPI.Controllers
                 // FeeChallanDTO challan=new FeeChallanDTO();
                 //int sum = 0;
                 
-                FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee };
+                FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee,studentInfo=student,classInfo=classs };
                 return ww;
             }
             catch(Exception ex)
@@ -148,5 +155,7 @@ namespace IRAAPI.Controllers
         public FeeChallanDTO feeInfo { get; set; }
         public ChargeDTO charges { get; set; }
         public BankDetailDTO bankInfo { get; set; }
+        public StudentDTO studentInfo { get; set; }
+        public ClassDTO classInfo { get; set; }
     }
 }
