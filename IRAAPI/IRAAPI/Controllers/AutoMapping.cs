@@ -8,6 +8,11 @@ public class AutoMapping : Profile
         CreateMap<Announcement, AnnouncementDTO>();
         CreateMap<FeeChallan, FeeChallanDTO>();
         CreateMap<BankDetail, BankDetailDTO>();
-        CreateMap<Charge, ChargeDTO>();// means you want to map from User to UserDTO
+        CreateMap<Charge, ChargeDTO>();
+        CreateMap<Student, StudentDTO>();
+        CreateMap<Class, ClassDTO>();
+       
+
+        // means you want to map from User to UserDTO
     }
 }
