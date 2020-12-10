@@ -37,11 +37,11 @@ namespace IRAAPI.Controllers
         {
             int studentId = _context.Students.Where(a => a.Guid == studentid).Select(a => a.Id).SingleOrDefault();
             int classId = _context.Classes.Where(a => a.Guid == classid).Select(a => a.Id).SingleOrDefault();
-            //try
-           // {
+            try
+            {
                 Student tempStudent = _context.Students.Where(a => a.Id == studentId).SingleOrDefault();
-             STDDTO student = _mapper.Map<STDDTO>(tempStudent);
-            //StudentDTO student = _mapper.Map<StudentDTO>(tempStudent);
+                STDDTO student = _mapper.Map<STDDTO>(tempStudent);
+           
                 Class tempClass = _context.Classes.Where(a => a.Id == classId).SingleOrDefault();
                 ClassDTO classs = _mapper.Map<ClassDTO>(tempClass);
 
@@ -72,11 +72,11 @@ namespace IRAAPI.Controllers
 
                 FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee, studentInfo = student, classInfo = classs };
                 return ww;
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest("You do not have Unpaid Fee Charges in your account.It may need Updation. ");
-            //}
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("You do not have Unpaid Fee Charges in your account.It may need Updation. ");
+            }
 
 
             //FeeChallanObject ob=new FeeChallanObject {feeInfo}
