@@ -66,4 +66,10 @@ namespace IRAAPI.Models
         [InverseProperty(nameof(Grade.Student))]
         public virtual ICollection<Grade> Grades { get; set; }
     }
+    public class StudentDTO
+    {
+        public string RollNo { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
 }

@@ -37,6 +37,7 @@ namespace IRAAPI.Models
     }
     public class FeeChallanDTO
     {
+        public Guid Guid { get; set; }
         public DateTime IssueDate { get; set; }
         public DateTime DueDate { get; set; }
         public string Instructions { get; set; }
@@ -47,5 +48,6 @@ namespace IRAAPI.Models
         {
             throw new NotImplementedException();
         }
+ 
     }
 }

@@ -55,4 +55,10 @@ namespace IRAAPI.Models
         [InverseProperty(nameof(TeacherSubjectAlloc.Class))]
         public virtual ICollection<TeacherSubjectAlloc> TeacherSubjectAllocs { get; set; }
     }
+    public class ClassDTO
+    {
+        public string ClassName { get; set; }
+        public string Section { get; set; }
+
+    }
 }
