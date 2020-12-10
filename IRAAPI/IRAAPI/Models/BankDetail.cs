@@ -25,4 +25,13 @@ namespace IRAAPI.Models
         [Column("guid")]
         public Guid Guid { get; set; }
     }
+
+    public class BankDetailDTO
+    {
+        public string BankName { get; set; }
+        public string BankBranch { get; set; }
+        public long AccountNo { get; set; }
+
+    }
+
 }

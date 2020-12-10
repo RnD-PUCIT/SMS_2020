@@ -31,6 +31,9 @@ namespace IRAAPI.Models
         [Column("guid")]
         public Guid Guid { get; set; }
 
+        [Column("date")]
+        public DateTime Date { get; set; }
+
         [ForeignKey(nameof(ClassId))]
         [InverseProperty("Announcements")]
         public virtual Class Class { get; set; }
@@ -41,4 +44,13 @@ namespace IRAAPI.Models
         [InverseProperty("Announcements")]
         public virtual Student Student { get; set; }
     }
+    public class AnnouncementDTO
+    {
+        public string Title { get; set; }
+        public string Announcment { get; set; }
+        public DateTime Date { get; set; }
+        public bool Read { get; set; }
+        public int? SessionId { get; set; }
+    }
+
 }
