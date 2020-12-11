@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Paper, Typography } from '@material-ui/core';
@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 
+import http from '../../../services/httpService';
 import SearchInput from '../../common/inputs/searchInput';
 import { announcementTabs } from '../../constants/tabsConsts';
 import { getMonths } from '../../constants/calendarConsts';
@@ -31,6 +32,33 @@ const useStyles = makeStyles({
     paddingLeft: '10px',
   },
 });
+
+class AnnouncementData extends Component {
+  state = {
+    selectedTab=0,
+    filter='',
+    instituteAnnouncements: null,
+    classAnnouncements: null,
+    studentAnnouncements: null,
+  };
+
+  async componentDidMount() {
+    const { studentId, classId } = this.props;
+
+    const url = '/announcements?studentid=' + studentId + '&classid=' + classId;
+    const { data } = await http.get(`${url}`);
+
+    const { ins, classs, stdnt } = data;
+    this.setState({
+      instituteAnnouncements: ins,
+      classAnnouncements: classs,
+      studentAnnouncements: stdnt,
+    });
+  }
+  // render() {
+  //   return (  );
+  // }
+}
 
 const Announcements = () => {
   const [selectedTab, setSelectedTab] = React.useState(0);
