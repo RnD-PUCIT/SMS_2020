@@ -15,6 +15,8 @@ import {
 import { Alert } from "@material-ui/lab";
 import ReactToPrint from "react-to-print";
 
+import http from "../../../services/httpService";
+
 import useStyles from "../../../styles/feeChallanStyle";
 import "./feeChallan.css";
 
@@ -22,8 +24,20 @@ class FeeChallan extends Component {
   state = {
     challan: challanConst,
     institution: institutionConst,
+    bankInfo: {},
     instructions: instructionsConst,
   };
+
+  async componentDidMount() {
+    const { studentId, classId } = this.props;
+
+    const url = "/feechallan?studentid=" + studentId + "&classid=" + classId;
+    const { data } = await http.get(`${url}`);
+
+    const { feeInfo, charges, bankInfo, studentInfo, classInfo } = data;
+    this.setState({ bankInfo });
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -50,6 +64,7 @@ class FeeChallan extends Component {
             ref={(el) => (this.componentRef = el)}
             challan={this.state.challan}
             institution={this.state.institution}
+            bankInfo={this.state.bankInfo}
             instructions={this.state.instructions}
           />
         </div>
@@ -64,19 +79,24 @@ class Form extends Component {
       <ChallanForm
         challan={this.props.challan}
         institution={this.props.institution}
+        bankInfo={this.props.bankInfo}
         instructions={this.props.instructions}
       />
     );
   }
 }
 
-const ChallanForm = ({ challan, institution, instructions }) => {
+const ChallanForm = ({ challan, institution, instructions, bankInfo }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <div className={classes.root}>
         <Paper variant="outlined" className={classes.paper}>
-          <ChallanHeader challan={challan} institution={institution} />
+          <ChallanHeader
+            challan={challan}
+            institution={institution}
+            bankInfo={bankInfo}
+          />
           <Divider className={classes.divider} />
           <StudentInfo challan={challan} />
           <Divider className={classes.divider} />
@@ -88,16 +108,16 @@ const ChallanForm = ({ challan, institution, instructions }) => {
   );
 };
 
-const ChallanHeader = ({ challan, institution }) => {
+const ChallanHeader = ({ challan, institution, bankInfo }) => {
   return (
     <React.Fragment>
-      <InstituteInfo institution={institution} />
+      <InstituteInfo institution={institution} bankInfo={bankInfo} />
       <ChallanInfo challan={challan} />
     </React.Fragment>
   );
 };
 
-const InstituteInfo = ({ institution }) => {
+const InstituteInfo = ({ institution, bankInfo }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -105,7 +125,11 @@ const InstituteInfo = ({ institution }) => {
         <div className={classes.center}>
           <Typography variant="h5">{institution.name}</Typography>
           <Typography>{institution.address}</Typography>
-          <Typography variant="h6">{institution.bankName}</Typography>
+          <Typography variant="h6">
+            {bankInfo.bankName} - {bankInfo.bankBranch}
+          </Typography>
+          <Typography>Account #: {bankInfo.accountNo}</Typography>
+
           <Divider className={classes.divider} />
         </div>
       </div>
@@ -358,7 +382,6 @@ const challanConst = {
 const institutionConst = {
   name: "The Intelli School",
   address: "PUCIT Old Campus, Lahore, Pakistan",
-  bankName: "Habib Bank Limited",
 };
 
 const instructionsConst = [
