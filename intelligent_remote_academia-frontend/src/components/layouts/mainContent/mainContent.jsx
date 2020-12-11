@@ -8,7 +8,7 @@ import SubjectDetails from "../../pages/subjects/subjectDetails";
 import GradeDetails from "../../pages/subjects/gradeDetails";
 import Announcements from "../../pages/announcements/announcements";
 
-import { useStyles } from "../../constants/mainContentConsts";
+import { useStyles } from "../../constants/layoutConsts";
 import FeeChallan from "../../pages/fee-challan/feeChallan";
 import StudentDropdown from "../../studentDropdown/studentDropdown";
 
@@ -23,8 +23,8 @@ const MainContent = ({
   const classes = useStyles();
 
   return (
-    <main className="container">
-      <div className={classes.container}>
+    <main className={classes.content}>
+      <div className={classes.toolbar}>
         <Switch>
           <Route
             path="/subjects/:subjectSlug/:gradeTypeSlug"

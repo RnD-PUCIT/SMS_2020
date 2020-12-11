@@ -11,7 +11,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Navbar from "../navbar/navbar";
 import UserInfo from "./userInfo";
 
-import { useStyles, sideBarLinks } from "../../constants/sidebarConsts";
+import { sideBarLinks } from "../../constants/sidebarConsts";
+import { useStyles } from "../../constants/layoutConsts";
 
 function Sidebar(props) {
   const { window } = props;
