@@ -16,6 +16,7 @@ import { Alert } from "@material-ui/lab";
 import ReactToPrint from "react-to-print";
 
 import http from "../../../services/httpService";
+import { getMonths } from "../../constants/calendarConsts";
 
 import useStyles from "../../../styles/feeChallanStyle";
 import "./feeChallan.css";
@@ -28,7 +29,7 @@ class FeeChallan extends Component {
     studentInfo: null,
     classInfo: null,
     charges: null,
-    instructions: instructionsConst,
+    instructions: null,
   };
 
   async componentDidMount() {
@@ -44,6 +45,7 @@ class FeeChallan extends Component {
       studentInfo,
       classInfo,
       charges,
+      instructions: feeInfo.instructions,
     });
   }
   render() {
@@ -164,6 +166,9 @@ const InstituteInfo = ({ institution, bankInfo }) => {
 };
 
 const ChallanInfo = ({ challan }) => {
+  const months = getMonths();
+  const issueDate = new Date(challan.issueDate);
+  const dueDate = new Date(challan.dueDate);
   return (
     <Grid container spacing={1}>
       <Grid item md={6}>
@@ -182,7 +187,13 @@ const ChallanInfo = ({ challan }) => {
             </Typography>
           </Grid>
           <Grid item md={8} xs={6}>
-            <Typography>{challan.issueDate}</Typography>
+            <Typography>
+              {months[issueDate.getMonth()].name +
+                " " +
+                issueDate.getDate() +
+                " " +
+                issueDate.getFullYear()}
+            </Typography>
           </Grid>
           <Grid item md={4} xs={6}>
             <Typography>
@@ -190,14 +201,23 @@ const ChallanInfo = ({ challan }) => {
             </Typography>
           </Grid>
           <Grid item md={8} xs={6}>
-            <Typography>MONTH</Typography>
+            <Typography>
+              {months[issueDate.getMonth() - 1].name +
+                " " +
+                issueDate.getFullYear()}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
       <Grid item md={6} xs={12}>
         <Alert severity="warning">
           <Typography>
-            <strong>Due Date: </strong> {challan.dueDate}
+            <strong>Due Date: </strong>{" "}
+            {months[dueDate.getMonth()].name +
+              " " +
+              dueDate.getDate() +
+              " " +
+              dueDate.getFullYear()}
           </Typography>
         </Alert>
       </Grid>
@@ -344,11 +364,7 @@ const Instructions = ({ instructions }) => {
             <Typography variant="h6" style={{ textDecoration: "underline" }}>
               Instructions:
             </Typography>
-            <ul>
-              {instructions.map((item) => {
-                return <li>{item}</li>;
-              })}
-            </ul>
+            <Typography>{instructions}</Typography>
           </div>
         </div>
       </React.Fragment>
@@ -408,15 +424,5 @@ const institutionConst = {
   name: "The Intelli School",
   address: "PUCIT Old Campus, Lahore, Pakistan",
 };
-
-const instructionsConst = [
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-  "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias tempora vel assumenda eveniet labore velit ducimus commodi perferendis fugit! Doloremque sunt perferendis hic est consectetur consequatur rerum doloribus nulla libero!",
-];
 
 export default FeeChallan;
