@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 
 import http from '../../../services/httpService';
-import SearchInput from '../../common/inputs/searchInput';
 import { announcementTabs } from '../../constants/tabsConsts';
 import { getMonths } from '../../constants/calendarConsts';
 import AlertDescriptive from '../../common/alerts/alertDescriptive';
@@ -66,23 +65,10 @@ class Announcements extends Component {
   }
 
   render() {
-    // let data = [
-    //   ...this.state.instituteAnnouncements,
-    //   ...this.state.classAnnouncements,
-    //   ...this.state.studentAnnouncements,
-    // ];
-    // data = data.map((item) => item.title);
-
     //event for handling changing tabs
     const handleChange = (event, newValue) => {
       this.setState({ selectedTab: newValue });
     };
-
-    // //event for handling searchResults
-    // const handleSearchChange = (e, value) => {
-    //   this.setState({ filter: e.target.value });
-    //   value && this.setState({ filter: e.target.value });
-    // };
 
     return (
       <React.Fragment>
@@ -97,11 +83,6 @@ class Announcements extends Component {
             return <Tab key={tab.id} label={tab.name} />;
           })}
         </Tabs>
-        {/* <SearchInput
-          data={data}
-          label={'Search announcements by subject'}
-          onSearchChange={handleSearchChange}
-        /> */}
         {this.state.selectedTab === 0 && (
           <AnnouncementContent
             announcements={this.state.instituteAnnouncements}
@@ -129,7 +110,7 @@ const AnnouncementContent = ({ announcements }) => {
         {announcements.map((item) => {
           const date = new Date(item.date);
           return (
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} key={item.guid}>
               {/* Toolbar Starts */}
               <div className={classes.toolbar} variant='dense'>
                 <FontAwesomeIcon icon={faBullhorn} size='2x' />
