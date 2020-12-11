@@ -22,9 +22,12 @@ import "./feeChallan.css";
 
 class FeeChallan extends Component {
   state = {
-    challan: challanConst,
     institution: institutionConst,
-    bankInfo: {},
+    bankInfo: null,
+    challan: null,
+    studentInfo: null,
+    classInfo: null,
+    charges: null,
     instructions: instructionsConst,
   };
 
@@ -35,41 +38,52 @@ class FeeChallan extends Component {
     const { data } = await http.get(`${url}`);
 
     const { feeInfo, charges, bankInfo, studentInfo, classInfo } = data;
-    this.setState({ bankInfo });
+    this.setState({
+      bankInfo,
+      challan: feeInfo,
+      studentInfo,
+      classInfo,
+      charges,
+    });
   }
-
   render() {
-    return (
-      <React.Fragment>
-        <Typography variant="h5" align="center">
-          Fee Challan Form
-        </Typography>
-        <div>
-          <div style={{ margin: "20px 0" }}>
-            {showFeeStatus(this.state.challan)}
-          </div>
-          <Grid justify="flex-end" container>
-            <ReactToPrint
-              trigger={() => {
-                return (
-                  <Button variant="contained" color="primary">
-                    Print Challan
-                  </Button>
-                );
-              }}
-              content={() => this.componentRef}
+    if (this.state.bankInfo) {
+      return (
+        <React.Fragment>
+          <Typography variant="h5" align="center">
+            Fee Challan Form
+          </Typography>
+          <div>
+            <div style={{ margin: "20px 0" }}>
+              {showFeeStatus(this.state.challan)}
+            </div>
+            <Grid justify="flex-end" container>
+              <ReactToPrint
+                trigger={() => {
+                  return (
+                    <Button variant="contained" color="primary">
+                      Print Challan
+                    </Button>
+                  );
+                }}
+                content={() => this.componentRef}
+              />
+            </Grid>
+            <Form
+              ref={(el) => (this.componentRef = el)}
+              challan={this.state.challan}
+              institution={this.state.institution}
+              bankInfo={this.state.bankInfo}
+              studentInfo={this.state.studentInfo}
+              classInfo={this.state.classInfo}
+              charges={this.state.charges}
+              instructions={this.state.instructions}
             />
-          </Grid>
-          <Form
-            ref={(el) => (this.componentRef = el)}
-            challan={this.state.challan}
-            institution={this.state.institution}
-            bankInfo={this.state.bankInfo}
-            instructions={this.state.instructions}
-          />
-        </div>
-      </React.Fragment>
-    );
+          </div>
+        </React.Fragment>
+      );
+    }
+    return null;
   }
 }
 
@@ -80,14 +94,26 @@ class Form extends Component {
         challan={this.props.challan}
         institution={this.props.institution}
         bankInfo={this.props.bankInfo}
+        studentInfo={this.props.studentInfo}
+        classInfo={this.props.classInfo}
+        charges={this.props.charges}
         instructions={this.props.instructions}
       />
     );
   }
 }
 
-const ChallanForm = ({ challan, institution, instructions, bankInfo }) => {
+const ChallanForm = ({
+  challan,
+  institution,
+  instructions,
+  bankInfo,
+  studentInfo,
+  classInfo,
+  charges,
+}) => {
   const classes = useStyles();
+  const { unpaidCharges } = challan;
   return (
     <React.Fragment>
       <div className={classes.root}>
@@ -98,9 +124,9 @@ const ChallanForm = ({ challan, institution, instructions, bankInfo }) => {
             bankInfo={bankInfo}
           />
           <Divider className={classes.divider} />
-          <StudentInfo challan={challan} />
+          <StudentInfo studentInfo={studentInfo} classInfo={classInfo} />
           <Divider className={classes.divider} />
-          <Dues challan={challan} />
+          <Dues charges={charges} unpaidCharges={unpaidCharges} />
           <Instructions instructions={instructions} />
         </Paper>
       </div>
@@ -148,7 +174,7 @@ const ChallanInfo = ({ challan }) => {
             </Typography>
           </Grid>
           <Grid item md={8} xs={6}>
-            <Typography>{challan.challanNo}</Typography>
+            <Typography>{challan.guid}</Typography>
           </Grid>
           <Grid item md={4} xs={6}>
             <Typography>
@@ -164,7 +190,7 @@ const ChallanInfo = ({ challan }) => {
             </Typography>
           </Grid>
           <Grid item md={8} xs={6}>
-            <Typography>{challan.billingMonth}</Typography>
+            <Typography>MONTH</Typography>
           </Grid>
         </Grid>
       </Grid>
@@ -179,8 +205,7 @@ const ChallanInfo = ({ challan }) => {
   );
 };
 
-const StudentInfo = ({ challan }) => {
-  const { student } = challan;
+const StudentInfo = ({ studentInfo, classInfo }) => {
   return (
     <React.Fragment>
       <Grid container spacing={1}>
@@ -193,7 +218,7 @@ const StudentInfo = ({ challan }) => {
             </Grid>
             <Grid item md={8} xs={6}>
               <Typography>
-                {student.firstName + " " + student.lastName}
+                {studentInfo.firstName + " " + studentInfo.lastName}
               </Typography>
             </Grid>
             <Grid item md={4} xs={6}>
@@ -202,7 +227,7 @@ const StudentInfo = ({ challan }) => {
               </Typography>
             </Grid>
             <Grid item md={8} xs={6}>
-              <Typography>{student.rollNo}</Typography>
+              <Typography>{studentInfo.rollNo}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -214,7 +239,7 @@ const StudentInfo = ({ challan }) => {
               </Typography>
             </Grid>
             <Grid item md={8} xs={6}>
-              <Typography>{student.className}</Typography>
+              <Typography>{classInfo.className}</Typography>
             </Grid>
             <Grid item md={4} xs={6}>
               <Typography>
@@ -222,7 +247,7 @@ const StudentInfo = ({ challan }) => {
               </Typography>
             </Grid>
             <Grid item md={8} xs={6}>
-              <Typography>{student.section}</Typography>
+              <Typography>{classInfo.section}</Typography>
             </Grid>
           </Grid>
         </Grid>
@@ -231,20 +256,21 @@ const StudentInfo = ({ challan }) => {
   );
 };
 
-const Dues = ({ challan }) => {
+const Dues = ({ charges, unpaidCharges }) => {
   const classes = useStyles();
-  const { dues } = challan;
 
   // Calculate Total Fee
-  let totalAmount = 0;
-  for (let i = 0; i < dues.length; i++) {
-    totalAmount += dues[i].amount;
-  }
+  let totalAmount = charges.amount + unpaidCharges;
 
   const numberToWord = require("number-to-words");
   const totalInWords = numberToWord.toWords(totalAmount);
 
   const tableHead = ["Sr. #", "Description", "Amount"];
+  const tableBody = [
+    { chargeName: "Admission Fee", amount: 0 },
+    { chargeName: "Monthly Fee", amount: charges.amount },
+    { chargeName: "Unpaid Charges", amount: unpaidCharges },
+  ];
   return (
     <React.Fragment>
       <Typography align="center">
@@ -272,15 +298,14 @@ const Dues = ({ challan }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {dues.map((charge, index) => {
-                const amount = charge.amount;
+              {tableBody.map((charge, index) => {
                 return (
-                  <TableRow key={charge.chargeId}>
+                  <TableRow key={index}>
                     <TableCell component="th" scope="row">
                       {++index}
                     </TableCell>
                     <TableCell>{charge.chargeName}</TableCell>
-                    <TableCell>{amount.toLocaleString()}/-</TableCell>
+                    <TableCell>{charge.amount.toLocaleString()}/-</TableCell>
                   </TableRow>
                 );
               })}
