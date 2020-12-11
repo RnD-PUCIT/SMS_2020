@@ -66,6 +66,13 @@ class Announcements extends Component {
   }
 
   render() {
+    // let data = [
+    //   ...this.state.instituteAnnouncements,
+    //   ...this.state.classAnnouncements,
+    //   ...this.state.studentAnnouncements,
+    // ];
+    // data = data.map((item) => item.title);
+
     //event for handling changing tabs
     const handleChange = (event, newValue) => {
       this.setState({ selectedTab: newValue });
@@ -73,8 +80,8 @@ class Announcements extends Component {
 
     // //event for handling searchResults
     // const handleSearchChange = (e, value) => {
-    //   setFilter(e.target.value);
-    //   value && setFilter(value);
+    //   this.setState({ filter: e.target.value });
+    //   value && this.setState({ filter: e.target.value });
     // };
 
     return (
@@ -95,28 +102,65 @@ class Announcements extends Component {
           label={'Search announcements by subject'}
           onSearchChange={handleSearchChange}
         /> */}
-        {/* {this.state.selectedTab === 0 && (
+        {this.state.selectedTab === 0 && (
           <AnnouncementContent
             announcements={this.state.instituteAnnouncements}
-            // filter={filter}
           />
         )}
         {this.state.selectedTab === 1 && (
-          <AnnouncementContent
-            announcements={this.state.classAnnouncements}
-            // filter={filter}
-          />
+          <AnnouncementContent announcements={this.state.classAnnouncements} />
         )}
         {this.state.selectedTab === 2 && (
           <AnnouncementContent
             announcements={this.state.studentAnnouncements}
-            // filter={filter}
           />
-        )} */}
+        )}
       </React.Fragment>
     );
   }
 }
+
+const AnnouncementContent = ({ announcements }) => {
+  const months = getMonths();
+  const classes = useStyles();
+  if (announcements)
+    return (
+      <React.Fragment>
+        {announcements.map((item) => {
+          const date = new Date(item.date);
+          return (
+            <Paper className={classes.paper}>
+              {/* Toolbar Starts */}
+              <div className={classes.toolbar} variant='dense'>
+                <FontAwesomeIcon icon={faBullhorn} size='2x' />
+                <Typography variant='h5' className={classes.content}>
+                  {months[date.getMonth()].name +
+                    ' ' +
+                    date.getDate() +
+                    ', ' +
+                    date.getFullYear()}
+                </Typography>
+              </div>
+              {/* Toolbar Ends */}
+
+              <div className={classes.paperBody}>
+                <Typography>{item.title}</Typography>
+                <hr />
+                {item.announcment}
+              </div>
+            </Paper>
+          );
+        })}
+      </React.Fragment>
+    );
+  return (
+    <AlertDescriptive
+      severity='error'
+      title='No Announcement Content Found'
+      description='No Announcement is added till now.'
+    />
+  );
+};
 
 // const Announcements = () => {
 //   const [selectedTab, setSelectedTab] = React.useState(0);
@@ -187,50 +231,50 @@ class Announcements extends Component {
 //   );
 // };
 
-const AnnouncementContent = ({ announcements, filter }) => {
-  const filteredAnnouncements = announcements.filter((item) =>
-    item.title.includes(filter)
-  );
-  const months = getMonths();
-  const classes = useStyles();
-  if (announcements.length)
-    return (
-      <React.Fragment>
-        {filteredAnnouncements.map((announcement) => {
-          const date = new Date(announcement.date);
-          return (
-            <Paper className={classes.paper}>
-              {/* Toolbar Starts */}
-              <div className={classes.toolbar} variant='dense'>
-                <FontAwesomeIcon icon={faBullhorn} size='2x' />
-                <Typography variant='h5' className={classes.content}>
-                  {months[date.getMonth()].name +
-                    ' ' +
-                    date.getDate() +
-                    ', ' +
-                    date.getFullYear()}
-                </Typography>
-              </div>
-              {/* Toolbar Ends */}
+// const AnnouncementContent = ({ announcements, filter }) => {
+//   const filteredAnnouncements = announcements.filter((item) =>
+//     item.title.includes(filter)
+//   );
+//   const months = getMonths();
+//   const classes = useStyles();
+//   if (announcements.length)
+//     return (
+//       <React.Fragment>
+//         {filteredAnnouncements.map((announcement) => {
+//           const date = new Date(announcement.date);
+//           return (
+//             <Paper className={classes.paper}>
+//               {/* Toolbar Starts */}
+//               <div className={classes.toolbar} variant='dense'>
+//                 <FontAwesomeIcon icon={faBullhorn} size='2x' />
+//                 <Typography variant='h5' className={classes.content}>
+//                   {months[date.getMonth()].name +
+//                     ' ' +
+//                     date.getDate() +
+//                     ', ' +
+//                     date.getFullYear()}
+//                 </Typography>
+//               </div>
+//               {/* Toolbar Ends */}
 
-              <div className={classes.paperBody}>
-                <Typography>{announcement.title}</Typography>
-                <hr />
-                {announcement.description}
-              </div>
-            </Paper>
-          );
-        })}
-      </React.Fragment>
-    );
-  return (
-    <AlertDescriptive
-      severity='error'
-      title='No Announcement Content Found'
-      description='No Announcement is added till now.'
-    />
-  );
-};
+//               <div className={classes.paperBody}>
+//                 <Typography>{announcement.title}</Typography>
+//                 <hr />
+//                 {announcement.description}
+//               </div>
+//             </Paper>
+//           );
+//         })}
+//       </React.Fragment>
+//     );
+//   return (
+//     <AlertDescriptive
+//       severity='error'
+//       title='No Announcement Content Found'
+//       description='No Announcement is added till now.'
+//     />
+//   );
+// };
 
 // const Announcement = {
 //   instituteAnnouncements: [
