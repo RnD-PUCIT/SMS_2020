@@ -31,7 +31,7 @@ class FeeChallan extends Component {
     classInfo: null,
     charges: null,
     instructions: null,
-    error: true,
+    error: false,
   };
 
   async componentDidMount() {
