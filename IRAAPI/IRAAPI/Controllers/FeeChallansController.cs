@@ -58,7 +58,7 @@ namespace IRAAPI.Controllers
                 var bankinfo = _context.BankDetails.FirstOrDefault();
                 BankDetailDTO bankData = _mapper.Map<BankDetailDTO>(bankinfo);
                 ChargeDTO Fee = _mapper.Map<ChargeDTO>(amount);
-                //var unPaidFeeList = feeChallan.Where(s => s.IsPaid == false).ToList();
+               
                 List<FeeChallan> pendingFeeList = (List<FeeChallan>)(unPaidpendingFeeList);
                 int sum = pendingFeeList.Count();
                 unPaidFeeForm.UnpaidCharges = sum * Fee.Amount;
@@ -66,10 +66,7 @@ namespace IRAAPI.Controllers
 
 
                 FeeChallanDTO challan = _mapper.Map<FeeChallanDTO>(unPaidFeeForm);
-                //var currentMonthFee = unPaidFeeList.Where(s => s.IssueDate.Equals(DateTime.Now.Date) );
-                // FeeChallanDTO challan=new FeeChallanDTO();
-                //int sum = 0;
-
+                
                 FeeChallanObject ww = new FeeChallanObject { feeInfo = challan, bankInfo = bankData, charges = Fee, studentInfo = student, classInfo = classs };
                 return ww;
             }
@@ -77,10 +74,6 @@ namespace IRAAPI.Controllers
             {
                 return BadRequest("You do not have Unpaid Fee Charges in your account.It may need Updation. ");
             }
-
-
-            //FeeChallanObject ob=new FeeChallanObject {feeInfo}
-            //return  ;
         }
 
         // PUT: api/FeeChallans/5
