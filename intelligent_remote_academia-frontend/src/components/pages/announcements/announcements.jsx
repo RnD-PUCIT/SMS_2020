@@ -42,6 +42,52 @@ class Announcements extends Component {
   };
 
   async componentDidMount() {
+    this.getAnnouncements();
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.studentId !== prevProps.studentId) {
+      this.getAnnouncements();
+    }
+  }
+
+  render() {
+    //event for handling changing tabs
+    const handleChange = (event, newValue) => {
+      this.setState({ selectedTab: newValue });
+    };
+
+    return (
+      <React.Fragment>
+        <Tabs
+          value={this.state.selectedTab}
+          onChange={handleChange}
+          centered
+          style={{ margin: "30px 0 40px 0" }}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          {announcementTabs.map((tab) => {
+            return <Tab key={tab.id} label={tab.name} />;
+          })}
+        </Tabs>
+        {this.state.selectedTab === 0 && (
+          <AnnouncementContent
+            announcements={this.state.instituteAnnouncements}
+          />
+        )}
+        {this.state.selectedTab === 1 && (
+          <AnnouncementContent announcements={this.state.classAnnouncements} />
+        )}
+        {this.state.selectedTab === 2 && (
+          <AnnouncementContent
+            announcements={this.state.studentAnnouncements}
+          />
+        )}
+      </React.Fragment>
+    );
+  }
+  getAnnouncements = async () => {
     const { studentId, classId, sessionId } = this.props;
 
     const url =
@@ -62,58 +108,13 @@ class Announcements extends Component {
       classAnnouncements: classs,
       studentAnnouncements: stdnt,
     });
-  }
-
-  render() {
-    //event for handling changing tabs
-    const handleChange = (event, newValue) => {
-      this.setState({ selectedTab: newValue });
-    };
-    if (
-      this.state.instituteAnnouncements ||
-      this.state.classAnnouncements ||
-      this.state.studentAnnouncements
-    ) {
-      return (
-        <React.Fragment>
-          <Tabs
-            value={this.state.selectedTab}
-            onChange={handleChange}
-            centered
-            style={{ margin: "30px 0 40px 0" }}
-            indicatorColor="primary"
-            textColor="primary"
-          >
-            {announcementTabs.map((tab) => {
-              return <Tab key={tab.id} label={tab.name} />;
-            })}
-          </Tabs>
-          {this.state.selectedTab === 0 && (
-            <AnnouncementContent
-              announcements={this.state.instituteAnnouncements}
-            />
-          )}
-          {this.state.selectedTab === 1 && (
-            <AnnouncementContent
-              announcements={this.state.classAnnouncements}
-            />
-          )}
-          {this.state.selectedTab === 2 && (
-            <AnnouncementContent
-              announcements={this.state.studentAnnouncements}
-            />
-          )}
-        </React.Fragment>
-      );
-    }
-    return null;
-  }
+  };
 }
 
 const AnnouncementContent = ({ announcements }) => {
   const months = getMonths();
   const classes = useStyles();
-  if (announcements)
+  if (announcements && announcements.length > 0)
     return (
       <React.Fragment>
         {announcements.map((item) => {
