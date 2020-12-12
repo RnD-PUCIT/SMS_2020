@@ -46,6 +46,7 @@ const MainContent = ({
                   subjects={subjects}
                   studentId={studentId}
                   classId={classId}
+                  sessionId={sessionId}
                 />
               </StudentDropdown>
             )}

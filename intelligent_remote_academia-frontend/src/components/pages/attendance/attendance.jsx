@@ -10,15 +10,6 @@ class Attendance extends Component {
   state = { attendance: null, date: new Date() };
 
   async componentDidMount() {
-    const { studentId, classId, sessionId } = this.props;
-
-    const url =
-      "/attendance?studentId=" +
-      studentId +
-      "&classId=" +
-      classId +
-      "&sessionId=" +
-      sessionId;
     this.getAttendance();
   }
 
@@ -77,9 +68,15 @@ class Attendance extends Component {
     return null;
   }
   getAttendance = async () => {
-    const { studentId, classId } = this.props;
+    const { studentId, classId, sessionId } = this.props;
 
-    const url = "/attendance?studentId=" + studentId + "&classId=" + classId;
+    const url =
+      "/attendance?studentId=" +
+      studentId +
+      "&classId=" +
+      classId +
+      "&sessionId=" +
+      sessionId;
 
     const { data } = await http.get(`${url}`);
     const { attendance } = data;

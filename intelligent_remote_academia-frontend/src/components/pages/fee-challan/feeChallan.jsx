@@ -20,6 +20,7 @@ import { getMonths } from "../../constants/calendarConsts";
 
 import useStyles from "../../../styles/feeChallanStyle";
 import "./feeChallan.css";
+import AlertDescriptive from "../../common/alerts/alertDescriptive";
 
 class FeeChallan extends Component {
   state = {
@@ -30,26 +31,29 @@ class FeeChallan extends Component {
     classInfo: null,
     charges: null,
     instructions: null,
+    error: true,
   };
 
   async componentDidMount() {
-    const { studentId, classId } = this.props;
-
-    const url = "/feechallan?studentid=" + studentId + "&classid=" + classId;
-    const { data } = await http.get(`${url}`);
-
-    const { feeInfo, charges, bankInfo, studentInfo, classInfo } = data;
-    this.setState({
-      bankInfo,
-      challan: feeInfo,
-      studentInfo,
-      classInfo,
-      charges,
-      instructions: feeInfo.instructions,
-    });
+    this.getFeeChallan();
   }
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.studentId !== prevProps.studentId) {
+      this.getFeeChallan();
+    }
+  }
+
   render() {
-    if (this.state.bankInfo) {
+    if (this.state.error) {
+      return (
+        <AlertDescriptive
+          severity="error"
+          title="No Challan"
+          description="Your current challan may not be uploaded. Please come check later!"
+        />
+      );
+    } else if (this.state.bankInfo) {
       return (
         <React.Fragment>
           <Typography variant="h5" align="center">
@@ -87,6 +91,31 @@ class FeeChallan extends Component {
     }
     return null;
   }
+  getFeeChallan = async () => {
+    const { studentId, classId } = this.props;
+
+    const url = "/feechallan?studentid=" + studentId + "&classid=" + classId;
+
+    try {
+      const { data } = await http.get(`${url}`);
+
+      const { feeInfo, charges, bankInfo, studentInfo, classInfo } = data;
+      this.setState({
+        bankInfo,
+        challan: feeInfo,
+        studentInfo,
+        classInfo,
+        charges,
+        instructions: feeInfo.instructions,
+        error: false,
+      });
+    } catch (ex) {
+      console.log(ex);
+      if (ex && ex.response.status === 400) {
+        this.setState({ error: true });
+      }
+    }
+  };
 }
 
 class Form extends Component {
