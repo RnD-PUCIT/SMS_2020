@@ -6,7 +6,8 @@ import IconButton from "@material-ui/core/IconButton";
 
 import MenuIcon from "@material-ui/icons/Menu";
 
-import { useStyles, brandName } from "../../constants/navbarConsts";
+import { brandName } from "../../constants/navbarConsts";
+import { useStyles } from "../../constants/layoutConsts";
 import ProfileAvatar from "./profileAvatar";
 
 export default function Navbar(props) {
