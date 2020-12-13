@@ -12,7 +12,7 @@ const useStyles = makeStyles({
 });
 
 // Receiving array of subjects as a prop and destructuring it.
-const Subjects = ({ subjects, studentId, classId }) => {
+const Subjects = ({ subjects, studentId, classId, sessionId }) => {
   const classes = useStyles();
   return (
     <Grid container spacing={3} className={classes.gridContainer}>
@@ -25,6 +25,7 @@ const Subjects = ({ subjects, studentId, classId }) => {
               subject={subject}
               studentId={studentId}
               classId={classId}
+              sessionId={sessionId}
             />
           );
         })}

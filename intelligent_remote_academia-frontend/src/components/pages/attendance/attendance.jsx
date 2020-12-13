@@ -10,19 +10,23 @@ class Attendance extends Component {
   state = { attendance: null, date: new Date() };
 
   async componentDidMount() {
-    const { studentId, classId } = this.props;
+    this.getAttendance();
+  }
 
-    const url = "/attendance?studentId=" + studentId + "&classId=" + classId;
+  async componentDidUpdate(prevProps) {
+    /* 
+      compare prev props to new props, if they don't match
+      then call server to get attendance data, otherwise infinite
+      loop will be executed
+    */
 
-    const { data } = await http.get(`${url}`);
-    const { attendance } = data;
-
-    this.setState({ attendance });
+    if (this.props.studentId !== prevProps.studentId) {
+      this.getAttendance();
+    }
   }
 
   render() {
     const { attendance } = this.state;
-    console.log(attendance);
 
     if (attendance) {
       return (
@@ -31,7 +35,6 @@ class Attendance extends Component {
             value={this.state.date}
             showNeighboringMonth={false}
             tileClassName={({ date }) => {
-              console.log(date.toLocaleDateString());
               if (
                 attendance.find(
                   (a) =>
@@ -64,6 +67,22 @@ class Attendance extends Component {
     }
     return null;
   }
+  getAttendance = async () => {
+    const { studentId, classId, sessionId } = this.props;
+
+    const url =
+      "/attendance?studentId=" +
+      studentId +
+      "&classId=" +
+      classId +
+      "&sessionId=" +
+      sessionId;
+
+    const { data } = await http.get(`${url}`);
+    const { attendance } = data;
+
+    this.setState({ attendance });
+  };
 }
 
 export default Attendance;

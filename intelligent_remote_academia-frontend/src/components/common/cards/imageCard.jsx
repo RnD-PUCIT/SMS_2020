@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-const Cards = ({ subject, studentId, classId }) => {
+const Cards = ({ subject, studentId, classId, sessionId }) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
@@ -33,7 +33,9 @@ const Cards = ({ subject, studentId, classId }) => {
                     "&classId=" +
                     classId +
                     "&subjectId=" +
-                    subject.subjectId,
+                    subject.subjectId +
+                    "&sessionId=" +
+                    sessionId,
                 }}
               >
                 {subject.subjectName}

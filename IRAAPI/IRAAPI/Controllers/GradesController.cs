@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
+using IRAAPI.Models;
 
 
 namespace IRAAPI.Controllers
@@ -15,23 +16,72 @@ namespace IRAAPI.Controllers
     {
         [Authorize]
         [HttpGet]
-        public Object GetGradeDetails(int studentId, int classId, int subjectId, int gradeTypeId)
+        public Object GetGradeDetails(Guid studentId, Guid classId, Guid subjectId,  Guid gradeTypeId, Guid sessionId)
         {
             var claims = User.Claims;
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
 
-            VerifierBLL verifier = new VerifierBLL();
-            if (!(verifier.VerifyStudentByParentId(Convert.ToInt32(parentId), studentId) && verifier.VerifyClassByStudentId(studentId, classId) && verifier.VerifySubjectByClassId(classId, subjectId)))
-                return Unauthorized();
+            using IRAAPIContext context = new IRAAPIContext();
 
-            List<Grade> gradeDetails = new GradeBLL().GetGradeDetails(studentId, classId, subjectId, gradeTypeId);
-            if (gradeDetails == null)
-                return NotFound();
+            try
+            {
+                int studentNumericId = context.Students.Where(a => a.Guid == studentId)
+                    .Select(a => a.Id)
+                    .SingleOrDefault();
+                int classNumericId = context.Classes.Where(c => c.Guid == classId)
+                    .Select(c => c.Id)
+                    .SingleOrDefault();
+                int subjectNumericId = context.Subjects.Where(s => s.Guid == subjectId)
+                    .Select(s => s.Id)
+                    .SingleOrDefault();
+                int gradeTypeNumericId = context.GradeTypes.Where(g => g.Guid == gradeTypeId)
+                    .Select(g => g.Id)
+                    .SingleOrDefault();
+                int sessionNumericId = context.Sessions.Where(s => s.Guid == sessionId)
+                    .Select(s => s.Id)
+                    .SingleOrDefault();
 
-            return new { grades = gradeDetails};
+                var gradesData = context.Grades.Where(a => a.StudentId == studentNumericId && a.ClassId == classNumericId && a.SubjectId == subjectNumericId && a.SessionId == sessionNumericId && a.GradeTypeId == gradeTypeNumericId)
+                    .OrderByDescending(p => p.GradeDate)
+                    .Select(p => new GradeDTO()
+                    {
+                        id = p.Guid,
+                        gradeDate = Convert.ToDateTime(p.GradeDate).ToString("MM/d/yyyy"),
+                        totalMarks = p.TotalMarks,
+                        obtainedMarks = p.ObtainedMarks,
+                        gradeTitle = p.GradeTitle,
+                        remarks = p.Remarks
+                    })
+                    .ToList();
+                if (gradesData == null)
+                    return NotFound();
+
+                return new { Grades = gradesData };
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            //List<Grade> gradeDetails = new GradeBLL().GetGradeDetails(studentId, classId, subjectId, gradeTypeId);
+            //if (gradeDetails == null)
+            //    return NotFound();
+
+            //return new { grades = gradeDetails};
         }
     }
 
+    public class GradeDTO
+    {
+        public Guid id { get; set; }
+        public string gradeDate { get; set; }
+        public int totalMarks { get; set; }
+        public int obtainedMarks { get; set; }
+        public string gradeTitle { get; set; }
+        public string remarks { get; set; }
+        
+    }
 }

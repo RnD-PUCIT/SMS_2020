@@ -10,37 +10,57 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using IRAAPI.BLL;
 using IRAAPI.COMMON;
+using IRAAPI.Models;
+
 
 namespace IRAAPI.Controllers
 {
-
     [ApiController]
     [Route("account")]
     public class AccountController : ControllerBase
-    { 
+    {
         [HttpPost("login")]
         public Object Login()
         {
             string cnic = HttpContext.Request.Form["cnic"];
             string password = HttpContext.Request.Form["password"];
-            int parentId = new ParentBLL().VerifyParent(cnic, password);
+            bool passwordVerified = false;
+
+            using IRAAPIContext context = new IRAAPIContext();
+
+            try
+            {
+                var parentData = context.ParentLogins.Where(a => a.Cnic == cnic)
+                    .SingleOrDefault();
+                if (parentData != null)
+                {
+                    passwordVerified = BCrypt.Net.BCrypt.Verify(password, parentData.Password);
+                    if (passwordVerified)
+                    {
+                        return getToken(context.Parents.Where(a=> a.Id == parentData.Id).Select(a=> a.Guid).SingleOrDefault().ToString());
+                    }
+                    else
+                    {
+                        return BadRequest("Invalid Credentials");
+                    }
+                }
+                else
+                {
+                    return BadRequest("User Not Registered");
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
             
-            if ( parentId == -1)
-            {
-                return BadRequest("Invalid Credentials");
-            }
-            else if (parentId == -2)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return getToken(parentId);
-            }            
         }
 
         [NonAction]
-        public Object getToken(int parentId)
+        public Object getToken(string parentId)
         {
             string key = "ADSTZ_1226404119";
             var issuer = "http://ira.com";
@@ -49,8 +69,11 @@ namespace IRAAPI.Controllers
 
             var permClaims = new List<Claim>();
             permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            permClaims.Add(new Claim("parent_id", parentId.ToString()));
+
+            permClaims.Add(new Claim("parent_id", parentId));
             
+
+
 
             var token = new JwtSecurityToken(issuer,
                             issuer,
