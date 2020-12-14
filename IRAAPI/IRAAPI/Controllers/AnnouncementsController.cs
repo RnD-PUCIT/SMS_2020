@@ -35,7 +35,6 @@ namespace IRAAPI.Controllers
         // GET: api/Announcements/5
         [Authorize]
         [HttpGet]
-
         public Object GetAnnouncement(Guid studentid, Guid classid, Guid sessionid)
         { 
             try
@@ -63,7 +62,7 @@ namespace IRAAPI.Controllers
             }
             catch(Exception )
             {
-                return BadRequest("Announcements may not exist");
+                return BadRequest("Announcements may not exist. You may check later.");
             }
 
 
