@@ -1,16 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from 'react-router-dom';
 
-import Subjects from "../../pages/subjects/subjects";
-import Attendance from "../../pages/attendance/attendance";
-import SubjectDetails from "../../pages/subjects/subjectDetails";
-import GradeDetails from "../../pages/subjects/gradeDetails";
-import Announcements from "../../pages/announcements/announcements";
+import Subjects from '../../pages/subjects/subjects';
+import Attendance from '../../pages/attendance/attendance';
+import SubjectDetails from '../../pages/subjects/subjectDetails';
+import GradeDetails from '../../pages/subjects/gradeDetails';
+import Announcements from '../../pages/announcements/announcements';
+import AcademicCalender from '../../pages/academicCalender/academicCalender';
 
-import { useStyles } from "../../constants/layoutConsts";
-import FeeChallan from "../../pages/fee-challan/feeChallan";
-import StudentDropdown from "../../studentDropdown/studentDropdown";
+import { useStyles } from '../../constants/layoutConsts';
+import FeeChallan from '../../pages/fee-challan/feeChallan';
+import StudentDropdown from '../../studentDropdown/studentDropdown';
 
 const MainContent = ({
   subjects,
@@ -28,20 +29,20 @@ const MainContent = ({
       <div className={classes.toolbar}>
         <Switch>
           <Route
-            path="/subjects/:subjectSlug/:gradeTypeSlug"
+            path='/subjects/:subjectSlug/:gradeTypeSlug'
             component={GradeDetails}
           />
-          <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
+          <Route path='/subjects/:subjectSlug' component={SubjectDetails} />
+          <Route path='/academic-calender' component={AcademicCalender} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
-            path="/subjects"
+            path='/subjects'
             render={() => (
               <StudentDropdown
                 studentList={studentList}
                 onClick={onClick}
-                selectedStudent={selectedStudent}
-              >
+                selectedStudent={selectedStudent}>
                 <Subjects
                   subjects={subjects}
                   studentId={studentId}
@@ -52,13 +53,12 @@ const MainContent = ({
             )}
           />
           <Route
-            path="/attendance"
+            path='/attendance'
             render={() => (
               <StudentDropdown
                 studentList={studentList}
                 onClick={onClick}
-                selectedStudent={selectedStudent}
-              >
+                selectedStudent={selectedStudent}>
                 <Attendance
                   studentId={studentId}
                   classId={classId}
@@ -68,13 +68,12 @@ const MainContent = ({
             )}
           />
           <Route
-            path="/announcements"
+            path='/announcements'
             render={() => (
               <StudentDropdown
                 studentList={studentList}
                 onClick={onClick}
-                selectedStudent={selectedStudent}
-              >
+                selectedStudent={selectedStudent}>
                 <Announcements
                   studentId={studentId}
                   classId={classId}
@@ -84,18 +83,17 @@ const MainContent = ({
             )}
           />
           <Route
-            path="/challan"
+            path='/challan'
             render={() => (
               <StudentDropdown
                 studentList={studentList}
                 onClick={onClick}
-                selectedStudent={selectedStudent}
-              >
+                selectedStudent={selectedStudent}>
                 <FeeChallan studentId={studentId} classId={classId} />
               </StudentDropdown>
             )}
           />
-          <Redirect from="/" to="/subjects" exact />
+          <Redirect from='/' to='/subjects' exact />
         </Switch>
       </div>
     </main>
