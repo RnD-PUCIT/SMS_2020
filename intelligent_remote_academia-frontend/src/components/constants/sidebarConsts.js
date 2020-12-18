@@ -16,6 +16,10 @@ const sideBarLinks = [
     text: "Fee Challan Form",
     url: "/challan",
   },
+  {
+    text: "Time Table",
+    url: "/timetable",
+  },
 ];
 
 export { sideBarLinks };

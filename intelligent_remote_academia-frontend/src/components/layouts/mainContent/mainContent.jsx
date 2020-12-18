@@ -11,6 +11,7 @@ import Announcements from "../../pages/announcements/announcements";
 import { useStyles } from "../../constants/layoutConsts";
 import FeeChallan from "../../pages/fee-challan/feeChallan";
 import StudentDropdown from "../../studentDropdown/studentDropdown";
+import TimeTable from "../../pages/time-table/TimeTable";
 
 const MainContent = ({
   subjects,
@@ -92,6 +93,18 @@ const MainContent = ({
                 selectedStudent={selectedStudent}
               >
                 <FeeChallan studentId={studentId} classId={classId} />
+              </StudentDropdown>
+            )}
+          />
+          <Route
+            path="/timetable"
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <TimeTable />
               </StudentDropdown>
             )}
           />
