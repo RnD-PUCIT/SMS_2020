@@ -17,8 +17,8 @@ const sideBarLinks = [
     url: '/challan',
   },
   {
-    text: 'Academic Calender',
-    url: '/academic-calender',
+    text: 'Academic Calendar',
+    url: '/academic-calendar',
   },
 ];
 

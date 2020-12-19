@@ -9,12 +9,12 @@ const useStyles = makeStyles({
   },
 });
 
-const AcademicCalender = () => {
+const AcademicCalendar = () => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <Paper className={classes.root} elevation={3}>
-        <Typography variant='h5'>Academic Calender</Typography>
+        <Typography variant='h5'>Academic Calendar</Typography>
       </Paper>
     </React.Fragment>
   );
@@ -22,4 +22,4 @@ const AcademicCalender = () => {
 
 const academicCalenderConst = {};
 
-export default AcademicCalender;
+export default AcademicCalendar;

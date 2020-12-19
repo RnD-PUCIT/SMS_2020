@@ -7,7 +7,7 @@ import Attendance from '../../pages/attendance/attendance';
 import SubjectDetails from '../../pages/subjects/subjectDetails';
 import GradeDetails from '../../pages/subjects/gradeDetails';
 import Announcements from '../../pages/announcements/announcements';
-import AcademicCalender from '../../pages/academicCalender/academicCalender';
+import AcademicCalendar from '../../pages/academicCalendar/academicCalendar';
 
 import { useStyles } from '../../constants/layoutConsts';
 import FeeChallan from '../../pages/fee-challan/feeChallan';
@@ -33,7 +33,6 @@ const MainContent = ({
             component={GradeDetails}
           />
           <Route path='/subjects/:subjectSlug' component={SubjectDetails} />
-          <Route path='/academic-calender' component={AcademicCalender} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
@@ -90,6 +89,17 @@ const MainContent = ({
                 onClick={onClick}
                 selectedStudent={selectedStudent}>
                 <FeeChallan studentId={studentId} classId={classId} />
+              </StudentDropdown>
+            )}
+          />
+          <Route
+            path='/academic-calendar'
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}>
+                <AcademicCalendar />
               </StudentDropdown>
             )}
           />
