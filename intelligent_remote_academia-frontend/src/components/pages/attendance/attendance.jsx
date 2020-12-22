@@ -5,10 +5,11 @@ import http from "../../../services/httpService";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
+import { Grid, Paper } from "@material-ui/core";
+import { Doughnut } from "react-chartjs-2";
 
 class Attendance extends Component {
-  state = { attendance: null, date: new Date() };
-
+  state = { attendance: null, date: new Date(), yearStats: {} };
   async componentDidMount() {
     this.getAttendance();
   }
@@ -27,41 +28,87 @@ class Attendance extends Component {
 
   render() {
     const { attendance } = this.state;
+    const { absents, presents, leaves } = this.state.yearStats;
+    const chartData = {
+      labels: ["Presents", "Abents", "Leaves"],
+      datasets: [
+        {
+          label: "Rainfall",
+          backgroundColor: [
+            "#B21F00",
+            "#C9DE00",
+            "#2FDE00",
+            "#00A6B4",
+            "#6800B4",
+          ],
+          hoverBackgroundColor: [
+            "#501800",
+            "#4B5000",
+            "#175000",
+            "#003350",
+            "#35014F",
+          ],
+          data: [presents, absents, leaves],
+        },
+      ],
+    };
 
     if (attendance) {
       return (
         <React.Fragment>
-          <Calendar
-            value={this.state.date}
-            showNeighboringMonth={false}
-            tileClassName={({ date }) => {
-              if (
-                attendance.find(
-                  (a) =>
-                    a.attendanceDate === date.toLocaleDateString() &&
-                    a.status === "P"
-                )
-              ) {
-                return "present";
-              } else if (
-                attendance.find(
-                  (a) =>
-                    a.attendanceDate === date.toLocaleDateString() &&
-                    a.status === "A"
-                )
-              ) {
-                return "absent";
-              } else if (
-                attendance.find(
-                  (a) =>
-                    a.attendanceDate === date.toLocaleDateString() &&
-                    a.status === "L"
-                )
-              ) {
-                return "leave";
-              }
-            }}
-          />
+          <Grid container spacing={4} style={{ marginTop: "20px" }}>
+            <Grid item md={8}>
+              <Calendar
+                value={this.state.date}
+                showNeighboringMonth={false}
+                tileClassName={({ date }) => {
+                  if (
+                    attendance.find(
+                      (a) =>
+                        a.attendanceDate === date.toLocaleDateString() &&
+                        a.status === "P"
+                    )
+                  ) {
+                    return "present";
+                  } else if (
+                    attendance.find(
+                      (a) =>
+                        a.attendanceDate === date.toLocaleDateString() &&
+                        a.status === "A"
+                    )
+                  ) {
+                    return "absent";
+                  } else if (
+                    attendance.find(
+                      (a) =>
+                        a.attendanceDate === date.toLocaleDateString() &&
+                        a.status === "L"
+                    )
+                  ) {
+                    return "leave";
+                  }
+                }}
+              />
+            </Grid>
+            <Grid item md={4}>
+              <Paper variant="outlined">
+                <Doughnut
+                  data={chartData}
+                  options={{
+                    title: {
+                      display: true,
+                      text: "Attendance Stats",
+                      fontSize: 20,
+                    },
+                    legend: {
+                      display: true,
+                      position: "right",
+                    },
+                  }}
+                />
+              </Paper>
+            </Grid>
+          </Grid>
         </React.Fragment>
       );
     }
@@ -82,6 +129,25 @@ class Attendance extends Component {
     const { attendance } = data;
 
     this.setState({ attendance });
+
+    let noOfAbsents = 0,
+      noOfPresents = 0,
+      noOfLeaves = 0;
+
+    if (attendance) {
+      attendance.map((a) => {
+        if (a.status === "A") noOfAbsents++;
+        else if (a.status === "P") noOfPresents++;
+        else if (a.status === "L") noOfLeaves++;
+      });
+
+      const yearStats = {
+        absents: noOfAbsents,
+        presents: noOfPresents,
+        leaves: noOfLeaves,
+      };
+      this.setState({ yearStats });
+    }
   };
 }
 
