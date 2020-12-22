@@ -19,6 +19,34 @@ namespace IRAAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
 
+            modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<string>("Event")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("event");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int")
+                        .HasColumnName("session_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId");
+
+                    b.ToTable("AcademicCalenders");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>
                 {
                     b.Property<int>("Id")
@@ -901,6 +929,17 @@ namespace IRAAPI.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Teacher_Subject_Alloc");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>
