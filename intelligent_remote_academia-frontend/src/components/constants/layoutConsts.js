@@ -43,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 3px 10px rgb(0, 0, 0, .5)",
     borderTopRightRadius: "50px",
     // borderBottomRightRadius: "50px",
+    "&:hover": {
+      color: "white",
+    },
   },
   title: {
     flexGrow: 1,

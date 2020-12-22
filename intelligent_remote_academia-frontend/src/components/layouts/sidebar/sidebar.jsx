@@ -13,6 +13,8 @@ import UserInfo from "./userInfo";
 
 import { sideBarLinks } from "../../constants/sidebarConsts";
 import { useStyles } from "../../constants/layoutConsts";
+import { ListItemIcon } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Sidebar(props) {
   const { window } = props;
@@ -39,8 +41,15 @@ function Sidebar(props) {
               component={NavLink}
               to={item.url}
               activeClassName={classes.active}
+              style={{ padding: "15px" }}
             >
-              <ListItemText>{item.text}</ListItemText>
+              <ListItemIcon>
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  style={{ fontSize: "23px" }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
             </ListItem>
           );
         })}
