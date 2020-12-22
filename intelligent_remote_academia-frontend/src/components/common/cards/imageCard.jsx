@@ -19,38 +19,38 @@ const Cards = ({ subject, studentId, classId, sessionId }) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={6} md={4}>
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia className={classes.media} image={SubImg} />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="h2">
-              <Link
-                to={{
-                  pathname: "/subjects/" + subject.subjectSlug,
-                  search:
-                    "studentId=" +
-                    studentId +
-                    "&classId=" +
-                    classId +
-                    "&subjectId=" +
-                    subject.subjectId +
-                    "&sessionId=" +
-                    sessionId,
-                }}
-              >
+      <Link
+        to={{
+          pathname: "/subjects/" + subject.subjectSlug,
+          search:
+            "studentId=" +
+            studentId +
+            "&classId=" +
+            classId +
+            "&subjectId=" +
+            subject.subjectId +
+            "&sessionId=" +
+            sessionId,
+        }}
+      >
+        <Card className={classes.root}>
+          <CardActionArea>
+            <CardMedia className={classes.media} image={SubImg} />
+            <CardContent>
+              <Typography gutterBottom variant="h6" component="h2">
                 {subject.subjectName}
-              </Link>
-            </Typography>
-            <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              component="span"
-            >
-              {subject.teacherName}
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                component="span"
+              >
+                {subject.teacherName}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Card>
+      </Link>
     </Grid>
   );
 };

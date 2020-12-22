@@ -54,7 +54,7 @@ const StudentCard = ({ student, onClick }) => {
     <React.Fragment>
       <Card
         style={{ borderRadius: "500px", marginBottom: "15px" }}
-        variant="outlined"
+        raised="true"
       >
         <CardActionArea onClick={onClick}>
           <CardContent style={{ padding: "5px" }}>
