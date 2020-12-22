@@ -36,6 +36,9 @@ namespace IRAAPI.Models
         public virtual DbSet<SubjectGradeTypeAlloc> SubjectGradeTypeAllocs { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeacherSubjectAlloc> TeacherSubjectAllocs { get; set; }
+        public virtual DbSet<Timetable> TimeTables { get; set; }
+        public virtual DbSet<Days> Days { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
