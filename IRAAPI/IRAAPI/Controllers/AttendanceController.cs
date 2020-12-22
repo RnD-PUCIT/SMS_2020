@@ -58,12 +58,6 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-
-            //List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
-            //if (attendances == null)
-            //    return NotFound();
-
-            //return new AttendanceDTO(attendances);
         }
     }
 

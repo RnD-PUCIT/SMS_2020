@@ -950,6 +950,10 @@ namespace IRAAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("time_slot");
 
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
