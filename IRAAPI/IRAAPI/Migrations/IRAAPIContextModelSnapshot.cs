@@ -37,6 +37,10 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("class_id");
 
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
                     b.Property<Guid>("Guid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
