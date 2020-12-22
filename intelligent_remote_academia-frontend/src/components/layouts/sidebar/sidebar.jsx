@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
@@ -28,8 +28,6 @@ function Sidebar(props) {
     <div>
       {/* Display logged in user information */}
       <UserInfo parentInfo={userInfo} />
-
-      <Divider />
 
       {/* Sidebar Links */}
       <List>

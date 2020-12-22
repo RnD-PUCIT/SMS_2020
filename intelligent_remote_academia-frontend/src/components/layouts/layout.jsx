@@ -69,7 +69,7 @@ class Layout extends Component {
       const seletedID = value.id;
 
       const studentsList = [...this.state.studentList];
-      const selectedStudent = studentsList.filter((s) => s.id == seletedID)[0];
+      const selectedStudent = studentsList.filter((s) => s.id === seletedID)[0];
 
       const index = studentsList.indexOf(selectedStudent);
 
