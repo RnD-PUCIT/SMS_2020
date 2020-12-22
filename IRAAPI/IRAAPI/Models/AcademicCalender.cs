@@ -28,4 +28,9 @@ namespace IRAAPI.Models
        
 
     }
+    public class AcademicCalenderDTO
+    {
+        public string Event { get; set; }
+        public DateTime Date { get; set; }
+    }
 }

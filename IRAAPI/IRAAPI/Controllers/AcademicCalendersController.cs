@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
+using AutoMapper;
 
 namespace IRAAPI.Controllers
 {
@@ -13,11 +14,12 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class AcademicCalendersController : ControllerBase
     {
-        private readonly IRAAPIContext _context;
+        private readonly IRAAPIContext _context = new IRAAPIContext();
 
-        public AcademicCalendersController(IRAAPIContext context)
+        private readonly IMapper _mapper;
+        public AcademicCalendersController(IMapper mapper)
         {
-            _context = context;
+            _mapper = mapper;
         }
 
         // GET: api/AcademicCalenders
