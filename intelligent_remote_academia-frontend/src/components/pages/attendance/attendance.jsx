@@ -34,20 +34,10 @@ class Attendance extends Component {
       datasets: [
         {
           label: "Rainfall",
-          backgroundColor: [
-            "#B21F00",
-            "#C9DE00",
-            "#2FDE00",
-            "#00A6B4",
-            "#6800B4",
-          ],
-          hoverBackgroundColor: [
-            "#501800",
-            "#4B5000",
-            "#175000",
-            "#003350",
-            "#35014F",
-          ],
+          backgroundColor: ["#059c4c", "#7d191d", "#f6d83c"],
+          hoverBackgroundColor: ["#501800", "#4B5000", "#175000"],
+          borderWidth: 5,
+          weight: 5,
           data: [presents, absents, leaves],
         },
       ],
@@ -97,8 +87,8 @@ class Attendance extends Component {
                   options={{
                     title: {
                       display: true,
-                      text: "Attendance Stats",
-                      fontSize: 20,
+                      text: "Yearly Attendance Stats",
+                      fontSize: 16,
                     },
                     legend: {
                       display: true,
