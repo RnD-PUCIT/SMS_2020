@@ -24,13 +24,12 @@ namespace IRAAPI.Models
        
         public int SessionId { get; set; }
         public virtual Session Session { get; set; }
+        [Required]
+        [Column("guid")]
+        public Guid Guid { get; set; }
 
        
 
     }
-    public class AcademicCalenderDTO
-    {
-        public string Event { get; set; }
-        public DateTime Date { get; set; }
-    }
+   
 }

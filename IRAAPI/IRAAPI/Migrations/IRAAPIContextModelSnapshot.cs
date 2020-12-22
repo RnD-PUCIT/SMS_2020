@@ -36,6 +36,10 @@ namespace IRAAPI.Migrations
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("event");
 
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
                     b.Property<int>("SessionId")
                         .HasColumnType("int")
                         .HasColumnName("session_id");
