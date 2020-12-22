@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IRAAPI.Controllers
 {
@@ -22,25 +23,21 @@ namespace IRAAPI.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/AcademicCalenders
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<AcademicCalender>>> GetAcademicCalenders()
-        {
-            return await _context.AcademicCalenders.ToListAsync();
-        }
-
+        
         // GET: api/AcademicCalenders/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<AcademicCalender>> GetAcademicCalender(int id)
+        [Authorize]
+        [HttpGet]
+        public Object GetAcademicCalender(int session_id)
         {
-            var academicCalender = await _context.AcademicCalenders.FindAsync(id);
+            var academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==session_id);
 
             if (academicCalender == null)
             {
                 return NotFound();
             }
+            List<AcademicCalenderDTO> academicCalenderListforsession = _mapper.Map<List<AcademicCalenderDTO>>(academicCalender);
 
-            return academicCalender;
+            return academicCalenderListforsession;
         }
 
         // PUT: api/AcademicCalenders/5
