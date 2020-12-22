@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using IRAAPI.BLL;
-using IRAAPI.COMMON;
 using IRAAPI.Models;
 
 

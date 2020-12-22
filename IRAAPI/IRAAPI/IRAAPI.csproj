@@ -21,10 +21,5 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\IRAAPI.BLL\IRAAPI.BLL.csproj" />
-    <ProjectReference Include="..\IRAAPI.COMMON\IRAAPI.COMMON.csproj" />
-  </ItemGroup>
-
 
 </Project>

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using IRAAPI.BLL;
-using IRAAPI.COMMON;
 using IRAAPI.Models;
 
 namespace IRAAPI.Controllers
