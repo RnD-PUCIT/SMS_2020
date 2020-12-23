@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace IRAAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("academiccalender")]
     [ApiController]
     public class AcademicCalendersController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public Object GetAcademicCalender(int session_id)
         {
-            var academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==session_id);
+            List<AcademicCalender> academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==session_id).ToList();
 
             if (academicCalender == null)
             {

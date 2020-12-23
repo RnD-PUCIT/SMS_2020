@@ -11,6 +11,7 @@ public class AutoMapping : Profile
         CreateMap<Charge, ChargeDTO>();
         CreateMap<Class, ClassDTO>();
         CreateMap<Student, STDDTO>();
+        CreateMap<AcademicCalender, AcademicCalenderDTO>();
      
        
 
