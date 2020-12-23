@@ -16,7 +16,8 @@ namespace IRAAPI.Models
             : base(options)
         {
         }
-
+        
+        public virtual DbSet<AcademicCalender> AcademicCalenders { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<BankDetail> BankDetails { get; set; }

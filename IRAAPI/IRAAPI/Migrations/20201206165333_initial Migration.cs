@@ -365,7 +365,10 @@ namespace IRAAPI.Migrations
                     announcment = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
                     read = table.Column<bool>(type: "bit", nullable: false),
                     session_id = table.Column<int>(type: "int", nullable: false),
-                    guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())")
+                    guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "(newid())"),
+                    date = table.Column<DateTime>(type:"datetime2(7)", nullable: false, defaultValueSql: "(GETDATE())")
+
+
                 },
                 constraints: table =>
                 {
