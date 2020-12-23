@@ -11,13 +11,17 @@
 }
 
 .react-calendar__navigation {
-  background-color: #2875c7;
+  background: linear-gradient(
+    135deg,
+    rgb(24, 42, 115) 0%,
+    rgb(33, 138, 174) 69%,
+    rgb(32, 167, 172) 89%
+  );
   color: #ffff;
 }
 
 .react-calendar__tile {
   height: 80px;
-  border: 1px solid black;
 }
 .react-calendar__navigation button:enabled {
   transition: all 0.3s;
