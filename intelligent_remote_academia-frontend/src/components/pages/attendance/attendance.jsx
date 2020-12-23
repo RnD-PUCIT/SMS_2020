@@ -5,7 +5,7 @@ import http from "../../../services/httpService";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
-import { Grid, Paper } from "@material-ui/core";
+import { Divider, Grid, Paper } from "@material-ui/core";
 import { Doughnut } from "react-chartjs-2";
 
 class Attendance extends Component {
@@ -34,8 +34,8 @@ class Attendance extends Component {
       datasets: [
         {
           label: "Rainfall",
-          backgroundColor: ["#059c4c", "#7d191d", "#f6d83c"],
-          hoverBackgroundColor: ["#501800", "#4B5000", "#175000"],
+          backgroundColor: ["#2ea043", "#da3633", "#fce43d"],
+          hoverBackgroundColor: ["#501800", "#4B5000", "#f3f017"],
           borderWidth: 5,
           weight: 5,
           data: [presents, absents, leaves],
@@ -47,7 +47,7 @@ class Attendance extends Component {
       return (
         <React.Fragment>
           <Grid container spacing={4} style={{ marginTop: "20px" }}>
-            <Grid item md={8}>
+            <Grid item md={8} xs={12}>
               <Calendar
                 value={this.state.date}
                 showNeighboringMonth={false}
@@ -80,14 +80,18 @@ class Attendance extends Component {
                 }}
               />
             </Grid>
-            <Grid item md={4}>
-              <Paper variant="outlined">
+            <Grid item md={4} xs={12}>
+              <Paper
+                variant="outlined"
+                style={{ padding: "20px 20px 20px 0" }}
+                square
+              >
                 <Doughnut
                   data={chartData}
                   options={{
                     title: {
                       display: true,
-                      text: "Yearly Attendance Stats",
+                      text: "Attendance Stats",
                       fontSize: 16,
                     },
                     legend: {
@@ -96,6 +100,9 @@ class Attendance extends Component {
                     },
                   }}
                 />
+                <div style={{ padding: "20px 20px" }}>
+                  <Divider />
+                </div>
               </Paper>
             </Grid>
           </Grid>
