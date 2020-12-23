@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { makeStyles } from '@material-ui/core';
 import {
-  Chip,
   Grid,
   Paper,
   Table,
@@ -16,7 +15,7 @@ import {
 
 import ReactToPrint from 'react-to-print';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: '40px',
     textAlign: 'center',
@@ -26,7 +25,10 @@ const useStyles = makeStyles({
     textDecoration: 'underline',
     fontWeight: 'bold',
   },
-});
+  row: {
+    backgroundColor: theme.palette.info.light,
+  },
+}));
 
 class AcademicCalendar extends Component {
   state = {};
@@ -60,7 +62,6 @@ class CalendarBody extends Component {
   componentDidMount() {
     const { academicCalendar } = academicCalenderConst;
     this.setState({ academicCalendar });
-    console.log('Academic Calendar', this.state.academicCalender);
   }
 
   render() {
@@ -95,8 +96,15 @@ const Schedule = ({ academicCalendar }) => {
                 </TableHead>
                 <TableBody>
                   {academicCalendar.map((occasion, index) => {
+                    console.log(occasion.event);
+                    const ifExam =
+                      occasion.event.includes('Exam') ||
+                      occasion.event.includes('Paper');
+                    console.log(ifExam);
                     return (
-                      <TableRow key={index}>
+                      <TableRow
+                        key={index}
+                        className={`${ifExam ? classes.row : ''}`}>
                         <TableCell component='th' scope='row'>
                           {++index}
                         </TableCell>
