@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace IRAAPI.Migrations
 {
-    public partial class daystimetablemodelsadded : Migration
+    public partial class TimeTableAdded : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,6 +26,7 @@ namespace IRAAPI.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    guid = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: "(newid())"),
                     class_id = table.Column<int>(type: "int", nullable: false),
                     session_id = table.Column<int>(type: "int", nullable: false),
                     subject_id = table.Column<int>(type: "int", nullable: false),
@@ -42,11 +43,11 @@ namespace IRAAPI.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TimeTables_Days_DaysId",
+                        name: "FK_TimeTables_Days_day_id",
                         column: x => x.day_id,
                         principalTable: "Days",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_TimeTables_Sessions_session_id",
                         column: x => x.session_id,
@@ -67,9 +68,9 @@ namespace IRAAPI.Migrations
                 column: "class_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TimeTables_DaysId",
+                name: "IX_TimeTables_day_id",
                 table: "TimeTables",
-                column: "DaysId");
+                column: "day_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TimeTables_session_id",
@@ -89,10 +90,6 @@ namespace IRAAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Days");
-
-            migrationBuilder.DropColumn(
-                name: "date",
-                table: "Announcements");
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    [Migration("20201222105737_days-timetable-nullable-false")]
-    partial class daystimetablenullablefalse
+    [Migration("20201224085030_TimeTableAdded")]
+    partial class TimeTableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -951,6 +951,10 @@ namespace IRAAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("time_slot");
+
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
 
                     b.HasKey("Id");
 
