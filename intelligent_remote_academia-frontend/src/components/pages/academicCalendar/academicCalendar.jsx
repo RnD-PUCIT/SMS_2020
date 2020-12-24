@@ -96,11 +96,10 @@ const Schedule = ({ academicCalendar }) => {
                 </TableHead>
                 <TableBody>
                   {academicCalendar.map((occasion, index) => {
-                    console.log(occasion.event);
+                    let { event: eventName } = occasion;
+                    eventName = eventName.toLowerCase();
                     const ifExam =
-                      occasion.event.includes('Exam') ||
-                      occasion.event.includes('Paper');
-                    console.log(ifExam);
+                      eventName.includes('exam') || eventName.includes('paper');
                     return (
                       <TableRow
                         key={index}
