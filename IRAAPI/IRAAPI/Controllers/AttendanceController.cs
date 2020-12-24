@@ -44,7 +44,7 @@ namespace IRAAPI.Controllers
                     .Select(p => new AttendanceDTO()
                     {
                         id = p.Guid,
-                        attendanceDate = Convert.ToDateTime(p.AttendanceDate).ToString("MM/d/yyyy"),
+                        attendanceDate = Convert.ToDateTime(p.AttendanceDate).ToString("M/d/yyyy"),
                         status = p.Status
                     })
                     .ToList();
