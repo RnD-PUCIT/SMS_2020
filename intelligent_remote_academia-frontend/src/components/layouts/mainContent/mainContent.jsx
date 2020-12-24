@@ -104,7 +104,11 @@ const MainContent = ({
                 onClick={onClick}
                 selectedStudent={selectedStudent}
               >
-                <TimeTable />
+                <TimeTable
+                  selectedStudent={selectedStudent}
+                  classId={classId}
+                  sessionId={sessionId}
+                />
               </StudentDropdown>
             )}
           />

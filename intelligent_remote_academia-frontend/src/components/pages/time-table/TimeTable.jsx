@@ -15,10 +15,11 @@ import {
 
 import useStyles from "../../../styles/timeTableStyles";
 import ReactToPrint from "react-to-print";
+import http from "../../../services/httpService";
 
 class TimeTable extends Component {
-  state = {};
   render() {
+    const { selectedStudent, classId, sessionId } = this.props;
     return (
       <div>
         <Grid container justify="flex-end">
@@ -37,7 +38,12 @@ class TimeTable extends Component {
             content={() => this.componentRef}
           />
         </Grid>
-        <TimeTableBody ref={(el) => (this.componentRef = el)} />
+        <TimeTableBody
+          ref={(el) => (this.componentRef = el)}
+          selectedStudent={selectedStudent}
+          classId={classId}
+          sessionId={sessionId}
+        />
       </div>
     );
   }
@@ -46,23 +52,39 @@ class TimeTable extends Component {
 export default TimeTable;
 
 class TimeTableBody extends Component {
-  state = { classInfo: {}, timeTable: [] };
+  state = { timeTable: [] };
 
-  componentDidMount() {
-    const { classInfo, timeTable } = timeTableConst;
-    this.setState({ classInfo, timeTable });
+  async componentDidMount() {
+    this.getTimeTable();
   }
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.selectedStudent.id !== prevProps.selectedStudent.id) {
+      this.getTimeTable();
+    }
+  }
+
   render() {
+    const { selectedStudent } = this.props;
     if (this.state.timeTable) {
       return (
         <Schedule
-          classInfo={this.state.classInfo}
+          classInfo={selectedStudent}
           timeTable={this.state.timeTable}
         />
       );
     }
     return null;
   }
+
+  getTimeTable = async () => {
+    const { classId, sessionId } = this.props;
+    const url = `/timetable?classId=${classId}&sessionId=${sessionId}`;
+    try {
+      const { data } = await http.get(url);
+      const { timetable: timeTable } = data;
+    } catch (error) {}
+  };
 }
 
 const Schedule = ({ classInfo, timeTable }) => {
@@ -71,7 +93,7 @@ const Schedule = ({ classInfo, timeTable }) => {
     <React.Fragment>
       <Paper className={classes.root} elevation={3}>
         <Typography variant="h5" className={classes.heading}>
-          Time Table - {`${classInfo.name} (${classInfo.section})`}
+          Time Table - {`${classInfo.className} (${classInfo.section})`}
         </Typography>
 
         <Paper variant="outlined">
