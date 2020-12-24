@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20201222103709_days+timetable-models-added")]
+    partial class daystimetablemodelsadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -260,7 +262,6 @@ namespace IRAAPI.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Day")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("day");
 
@@ -937,6 +938,9 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("day_id");
 
+                    b.Property<int?>("DaysId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SessionId")
                         .HasColumnType("int")
                         .HasColumnName("session_id");
@@ -946,19 +950,14 @@ namespace IRAAPI.Migrations
                         .HasColumnName("subject_id");
 
                     b.Property<string>("TimeSlot")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("time_slot");
-
-                    b.Property<Guid>("guid")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("guid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
 
-                    b.HasIndex("DayId");
+                    b.HasIndex("DaysId");
 
                     b.HasIndex("SessionId");
 
@@ -1221,11 +1220,9 @@ namespace IRAAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("IRAAPI.Models.Days", "Day")
+                    b.HasOne("IRAAPI.Models.Days", "Days")
                         .WithMany()
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DaysId");
 
                     b.HasOne("IRAAPI.Models.Session", "Session")
                         .WithMany()
@@ -1241,7 +1238,7 @@ namespace IRAAPI.Migrations
 
                     b.Navigation("Class");
 
-                    b.Navigation("Day");
+                    b.Navigation("Days");
 
                     b.Navigation("Session");
 
