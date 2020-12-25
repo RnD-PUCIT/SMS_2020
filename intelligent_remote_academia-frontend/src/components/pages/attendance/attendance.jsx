@@ -13,7 +13,7 @@ class Attendance extends Component {
     attendance: null,
     date: new Date(),
     yearStats: {},
-    monthStats: {},
+    monthStats: null,
   };
 
   globalMonthsStats = {
@@ -69,28 +69,31 @@ class Attendance extends Component {
                 style={{ padding: "20px 20px 20px 0" }}
                 square
               >
-                {this.state.yearStats && (
-                  <AttendanceChart
-                    type="pie"
-                    absents={yearAbsents}
-                    presents={yearPresents}
-                    leaves={yearLeaves}
-                    text="Yearly Attendance Stats"
-                    fontSize="16"
-                  />
-                )}
-                <div>
-                  <Divider />
-                </div>
-                {this.state.monthStats && (
-                  <AttendanceChart
-                    absents={monthAbsents}
-                    presents={monthPresents}
-                    leaves={monthLeaves}
-                    text="Monthly Attendance Stats"
-                    fontSize="16"
-                  />
-                )}
+                <Grid container>
+                  <Grid item md={12} xs={6}>
+                    {this.state.yearStats && (
+                      <AttendanceChart
+                        type="pie"
+                        absents={yearAbsents}
+                        presents={yearPresents}
+                        leaves={yearLeaves}
+                        text="Yearly Attendance Stats"
+                        fontSize="12"
+                      />
+                    )}
+                  </Grid>
+                  <Grid item md={12} xs={6}>
+                    {this.state.monthStats && (
+                      <AttendanceChart
+                        absents={monthAbsents}
+                        presents={monthPresents}
+                        leaves={monthLeaves}
+                        text="Monthly Attendance Stats"
+                        fontSize="12"
+                      />
+                    )}
+                  </Grid>
+                </Grid>
               </Paper>
             </Grid>
             <Grid item md={8} xs={12}>
