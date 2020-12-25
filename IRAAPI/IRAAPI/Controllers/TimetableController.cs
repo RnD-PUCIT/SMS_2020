@@ -33,22 +33,42 @@ namespace IRAAPI.Controllers
                     .Select(s => s.Id)
                     .SingleOrDefault();
 
-                var timetableData = context.TimeTables.Where(a => a.ClassId == classNumericId && a.SessionId == sessionNumericId)
-                    .OrderBy(p => p.DayId)
-                    .Select(p => new TimetableDTO
+                ClassInfoDTO classInfo = context.Classes.Where(c => c.Id == classNumericId)
+                    .Select(s => new ClassInfoDTO
                     {
-                        id = p.guid,
-                        day = p.Day.Day,
-                        subject = p.Subject.SubjectName,
-                        teacher = (context.TeacherSubjectAllocs.Where(t=> t.SubjectId == p.SubjectId && t.ClassId == p.ClassId).Select(a=> a.Teacher)).FirstOrDefault().FirstName + " " + (context.TeacherSubjectAllocs.Where(t => t.SubjectId == p.SubjectId).Select(a => a.Teacher)).FirstOrDefault().LastName,
-                        timeSlot = p.TimeSlot
-                    })
-                    .ToList();
+                        name = s.ClassName,
+                        section = s.Section
+                    }).FirstOrDefault();
 
-                if (timetableData == null)
+                List<Days> dayData = context.Days.ToList();
+                List<TimetableInfoDTO> timetableInfo = new List<TimetableInfoDTO>();
+
+                foreach (var day in dayData)
+                {
+                    List<ScheduleDTO> scheduleList = context.TimeTables.Where(a => a.ClassId == classNumericId && a.SessionId == sessionNumericId && a.DayId == day.Id)
+                        .Select(s=> new ScheduleDTO
+                        {
+                            subjectName = s.Subject.SubjectName,
+                            teacherName = (context.TeacherSubjectAllocs.Where(t => t.SubjectId == s.SubjectId && t.ClassId == s.ClassId).Select(a => a.Teacher).FirstOrDefault()).FirstName + " " + (context.TeacherSubjectAllocs.Where(t => t.SubjectId == s.SubjectId).Select(a => a.Teacher).FirstOrDefault()).LastName,
+                            timeSlot = s.TimeSlot
+                        })
+                        .ToList();
+                    TimetableInfoDTO timeTableInfoSingleObject = new TimetableInfoDTO();
+                    timeTableInfoSingleObject.dayName = day.Day;
+                    timeTableInfoSingleObject.schedule = scheduleList;
+
+                    timetableInfo.Add(timeTableInfoSingleObject);
+
+                }
+
+                TimetableMainDTO timeTableData = new TimetableMainDTO();
+                timeTableData.classInfo = classInfo;
+                timeTableData.timeTableInfo = timetableInfo;
+
+                if (timeTableData == null)
                     return NotFound();
 
-                return new { Timetable = timetableData };
+                return new { TimeTable = timeTableData };
             }
             catch (Exception)
             {
@@ -57,12 +77,29 @@ namespace IRAAPI.Controllers
             }
         }
     }
-    public class TimetableDTO
+    public class TimetableMainDTO
     {
-        public Guid id { get; set; }
-        public string day { get; set; }
-        public string subject { get; set; }
-        public string teacher { get; set; }
+
+        public ClassInfoDTO classInfo { get; set; }
+        public List<TimetableInfoDTO> timeTableInfo { get; set; }
+    }
+
+    public class ClassInfoDTO
+    {
+        public string name { get; set; }
+        public string section { get; set; }
+    }
+
+    public class TimetableInfoDTO
+    {
+        public string dayName { get; set; }
+        public List<ScheduleDTO> schedule { get; set; }
+    }
+
+    public class ScheduleDTO
+    {
+        public string subjectName { get; set; }
+        public string teacherName { get; set; }
         public string timeSlot { get; set; }
     }
 }
