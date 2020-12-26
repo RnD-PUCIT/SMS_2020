@@ -82,7 +82,8 @@ class TimeTableBody extends Component {
     const url = `/timetable?classId=${classId}&sessionId=${sessionId}`;
     try {
       const { data } = await http.get(url);
-      const { timetable: timeTable } = data;
+      const { timeTableInfo: timeTable } = data.timeTable;
+      this.setState({ timeTable });
     } catch (error) {}
   };
 }
@@ -111,24 +112,26 @@ const Schedule = ({ classInfo, timeTable }) => {
                             </TableHead> */}
                 <TableBody>
                   {timeTable.map((day, index) => {
-                    return (
-                      <TableRow key={index}>
-                        <TableCell>{day.dayName.toUpperCase()}</TableCell>
-                        {day.schedule.map((s, index) => {
-                          return (
-                            <TableCell key={index} align="center">
-                              <Chip label={s.timeSlot} size="small" />
-                              <Typography className={classes.subjectName}>
-                                {s.subjectName}
-                              </Typography>
-                              <Typography color="textSecondary">
-                                {s.teacherName && `(${s.teacherName})`}
-                              </Typography>
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
+                    if (day.schedule.length !== 0) {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell>{day.dayName.toUpperCase()}</TableCell>
+                          {day.schedule.map((s, index) => {
+                            return (
+                              <TableCell key={index} align="center">
+                                <Chip label={s.timeSlot} size="small" />
+                                <Typography className={classes.subjectName}>
+                                  {s.subjectName}
+                                </Typography>
+                                <Typography color="textSecondary">
+                                  {s.teacherName && `(${s.teacherName})`}
+                                </Typography>
+                              </TableCell>
+                            );
+                          })}
+                        </TableRow>
+                      );
+                    }
                   })}
                 </TableBody>
               </Table>
