@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Calendar from "react-calendar";
+import { Grid, Paper } from "@material-ui/core";
+import { Doughnut, Pie } from "react-chartjs-2";
 
 import http from "../../../services/httpService";
+import { getMonths } from "../../constants/calendarConsts";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
-import { Divider, Grid, Paper } from "@material-ui/core";
-import { Doughnut, Pie } from "react-chartjs-2";
 
 class Attendance extends Component {
   state = {
@@ -14,6 +15,7 @@ class Attendance extends Component {
     date: new Date(),
     yearStats: {},
     monthStats: null,
+    selectedMonth: "",
   };
 
   globalMonthsStats = {
@@ -64,13 +66,13 @@ class Attendance extends Component {
             direction="row-reverse"
           >
             <Grid item md={4} xs={12}>
-              <Paper
-                variant="outlined"
-                style={{ padding: "20px 20px 20px 0" }}
-                square
-              >
-                <Grid container>
-                  <Grid item md={12} xs={6}>
+              <Grid container spacing={1}>
+                <Grid item md={12} xs={6}>
+                  <Paper
+                    variant="outlined"
+                    style={{ padding: "20px 15px" }}
+                    square
+                  >
                     {this.state.yearStats && (
                       <AttendanceChart
                         type="pie"
@@ -81,8 +83,14 @@ class Attendance extends Component {
                         fontSize="12"
                       />
                     )}
-                  </Grid>
-                  <Grid item md={12} xs={6}>
+                  </Paper>
+                </Grid>
+                <Grid item md={12} xs={6}>
+                  <Paper
+                    variant="outlined"
+                    style={{ padding: "20px 15px" }}
+                    square
+                  >
                     {this.state.monthStats && (
                       <AttendanceChart
                         absents={monthAbsents}
@@ -92,9 +100,9 @@ class Attendance extends Component {
                         fontSize="12"
                       />
                     )}
-                  </Grid>
+                  </Paper>
                 </Grid>
-              </Paper>
+              </Grid>
             </Grid>
             <Grid item md={8} xs={12}>
               <Calendar
@@ -199,6 +207,7 @@ class Attendance extends Component {
           this.globalMonthsStats.leaves / 2
         );
         this.globalMonthsStats.assigned = true;
+        const selectedMonth = getMonths();
 
         this.setState({ monthStats: this.globalMonthsStats });
       }
@@ -257,6 +266,7 @@ const AttendanceChart = ({
             display: true,
             position: "right",
           },
+          cutoutPercentage: 60,
         }}
       />
     );
