@@ -154,16 +154,4 @@ const Schedule = ({ academicCalendar }) => {
   );
 };
 
-const academicCalenderConst = {
-  academicCalendar: [
-    { event: 'Commencement of classes', date: 'September 15,2020' },
-    { event: 'Deadline of payment for sem dues', date: 'September 21,2020' },
-    { event: 'Midterm Examinations', date: 'September 16,2020' },
-    { event: 'Winter Vacations', date: 'September 17,2020' },
-    { event: 'Final Term Papers', date: 'September 18,2020' },
-    { event: 'End of Classes', date: 'September 19,2020' },
-    { event: 'Final Result Declaration', date: 'September 20,2020' },
-  ],
-};
-
 export default AcademicCalendar;
