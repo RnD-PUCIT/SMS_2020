@@ -99,7 +99,10 @@ const MainContent = ({
                 studentList={studentList}
                 onClick={onClick}
                 selectedStudent={selectedStudent}>
-                <AcademicCalendar />
+                <AcademicCalendar
+                  sessionId={sessionId}
+                  selectedStudent={selectedStudent}
+                />
               </StudentDropdown>
             )}
           />

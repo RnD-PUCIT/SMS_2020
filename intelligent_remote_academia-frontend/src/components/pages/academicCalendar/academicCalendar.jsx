@@ -12,8 +12,10 @@ import {
   Typography,
   Button,
 } from '@material-ui/core';
-
 import ReactToPrint from 'react-to-print';
+
+import { getMonths } from '../../constants/calendarConsts';
+import http from '../../../services/httpService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +52,11 @@ class AcademicCalendar extends Component {
             content={() => this.componentRef}
           />
         </Grid>
-        <CalendarBody ref={(el) => (this.componentRef = el)} />
+        <CalendarBody
+          sessionId={this.props.sessionId}
+          selectedStudent={this.props.selectedStudent}
+          ref={(el) => (this.componentRef = el)}
+        />
       </div>
     );
   }
@@ -59,20 +65,35 @@ class AcademicCalendar extends Component {
 class CalendarBody extends Component {
   state = { academicCalendar: [] };
 
-  componentDidMount() {
-    const { academicCalendar } = academicCalenderConst;
-    this.setState({ academicCalendar });
+  async componentDidMount() {
+    this.getCalendarEvents();
+  }
+
+  async componentDidUpdate(prevProps) {
+    if (this.props.selectedStudent.id !== prevProps.selectedStudent.id) {
+      this.getCalendarEvents();
+    }
   }
 
   render() {
     if (this.state.academicCalendar)
       return <Schedule academicCalendar={this.state.academicCalendar} />;
   }
+
+  getCalendarEvents = async () => {
+    const { sessionId } = this.props;
+    const url = '/academiccalender?session_id=' + sessionId;
+    const { data: academicCalendar } = await http.get(`${url}`);
+
+    this.setState({ academicCalendar });
+  };
 }
 
 const Schedule = ({ academicCalendar }) => {
   const tableHead = ['Sr. #', 'Event', 'Date'];
+  const months = getMonths();
   const classes = useStyles();
+
   return (
     <React.Fragment>
       <Paper className={classes.root} elevation={3}>
@@ -96,6 +117,8 @@ const Schedule = ({ academicCalendar }) => {
                 </TableHead>
                 <TableBody>
                   {academicCalendar.map((occasion, index) => {
+                    const date = new Date(occasion.date);
+
                     let { event: eventName } = occasion;
                     eventName = eventName.toLowerCase();
                     const ifExam =
@@ -110,7 +133,13 @@ const Schedule = ({ academicCalendar }) => {
                         <TableCell>
                           <strong>{occasion.event}</strong>
                         </TableCell>
-                        <TableCell>{occasion.date}</TableCell>
+                        <TableCell>
+                          {months[date.getMonth()].name +
+                            ' ' +
+                            date.getDate() +
+                            ', ' +
+                            date.getFullYear()}
+                        </TableCell>
                       </TableRow>
                     );
                   })}

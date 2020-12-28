@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,9 +27,11 @@ namespace IRAAPI.Controllers
         // GET: api/AcademicCalenders/5
         [Authorize]
         [HttpGet]
-        public Object GetAcademicCalender(int session_id)
+        public Object GetAcademicCalender(Guid session_id)
         {
-            List<AcademicCalender> academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==session_id).ToList();
+            int sessionId = _context.Sessions.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
+
+            List<AcademicCalender> academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==sessionId).ToList();
 
             if (academicCalender == null)
             {
