@@ -29,7 +29,7 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public Object GetAcademicCalender(Guid session_id)
         {
-            int sessionId = _context.Students.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
+            int sessionId = _context.Sessions.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
 
             List<AcademicCalender> academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==sessionId).ToList();
 
