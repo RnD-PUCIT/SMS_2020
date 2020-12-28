@@ -17,21 +17,6 @@ import ReactToPrint from 'react-to-print';
 import { getMonths } from '../../constants/calendarConsts';
 import http from '../../../services/httpService';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: '40px',
-    textAlign: 'center',
-  },
-  heading: {
-    marginBottom: '30px',
-    textDecoration: 'underline',
-    fontWeight: 'bold',
-  },
-  row: {
-    backgroundColor: theme.palette.info.light,
-  },
-}));
-
 class AcademicCalendar extends Component {
   state = {};
   render() {
@@ -93,14 +78,11 @@ class CalendarBody extends Component {
 const Schedule = ({ academicCalendar }) => {
   const tableHead = ['Sr. #', 'Event', 'Date'];
   const months = getMonths();
-  const classes = useStyles();
 
   return (
     <React.Fragment>
-      <Paper className={classes.root} elevation={3}>
-        <Typography variant='h5' className={classes.heading}>
-          Academic Calendar
-        </Typography>
+      <Paper elevation={3}>
+        <Typography variant='h5'>Academic Calendar</Typography>
         <Paper variant='outlined'>
           <TableContainer>
             <Grid item xs={12}>
@@ -125,9 +107,7 @@ const Schedule = ({ academicCalendar }) => {
                     const ifExam =
                       eventName.includes('exam') || eventName.includes('paper');
                     return (
-                      <TableRow
-                        key={index}
-                        className={`${ifExam ? classes.row : ''}`}>
+                      <TableRow key={index}>
                         <TableCell component='th' scope='row'>
                           {++index}
                         </TableCell>
