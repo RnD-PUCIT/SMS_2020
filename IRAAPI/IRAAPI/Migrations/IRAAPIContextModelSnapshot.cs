@@ -962,6 +962,8 @@ namespace IRAAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Session");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Timetable", b =>
                 {
                     b.Property<int>("Id")
