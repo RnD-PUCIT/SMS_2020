@@ -16,7 +16,8 @@ namespace IRAAPI.Models
             : base(options)
         {
         }
-
+        
+        public virtual DbSet<AcademicCalender> AcademicCalenders { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<BankDetail> BankDetails { get; set; }
@@ -39,6 +40,14 @@ namespace IRAAPI.Models
         public virtual DbSet<Timetable> TimeTables { get; set; }
         public virtual DbSet<Days> Days { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-N6KSGAQ\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

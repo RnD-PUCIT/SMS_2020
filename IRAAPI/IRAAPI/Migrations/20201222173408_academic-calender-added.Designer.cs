@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20201222173408_academic-calender-added")]
+    partial class academiccalenderadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,10 +37,6 @@ namespace IRAAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("event");
-
-                    b.Property<Guid>("Guid")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("guid");
 
                     b.Property<int>("SessionId")
                         .HasColumnType("int")
@@ -281,24 +279,6 @@ namespace IRAAPI.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Class_Subject_Alloc");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.Days", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Day")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("day");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Days");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Diary", b =>
@@ -962,50 +942,6 @@ namespace IRAAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Session");
-            modelBuilder.Entity("IRAAPI.Models.Timetable", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int")
-                        .HasColumnName("class_id");
-
-                    b.Property<int>("DayId")
-                        .HasColumnType("int")
-                        .HasColumnName("day_id");
-
-                    b.Property<int>("SessionId")
-                        .HasColumnType("int")
-                        .HasColumnName("session_id");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int")
-                        .HasColumnName("subject_id");
-
-                    b.Property<string>("TimeSlot")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("time_slot");
-
-                    b.Property<Guid>("guid")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("guid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
-
-                    b.HasIndex("DayId");
-
-                    b.HasIndex("SessionId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("TimeTables");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>
@@ -1252,41 +1188,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.Timetable", b =>
-                {
-                    b.HasOne("IRAAPI.Models.Class", "Class")
-                        .WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.Days", "Day")
-                        .WithMany()
-                        .HasForeignKey("DayId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.Subject", "Subject")
-                        .WithMany()
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Class");
-
-                    b.Navigation("Day");
-
-                    b.Navigation("Session");
-
-                    b.Navigation("Subject");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Class", b =>
