@@ -40,15 +40,6 @@ namespace IRAAPI.Models
         public virtual DbSet<Days> Days { get; set; }
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFHGHRM\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Announcement>(entity =>
