@@ -11,6 +11,12 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class SubjectsController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public SubjectsController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
+
         [Authorize]
         [HttpGet]
         public Object GetDashboardSubjectsInfo()
@@ -20,7 +26,6 @@ namespace IRAAPI.Controllers
             if (parentId == null)
                 return NotFound();
             Guid parentGuid = Guid.Parse(parentId);
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {
@@ -110,8 +115,6 @@ namespace IRAAPI.Controllers
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
-
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {

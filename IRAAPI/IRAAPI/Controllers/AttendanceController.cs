@@ -14,6 +14,12 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class AttendanceController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public AttendanceController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
+
         [Authorize]
         [HttpGet]
         public Object GetAttendance(Guid studentId, Guid classId, Guid sessionId)
@@ -22,8 +28,6 @@ namespace IRAAPI.Controllers
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
-            
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {

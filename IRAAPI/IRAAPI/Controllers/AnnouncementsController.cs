@@ -18,14 +18,10 @@ namespace IRAAPI.Controllers
     public class AnnouncementsController : ControllerBase
     {
         private readonly IRAAPIContext _context;
-        public AnnouncementsController(IRAAPIContext context)
+        private readonly IMapper _mapper;
+        public AnnouncementsController(IRAAPIContext context, IMapper mapper)
         {
             this._context = context;
-        }
-
-        private readonly IMapper _mapper;
-        public AnnouncementsController(IMapper mapper)
-        {
             _mapper = mapper;
         }
 
