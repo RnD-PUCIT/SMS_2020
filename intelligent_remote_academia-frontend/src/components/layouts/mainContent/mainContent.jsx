@@ -9,9 +9,10 @@ import GradeDetails from '../../pages/subjects/gradeDetails';
 import Announcements from '../../pages/announcements/announcements';
 import AcademicCalendar from '../../pages/academicCalendar/academicCalendar';
 
-import { useStyles } from '../../constants/layoutConsts';
-import FeeChallan from '../../pages/fee-challan/feeChallan';
-import StudentDropdown from '../../studentDropdown/studentDropdown';
+import { useStyles } from "../../constants/layoutConsts";
+import FeeChallan from "../../pages/fee-challan/feeChallan";
+import StudentDropdown from "../../studentDropdown/studentDropdown";
+import TimeTable from "../../pages/time-table/TimeTable";
 
 const MainContent = ({
   subjects,
@@ -89,6 +90,22 @@ const MainContent = ({
                 onClick={onClick}
                 selectedStudent={selectedStudent}>
                 <FeeChallan studentId={studentId} classId={classId} />
+              </StudentDropdown>
+            )}
+          />
+          <Route
+            path="/timetable"
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}
+              >
+                <TimeTable
+                  selectedStudent={selectedStudent}
+                  classId={classId}
+                  sessionId={sessionId}
+                />
               </StudentDropdown>
             )}
           />

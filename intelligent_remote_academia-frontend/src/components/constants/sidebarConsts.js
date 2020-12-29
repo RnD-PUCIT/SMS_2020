@@ -20,6 +20,10 @@ const sideBarLinks = [
     text: 'Academic Calendar',
     url: '/academic-calendar',
   },
+  {
+    text: "Time Table",
+    url: "/timetable",
+  },
 ];
 
 export { sideBarLinks };

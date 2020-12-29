@@ -11,6 +11,12 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class SubjectsController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public SubjectsController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
+
         [Authorize]
         [HttpGet]
         public Object GetDashboardSubjectsInfo()
@@ -20,7 +26,6 @@ namespace IRAAPI.Controllers
             if (parentId == null)
                 return NotFound();
             Guid parentGuid = Guid.Parse(parentId);
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {
@@ -99,27 +104,7 @@ namespace IRAAPI.Controllers
                 throw;
             }
 
-            //ParentDTO parentDTO = new ParentDTO(parent.id, parent.firstName, parent.lastName, parent.profilePic);
-
-            //List<Student> students = new StudentBLL().GetStudentsByParentId(Convert.ToInt32(parentId));
-            //if(students == null)
-            //    return NotFound();
-
-
-            //List<Object> subjectsList = new List<Object>();
-            //for (int i = 0; i < students.Count; i++)
-            //{
-            //    List<Subject> subjects = new List<Subject>();
-            //    subjects = new SubjectBLL().GetSubjectsDetailsByClassId(students[i].classId);
-            //    if (subjects == null)
-            //        return NotFound();
-
-            //    subjectsList.Add(subjects);
-            //}
-
-            //DashboardDTO dashboardDTO = new DashboardDTO(parentDTO, students, subjectsList);
-
-            //return new { dashboard = dashboardDTO};
+            
         }
 
         [Authorize]
@@ -130,8 +115,6 @@ namespace IRAAPI.Controllers
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
-
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {
@@ -193,21 +176,6 @@ namespace IRAAPI.Controllers
                throw;
             }
             
-
-            //COMMON.Subject subject = new SubjectBLL().GetSubjectDetails(classId, subjectId);
-            //if (subject == null)
-            //    return NotFound();
-
-            //List<COMMON.GradeType> gradeTypeNames = new GradeBLL().GetGradeTypes(classId, subjectId);
-            //if (gradeTypeNames == null)
-            //    return NotFound();
-
-            //List<COMMON.Diary> diary = new DiaryBLL().GetDiary(classId, subjectId);
-            //if(diary == null)
-            //    return NotFound();
-
-            ////SubjectDTO subjectDTO = new SubjectDTO(subject, gradeTypeNames, diary);
-            //return new { subject, gradeTypeNames, diary };
         }
     }
 
