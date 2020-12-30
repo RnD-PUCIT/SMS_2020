@@ -1,28 +1,32 @@
 //Sidebar link constatnts
 const sideBarLinks = [
   {
-    text: 'Subjects',
-    url: '/subjects',
+    text: "Subjects",
+    url: "/subjects",
   },
   {
-    text: 'Attendance',
-    url: '/attendance',
+    text: "Attendance",
+    url: "/attendance",
   },
   {
-    text: 'Announcements',
-    url: '/announcements',
+    text: "Announcements",
+    url: "/announcements",
   },
   {
-    text: 'Fee Challan Form',
-    url: '/challan',
+    text: "Fee Challan Form",
+    url: "/challan",
   },
   {
-    text: 'Academic Calendar',
-    url: '/academic-calendar',
+    text: "Academic Calendar",
+    url: "/academic-calendar",
   },
   {
     text: "Time Table",
     url: "/timetable",
+  },
+  {
+    text: "Application Form",
+    url: "/application-form",
   },
 ];
 
