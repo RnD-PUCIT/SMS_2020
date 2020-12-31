@@ -85,7 +85,6 @@ class CalendarBody extends Component {
     const url = '/academiccalender?session_id=' + sessionId;
     const { data: academicCalendar } = await http.get(`${url}`);
 
-    console.log(academicCalendar);
     this.setState({ academicCalendar });
   };
 }
