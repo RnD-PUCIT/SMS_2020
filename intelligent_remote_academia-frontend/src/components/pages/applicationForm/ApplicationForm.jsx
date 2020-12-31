@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Divider,
@@ -6,9 +6,30 @@ import {
   Paper,
   TextField,
   Typography,
-} from "@material-ui/core";
+} from '@material-ui/core';
+import ReactQuill from 'react-quill';
 
-import useStyles from "../../../styles/applicationFornStyle";
+import useStyles from '../../../styles/applicationFornStyle';
+import 'react-quill/dist/quill.snow.css';
+
+const modules = {
+  toolbar: [
+    [{ header: [1, 2, false] }],
+    ['bold', 'italic', 'underline'],
+    [{ background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+  ],
+};
+
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'list',
+  'bullet',
+  'background',
+];
 
 const ApplicationForm = () => {
   const classes = useStyles();
@@ -19,9 +40,9 @@ const ApplicationForm = () => {
           Application Form
         </Typography>
 
-        <Divider style={{ margin: "15px 0" }} />
+        <Divider style={{ margin: '15px 0' }} />
 
-        <Grid container spacing={1} style={{ marginTop: "15px" }}>
+        <Grid container spacing={1} style={{ marginTop: '15px' }}>
           <Grid item md={8}>
             <form>
               <TextField
@@ -30,20 +51,19 @@ const ApplicationForm = () => {
                 placeholder="Enter your subject here"
                 fullWidth
               />
-              <TextField
-                variant="outlined"
-                label="Application"
-                placeholder="Enter your application here"
-                rows={20}
-                multiline
-                fullWidth
-                style={{ marginTop: "10px" }}
-              />
+              <div style={{ marginTop: '10px' }}>
+                <ReactQuill
+                  className="application-editor"
+                  modules={modules}
+                  formats={formats}
+                />
+              </div>
+
               <Button
                 variant="contained"
                 fullWidth
                 color="primary"
-                style={{ marginTop: "10px" }}
+                style={{ marginTop: '10px' }}
               >
                 Submit Application
               </Button>
