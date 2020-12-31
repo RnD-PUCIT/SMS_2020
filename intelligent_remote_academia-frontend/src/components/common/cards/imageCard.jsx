@@ -1,13 +1,13 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import SubImg from "../../../static/images/subjects/img_code.jpg";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import SubImg from '../../../static/images/subjects/img_code.jpg';
 
 const useStyles = makeStyles({
   media: {
@@ -23,29 +23,27 @@ const Cards = ({ subject, studentId, classId, sessionId }) => {
         <CardActionArea>
           <CardMedia className={classes.media} image={SubImg} />
           <CardContent>
-            <Typography gutterBottom variant="h6" component="h2">
+            <Typography gutterBottom variant='h6' component='h2'>
               <Link
                 to={{
-                  pathname: "/subjects/" + subject.subjectSlug,
+                  pathname: '/subjects/' + subject.subjectSlug,
                   search:
-                    "studentId=" +
+                    'studentId=' +
                     studentId +
-                    "&classId=" +
+                    '&classId=' +
                     classId +
-                    "&subjectId=" +
+                    '&subjectId=' +
                     subject.subjectId +
-                    "&sessionId=" +
+                    '&sessionId=' +
                     sessionId,
-                }}
-              >
+                }}>
                 {subject.subjectName}
               </Link>
             </Typography>
             <Typography
-              variant="subtitle1"
-              color="textSecondary"
-              component="span"
-            >
+              variant='subtitle1'
+              color='textSecondary'
+              component='span'>
               {subject.teacherName}
             </Typography>
           </CardContent>
