@@ -9,10 +9,11 @@ import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 
+import DoughnutGraph from '../graphs/graphs';
+
 const useStyles = makeStyles((theme) => ({
   outerRoot: {
     margin: '6px',
-    // width: '100%',
   },
   innerRoot: {
     border: '1px solid rgba(0, 0, 0, .125)',
@@ -53,7 +54,7 @@ const AccordionContainer = () => {
               <SimpleAccordion />
             </Grid>
             <Grid item xs>
-              <Typography>Graph </Typography>
+              <DoughnutGraph />
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -64,8 +65,11 @@ const AccordionContainer = () => {
 
 const SimpleAccordion = () => {
   const classes = useStyles();
+
+  const handleClick = () => {};
+
   return (
-    <Accordion className={classes.innerRoot} square>
+    <Accordion className={classes.innerRoot} square onClick={handleClick}>
       <AccordionSummary
         aria-controls='panel1a-content'
         id='panel1a-header'
