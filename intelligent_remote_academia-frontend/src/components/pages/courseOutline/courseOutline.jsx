@@ -4,7 +4,12 @@ import SimpleAccordion from '../../common/accordians/accordian';
 class CourseOutline extends Component {
   state = {};
   render() {
-    return <SimpleAccordion />;
+    return (
+      <React.Fragment style={{ width: '100%' }}>
+        <SimpleAccordion />
+        <SimpleAccordion />
+      </React.Fragment>
+    );
   }
 }
 

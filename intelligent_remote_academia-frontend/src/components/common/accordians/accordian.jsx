@@ -8,11 +8,15 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    margin: '6px',
+    // width: '100%',
   },
   heading: {
-    fontSize: theme.typography.pxToRem(15),
-    fontWeight: theme.typography.fontWeightRegular,
+    backgroundColor: '#2875c7',
+    color: 'white',
+    borderRadius: '4px',
+    // borderTopLeftRadius: '4px',
+    // borderTopRightRadius: '4px',
   },
 }));
 
@@ -23,10 +27,11 @@ const SimpleAccordion = () => {
     <div className={classes.root}>
       <Accordion>
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
+          className={classes.heading}
+          expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
           aria-controls='panel1a-content'
           id='panel1a-header'>
-          <Typography>Accordion 1</Typography>
+          <Typography variant='subtitle1'>Chapter 1</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
