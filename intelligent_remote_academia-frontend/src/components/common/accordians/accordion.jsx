@@ -6,6 +6,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
+import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
@@ -64,8 +65,9 @@ const SimpleAccordion = () => {
       <AccordionSummary
         aria-controls='panel1a-content'
         id='panel1a-header'
-        className={classes.summary}>
-        <Typography className={classes}>Accordion 1</Typography>
+        className={classes.summary}
+        expandIcon={<Chip />}>
+        <Typography>Accordion 1</Typography>
       </AccordionSummary>
       <Divider />
       <AccordionDetails>
