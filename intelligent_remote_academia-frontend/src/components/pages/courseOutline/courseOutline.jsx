@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SimpleAccordion from '../../common/accordians/accordian';
+import SimpleAccordion from '../../common/accordians/accordion';
 
 class CourseOutline extends Component {
   state = {};

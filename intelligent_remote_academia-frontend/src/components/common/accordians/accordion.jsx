@@ -5,11 +5,20 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  outerRoot: {
     margin: '6px',
     // width: '100%',
+  },
+  innerRoot: {
+    border: '1px solid rgba(0, 0, 0, .125)',
+    boxShadow: 'none',
+  },
+  summary: {
+    backgroundColor: 'rgba(0, 0, 0, .03)',
   },
   heading: {
     backgroundColor: '#2875c7',
@@ -20,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SimpleAccordion = () => {
+const AccordionContainer = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={classes.outerRoot}>
       <Accordion>
         <AccordionSummary
           className={classes.heading}
@@ -34,14 +43,36 @@ const SimpleAccordion = () => {
           <Typography variant='subtitle1'>Chapter 1</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
-          </Typography>
+          <Grid container spacing={2}>
+            <Grid item xs>
+              <SimpleAccordion />
+            </Grid>
+            <Grid item xs>
+              <Typography>hello </Typography>
+            </Grid>
+          </Grid>
         </AccordionDetails>
       </Accordion>
     </div>
   );
 };
 
-export default SimpleAccordion;
+const SimpleAccordion = () => {
+  const classes = useStyles();
+  return (
+    <Accordion className={classes.innerRoot} square>
+      <AccordionSummary
+        aria-controls='panel1a-content'
+        id='panel1a-header'
+        className={classes.summary}>
+        <Typography className={classes}>Accordion 1</Typography>
+      </AccordionSummary>
+      <Divider />
+      <AccordionDetails>
+        <Typography>Inner Accordion</Typography>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+export default AccordionContainer;
