@@ -28,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
     // borderTopLeftRadius: '4px',
     // borderTopRightRadius: '4px',
   },
+  innerTitle: {
+    paddingRight: '15px',
+  },
 }));
 
 const AccordionContainer = () => {
@@ -41,15 +44,16 @@ const AccordionContainer = () => {
           expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
           aria-controls='panel1a-content'
           id='panel1a-header'>
-          <Typography variant='subtitle1'>Chapter 1</Typography>
+          <Typography variant='subtitle1'>First Term</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs>
               <SimpleAccordion />
+              <SimpleAccordion />
             </Grid>
             <Grid item xs>
-              <Typography>hello </Typography>
+              <Typography>Graph </Typography>
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -65,13 +69,13 @@ const SimpleAccordion = () => {
       <AccordionSummary
         aria-controls='panel1a-content'
         id='panel1a-header'
-        className={classes.summary}
-        expandIcon={<Chip />}>
-        <Typography>Accordion 1</Typography>
+        className={classes.summary}>
+        <Typography className={classes.innerTitle}>Chapter 1</Typography>
+        <Chip label='Not Completed' color='secondary' size='small' />
       </AccordionSummary>
       <Divider />
       <AccordionDetails>
-        <Typography>Inner Accordion</Typography>
+        <Typography>Chapter Details</Typography>
       </AccordionDetails>
     </Accordion>
   );
