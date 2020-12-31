@@ -24,10 +24,6 @@ const sideBarLinks = [
     text: 'Time Table',
     url: '/timetable',
   },
-  {
-    text: 'Course Outline',
-    url: '/outline',
-  },
 ];
 
 export { sideBarLinks };
