@@ -17,9 +17,7 @@ namespace IRAAPI.Models
         {
         }
         public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
-
-        public virtual DbSet<LectureContent> LectureContents { get; set; }
-        public virtual DbSet<File> LectureContentFiles { get; set; }
+        public virtual DbSet<LectureContentFile> LectureContentFiles { get; set; }
         public virtual DbSet<Terms> Terms { get; set; }
         public virtual DbSet<AcademicCalender> AcademicCalenders { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
