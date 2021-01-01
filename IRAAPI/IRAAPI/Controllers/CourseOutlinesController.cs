@@ -108,7 +108,6 @@ namespace IRAAPI.Controllers
             foreach (var lfile in Files)
             {
                  var file = Request.Form.Files[0];
-                string UniqueFilename;
                 if (file != null)
                 {
                     string fileExtension = Path.GetExtension(file.FileName);
@@ -126,15 +125,22 @@ namespace IRAAPI.Controllers
                     int courseoutlineid = courseOutlineObj.Id;
 
                     await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                    icfile.Orginal_Name = file.FileName;
+                    icfile.Logical_Name = fileLogicalName;
+                    icfile.Path = filePath;
+                    icfile.Date = date;
+                    icfile.Size = fileSize;
+                    icfile.CourseOutlineId = courseoutlineid;
+                    icfile.Extension = fileExtension;
+                    await _context.LectureContentFiles.AddAsync(icfile);
+                    await _context.SaveChangesAsync();
                 
-
-
                 }
 
             }
 
 
-            return CreatedAtAction("GetCourseOutline", new { id = courseOutline.Id }, courseOutline);
+            return Ok(HttpContext.Response.StatusCode = 200);
         }
 
         // DELETE: api/CourseOutlines/5
