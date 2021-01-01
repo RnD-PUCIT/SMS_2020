@@ -38,19 +38,32 @@ const ApplicationForm = () => {
 
   const [subjectLine, setSubjectLine] = useState('');
   const [applicationBody, setApplicationBody] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   const handleApplicationContentChange = (content) => {
     setApplicationBody(content);
   };
 
   const handleSubmission = () => {
-    if (subjectLine === '' || subjectLine.length === 0) {
-      alert('Enter Subject Line');
+    if (subjectLine.trim() === '' || subjectLine.length === 0) {
+      setError(true);
+      setErrorMessage('Please enter the subject line');
+    } else if (applicationBody.trim() === '' || applicationBody.length === 0) {
+      setError(true);
+      setErrorMessage('Please enter the application body');
     } else {
+      setErrorMessage('');
       const formData = new FormData();
       formData.append('subjectLine', subjectLine);
       formData.append('applicationBody', applicationBody);
     }
+  };
+
+  const handleFileChange = (event) => {
+    const files = [...selectedFiles, event.target.files[0]];
+    setSelectedFiles(files);
   };
 
   return (
@@ -62,18 +75,25 @@ const ApplicationForm = () => {
 
         <Divider style={{ margin: '15px 0' }} />
 
-        <Grid container spacing={3} style={{ marginTop: '15px' }}>
-          <Grid item md={8}>
+        {error && (
+          <Typography variant="p" style={{ color: '#F44336' }}>
+            {errorMessage}
+          </Typography>
+        )}
+        <Grid container spacing={3} style={{ marginTop: '1px' }}>
+          <Grid item md={8} sm={12} xs={12}>
             <TextField
               variant="outlined"
               label="Subject Line"
               placeholder="Enter your subject here"
               fullWidth
+              error={error}
               required
               onChange={(event) => {
                 setSubjectLine(event.target.value);
               }}
             />
+
             <div style={{ marginTop: '10px' }}>
               <ReactQuill
                 className="application-editor"
@@ -93,7 +113,7 @@ const ApplicationForm = () => {
               Submit Application
             </Button>
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={4} sm={12} xs={12}>
             <Typography variant="h6" align="center">
               Upload additional files
             </Typography>
@@ -110,8 +130,15 @@ const ApplicationForm = () => {
                   style={{ marginTop: '15px' }}
                 >
                   Choose files
-                  <input type="file" hidden />
+                  <input type="file" hidden onChange={handleFileChange} />
                 </Button>
+
+                <Typography>Files Uploaded</Typography>
+                <ul>
+                  {selectedFiles.map((file, index) => {
+                    return <li>{file.name}</li>;
+                  })}
+                </ul>
               </div>
             </Paper>
           </Grid>
