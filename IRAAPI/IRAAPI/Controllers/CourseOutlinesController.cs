@@ -18,7 +18,7 @@ namespace IRAAPI.Controllers
         private readonly IRAAPIContext _context;
         private readonly IWebHostEnvironment _iwebhost;
 
-        public CourseOutlinesController(IRAAPIContext context,IWebHostEnvironment iwebhost)
+        public CourseOutlinesController(IRAAPIContext context, IWebHostEnvironment iwebhost)
         {
             _context = context;
             _iwebhost = iwebhost;
@@ -82,16 +82,19 @@ namespace IRAAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<CourseOutline>> PostCourseOutline(Guid subject_id, Guid class_id,Guid session_id, IFormFileCollection Files)
+        public async Task<ActionResult<CourseOutline>> PostCourseOutline(Guid subject_id, Guid class_id, Guid session_id, IFormFileCollection Files)
         {
-            LectureContentFile icfile=new LectureContentFile();
+            LectureContentFile icfile = new LectureContentFile();
             int subjectId = _context.Subjects.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
             int classId = _context.Classes.Where(a => a.Guid == class_id).Select(a => a.Id).SingleOrDefault();
             int sessiontId = _context.Sessions.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
 
             CourseOutline courseOutlineObj = new CourseOutline();
- 
-            
+
+            if (subjectId==0 || classId==0 ||sessiontId==0)
+            {
+                return CreatedAtAction("Invalid Request",null);
+            }
             courseOutlineObj.SubjectId = subjectId;
             courseOutlineObj.ClassId = classId;    
             courseOutlineObj.SessionId = sessiontId;
@@ -105,42 +108,51 @@ namespace IRAAPI.Controllers
 
             _context.CourseOutlines.Add(courseOutlineObj);
             await _context.SaveChangesAsync();
-            foreach (var lfile in Files)
+            try
             {
-                 var file = Request.Form.Files[0];
-                if (file != null)
+                foreach (var lfile in Files)
                 {
-                    string fileExtension = Path.GetExtension(file.FileName);
-                    string Documents = Path.Combine(_iwebhost.WebRootPath, "Documents");
-
-                    if (!Directory.Exists(Documents))
+                    var file = Request.Form.Files[0];
+                    if (file != null)
                     {
-                        Directory.CreateDirectory(Documents);
+                        string fileExtension = Path.GetExtension(file.FileName);
+                        string Documents = Path.Combine(_iwebhost.WebRootPath, "Documents");
+
+                        if (!Directory.Exists(Documents))
+                        {
+                            Directory.CreateDirectory(Documents);
+                        }
+
+                        string fileLogicalName = Guid.NewGuid().ToString() + "" + file.FileName + fileExtension;
+                        string filePath = Path.Combine(Documents, fileLogicalName);
+                        int fileSize = (int)file.Length;
+                        DateTime date = DateTime.Now;
+                        int courseoutlineid = courseOutlineObj.Id;
+
+                        await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                        icfile.Orginal_Name = file.FileName;
+                        icfile.Logical_Name = fileLogicalName;
+                        icfile.Path = filePath;
+                        icfile.Date = date;
+                        icfile.Size = fileSize;
+                        icfile.CourseOutlineId = courseoutlineid;
+                        icfile.Extension = fileExtension;
+                        await _context.LectureContentFiles.AddAsync(icfile);
+                        await _context.SaveChangesAsync();
+
                     }
 
-                    string fileLogicalName = Guid.NewGuid().ToString() + "" + file.FileName + fileExtension;
-                    string filePath = Path.Combine(Documents, fileLogicalName);
-                    int fileSize = (int)file.Length;
-                    DateTime date = DateTime.Now;
-                    int courseoutlineid = courseOutlineObj.Id;
-
-                    await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
-                    icfile.Orginal_Name = file.FileName;
-                    icfile.Logical_Name = fileLogicalName;
-                    icfile.Path = filePath;
-                    icfile.Date = date;
-                    icfile.Size = fileSize;
-                    icfile.CourseOutlineId = courseoutlineid;
-                    icfile.Extension = fileExtension;
-                    await _context.LectureContentFiles.AddAsync(icfile);
-                    await _context.SaveChangesAsync();
-                
                 }
 
+
+                return Ok(HttpContext.Response.StatusCode = 200);
+
             }
+            catch (Exception)
+            {
 
-
-            return Ok(HttpContext.Response.StatusCode = 200);
+                throw;
+            }
         }
 
         // DELETE: api/CourseOutlines/5
