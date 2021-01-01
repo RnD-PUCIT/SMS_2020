@@ -150,8 +150,8 @@ namespace IRAAPI.Controllers
             }
             catch (Exception)
             {
+                return CreatedAtAction("Files not saved", null);
 
-                throw;
             }
         }
 
