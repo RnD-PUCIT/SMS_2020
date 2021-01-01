@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace IRAAPI.Models
 {
-    public class File
+   
+    public class LectureContentFile
     {
         [Key]
         [Column("id")]
@@ -18,6 +19,9 @@ namespace IRAAPI.Models
         [Required]
         [Column("original_name")]
         public string Orginal_Name { get; set; }
+        [Required]
+        [Column("logical_name")]
+        public string Logical_Name { get; set; }
         [Required]
         [Column("extension")]
         public string Extension { get; set; }
@@ -30,6 +34,11 @@ namespace IRAAPI.Models
         [Required]
         [Column("path")]
         public string Path { get; set; }
+        [Required]
+        [Column("course_outline_id")]
+        [ForeignKey("Id")]
+        public int CourseOutlineId{ get; set; }
+        public virtual CourseOutline CourseOutline { get; set; }
 
 
 

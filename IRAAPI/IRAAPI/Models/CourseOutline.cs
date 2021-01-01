@@ -39,13 +39,6 @@ namespace IRAAPI.Models
 
         public int TermId { get; set; }
         public virtual Terms Terms { get; set; }
-
-        [Required]
-        [Column("content_id")]
-        [ForeignKey("Id")]
-
-        public int ContentId { get; set; }
-        public virtual LectureContent LectureContent { get; set; }
         [Required]
         [Column("title")]
         public string Title { get; set; }
@@ -58,6 +51,9 @@ namespace IRAAPI.Models
         [Required]
         [Column("status")]
         public bool Status { get; set; }
+        [Required]
+        [Column("references")]
+        public string References { get; set; }
 
 
 

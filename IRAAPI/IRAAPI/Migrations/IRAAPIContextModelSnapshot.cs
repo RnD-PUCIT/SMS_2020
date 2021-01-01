@@ -283,6 +283,77 @@ namespace IRAAPI.Migrations
                     b.ToTable("Class_Subject_Alloc");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.CourseOutline", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int")
+                        .HasColumnName("class_id");
+
+                    b.Property<int>("ContentId")
+                        .HasColumnType("int")
+                        .HasColumnName("content_id");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("description");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.Property<int?>("LectureContentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int")
+                        .HasColumnName("session_id");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int")
+                        .HasColumnName("subject_id");
+
+                    b.Property<int>("TermId")
+                        .HasColumnType("int")
+                        .HasColumnName("term_id");
+
+                    b.Property<int?>("TermsId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("LectureContentId");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.HasIndex("TermsId");
+
+                    b.ToTable("CourseOutlines");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Days", b =>
                 {
                     b.Property<int>("Id")
@@ -1180,6 +1251,45 @@ namespace IRAAPI.Migrations
                     b.Navigation("Class");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.CourseOutline", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.LectureContent", "LectureContent")
+                        .WithMany()
+                        .HasForeignKey("LectureContentId");
+
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Terms", "Terms")
+                        .WithMany()
+                        .HasForeignKey("TermsId");
+
+                    b.Navigation("Class");
+
+                    b.Navigation("LectureContent");
+
+                    b.Navigation("Session");
+
+                    b.Navigation("Subject");
+
+                    b.Navigation("Terms");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Diary", b =>
