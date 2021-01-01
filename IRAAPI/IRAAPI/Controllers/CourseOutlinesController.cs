@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace IRAAPI.Controllers
 {
@@ -14,11 +16,14 @@ namespace IRAAPI.Controllers
     public class CourseOutlinesController : ControllerBase
     {
         private readonly IRAAPIContext _context;
+        private readonly IWebHostEnvironment _iwebhost;
 
-        public CourseOutlinesController(IRAAPIContext context)
+        public CourseOutlinesController(IRAAPIContext context,IWebHostEnvironment iwebhost)
         {
             _context = context;
+            _iwebhost = iwebhost;
         }
+
 
         // GET: api/CourseOutlines
         [HttpGet]
@@ -77,10 +82,57 @@ namespace IRAAPI.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<CourseOutline>> PostCourseOutline(CourseOutline courseOutline)
+        public async Task<ActionResult<CourseOutline>> PostCourseOutline(Guid subject_id, Guid class_id,Guid session_id, IFormFileCollection Files)
         {
-            _context.CourseOutlines.Add(courseOutline);
+            LectureContentFile icfile=new LectureContentFile();
+            int subjectId = _context.Subjects.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+            int classId = _context.Classes.Where(a => a.Guid == class_id).Select(a => a.Id).SingleOrDefault();
+            int sessiontId = _context.Sessions.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+
+            CourseOutline courseOutlineObj = new CourseOutline();
+ 
+            
+            courseOutlineObj.SubjectId = subjectId;
+            courseOutlineObj.ClassId = classId;    
+            courseOutlineObj.SessionId = sessiontId;
+            courseOutlineObj.Title = HttpContext.Request.Form["title"];
+            courseOutlineObj.Description= HttpContext.Request.Form["description"];
+            courseOutlineObj.Date=Convert.ToDateTime( HttpContext.Request.Form["date"]);
+            courseOutlineObj.Status= Convert.ToBoolean(HttpContext.Request.Form["status"]);
+            courseOutlineObj.References = HttpContext.Request.Form["references"];
+
+
+
+            _context.CourseOutlines.Add(courseOutlineObj);
             await _context.SaveChangesAsync();
+            foreach (var lfile in Files)
+            {
+                 var file = Request.Form.Files[0];
+                string UniqueFilename;
+                if (file != null)
+                {
+                    string fileExtension = Path.GetExtension(file.FileName);
+                    string Documents = Path.Combine(_iwebhost.WebRootPath, "Documents");
+
+                    if (!Directory.Exists(Documents))
+                    {
+                        Directory.CreateDirectory(Documents);
+                    }
+
+                    string fileLogicalName = Guid.NewGuid().ToString() + "" + file.FileName + fileExtension;
+                    string filePath = Path.Combine(Documents, fileLogicalName);
+                    int fileSize = (int)file.Length;
+                    DateTime date = DateTime.Now;
+                    int courseoutlineid = courseOutlineObj.Id;
+
+                    await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
+                
+
+
+                }
+
+            }
+
 
             return CreatedAtAction("GetCourseOutline", new { id = courseOutline.Id }, courseOutline);
         }
