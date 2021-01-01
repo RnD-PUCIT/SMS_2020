@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20210101165518_files_lecture_content_table_created")]
+    partial class files_lecture_content_table_created
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
