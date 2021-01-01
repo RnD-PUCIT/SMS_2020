@@ -762,6 +762,110 @@ namespace IRAAPI.Migrations
                     b.ToTable("Students");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.StudentApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("content");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("end_date");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("start_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("status");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int")
+                        .HasColumnName("student_id");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("subject");
+
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentApplications");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplicationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("int")
+                        .HasColumnName("application_id");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("extension");
+
+                    b.Property<string>("LogicalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("logical_name");
+
+                    b.Property<string>("OrignalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("orignal_name");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("path");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float")
+                        .HasColumnName("size");
+
+                    b.Property<int?>("StudentApplicationId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentApplicationId");
+
+                    b.ToTable("StudentApplicationFiles");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -953,17 +1057,6 @@ namespace IRAAPI.Migrations
                     b.ToTable("Teacher_Subject_Alloc");
                 });
 
-            modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
-                {
-                    b.HasOne("IRAAPI.Models.Session", "Session")
-                        .WithMany()
-                        .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Session");
-                });
-
             modelBuilder.Entity("IRAAPI.Models.Timetable", b =>
                 {
                     b.Property<int>("Id")
@@ -1008,6 +1101,17 @@ namespace IRAAPI.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("TimeTables");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>
@@ -1200,6 +1304,26 @@ namespace IRAAPI.Migrations
                     b.Navigation("Class");
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplication", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplicationFile", b =>
+                {
+                    b.HasOne("IRAAPI.Models.StudentApplication", "StudentApplication")
+                        .WithMany()
+                        .HasForeignKey("StudentApplicationId");
+
+                    b.Navigation("StudentApplication");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SubjectGradeTypeAlloc", b =>
