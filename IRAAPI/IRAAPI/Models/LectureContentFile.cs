@@ -44,4 +44,13 @@ namespace IRAAPI.Models
 
 
     }
+    public class LectureContentFileDTO
+    {
+        public string Orginal_Name { get; set; }
+        public string Extension { get; set; }
+        public DateTime Date { get; set; }
+        public string Path { get; set; }
+
+
+    }
 }

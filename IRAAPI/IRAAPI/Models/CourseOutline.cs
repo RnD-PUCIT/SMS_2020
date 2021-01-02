@@ -61,4 +61,15 @@ namespace IRAAPI.Models
 
 
     }
+    public class CourseOutlineDTO
+    {
+        public Guid Guid { get; set; }
+        public int TermsId { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
+        public bool Status { get; set; }
+        public string References { get; set; }
+
+    }
 }
