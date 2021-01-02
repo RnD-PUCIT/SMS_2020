@@ -64,6 +64,7 @@ const SimpleAccordion = ({ title, description, status, date }) => {
   const classes = useStyles();
   const months = getMonths();
   const fullDate = new Date(date);
+  console.log('Date', fullDate);
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
