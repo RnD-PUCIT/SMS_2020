@@ -13,7 +13,7 @@ namespace IRAAPI.Controllers
 {
     [Route("academiccalender")]
     [ApiController]
-    public class AcademicCalendersController : ControllerBase
+    public class AcademicCalendersController : ControllerBase123
     {
         private readonly IRAAPIContext _context = new IRAAPIContext();
 
