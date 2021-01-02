@@ -7,7 +7,7 @@ on:
     branches: [ develop ]
 
 jobs:
-  build:
+  dotnetapi:
 
     runs-on: ubuntu-latest
 
@@ -23,3 +23,18 @@ jobs:
       run: cd IRAAPI &&  dotnet build --no-restore
     - name: Test
       run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
+      
+  reactapp:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: setup node env
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Restore dependencies    
+      run: cd intelligent_remote_academia-frontend && npm install
+    - name: Build
+      run: cd intelligent_remote_academia-frontend && npm build
