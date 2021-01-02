@@ -37,7 +37,8 @@ namespace IRAAPI.Models
         [Column("term_id")]
         [ForeignKey("Id")]
 
-        public int TermId { get; set; }
+        public int TermsId { get; set; }
+
         public virtual Terms Terms { get; set; }
         [Required]
         [Column("title")]

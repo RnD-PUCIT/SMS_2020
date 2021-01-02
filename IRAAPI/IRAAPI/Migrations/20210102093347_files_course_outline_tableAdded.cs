@@ -18,7 +18,6 @@ namespace IRAAPI.Migrations
                     class_id = table.Column<int>(type: "int", nullable: false),
                     session_id = table.Column<int>(type: "int", nullable: false),
                     term_id = table.Column<int>(type: "int", nullable: false),
-                    TermsId = table.Column<int>(type: "int", nullable: true),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -47,11 +46,11 @@ namespace IRAAPI.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CourseOutlines_Terms_TermsId",
-                        column: x => x.TermsId,
+                        name: "FK_CourseOutlines_Terms_term_id",
+                        column: x => x.term_id,
                         principalTable: "Terms",
                         principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -96,9 +95,9 @@ namespace IRAAPI.Migrations
                 column: "subject_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CourseOutlines_TermsId",
+                name: "IX_CourseOutlines_term_id",
                 table: "CourseOutlines",
-                column: "TermsId");
+                column: "term_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LectureContentFiles_course_outline_id",

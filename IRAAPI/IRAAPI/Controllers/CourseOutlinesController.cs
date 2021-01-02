@@ -27,8 +27,21 @@ namespace IRAAPI.Controllers
 
         // GET: api/CourseOutlines
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CourseOutline>>> GetCourseOutlines()
+        public async Task<ActionResult<IEnumerable<CourseOutline>>> GetCourseOutlines(Guid subject_id, Guid class_id, Guid session_id)
         {
+            int subjectId = _context.Subjects.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+            int classId = _context.Classes.Where(a => a.Guid == class_id).Select(a => a.Id).SingleOrDefault();
+            int sessiontId = _context.Sessions.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+            if (subjectId == 0 || classId == 0 || sessiontId == 0)
+            {
+                return CreatedAtAction("Not Found", null);
+            }
+            var ListOfCourseOutlines=_context.CourseOutlines.Where(a => a.SessionId == sessiontId && a.ClassId == classId && a.SubjectId == subjectId).ToList();
+            if(ListOfCourseOutlines==null)
+            {
+                return CreatedAtAction("Course Outlines Not found", null);
+            }
+
             return await _context.CourseOutlines.ToListAsync();
         }
 
@@ -93,7 +106,7 @@ namespace IRAAPI.Controllers
 
             if (subjectId==0 || classId==0 ||sessiontId==0)
             {
-                return CreatedAtAction("Invalid Request",null);
+                return CreatedAtAction("Not Found",null);
             }
             courseOutlineObj.SubjectId = subjectId;
             courseOutlineObj.ClassId = classId;    
@@ -175,5 +188,9 @@ namespace IRAAPI.Controllers
         {
             return _context.CourseOutlines.Any(e => e.Id == id);
         }
+    }
+    public class CourseOutlinesWithFiles
+    {
+
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    [Migration("20210101212000_files_course_outline_tableAdded")]
+    [Migration("20210102093347_files_course_outline_tableAdded")]
     partial class files_course_outline_tableAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -327,12 +327,9 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("subject_id");
 
-                    b.Property<int>("TermId")
+                    b.Property<int>("TermsId")
                         .HasColumnType("int")
                         .HasColumnName("term_id");
-
-                    b.Property<int?>("TermsId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1256,7 +1253,9 @@ namespace IRAAPI.Migrations
 
                     b.HasOne("IRAAPI.Models.Terms", "Terms")
                         .WithMany()
-                        .HasForeignKey("TermsId");
+                        .HasForeignKey("TermsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Class");
 

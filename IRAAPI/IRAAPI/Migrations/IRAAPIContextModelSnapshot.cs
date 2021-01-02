@@ -325,12 +325,9 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("subject_id");
 
-                    b.Property<int>("TermId")
+                    b.Property<int>("TermsId")
                         .HasColumnType("int")
                         .HasColumnName("term_id");
-
-                    b.Property<int?>("TermsId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1254,7 +1251,9 @@ namespace IRAAPI.Migrations
 
                     b.HasOne("IRAAPI.Models.Terms", "Terms")
                         .WithMany()
-                        .HasForeignKey("TermsId");
+                        .HasForeignKey("TermsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Class");
 
