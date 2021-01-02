@@ -34,27 +34,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AccordionContainer = () => {
+const AccordionContainer = ({ statusArray, name, children }) => {
   const classes = useStyles();
-
   return (
     <div className={classes.outerRoot}>
       <Accordion>
         <AccordionSummary
           className={classes.heading}
-          expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'>
-          <Typography variant='subtitle1'>First Term</Typography>
+          expandIcon={<ExpandMoreIcon style={{ color: 'white' }} />}>
+          <Typography variant='subtitle1'>{name}</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Grid container spacing={2}>
             <Grid item xs>
-              <SimpleAccordion />
-              <SimpleAccordion />
+              {children}
             </Grid>
             <Grid item xs>
-              <DoughnutGraph />
+              <DoughnutGraph statusArray={statusArray} />
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -63,26 +59,26 @@ const AccordionContainer = () => {
   );
 };
 
-const SimpleAccordion = () => {
+const SimpleAccordion = ({ title, description, status, date }) => {
   const classes = useStyles();
 
-  const handleClick = () => {};
-
   return (
-    <Accordion className={classes.innerRoot} square onClick={handleClick}>
-      <AccordionSummary
-        aria-controls='panel1a-content'
-        id='panel1a-header'
-        className={classes.summary}>
-        <Typography className={classes.innerTitle}>Chapter 1</Typography>
-        <Chip label='Not Completed' color='secondary' size='small' />
+    <Accordion className={classes.innerRoot} square>
+      <AccordionSummary className={classes.summary}>
+        <Typography className={classes.innerTitle}>{title}</Typography>
+        <Chip
+          label={status ? 'Completed' : 'Not Completed'}
+          color={status ? 'primary' : 'secondary'}
+          size='small'
+        />
       </AccordionSummary>
       <Divider />
       <AccordionDetails>
-        <Typography>Chapter Details</Typography>
+        <Typography className={classes.innerTitle}>{description}</Typography>
+        <Chip label={date} variant='outlined' size='small' />
       </AccordionDetails>
     </Accordion>
   );
 };
 
-export default AccordionContainer;
+export { AccordionContainer, SimpleAccordion };

@@ -2,8 +2,7 @@ import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import { Doughnut } from 'react-chartjs-2';
 
-const DoughnutGraph = ({ statusArray1 }) => {
-  const statusArray = [1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1];
+const DoughnutGraph = ({ statusArray }) => {
   const total = statusArray.length;
   const countOccurrences = (arr, val) =>
     arr.reduce((a, v) => (v === val ? a + 1 : a), 0);

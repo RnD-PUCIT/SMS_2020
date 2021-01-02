@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Chip,
   Grid,
@@ -11,26 +11,25 @@ import {
   TableRow,
   Typography,
   Button,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import useStyles from "../../../styles/timeTableStyles";
-import ReactToPrint from "react-to-print";
-import http from "../../../services/httpService";
+import useStyles from '../../../styles/timeTableStyles';
+import ReactToPrint from 'react-to-print';
+import http from '../../../services/httpService';
 
 class TimeTable extends Component {
   render() {
     const { selectedStudent, classId, sessionId } = this.props;
     return (
       <div>
-        <Grid container justify="flex-end">
+        <Grid container justify='flex-end'>
           <ReactToPrint
             trigger={() => {
               return (
                 <Button
-                  color="primary"
-                  variant="contained"
-                  style={{ marginBottom: "20px" }}
-                >
+                  color='primary'
+                  variant='contained'
+                  style={{ marginBottom: '20px' }}>
                   Download as pdf
                 </Button>
               );
@@ -82,6 +81,7 @@ class TimeTableBody extends Component {
     const url = `/timetable?classId=${classId}&sessionId=${sessionId}`;
     try {
       const { data } = await http.get(url);
+      console.log(data);
       const { timeTableInfo: timeTable } = data.timeTable;
       this.setState({ timeTable });
     } catch (error) {}
@@ -93,11 +93,11 @@ const Schedule = ({ classInfo, timeTable }) => {
   return (
     <React.Fragment>
       <Paper className={classes.root} elevation={3}>
-        <Typography variant="h5" className={classes.heading}>
+        <Typography variant='h5' className={classes.heading}>
           Time Table - {`${classInfo.className} (${classInfo.section})`}
         </Typography>
 
-        <Paper variant="outlined">
+        <Paper variant='outlined'>
           <TableContainer>
             <Grid item xs={12}>
               <Table>
@@ -118,12 +118,12 @@ const Schedule = ({ classInfo, timeTable }) => {
                           <TableCell>{day.dayName.toUpperCase()}</TableCell>
                           {day.schedule.map((s, index) => {
                             return (
-                              <TableCell key={index} align="center">
-                                <Chip label={s.timeSlot} size="small" />
+                              <TableCell key={index} align='center'>
+                                <Chip label={s.timeSlot} size='small' />
                                 <Typography className={classes.subjectName}>
                                   {s.subjectName}
                                 </Typography>
-                                <Typography color="textSecondary">
+                                <Typography color='textSecondary'>
                                   {s.teacherName && `(${s.teacherName})`}
                                 </Typography>
                               </TableCell>
@@ -145,108 +145,108 @@ const Schedule = ({ classInfo, timeTable }) => {
 
 const timeTableConst = {
   classInfo: {
-    name: "8th",
-    section: "Blue",
+    name: '8th',
+    section: 'Blue',
   },
   timeTable: [
     {
-      dayName: "Monday",
+      dayName: 'Monday',
       schedule: [
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:00-08:45" },
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:45-09:30" },
-        { subjectName: "Physics", teacherName: "ABC", timeSlot: "09:30-10:15" },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
+        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
         {
-          subjectName: "Chemistry",
-          teacherName: "ABC",
-          timeSlot: "10:15-11:00",
+          subjectName: 'Chemistry',
+          teacherName: 'ABC',
+          timeSlot: '10:15-11:00',
         },
         {
-          subjectName: "Computer",
-          teacherName: "ABC",
-          timeSlot: "11:00-11:45",
+          subjectName: 'Computer',
+          teacherName: 'ABC',
+          timeSlot: '11:00-11:45',
         },
-        { subjectName: "Break", teacherName: "", timeSlot: "11:45-12:15" },
-        { subjectName: "Urdu", teacherName: "ABC", timeSlot: "12:15-01:00" },
+        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
+        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
       ],
     },
     {
-      dayName: "Tuesday",
+      dayName: 'Tuesday',
       schedule: [
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:00-08:45" },
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:45-09:30" },
-        { subjectName: "Physics", teacherName: "ABC", timeSlot: "09:30-10:15" },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
+        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
         {
-          subjectName: "Chemistry",
-          teacherName: "ABC",
-          timeSlot: "10:15-11:00",
+          subjectName: 'Chemistry',
+          teacherName: 'ABC',
+          timeSlot: '10:15-11:00',
         },
         {
-          subjectName: "Computer",
-          teacherName: "ABC",
-          timeSlot: "11:00-11:45",
+          subjectName: 'Computer',
+          teacherName: 'ABC',
+          timeSlot: '11:00-11:45',
         },
-        { subjectName: "Break", teacherName: "", timeSlot: "11:45-12:15" },
-        { subjectName: "Urdu", teacherName: "ABC", timeSlot: "12:15-01:00" },
+        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
+        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
       ],
     },
     {
-      dayName: "Wednesday",
+      dayName: 'Wednesday',
       schedule: [
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:00-08:45" },
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:45-09:30" },
-        { subjectName: "Physics", teacherName: "ABC", timeSlot: "09:30-10:15" },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
+        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
         {
-          subjectName: "Chemistry",
-          teacherName: "ABC",
-          timeSlot: "10:15-11:00",
+          subjectName: 'Chemistry',
+          teacherName: 'ABC',
+          timeSlot: '10:15-11:00',
         },
         {
-          subjectName: "Computer",
-          teacherName: "ABC",
-          timeSlot: "11:00-11:45",
+          subjectName: 'Computer',
+          teacherName: 'ABC',
+          timeSlot: '11:00-11:45',
         },
-        { subjectName: "Break", teacherName: "", timeSlot: "11:45-12:15" },
-        { subjectName: "Urdu", teacherName: "ABC", timeSlot: "12:15-01:00" },
+        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
+        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
       ],
     },
     {
-      dayName: "Thursday",
+      dayName: 'Thursday',
       schedule: [
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:00-08:45" },
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:45-09:30" },
-        { subjectName: "Physics", teacherName: "ABC", timeSlot: "09:30-10:15" },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
+        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
         {
-          subjectName: "Chemistry",
-          teacherName: "ABC",
-          timeSlot: "10:15-11:00",
+          subjectName: 'Chemistry',
+          teacherName: 'ABC',
+          timeSlot: '10:15-11:00',
         },
         {
-          subjectName: "Computer",
-          teacherName: "ABC",
-          timeSlot: "11:00-11:45",
+          subjectName: 'Computer',
+          teacherName: 'ABC',
+          timeSlot: '11:00-11:45',
         },
-        { subjectName: "Break", teacherName: "", timeSlot: "11:45-12:15" },
-        { subjectName: "Urdu", teacherName: "ABC", timeSlot: "12:15-01:00" },
+        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
+        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
       ],
     },
     {
-      dayName: "Friday",
+      dayName: 'Friday',
       schedule: [
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:00-08:45" },
-        { subjectName: "Maths", teacherName: "ABC", timeSlot: "08:45-09:30" },
-        { subjectName: "Physics", teacherName: "ABC", timeSlot: "09:30-10:15" },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
+        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
+        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
         {
-          subjectName: "Chemistry",
-          teacherName: "ABC",
-          timeSlot: "10:15-11:00",
+          subjectName: 'Chemistry',
+          teacherName: 'ABC',
+          timeSlot: '10:15-11:00',
         },
         {
-          subjectName: "Computer",
-          teacherName: "ABC",
-          timeSlot: "11:00-11:45",
+          subjectName: 'Computer',
+          teacherName: 'ABC',
+          timeSlot: '11:00-11:45',
         },
-        { subjectName: "Break", teacherName: "", timeSlot: "11:45-12:15" },
-        { subjectName: "Urdu", teacherName: "ABC", timeSlot: "12:15-01:00" },
+        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
+        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
       ],
     },
   ],
