@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using AutoMapper;
 
 namespace IRAAPI.Controllers
 {
@@ -17,11 +18,14 @@ namespace IRAAPI.Controllers
     {
         private readonly IRAAPIContext _context;
         private readonly IWebHostEnvironment _iwebhost;
+        private readonly IMapper _mapper;
 
-        public CourseOutlinesController(IRAAPIContext context, IWebHostEnvironment iwebhost)
+
+        public CourseOutlinesController(IRAAPIContext context, IWebHostEnvironment iwebhost,IMapper mapper)
         {
             _context = context;
             _iwebhost = iwebhost;
+            _mapper = mapper;
         }
 
 
@@ -36,13 +40,20 @@ namespace IRAAPI.Controllers
             {
                 return CreatedAtAction("Not Found", null);
             }
-            var ListOfCourseOutlines=_context.CourseOutlines.Where(a => a.SessionId == sessiontId && a.ClassId == classId && a.SubjectId == subjectId).ToList();
+            List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles=new List<CourseOutlinesWithFiles>();
+            List<CourseOutline> ListOfCourseOutlines=_context.CourseOutlines.Where(a => a.SessionId == sessiontId && a.ClassId == classId && a.SubjectId == subjectId).ToList();
             if(ListOfCourseOutlines==null)
             {
                 return CreatedAtAction("Course Outlines Not found", null);
             }
-
-            return await _context.CourseOutlines.ToListAsync();
+            for (int i = 0; i < ListOfCourseOutlines.Count; i++)
+            {
+                ListOfCourseOutlinesWithFiles[i].courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+                
+                ListOfCourseOutlinesWithFiles[i].lectureContentFilesList = getlectureContentFilesLists;
+            }
+            return CreatedAtAction("200 OK",ListOfCourseOutlinesWithFiles);
         }
 
         // GET: api/CourseOutlines/5
@@ -191,6 +202,7 @@ namespace IRAAPI.Controllers
     }
     public class CourseOutlinesWithFiles
     {
-
+        public CourseOutlineDTO courseOutlines { get; set; }
+        public List<LectureContentFileDTO> lectureContentFilesList { get; set; }
     }
 }
