@@ -14,6 +14,7 @@ import {
 } from '@material-ui/core';
 import ReactToPrint from 'react-to-print';
 
+import AlertDescriptive from '../../common/alerts/alertDescriptive';
 import { getMonths } from '../../constants/calendarConsts';
 import http from '../../../services/httpService';
 
@@ -63,7 +64,7 @@ class AcademicCalendar extends Component {
 }
 
 class CalendarBody extends Component {
-  state = { academicCalendar: [] };
+  state = { academicCalendar: [], error: false };
 
   async componentDidMount() {
     this.getCalendarEvents();
@@ -76,16 +77,28 @@ class CalendarBody extends Component {
   }
 
   render() {
-    if (this.state.academicCalendar)
-      return <Schedule academicCalendar={this.state.academicCalendar} />;
+    if (this.state.error) {
+      return (
+        <AlertDescriptive
+          severity='error'
+          title='No Academic Calender'
+          description='No Academic Calendar has been uploaded yet. Kindly check later!'
+        />
+      );
+    } else return <Schedule academicCalendar={this.state.academicCalendar} />;
   }
 
   getCalendarEvents = async () => {
     const { sessionId } = this.props;
     const url = '/academiccalender?session_id=' + sessionId;
-    const { data: academicCalendar } = await http.get(`${url}`);
-
-    this.setState({ academicCalendar });
+    try {
+      const { data: academicCalendar } = await http.get(`${url}`);
+      this.setState({ academicCalendar, error: false });
+    } catch (ex) {
+      if (ex && ex.response.status === 400) {
+        this.setState({ error: true });
+      }
+    }
   };
 }
 
