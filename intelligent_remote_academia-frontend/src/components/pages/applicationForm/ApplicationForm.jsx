@@ -13,6 +13,7 @@ import useStyles from '../../../styles/applicationFornStyle';
 import 'react-quill/dist/quill.snow.css';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import http from '../../../services/httpService';
 
 const modules = {
   toolbar: [
@@ -33,8 +34,9 @@ const formats = [
   'background',
 ];
 
-const ApplicationForm = () => {
+const ApplicationForm = (props) => {
   const classes = useStyles();
+  const { selectedStudent } = props;
 
   const [subjectLine, setSubjectLine] = useState('');
   const [applicationBody, setApplicationBody] = useState('');
@@ -56,8 +58,14 @@ const ApplicationForm = () => {
     } else {
       setErrorMessage('');
       const formData = new FormData();
-      formData.append('subjectLine', subjectLine);
-      formData.append('applicationBody', applicationBody);
+      formData.set('subjectLine', subjectLine);
+      formData.set('applicationBody', applicationBody);
+
+      if (selectedFiles.length !== 0) {
+        formData.set('files', selectedFiles);
+      }
+
+      // http.post()
     }
   };
 
@@ -133,10 +141,12 @@ const ApplicationForm = () => {
                   <input type="file" hidden onChange={handleFileChange} />
                 </Button>
 
-                <Typography>Files Uploaded</Typography>
-                <ul>
+                <Typography style={{ marginTop: '15px' }} color="textSecondary">
+                  Files Uploaded
+                </Typography>
+                <ul style={{ listStyle: 'none', textAlign: 'left' }}>
                   {selectedFiles.map((file, index) => {
-                    return <li>{file.name}</li>;
+                    return <li key={index}>{file.name}</li>;
                   })}
                 </ul>
               </div>
