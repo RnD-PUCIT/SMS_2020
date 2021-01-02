@@ -9,6 +9,7 @@ using IRAAPI.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IRAAPI.Controllers
 {
@@ -30,29 +31,35 @@ namespace IRAAPI.Controllers
 
 
         // GET: api/CourseOutlines
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CourseOutline>>> GetCourseOutlines(Guid subject_id, Guid class_id, Guid session_id)
         {
             int subjectId = _context.Subjects.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
             int classId = _context.Classes.Where(a => a.Guid == class_id).Select(a => a.Id).SingleOrDefault();
-            int sessiontId = _context.Sessions.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+            int sessiontId = _context.Sessions.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
             if (subjectId == 0 || classId == 0 || sessiontId == 0)
             {
                 return CreatedAtAction("Not Found", null);
             }
             List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles=new List<CourseOutlinesWithFiles>();
             List<CourseOutline> ListOfCourseOutlines=_context.CourseOutlines.Where(a => a.SessionId == sessiontId && a.ClassId == classId && a.SubjectId == subjectId).ToList();
+            CourseOutlinesWithFiles sowf = new CourseOutlinesWithFiles();
             if(ListOfCourseOutlines==null)
             {
                 return CreatedAtAction("Course Outlines Not found", null);
             }
             for (int i = 0; i < ListOfCourseOutlines.Count; i++)
             {
-                ListOfCourseOutlinesWithFiles[i].courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+               sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
                 List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
                 
-                ListOfCourseOutlinesWithFiles[i].lectureContentFilesList = getlectureContentFilesLists;
+             
+                sowf.lectureContentFilesList = getlectureContentFilesLists;
+                ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines=sowf.courseOutlines,lectureContentFilesList=sowf.lectureContentFilesList});
+                
             }
+
             return CreatedAtAction("200 OK",ListOfCourseOutlinesWithFiles);
         }
 
@@ -111,7 +118,7 @@ namespace IRAAPI.Controllers
             LectureContentFile icfile = new LectureContentFile();
             int subjectId = _context.Subjects.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
             int classId = _context.Classes.Where(a => a.Guid == class_id).Select(a => a.Id).SingleOrDefault();
-            int sessiontId = _context.Sessions.Where(a => a.Guid == subject_id).Select(a => a.Id).SingleOrDefault();
+            int sessiontId = _context.Sessions.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
 
             CourseOutline courseOutlineObj = new CourseOutline();
 
@@ -122,6 +129,7 @@ namespace IRAAPI.Controllers
             courseOutlineObj.SubjectId = subjectId;
             courseOutlineObj.ClassId = classId;    
             courseOutlineObj.SessionId = sessiontId;
+            courseOutlineObj.TermsId = Convert.ToInt32(HttpContext.Request.Form["term_id"]);
             courseOutlineObj.Title = HttpContext.Request.Form["title"];
             courseOutlineObj.Description= HttpContext.Request.Form["description"];
             courseOutlineObj.Date=Convert.ToDateTime( HttpContext.Request.Form["date"]);
