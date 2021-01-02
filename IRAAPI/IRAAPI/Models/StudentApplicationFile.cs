@@ -40,7 +40,6 @@ namespace IRAAPI.Models
         [Column("size")]
         public double Size { get; set; }
 
-        [Required]
         [Column("application_id")]
         [ForeignKey("Id")]
         public int ApplicationId { get; set; }
