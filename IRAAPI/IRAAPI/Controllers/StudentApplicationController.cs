@@ -25,6 +25,51 @@ namespace IRAAPI.Controllers
         }
 
         [Authorize]
+        [HttpGet]
+        public Object GetApplications(Guid studentId)
+        {
+            var studentNumericId = -1;
+            studentNumericId = _db.Students.Where(s => s.Guid == studentId).Select(s => s.Id).FirstOrDefault();
+            
+            if (studentNumericId == -1)
+                return NotFound();
+
+            var studentApplications = _db.StudentApplications.Where(a => a.StudentId == studentNumericId)
+                .Select(a => new StuduentApplicationDTO()
+                { 
+                    id = a.guid,
+                    date = Convert.ToDateTime(a.Date).ToString("MM/d/yyyy"),
+                    subject = a.Subject,
+                    content = a.Content,
+                    startDate = Convert.ToDateTime(a.StartDate).ToString("MM/d/yyyy"),
+                    endDate = Convert.ToDateTime(a.EndDate).ToString("MM/d/yyyy"),
+                    status = a.Status
+                })
+                .ToList();
+
+            if (studentApplications == null)
+                return NotFound();
+
+            StuduentApplicationMainDTO studuentApplicationMainDTO = new StuduentApplicationMainDTO();
+            studuentApplicationMainDTO.studuentApplications = studentApplications;
+            
+            foreach (var application in studentApplications)
+            {
+                var studentApplicationNumericId = _db.StudentApplications.Where(a => a.guid == application.id).Select(a => a.Id).FirstOrDefault();
+                var studentApplicationFiles = _db.StudentApplicationFiles.Where(a => a.ApplicationId == studentApplicationNumericId)
+                    .Select(s => new StuduentApplicationFileDTO()
+                    { 
+                        id = s.guid,
+                        fileName = s.OrignalName,
+                        filePath = s.Path
+                    })
+                    .ToList();
+                studuentApplicationMainDTO.studuentApplicationFiles.Add(studentApplicationFiles);
+            }
+            return new { studentApplications =  studuentApplicationMainDTO};
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<Object> CreateApplication(IFormCollection form)
         {
@@ -85,12 +130,38 @@ namespace IRAAPI.Controllers
                         await _db.SaveChangesAsync();
                     }
                 }
-                return "Success" ;
+                return Ok();
             }
             catch (Exception e)
             {
                 return "Error, Something went wrong \n" + e;
             }
         }
+
+        
     }
+
+    public class StuduentApplicationMainDTO
+    {
+        public List<StuduentApplicationDTO>  studuentApplications { get; set; }
+        public List<List<StuduentApplicationFileDTO>> studuentApplicationFiles { get; set; }
+    }
+    public class StuduentApplicationDTO
+    {
+        public Guid id { get; set; }
+        public string date { get; set; }
+        public string subject { get; set; }
+        public string content { get; set; }
+        public string startDate { get; set; }
+        public string endDate { get; set; }
+        public string status { get; set; }
+    }
+
+    public class StuduentApplicationFileDTO
+    {
+        public Guid id { get; set; }
+        public string fileName { get; set; }
+        public string filePath { get; set; }
+    }
+
 }
