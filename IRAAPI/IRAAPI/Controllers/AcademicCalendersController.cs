@@ -30,6 +30,10 @@ namespace IRAAPI.Controllers
         public Object GetAcademicCalender(Guid session_id)
         {
             int sessionId = _context.Sessions.Where(a => a.Guid == session_id).Select(a => a.Id).SingleOrDefault();
+            if(sessionId==0)
+            {
+                return NotFound();
+            }
 
             List<AcademicCalender> academicCalender =  _context.AcademicCalenders.Where(a=>a.SessionId==sessionId).ToList();
 

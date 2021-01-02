@@ -12,8 +12,9 @@ public class AutoMapping : Profile
         CreateMap<Class, ClassDTO>();
         CreateMap<Student, STDDTO>();
         CreateMap<AcademicCalender, AcademicCalenderDTO>();
-     
-       
+        CreateMap<LectureContentFile, LectureContentFileDTO>();
+        CreateMap<CourseOutline, CourseOutlineDTO>();
+
 
         // means you want to map from User to UserDTO
     }
