@@ -34,8 +34,18 @@ const useStyles = makeStyles((theme) => ({
 
 class ApplicationsDashboard extends Component {
   state = {
-    applicationsList: applicationsConst,
+    applicationsList: [],
   };
+
+  componentDidMount() {
+    this.getApplications();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.selectedStudent.id !== prevProps.selectedStudent.id) {
+      this.getApplications();
+    }
+  }
 
   render() {
     return (
@@ -45,6 +55,11 @@ class ApplicationsDashboard extends Component {
       </Paper>
     );
   }
+
+  getApplications = () => {
+    const applicationsList = applicationsConst;
+    this.setState({ applicationsList });
+  };
 }
 
 const NewApplicationButton = () => {
@@ -139,30 +154,30 @@ const ApplicationsList = ({ applicationsList }) => {
 export default ApplicationsDashboard;
 
 const applicationsConst = [
-  // {
-  //   id: 1,
-  //   subject: 'Leave Application',
-  //   date: 'Decemeber 02, 2020',
-  //   content:
-  //     '<strong>Lorem ipsum dolor</strong> sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
-  //   status: 'pending',
-  // },
-  // {
-  //   id: 1,
-  //   subject: 'Scholarship Application',
-  //   date: 'Decemeber 02, 2020',
-  //   content:
-  //     'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
-  //   status: 'pending',
-  //   startDate: '',
-  //   endDate: '',
-  // },
-  // {
-  //   id: 1,
-  //   subject: 'Section change application',
-  //   date: 'Decemeber 02, 2020',
-  //   content:
-  //     'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
-  //   status: 'pending',
-  // },
+  {
+    id: 1,
+    subject: 'Leave Application',
+    date: 'Decemeber 02, 2020',
+    content:
+      '<strong>Lorem ipsum dolor</strong> sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
+    status: 'pending',
+  },
+  {
+    id: 1,
+    subject: 'Scholarship Application',
+    date: 'Decemeber 02, 2020',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
+    status: 'pending',
+    startDate: '',
+    endDate: '',
+  },
+  {
+    id: 1,
+    subject: 'Section change application',
+    date: 'Decemeber 02, 2020',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas numquam sapiente debitis blanditiis suscipit magnam quia consequatur. Et at aliquam facere laudantium sint, doloribus molestiae, minima maxime, aut rem recusandae?',
+    status: 'pending',
+  },
 ];
