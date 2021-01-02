@@ -9,6 +9,7 @@ import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 
+import { getMonths } from '../../constants/calendarConsts';
 import DoughnutGraph from '../graphs/graphs';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +62,8 @@ const AccordionContainer = ({ statusArray, name, children }) => {
 
 const SimpleAccordion = ({ title, description, status, date }) => {
   const classes = useStyles();
-
+  const months = getMonths();
+  const fullDate = new Date(date);
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
@@ -75,7 +77,17 @@ const SimpleAccordion = ({ title, description, status, date }) => {
       <Divider />
       <AccordionDetails>
         <Typography className={classes.innerTitle}>{description}</Typography>
-        <Chip label={date} variant='outlined' size='small' />
+        <Chip
+          label={
+            months[fullDate.getMonth()].name +
+            ' ' +
+            fullDate.getDate() +
+            ', ' +
+            fullDate.getFullYear()
+          }
+          variant='outlined'
+          size='small'
+        />
       </AccordionDetails>
     </Accordion>
   );
