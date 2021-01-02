@@ -11,7 +11,7 @@ using System.IO;
 
 namespace IRAAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("course-outline")]
     [ApiController]
     public class CourseOutlinesController : ControllerBase
     {
