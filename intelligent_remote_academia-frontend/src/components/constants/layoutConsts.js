@@ -1,27 +1,27 @@
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   drawer: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up("sm")]: {
+    [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      display: "none",
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
     },
   },
   // necessary for content to be below app bar
@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   content: {
-    marginTop: "70px",
+    marginTop: '70px',
     flexGrow: 1,
     padding: theme.spacing(3),
   },
   active: {
-    backgroundColor: "#E1F0FF",
+    backgroundColor: '#E1F0FF',
   },
   title: {
     flexGrow: 1,

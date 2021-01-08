@@ -16,7 +16,9 @@ namespace IRAAPI.Models
             : base(options)
         {
         }
-        
+        public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
+        public virtual DbSet<LectureContentFile> LectureContentFiles { get; set; }
+        public virtual DbSet<Terms> Terms { get; set; }
         public virtual DbSet<AcademicCalender> AcademicCalenders { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
@@ -45,7 +47,7 @@ namespace IRAAPI.Models
             if (!optionsBuilder.IsConfigured)
             {
 
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-N6KSGAQ\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFHGHRM\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 

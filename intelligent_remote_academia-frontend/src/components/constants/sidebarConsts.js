@@ -21,8 +21,12 @@ const sideBarLinks = [
     url: '/academic-calendar',
   },
   {
-    text: "Time Table",
-    url: "/timetable",
+    text: 'Time Table',
+    url: '/timetable',
+  },
+  {
+    text: 'Applications',
+    url: '/applications',
   },
 ];
 

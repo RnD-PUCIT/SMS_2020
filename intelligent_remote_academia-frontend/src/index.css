@@ -11,3 +11,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.application-editor .ql-editor, .application-editor .ql-blank {
+  height: 500px;
+}
