@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using IRAAPI.BLL;
-using IRAAPI.COMMON;
 using IRAAPI.Models;
 
 
@@ -19,14 +17,17 @@ namespace IRAAPI.Controllers
     [Route("account")]
     public class AccountController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public AccountController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
         [HttpPost("login")]
         public Object Login()
         {
             string cnic = HttpContext.Request.Form["cnic"];
             string password = HttpContext.Request.Form["password"];
             bool passwordVerified = false;
-
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {

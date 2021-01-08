@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using IRAAPI.BLL;
-using IRAAPI.COMMON;
 using IRAAPI.Models;
 
 
@@ -16,6 +14,12 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class AttendanceController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public AttendanceController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
+
         [Authorize]
         [HttpGet]
         public Object GetAttendance(Guid studentId, Guid classId, Guid sessionId)
@@ -24,8 +28,6 @@ namespace IRAAPI.Controllers
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
-            
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {
@@ -60,12 +62,6 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-
-            //List<Attendance> attendances = new AttendanceBLL().GetAttendance(studentId, classId);
-            //if (attendances == null)
-            //    return NotFound();
-
-            //return new AttendanceDTO(attendances);
         }
     }
 

@@ -16,7 +16,10 @@ namespace IRAAPI.Models
             : base(options)
         {
         }
-
+        public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
+        public virtual DbSet<LectureContentFile> LectureContentFiles { get; set; }
+        public virtual DbSet<Terms> Terms { get; set; }
+        public virtual DbSet<AcademicCalender> AcademicCalenders { get; set; }
         public virtual DbSet<Announcement> Announcements { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<BankDetail> BankDetails { get; set; }
@@ -36,6 +39,8 @@ namespace IRAAPI.Models
         public virtual DbSet<SubjectGradeTypeAlloc> SubjectGradeTypeAllocs { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
         public virtual DbSet<TeacherSubjectAlloc> TeacherSubjectAllocs { get; set; }
+        public virtual DbSet<Timetable> TimeTables { get; set; }
+        public virtual DbSet<Days> Days { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

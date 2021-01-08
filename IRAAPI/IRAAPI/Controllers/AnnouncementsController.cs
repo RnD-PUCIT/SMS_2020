@@ -17,21 +17,14 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class AnnouncementsController : ControllerBase
     {
-        //private readonly IRAAPIContext _context;
-
+        private readonly IRAAPIContext _context;
         private readonly IMapper _mapper;
-        public AnnouncementsController(IMapper mapper)
+        public AnnouncementsController(IRAAPIContext context, IMapper mapper)
         {
+            this._context = context;
             _mapper = mapper;
         }
 
-
-
-        IRAAPIContext _context = new IRAAPIContext();
-
-
-     
-     
         // GET: api/Announcements/5
         [Authorize]
         [HttpGet]

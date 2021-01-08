@@ -1,6 +1,7 @@
 const subjectTabs = [
   { id: 0, name: 'Grades' },
   { id: 1, name: 'Diary' },
+  { id: 2, name: 'Outline' },
 ];
 
 const announcementTabs = [

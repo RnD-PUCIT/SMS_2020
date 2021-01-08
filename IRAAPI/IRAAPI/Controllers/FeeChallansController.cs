@@ -16,13 +16,14 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class FeeChallansController : ControllerBase
     {
-        //private readonly IRAAPIContext _context;
+        private readonly IRAAPIContext _context;
         private readonly IMapper _mapper;
-        public FeeChallansController(IMapper mapper)
+        public FeeChallansController(IRAAPIContext context, IMapper mapper)
         {
+            this._context = context;
             _mapper = mapper;
         }
-        private readonly IRAAPIContext _context = new IRAAPIContext();
+
         // GET: api/FeeChallans
 
         //public async Task<ActionResult<IEnumerable<FeeChallan>>> GetFeeChallans()

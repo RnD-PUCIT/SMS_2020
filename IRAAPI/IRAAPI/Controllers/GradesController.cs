@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using IRAAPI.BLL;
-using IRAAPI.COMMON;
 using IRAAPI.Models;
 
 
@@ -14,6 +12,11 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class GradesController : ControllerBase
     {
+        private readonly IRAAPIContext context;
+        public GradesController(IRAAPIContext context)
+        {
+            this.context = context;
+        }
         [Authorize]
         [HttpGet]
         public Object GetGradeDetails(Guid studentId, Guid classId, Guid subjectId,  Guid gradeTypeId, Guid sessionId)
@@ -22,8 +25,6 @@ namespace IRAAPI.Controllers
             var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return Unauthorized();
-
-            using IRAAPIContext context = new IRAAPIContext();
 
             try
             {

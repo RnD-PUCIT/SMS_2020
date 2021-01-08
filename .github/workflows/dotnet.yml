@@ -1,0 +1,40 @@
+name: .NET
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  dotnetapi:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Restore dependencies    
+      run: cd IRAAPI && dotnet restore
+    - name: Build
+      run: cd IRAAPI &&  dotnet build --no-restore
+    - name: Test
+      run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
+      
+  reactapp:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: setup node env
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    - name: Restore dependencies    
+      run: cd intelligent_remote_academia-frontend && npm install
+    - name: Build
+      run: cd intelligent_remote_academia-frontend && npm build
