@@ -1,18 +1,19 @@
-import React from "react";
-import { Link, NavLink } from "react-router-dom";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Divider from "@material-ui/core/Divider";
-import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Drawer from '@material-ui/core/Drawer';
+import Hidden from '@material-ui/core/Hidden';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
-import Navbar from "../navbar/navbar";
-import UserInfo from "./userInfo";
+import Navbar from '../navbar/navbar';
+import UserInfo from './userInfo';
 
-import { sideBarLinks } from "../../constants/sidebarConsts";
-import { useStyles } from "../../constants/layoutConsts";
+import { sideBarLinks } from '../../constants/sidebarConsts';
+import { useStyles } from '../../constants/layoutConsts';
+import { ListItemIcon } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Sidebar(props) {
   const { window } = props;
@@ -29,8 +30,6 @@ function Sidebar(props) {
       {/* Display logged in user information */}
       <UserInfo parentInfo={userInfo} />
 
-      <Divider />
-
       {/* Sidebar Links */}
       <List>
         {sideBarLinks.map((item) => {
@@ -41,8 +40,15 @@ function Sidebar(props) {
               component={NavLink}
               to={item.url}
               activeClassName={classes.active}
+              style={{ padding: '8px 20px' }}
             >
-              <ListItemText>{item.text}</ListItemText>
+              <ListItemIcon>
+                <FontAwesomeIcon
+                  icon={item.icon}
+                  style={{ fontSize: '23px' }}
+                />
+              </ListItemIcon>
+              <ListItemText primary={item.text} />
             </ListItem>
           );
         })}

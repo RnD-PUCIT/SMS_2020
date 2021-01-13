@@ -22,6 +22,11 @@ import useStyles from "../../../styles/feeChallanStyle";
 import "./feeChallan.css";
 import AlertDescriptive from "../../common/alerts/alertDescriptive";
 
+const institutionConst = {
+  name: "The Intelli School",
+  address: "PUCIT Old Campus, Lahore, Pakistan",
+};
+
 class FeeChallan extends Component {
   state = {
     institution: institutionConst,
@@ -426,32 +431,5 @@ function showFeeStatus(challan) {
     );
   }
 }
-
-const challanConst = {
-  challanNo: "881236-123",
-  issueDate: "28/11/2020",
-  billingMonth: "November",
-  dueDate: "12/12/2020",
-
-  student: {
-    firstName: "Shahid",
-    lastName: "Afridi",
-    rollNo: "10",
-    className: "8th",
-    section: "Blue",
-  },
-
-  dues: [
-    { chargeId: 0, chargeName: "Tution Fee", amount: 5000 },
-    { chargeId: 1, chargeName: "Bus Charges", amount: 2000 },
-    { chargeId: 2, chargeName: "Lab Charges", amount: 800 },
-    { chargeId: 3, chargeName: "Library Charges", amount: 300 },
-  ],
-};
-
-const institutionConst = {
-  name: "The Intelli School",
-  address: "PUCIT Old Campus, Lahore, Pakistan",
-};
 
 export default FeeChallan;

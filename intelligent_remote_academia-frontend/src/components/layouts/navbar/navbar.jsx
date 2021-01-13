@@ -36,10 +36,11 @@ export default function Navbar(props) {
             <MenuIcon />
           </IconButton>
 
-          <Typography variant="h6" className={classes.title}>
+          {/* <Typography variant="h6" className={classes.title}>
             {brandName}
-          </Typography>
+          </Typography> */}
 
+          <span className={classes.title} />
           <ProfileAvatar
             onMenuOpen={handleMenu}
             onMenuClose={handleClose}
