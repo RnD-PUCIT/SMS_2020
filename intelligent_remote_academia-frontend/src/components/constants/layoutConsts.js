@@ -40,9 +40,9 @@ const useStyles = makeStyles((theme) => ({
     background:
       'linear-gradient(to right, rgb(33, 138, 174), rgb(32, 167, 172))',
     color: 'white',
-    boxShadow: '0 3px 10px rgb(0, 0, 0, .5)',
-    borderTopRightRadius: '50px',
-    borderBottomRightRadius: '50px',
+    boxShadow: '0 2px 5px rgb(0, 0, 0, .3)',
+    borderTopRightRadius: '20px',
+    borderBottomRightRadius: '20px',
     '&:hover': {
       color: 'white',
     },

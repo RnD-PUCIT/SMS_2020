@@ -40,7 +40,7 @@ function Sidebar(props) {
               component={NavLink}
               to={item.url}
               activeClassName={classes.active}
-              style={{ padding: '15px' }}
+              style={{ padding: '8px 20px' }}
             >
               <ListItemIcon>
                 <FontAwesomeIcon
