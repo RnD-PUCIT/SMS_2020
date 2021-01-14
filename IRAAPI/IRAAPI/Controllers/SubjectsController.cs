@@ -96,7 +96,7 @@ namespace IRAAPI.Controllers
                 dashboard.students = studentsData;
                 dashboard.subjects = subjectsList;
 
-                return new { Dashboard = dashboard };
+                return new { dashboard = dashboard };
             }
             catch (Exception)
             {

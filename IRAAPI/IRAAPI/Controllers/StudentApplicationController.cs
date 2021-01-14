@@ -18,7 +18,8 @@ namespace IRAAPI.Controllers
     {
         private readonly IRAAPIContext _db;
         private readonly IWebHostEnvironment _web;
-        StudentApplicationController(IRAAPIContext db, IWebHostEnvironment web)
+        
+        public StudentApplicationController(IRAAPIContext db, IWebHostEnvironment web)
         {
             _db = db;
             _web = web;
@@ -71,7 +72,7 @@ namespace IRAAPI.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<Object> CreateApplication(IFormCollection form)
+        public async Task<Object> CreateApplication([FromForm] ApplicationDto application)
         {
             try
             {
@@ -79,21 +80,30 @@ namespace IRAAPI.Controllers
                 //I will use thid guid to get id of application after inerting data in StudentApplications Table
                 Guid applicationGuid = Guid.NewGuid();
                 studentApplication.guid = applicationGuid;
+                studentApplication.Content = application.ApplicationBody;
+                studentApplication.Subject = application.SubjectLine;
 
-                var studentGuid = JsonConvert.DeserializeObject<Guid>(form["studentId"]);
-                studentApplication.Subject = JsonConvert.DeserializeObject<string>(form["subjectLine"].ToString());
-                studentApplication.Content = JsonConvert.DeserializeObject<string>(form["applicationBody"].ToString());
-                var startDate = JsonConvert.DeserializeObject<DateTime>(form["startDate"].ToString());
-                var endDate = JsonConvert.DeserializeObject<DateTime>(form["endDate"].ToString());
+                //var studentGuid = JsonConvert.DeserializeObject<Guid>(form["studentId"]);
+                //studentApplication.Subject = JsonConvert.DeserializeObject<string>(form["subjectLine"].ToString());
+                //studentApplication.Content = JsonConvert.DeserializeObject<string>(form["applicationBody"].ToString());
+                //var startDate = JsonConvert.DeserializeObject<DateTime>(form["startDate"].ToString());
+                //var endDate = JsonConvert.DeserializeObject<DateTime>(form["endDate"].ToString());
 
-                var studentNumericId = _db.Students.Where(s => s.Guid == studentGuid).Select(s => s.Id).FirstOrDefault();
+                //Guid studentGuid = new Guid(HttpContext.Request.Form["studentId"]);
+                //studentApplication.Subject = HttpContext.Request.Form["subjectLine"].ToString();
+                //studentApplication.Content = HttpContext.Request.Form["applicationBody"].ToString();
+                //string startDate = HttpContext.Request.Form["startDate"];
+                //string endDate = HttpContext.Request.Form["endDate"];
+
+                if (application.StartDate != null && application.EndDate != null)
+                {
+                    studentApplication.StartDate = DateTime.Parse(HttpContext.Request.Form["startDate"]);
+                    studentApplication.EndDate = DateTime.Parse(HttpContext.Request.Form["endDate"]);
+                }
+                
+                var studentNumericId = _db.Students.Where(s => s.Guid == application.StudentId).Select(s => s.Id).FirstOrDefault();
                 studentApplication.StudentId = studentNumericId;
 
-                if (startDate != null && endDate != null)
-                {
-                    studentApplication.StartDate = startDate;
-                    studentApplication.EndDate = endDate;
-                }
 
                 await _db.StudentApplications.AddRangeAsync(studentApplication);
                 await _db.SaveChangesAsync();
@@ -104,7 +114,7 @@ namespace IRAAPI.Controllers
                 string logicalFilename, fileExtension;
                 if (files != null)
                 {
-                    string UploadFolder = Path.Combine(_web.WebRootPath, "Students_Applications");
+                    string UploadFolder = Path.Combine(_web.ContentRootPath, "wwwroot/Students_Applications");
 
                     if (!Directory.Exists(UploadFolder))
                     {
@@ -162,6 +172,16 @@ namespace IRAAPI.Controllers
         public Guid id { get; set; }
         public string fileName { get; set; }
         public string filePath { get; set; }
+    }
+
+    public class ApplicationDto
+    {
+        public Guid StudentId { get; set; }
+        public string SubjectLine { get; set; }
+        public string ApplicationBody { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public IFormFile Files { get; set; }
     }
 
 }

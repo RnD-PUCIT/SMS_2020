@@ -75,12 +75,12 @@ namespace IRAAPI
               });
            services.AddAutoMapper(typeof(Startup));
            services.AddControllers();
-            services.AddMvc()
-               .AddJsonOptions(options =>
-               {
-                   options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                   options.JsonSerializerOptions.PropertyNamingPolicy = null;
-               });
+            //services.AddMvc()
+            //   .AddJsonOptions(options =>
+            //   {
+            //       options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+            //       options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //   });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
