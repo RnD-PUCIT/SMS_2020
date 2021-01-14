@@ -114,7 +114,7 @@ namespace IRAAPI.Controllers
                 string logicalFilename, fileExtension;
                 if (files != null)
                 {
-                    string UploadFolder = Path.Combine(_web.ContentRootPath, "wwwroot/Students_Applications");
+                    string UploadFolder = Path.Combine(_web.ContentRootPath, "wwwroot\\Students_Applications");
 
                     if (!Directory.Exists(UploadFolder))
                     {
@@ -125,7 +125,7 @@ namespace IRAAPI.Controllers
                         StudentApplicationFile studentApplicationFile = new StudentApplicationFile();
 
                         fileExtension = System.IO.Path.GetExtension(file.FileName);
-                        logicalFilename = Guid.NewGuid().ToString() + "_" + file.FileName + fileExtension;
+                        logicalFilename = Guid.NewGuid().ToString() + "_" + file.FileName;
                         string filePath = Path.Combine(UploadFolder, logicalFilename);
                         file.CopyTo(new FileStream(filePath, FileMode.Create));
 
