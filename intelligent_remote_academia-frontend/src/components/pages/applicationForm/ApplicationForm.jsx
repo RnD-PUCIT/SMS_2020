@@ -48,7 +48,7 @@ const ApplicationForm = (props) => {
     setApplicationBody(content);
   };
 
-  const handleSubmission = () => {
+  const handleSubmission = async () => {
     if (subjectLine.trim() === '' || subjectLine.length === 0) {
       setError(true);
       setErrorMessage('Please enter the subject line');
@@ -58,14 +58,18 @@ const ApplicationForm = (props) => {
     } else {
       setErrorMessage('');
       const formData = new FormData();
-      formData.set('subjectLine', subjectLine);
-      formData.set('applicationBody', applicationBody);
+      console.log(selectedStudent.id);
+      formData.append('studentId', selectedStudent.id);
+      formData.append('subjectLine', subjectLine);
+      formData.append('applicationBody', applicationBody);
 
       if (selectedFiles.length !== 0) {
-        formData.set('files', selectedFiles);
+        formData.append('files', selectedFiles[0]);
       }
 
-      // http.post()
+      const url = `/studentApplication`;
+
+      await http.post(url, formData);
     }
   };
 

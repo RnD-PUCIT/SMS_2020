@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
+using Newtonsoft.Json.Serialization;
 
 namespace IRAAPI
 {
@@ -74,8 +74,13 @@ namespace IRAAPI
                   };
               });
            services.AddAutoMapper(typeof(Startup));
-            // services.AddDbContext()
-            services.AddControllers();
+           services.AddControllers();
+            //services.AddMvc()
+            //   .AddJsonOptions(options =>
+            //   {
+            //       options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
+            //       options.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //   });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,6 +92,7 @@ namespace IRAAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors("defaultcorspolicy");
