@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import Layout from "./layouts/layout";
+import React, { Component } from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import Layout from './layouts/layout';
 
-import Login from "./pages/login/login";
+import Login from './pages/login/login';
 
-import "./App.css";
-import { Redirect, Route, Switch } from "react-router-dom";
-import NotFound from "./pages/error/notFound";
+import './App.css';
+import NotFound from './pages/error/notFound';
 
 class App extends Component {
   render() {
