@@ -27,14 +27,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   // necessary for content to be below app bar
-  toolbar: theme.mixins.toolbar,
+  toolbar: { marginTop: '70px' },
   drawerPaper: {
     width: drawerWidth,
   },
   content: {
-    marginTop: '70px',
     flexGrow: 1,
     padding: theme.spacing(3),
+    background: '#F8F8F8', // Github's backround
+    // background: '#EDF0F2',
+    minHeight: '100vh',
   },
   active: {
     background:
