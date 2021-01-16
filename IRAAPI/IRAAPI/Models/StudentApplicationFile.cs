@@ -43,6 +43,8 @@ namespace IRAAPI.Models
         [Column("application_id")]
         [ForeignKey("Id")]
         public int ApplicationId { get; set; }
+
+        [NotMapped]
         public virtual StudentApplication StudentApplication { get; set; }
     }
 }

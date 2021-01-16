@@ -967,16 +967,11 @@ namespace IRAAPI.Migrations
                         .HasColumnType("float")
                         .HasColumnName("size");
 
-                    b.Property<int?>("StudentApplicationId")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("guid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StudentApplicationId");
 
                     b.ToTable("StudentApplicationFiles");
                 });
@@ -1498,15 +1493,6 @@ namespace IRAAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.StudentApplicationFile", b =>
-                {
-                    b.HasOne("IRAAPI.Models.StudentApplication", "StudentApplication")
-                        .WithMany()
-                        .HasForeignKey("StudentApplicationId");
-
-                    b.Navigation("StudentApplication");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SubjectGradeTypeAlloc", b =>

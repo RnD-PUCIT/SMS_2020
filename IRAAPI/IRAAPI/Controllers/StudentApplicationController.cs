@@ -135,6 +135,7 @@ namespace IRAAPI.Controllers
                         studentApplicationFile.ApplicationId = applicationId;
                         studentApplicationFile.Extension = fileExtension;
                         studentApplicationFile.Size = file.Length;
+                        studentApplicationFile.Date = DateTime.Now;
 
                         await _db.StudentApplicationFiles.AddRangeAsync(studentApplicationFile);
                         await _db.SaveChangesAsync();
