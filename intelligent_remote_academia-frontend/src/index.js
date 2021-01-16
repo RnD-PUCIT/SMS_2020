@@ -1,21 +1,27 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
+import '@fontsource/roboto'; // Defaults to weight 400.
 
-import App from "./components/App";
-import * as serviceWorker from "./serviceWorker";
+import App from './components/App';
+import * as serviceWorker from './serviceWorker';
 
-import "./index.css";
-import "font-awesome/css/font-awesome.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+import './index.css';
+import 'font-awesome/css/font-awesome.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import theme from './themes/defaultTheme';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
