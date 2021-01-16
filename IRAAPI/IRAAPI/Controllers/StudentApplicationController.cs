@@ -154,6 +154,11 @@ namespace IRAAPI.Controllers
 
     public class StuduentApplicationMainDTO
     {
+        public StuduentApplicationMainDTO()
+        {
+            studuentApplications = new List<StuduentApplicationDTO>();
+            studuentApplicationFiles = new List<List<StuduentApplicationFileDTO>>();
+        }
         public List<StuduentApplicationDTO>  studuentApplications { get; set; }
         public List<List<StuduentApplicationFileDTO>> studuentApplicationFiles { get; set; }
     }
