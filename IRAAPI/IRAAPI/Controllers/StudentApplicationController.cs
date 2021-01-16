@@ -51,8 +51,8 @@ namespace IRAAPI.Controllers
             if (studentApplications == null)
                 return NotFound();
 
-            StuduentApplicationMainDTO studuentApplicationMainDTO = new StuduentApplicationMainDTO();
-            studuentApplicationMainDTO.studuentApplications = studentApplications;
+            StuduentApplicationMainDTO studentApplicationMainDTO = new StuduentApplicationMainDTO();
+            studentApplicationMainDTO.studuentApplications = studentApplications;
             
             foreach (var application in studentApplications)
             {
@@ -65,9 +65,9 @@ namespace IRAAPI.Controllers
                         filePath = s.Path
                     })
                     .ToList();
-                studuentApplicationMainDTO.studuentApplicationFiles.Add(studentApplicationFiles);
+                studentApplicationMainDTO.studuentApplicationFiles.Add(studentApplicationFiles);
             }
-            return new { studentApplications =  studuentApplicationMainDTO};
+            return new { studentApplicationData = studentApplicationMainDTO};
         }
 
         [Authorize]

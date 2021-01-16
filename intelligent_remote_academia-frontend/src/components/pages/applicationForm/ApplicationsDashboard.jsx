@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link, useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import http from '../../../services/httpService';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,11 +31,16 @@ const useStyles = makeStyles((theme) => ({
   accordianSummary: {
     background: '#F1F1F1',
   },
+
+  accordianFooter: {
+    justifyContent: 'flex-start',
+  },
 }));
 
 class ApplicationsDashboard extends Component {
   state = {
-    applicationsList: [],
+    studuentApplications: [],
+    studuentApplicationFiles: [],
   };
 
   componentDidMount() {
@@ -51,14 +57,27 @@ class ApplicationsDashboard extends Component {
     return (
       <Paper style={{ padding: '20px' }} variant="outlined" square>
         <NewApplicationButton />
-        <ApplicationsList applicationsList={this.state.applicationsList} />
+        <ApplicationsList
+          studuentApplications={this.state.studuentApplications}
+        />
       </Paper>
     );
   }
 
-  getApplications = () => {
-    const applicationsList = applicationsConst;
-    this.setState({ applicationsList });
+  getApplications = async () => {
+    const studentId = this.props.selectedStudent.id;
+    const url = `/studentApplication/?studentId=${studentId}`;
+
+    try {
+      const { data } = await http.get(url);
+      const { studentApplicationData } = data;
+      const {
+        studuentApplications,
+        studuentApplicationFiles,
+      } = studentApplicationData;
+
+      this.setState({ studuentApplications, studuentApplicationFiles });
+    } catch (error) {}
   };
 }
 
@@ -79,7 +98,7 @@ const NewApplicationButton = () => {
   );
 };
 
-const ApplicationsList = ({ applicationsList }) => {
+const ApplicationsList = ({ studuentApplications }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -87,7 +106,7 @@ const ApplicationsList = ({ applicationsList }) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  if (applicationsList.length === 0) {
+  if (studuentApplications.length === 0) {
     return (
       <div className={classes.accordionDiv}>
         <Alert severity="info">
@@ -104,7 +123,7 @@ const ApplicationsList = ({ applicationsList }) => {
   }
   return (
     <div className={classes.accordionDiv}>
-      {applicationsList.map((application, index) => {
+      {studuentApplications.map((application, index) => {
         return (
           <Accordion
             expanded={expanded === `${index}`}
@@ -139,7 +158,7 @@ const ApplicationsList = ({ applicationsList }) => {
               </Typography>
             </AccordionDetails>
             <Divider />
-            <AccordionActions>
+            <AccordionActions className={classes.accordianFooter}>
               <Typography color="textSecondary">
                 Additional Files Uploaded
               </Typography>
