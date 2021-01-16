@@ -33,14 +33,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   accordianFooter: {
-    justifyContent: 'flex-start',
+    display: 'block',
   },
 }));
 
 class ApplicationsDashboard extends Component {
   state = {
-    studuentApplications: [],
-    studuentApplicationFiles: [],
+    studentApplications: [],
+    studentApplicationFiles: [],
   };
 
   componentDidMount() {
@@ -58,7 +58,8 @@ class ApplicationsDashboard extends Component {
       <Paper style={{ padding: '20px' }} variant="outlined" square>
         <NewApplicationButton />
         <ApplicationsList
-          studuentApplications={this.state.studuentApplications}
+          studentApplications={this.state.studentApplications}
+          studentApplicationFiles={this.state.studentApplicationFiles}
         />
       </Paper>
     );
@@ -72,11 +73,11 @@ class ApplicationsDashboard extends Component {
       const { data } = await http.get(url);
       const { studentApplicationData } = data;
       const {
-        studuentApplications,
-        studuentApplicationFiles,
+        studentApplications,
+        studentApplicationFiles,
       } = studentApplicationData;
 
-      this.setState({ studuentApplications, studuentApplicationFiles });
+      this.setState({ studentApplications, studentApplicationFiles });
     } catch (error) {}
   };
 }
@@ -98,7 +99,7 @@ const NewApplicationButton = () => {
   );
 };
 
-const ApplicationsList = ({ studuentApplications }) => {
+const ApplicationsList = ({ studentApplications, studentApplicationFiles }) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -106,7 +107,7 @@ const ApplicationsList = ({ studuentApplications }) => {
     setExpanded(isExpanded ? panel : false);
   };
 
-  if (studuentApplications.length === 0) {
+  if (studentApplications.length === 0) {
     return (
       <div className={classes.accordionDiv}>
         <Alert severity="info">
@@ -123,7 +124,7 @@ const ApplicationsList = ({ studuentApplications }) => {
   }
   return (
     <div className={classes.accordionDiv}>
-      {studuentApplications.map((application, index) => {
+      {studentApplications.map((application, index) => {
         return (
           <Accordion
             expanded={expanded === `${index}`}
@@ -157,18 +158,39 @@ const ApplicationsList = ({ studuentApplications }) => {
                 />
               </Typography>
             </AccordionDetails>
-            <Divider />
-            <AccordionActions className={classes.accordianFooter}>
-              <Typography color="textSecondary">
-                Additional Files Uploaded
-              </Typography>
-            </AccordionActions>
+            {DisplayAdditionalFiles(studentApplicationFiles[index], classes)}
           </Accordion>
         );
       })}
     </div>
   );
 };
+
+function DisplayAdditionalFiles(studentApplicationFiles, classes) {
+  if (studentApplicationFiles.length !== 0) {
+    return (
+      <React.Fragment>
+        <Divider />
+        <AccordionActions className={classes.accordianFooter}>
+          <Typography color="textSecondary">
+            Additional Files Uploaded
+          </Typography>
+          <ul>
+            {studentApplicationFiles.map((file, index) => {
+              return (
+                <li key={index}>
+                  <a href={file.filePath} target="_blank">
+                    {file.fileName}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </AccordionActions>
+      </React.Fragment>
+    );
+  }
+}
 
 export default ApplicationsDashboard;
 

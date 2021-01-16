@@ -52,7 +52,7 @@ namespace IRAAPI.Controllers
                 return NotFound();
 
             StuduentApplicationMainDTO studentApplicationMainDTO = new StuduentApplicationMainDTO();
-            studentApplicationMainDTO.studuentApplications = studentApplications;
+            studentApplicationMainDTO.studentApplications = studentApplications;
             
             foreach (var application in studentApplications)
             {
@@ -65,7 +65,7 @@ namespace IRAAPI.Controllers
                         filePath = s.Path
                     })
                     .ToList();
-                studentApplicationMainDTO.studuentApplicationFiles.Add(studentApplicationFiles);
+                studentApplicationMainDTO.studentApplicationFiles.Add(studentApplicationFiles);
             }
             return new { studentApplicationData = studentApplicationMainDTO};
         }
@@ -156,11 +156,11 @@ namespace IRAAPI.Controllers
     {
         public StuduentApplicationMainDTO()
         {
-            studuentApplications = new List<StuduentApplicationDTO>();
-            studuentApplicationFiles = new List<List<StuduentApplicationFileDTO>>();
+            studentApplications = new List<StuduentApplicationDTO>();
+            studentApplicationFiles = new List<List<StuduentApplicationFileDTO>>();
         }
-        public List<StuduentApplicationDTO>  studuentApplications { get; set; }
-        public List<List<StuduentApplicationFileDTO>> studuentApplicationFiles { get; set; }
+        public List<StuduentApplicationDTO>  studentApplications { get; set; }
+        public List<List<StuduentApplicationFileDTO>> studentApplicationFiles { get; set; }
     }
     public class StuduentApplicationDTO
     {
