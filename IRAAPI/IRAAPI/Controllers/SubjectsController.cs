@@ -215,7 +215,7 @@ namespace IRAAPI.Controllers
         public List<GradeTypeDTO> gradeTypeNames { get; set; }
         public List<DiaryDTO> diary { get; set; }
 
-        public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
+       
     }
 
     public class GradeTypeDTO
