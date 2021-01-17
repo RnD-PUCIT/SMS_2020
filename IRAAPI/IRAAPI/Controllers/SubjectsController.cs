@@ -146,7 +146,16 @@ namespace IRAAPI.Controllers
                 {
                     return CreatedAtAction("Course Outlines Not found", null);
                 }
-                
+                for (int i = 0; i < ListOfCourseOutlines.Count; i++)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+
+                }
 
 
                 int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectNumericId && ts.ClassId == classNumericId)
@@ -187,7 +196,7 @@ namespace IRAAPI.Controllers
                 subjectService.subject = subjectData;
                 subjectService.gradeTypeNames = gradeTypesData;
                 subjectService.diary = diaryData;
-               // subjectService.courseOutlinefromCourseContent = ListOfCourseOutlinesWithFiles;
+                subjectService.courseOutlinefromCourseContent = ListOfCourseOutlinesWithFiles;
 
                 return new { SubjectService = subjectService };
                 
