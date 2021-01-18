@@ -214,9 +214,9 @@ namespace IRAAPI.Controllers
         public SubjectDTO subject { get; set; }
         public List<GradeTypeDTO> gradeTypeNames { get; set; }
         public List<DiaryDTO> diary { get; set; }
-        public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
+         public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
 
-
+       
     }
 
     public class GradeTypeDTO
