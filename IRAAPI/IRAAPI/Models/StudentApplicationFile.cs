@@ -30,12 +30,12 @@ namespace IRAAPI.Models
         public string LogicalName { get; set; }
 
         [Required]
-        [Column("path")]
-        public string Path { get; set; }
-
-        [Required]
         [Column("extension")]
         public string Extension { get; set; }
+
+        [Required]
+        [Column("content_type")]
+        public string ContentType { get; set; }
 
         [Column("size")]
         public double Size { get; set; }

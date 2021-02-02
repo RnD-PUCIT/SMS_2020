@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -62,7 +64,7 @@ namespace IRAAPI.Controllers
                     { 
                         id = s.guid,
                         fileName = s.OrignalName,
-                        filePath = s.Path
+                        //filePath = s.Path
                     })
                     .ToList();
                 studentApplicationMainDTO.studentApplicationFiles.Add(studentApplicationFiles);
@@ -125,13 +127,18 @@ namespace IRAAPI.Controllers
                         StudentApplicationFile studentApplicationFile = new StudentApplicationFile();
 
                         fileExtension = System.IO.Path.GetExtension(file.FileName);
-                        logicalFilename = Guid.NewGuid().ToString() + "_" + file.FileName;
+                        logicalFilename = Guid.NewGuid().ToString() + "_" + new string(Path.
+                                            GetFileNameWithoutExtension(file.FileName).
+                                            Take(10).
+                                            ToArray()).Replace(" ", "-");
+
                         string filePath = Path.Combine(UploadFolder, logicalFilename);
                         file.CopyTo(new FileStream(filePath, FileMode.Create));
 
                         studentApplicationFile.OrignalName = file.FileName;
                         studentApplicationFile.LogicalName = logicalFilename;
-                        studentApplicationFile.Path = filePath;
+                        studentApplicationFile.ContentType = file.ContentType;
+                        //studentApplicationFile.Path = filePath;
                         studentApplicationFile.ApplicationId = applicationId;
                         studentApplicationFile.Extension = fileExtension;
                         studentApplicationFile.Size = file.Length;
@@ -149,7 +156,37 @@ namespace IRAAPI.Controllers
             }
         }
 
-        
+        [Authorize]
+        [HttpGet("{fileId}")]
+        public Object DownloadFile(Guid fileId)
+        {
+            var roothPath = Path.Combine(_web.ContentRootPath, "wwwroot\\Students_Applications");
+
+            var fileInDb = _db.StudentApplicationFiles.SingleOrDefault(x => x.guid == fileId);
+
+            if(fileInDb != null)
+            {
+                HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+                var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName + fileInDb.Extension);
+
+                byte[] file = System.IO.File.ReadAllBytes(fileFullPath);
+                MemoryStream memoryStream = new MemoryStream(file);
+
+                response.Content = new ByteArrayContent(file);
+                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+
+                response.Content.Headers.ContentType = new MediaTypeHeaderValue(fileInDb.ContentType);
+                response.Content.Headers.ContentDisposition.FileName = fileInDb.OrignalName;
+
+                return response;
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+
     }
 
     public class StuduentApplicationMainDTO
@@ -177,7 +214,7 @@ namespace IRAAPI.Controllers
     {
         public Guid id { get; set; }
         public string fileName { get; set; }
-        public string filePath { get; set; }
+         public string filePath { get; set; }
     }
 
     public class ApplicationDto
