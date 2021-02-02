@@ -157,7 +157,7 @@ namespace IRAAPI.Controllers
         }
 
         [Authorize]
-        [HttpGet("{fileId}")]
+        [Route("DownloadFile")]
         public Object DownloadFile(Guid fileId)
         {
             var roothPath = Path.Combine(_web.ContentRootPath, "wwwroot\\Students_Applications");
@@ -167,7 +167,7 @@ namespace IRAAPI.Controllers
             if(fileInDb != null)
             {
                 HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-                var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName + fileInDb.Extension);
+                var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName);
 
                 byte[] file = System.IO.File.ReadAllBytes(fileFullPath);
                 MemoryStream memoryStream = new MemoryStream(file);

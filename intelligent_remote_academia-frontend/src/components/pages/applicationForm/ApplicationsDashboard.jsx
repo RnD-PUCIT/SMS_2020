@@ -179,7 +179,7 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
             {studentApplicationFiles.map((file, index) => {
               return (
                 <li key={index}>
-                  <a href={file.filePath} target="_blank">
+                  <a href="#" onClick={() => handleFileDownlad(file.id)}>
                     {file.fileName}
                   </a>
                 </li>
@@ -190,6 +190,11 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
       </React.Fragment>
     );
   }
+}
+
+async function handleFileDownlad(fileId) {
+  const url = `${window.location.href}/studentApplication/DownloadFile?fileId=${fileId}`;
+  window.open(url);
 }
 
 export default ApplicationsDashboard;
