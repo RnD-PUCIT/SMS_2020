@@ -8,12 +8,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import ReactQuill from 'react-quill';
-
+import Snackbar from '../../common/snackbars/Snackbar';
 import useStyles from '../../../styles/applicationFornStyle';
 import 'react-quill/dist/quill.snow.css';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import http from '../../../services/httpService';
+import { useHistory } from 'react-router-dom';
 
 const modules = {
   toolbar: [
@@ -36,6 +37,8 @@ const formats = [
 
 const ApplicationForm = (props) => {
   const classes = useStyles();
+  const history = useHistory();
+
   const { selectedStudent } = props;
 
   const [subjectLine, setSubjectLine] = useState('');
@@ -43,6 +46,8 @@ const ApplicationForm = (props) => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [status, setStatus] = useState(null);
+  const [message, setMessage] = useState('');
 
   const handleApplicationContentChange = (content) => {
     setApplicationBody(content);
@@ -69,7 +74,17 @@ const ApplicationForm = (props) => {
 
       const url = `/studentApplication`;
 
-      await http.post(url, formData);
+      try {
+        await http.post(url, formData);
+        setStatus('success');
+        setMessage('Application sent successfully!');
+
+        setTimeout(() => {
+          history.replace('/applications');
+        }, 2000);
+      } catch (error) {
+        setStatus('There was an error sending the application');
+      }
     }
   };
 
@@ -80,6 +95,13 @@ const ApplicationForm = (props) => {
 
   return (
     <React.Fragment>
+      {status && (
+        <Snackbar
+          type={status}
+          message={message}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        />
+      )}
       <Paper variant="outlined" className={classes.root}>
         <Typography variant="h5" align="center">
           Application Form
