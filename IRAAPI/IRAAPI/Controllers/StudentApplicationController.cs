@@ -132,7 +132,7 @@ namespace IRAAPI.Controllers
                                             Take(10).
                                             ToArray()).Replace(" ", "-");
 
-                        string filePath = Path.Combine(UploadFolder, logicalFilename);
+                        string filePath = Path.Combine(UploadFolder, logicalFilename + fileExtension);
                         file.CopyTo(new FileStream(filePath, FileMode.Create));
 
                         studentApplicationFile.OrignalName = file.FileName;
@@ -167,7 +167,7 @@ namespace IRAAPI.Controllers
             if(fileInDb != null)
             {
                 //HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
-                var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName);
+                var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName + fileInDb.Extension);
 
                 byte[] file = System.IO.File.ReadAllBytes(fileFullPath);
                 MemoryStream memoryStream = new MemoryStream(file);
@@ -189,8 +189,6 @@ namespace IRAAPI.Controllers
                 return NotFound();
             }
         }
-
-
     }
 
     public class StuduentApplicationMainDTO
@@ -218,7 +216,7 @@ namespace IRAAPI.Controllers
     {
         public Guid id { get; set; }
         public string fileName { get; set; }
-         public string filePath { get; set; }
+        public string filePath { get; set; }
     }
 
     public class ApplicationDto

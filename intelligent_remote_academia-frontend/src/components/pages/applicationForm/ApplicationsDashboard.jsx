@@ -181,7 +181,10 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
             {studentApplicationFiles.map((file, index) => {
               return (
                 <li key={index}>
-                  <a href="#" onClick={() => handleFileDownlad(file.id)}>
+                  <a
+                    href="#"
+                    onClick={() => handleFileDownlad(file.id, file.fileName)}
+                  >
                     {file.fileName}
                   </a>
                 </li>
@@ -194,14 +197,14 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
   }
 }
 
-async function handleFileDownlad(fileId) {
+async function handleFileDownlad(fileId, fileName) {
   const url = `/studentApplication/DownloadFile?fileId=${fileId}`;
 
   try {
     const { data } = await http.get(url, {
       responseType: 'blob',
     });
-    await FileSaver.saveAs(data);
+    await FileSaver.saveAs(data, fileName);
     console.log(data);
   } catch (ex) {}
 }
