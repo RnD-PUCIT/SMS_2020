@@ -16,6 +16,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link, useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import http from '../../../services/httpService';
+import { Https } from '@material-ui/icons';
+import FileSaver from 'file-saver';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -193,8 +195,15 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
 }
 
 async function handleFileDownlad(fileId) {
-  const url = `${window.location.href}/studentApplication/DownloadFile?fileId=${fileId}`;
-  window.open(url);
+  const url = `/studentApplication/DownloadFile?fileId=${fileId}`;
+
+  try {
+    const { data } = await http.get(url, {
+      responseType: 'blob',
+    });
+    await FileSaver.saveAs(data);
+    console.log(data);
+  } catch (ex) {}
 }
 
 export default ApplicationsDashboard;

@@ -158,7 +158,7 @@ namespace IRAAPI.Controllers
 
         [Authorize]
         [Route("DownloadFile")]
-        public Object DownloadFile(Guid fileId)
+        public IActionResult DownloadFile(Guid fileId)
         {
             var roothPath = Path.Combine(_web.ContentRootPath, "wwwroot\\Students_Applications");
 
@@ -166,19 +166,23 @@ namespace IRAAPI.Controllers
 
             if(fileInDb != null)
             {
-                HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+                //HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
                 var fileFullPath = Path.Combine(roothPath, fileInDb.LogicalName);
 
                 byte[] file = System.IO.File.ReadAllBytes(fileFullPath);
                 MemoryStream memoryStream = new MemoryStream(file);
 
-                response.Content = new ByteArrayContent(file);
-                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+                //response.Content = new ByteArrayContent(file);
+                //response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
 
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue(fileInDb.ContentType);
-                response.Content.Headers.ContentDisposition.FileName = fileInDb.OrignalName;
+                ////response.Content.Headers.ContentType = new MediaTypeHeaderValue(fileInDb.ContentType);
+                //response.Content.Headers.ContentType = new MediaTypeHeaderValue("APPLICATION/octet-stream");
+                //response.Content.Headers.ContentDisposition.FileName = fileInDb.OrignalName;
 
-                return response;
+                var contentType = "APPLICATION/octet-stream";
+                var fileName = fileInDb.OrignalName;
+
+                return File(memoryStream, contentType, fileName);
             }
             else
             {
