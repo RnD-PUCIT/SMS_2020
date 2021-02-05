@@ -15,6 +15,8 @@ import StudentDropdown from '../../studentDropdown/studentDropdown';
 import TimeTable from '../../pages/time-table/TimeTable';
 import ApplicationForm from '../../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../../pages/applicationForm/ApplicationsDashboard';
+import TeacherDashboard from '../../pages/teacher/dashboard/TeacherDashboard';
+import DiaryForm from '../../pages/teacher/diary/DiaryForm';
 
 const MainContent = ({
   subjects,
@@ -36,6 +38,11 @@ const MainContent = ({
             component={GradeDetails}
           />
           <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
+
+          {/* Teacher Module Links */}
+
+          <Route path="/teachers" component={TeacherDashboard} />
+          <Route path="/diary-form" component={DiaryForm} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
