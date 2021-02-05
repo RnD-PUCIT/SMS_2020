@@ -16,7 +16,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Link, useHistory } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import http from '../../../services/httpService';
-import { Https } from '@material-ui/icons';
 import FileSaver from 'file-saver';
 
 const useStyles = makeStyles((theme) => ({
