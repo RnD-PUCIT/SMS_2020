@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core';
-import '@fontsource/roboto'; // Defaults to weight 400.
+// import '@fontsource/roboto'; // Defaults to weight 400.
 
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
