@@ -57,7 +57,9 @@ const DiaryForm = () => {
     validationSchema: Yup.object({
       diaryTitle: Yup.string().required('Diary Title is required!'),
     }),
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      alert('submitted');
+    },
   });
 
   return (
@@ -73,66 +75,72 @@ const DiaryForm = () => {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
+        <form onSubmit={formik.handleSubmit}>
+          <AppBar className={classes.appBar}>
+            <Toolbar>
+              <IconButton edge="start" color="inherit" onClick={handleClose}>
+                <CloseIcon />
+              </IconButton>
+              <Typography variant="h6" className={classes.title}>
+                Post New Diary Material
+              </Typography>
+              <Button
+                color="default"
+                variant="contained"
+                // onClick={handleClose}
+                type="submit"
+              >
+                Post
+              </Button>
+            </Toolbar>
+          </AppBar>
+          <div className={classes.formBody}>
+            <TextField
+              id="diaryTitle"
+              autoFocus
+              fullWidth
+              variant="outlined"
+              label="Diary Title"
+              className={classes.textField}
+              value={formik.values.diaryTitle}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              helperText={
+                formik.touched.diaryTitle ? formik.errors.diaryTitle : ''
+              }
+              error={
+                formik.touched.diaryTitle && Boolean(formik.errors.diaryTitle)
+              }
+            />
+            <TextField
+              multiline
+              fullWidth
+              rows={15}
+              variant="outlined"
+              label="Diary Content"
+              className={classes.textField}
+            />
+            <SimpleMenu
+              button={{
+                color: 'primary',
+                variant: 'contained',
+                text: 'Attach',
+              }}
             >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Post New Diary Material
-            </Typography>
-            <Button color="default" variant="contained" onClick={handleClose}>
-              Post
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <form className={classes.formBody} onSubmit={formik.handleSubmit}>
-          <TextField
-            id="diaryTitle"
-            required
-            fullWidth
-            variant="outlined"
-            label="Diary Title"
-            className={classes.textField}
-            value={formik.values.diaryTitle}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            helperText={
-              formik.touched.diaryTitle ? formik.errors.diaryTitle : ''
-            }
-            error={
-              formik.touched.diaryTitle && Boolean(formik.errors.diaryTitle)
-            }
-          />
-          <TextField
-            multiline
-            fullWidth
-            rows={15}
-            variant="outlined"
-            label="Diary Content"
-            className={classes.textField}
-          />
-          <SimpleMenu
-            button={{ color: 'primary', variant: 'contained', text: 'Attach' }}
-          >
-            <MenuItem onClick={handleMenuLinkClick}>
-              <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
-                <AttachFileIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="File" />
-            </MenuItem>
-            <MenuItem onClick={handleMenuLinkClick}>
-              <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
-                <LinkIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText primary="Link" />
-            </MenuItem>
-          </SimpleMenu>
+              <MenuItem onClick={handleMenuLinkClick}>
+                <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
+                  <AttachFileIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="File" />
+              </MenuItem>
+              <MenuItem onClick={handleMenuLinkClick}>
+                <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
+                  <LinkIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText primary="Link" />
+              </MenuItem>
+            </SimpleMenu>
+          </div>
         </form>
       </Dialog>
     </React.Fragment>
