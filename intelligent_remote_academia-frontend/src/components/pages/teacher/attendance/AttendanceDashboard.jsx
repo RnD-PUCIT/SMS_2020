@@ -30,7 +30,7 @@ const AttendanceDashboard = () => {
   useEffect(() => {
     const classes = classListConst;
     const students = studentsListConst;
-    const attendance = attendanceConst;
+    const attendance = attendanceConst.reverse();
     setClassList(classes);
     setStudentsList(students);
     setAttendance(attendance);
@@ -65,8 +65,8 @@ const AttendanceDashboard = () => {
                 overflowX: 'auto',
               }}
             >
-              <Table className={classes.table} size="small" stickyHeader>
-                <TableHead>
+              <Table className={classes.table} size="small">
+                <TableHead style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
                   <TableRow>
                     <TableCell align="center" colSpan={2}>
                       Days
@@ -86,6 +86,9 @@ const AttendanceDashboard = () => {
                     <TableCell className={classes.tableCell}>
                       Student Name
                     </TableCell>
+                    {attendance.map((day, index) => (
+                      <TableCell key={index} className={classes.tableCell} />
+                    ))}
                   </TableRow>
                 </TableHead>
 
