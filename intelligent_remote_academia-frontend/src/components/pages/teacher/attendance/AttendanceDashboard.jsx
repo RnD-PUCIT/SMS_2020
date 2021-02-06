@@ -16,6 +16,11 @@ import React, { useEffect, useState } from 'react';
 const useStyles = makeStyles({
   paper: { padding: '30px' },
   marginY10: { margin: '10px 0' },
+  tableCell: {
+    display: 'borderBox',
+    padding: '10px',
+    border: 'none',
+  },
 });
 
 const AttendanceDashboard = () => {
@@ -23,14 +28,17 @@ const AttendanceDashboard = () => {
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
   const [monthDaysCount, setMonthDaysCount] = useState(null);
+  const [attendance, setAttendance] = useState(null);
 
   useEffect(() => {
     const classes = classListConst;
     const students = studentsListConst;
     const days = monthDaysCountConst.reverse();
+    const attendance = attendanceConst;
     setClassList(classes);
     setStudentsList(students);
     setMonthDaysCount(days);
+    setAttendance(attendance);
   }, []);
 
   const classes = useStyles();
@@ -69,20 +77,19 @@ const AttendanceDashboard = () => {
                       Days
                     </TableCell>
                     <TableCell colSpan={4} style={{ padding: '0' }}>
-                      {monthDaysCount.map((day, index) => (
-                        <TableCell
-                          key={index}
-                          style={{ padding: '10px', border: 'none' }}
-                        >
-                          {day}
+                      {attendance.map((day, index) => (
+                        <TableCell key={index} className={classes.tableCell}>
+                          {day.date}
                         </TableCell>
                       ))}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell>Roll #</TableCell>
-                    <TableCell>Student Name</TableCell>
-                    <TableCell colSpan={4} />
+                    <TableCell className={classes.tableCell}>Roll #</TableCell>
+                    <TableCell className={classes.tableCell}>
+                      Student Name
+                    </TableCell>
+                    <TableCell colSpan={4} className={classes.tableCell} />
                   </TableRow>
                 </TableHead>
 
@@ -93,10 +100,9 @@ const AttendanceDashboard = () => {
                       <TableCell>
                         {`${student.firstName} ${student.lastName}`}
                       </TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
-                      <TableCell></TableCell>
+                      {attendance.map((day, i) =>
+                        filterStudent(student, day.students, i)
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -112,6 +118,11 @@ const AttendanceDashboard = () => {
 };
 
 export default AttendanceDashboard;
+
+function filterStudent(currentStudent, studentsArray, i) {
+  const student = studentsArray.filter((x) => x.id === currentStudent.id)[0];
+  return <TableCell>{student.status}</TableCell>;
+}
 
 const classListConst = [
   {
@@ -246,6 +257,19 @@ const studentsListConst = [
     firstName: 'Zainab',
     lastName: 'Zulfiqar',
     rollNumber: 'BITF17A019',
+  },
+];
+
+const attendanceConst = [
+  {
+    date: '01/01/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'A' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
   },
 ];
 
