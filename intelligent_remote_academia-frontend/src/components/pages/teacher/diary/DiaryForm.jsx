@@ -59,6 +59,7 @@ const DiaryForm = () => {
     }),
     onSubmit: async (values) => {
       alert('submitted');
+      handleClose();
     },
   });
 
@@ -84,12 +85,7 @@ const DiaryForm = () => {
               <Typography variant="h6" className={classes.title}>
                 Post New Diary Material
               </Typography>
-              <Button
-                color="default"
-                variant="contained"
-                // onClick={handleClose}
-                type="submit"
-              >
+              <Button color="default" variant="contained" type="submit">
                 Post
               </Button>
             </Toolbar>
