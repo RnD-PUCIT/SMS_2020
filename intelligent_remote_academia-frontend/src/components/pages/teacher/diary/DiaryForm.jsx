@@ -15,6 +15,7 @@ import AttachFileIcon from '@material-ui/icons/AttachFile';
 import LinkIcon from '@material-ui/icons/Link';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import Snackbar from '../../../common/snackbars/Snackbar';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -39,6 +40,8 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const DiaryForm = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = useState(null);
+  const [message, setMessage] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -58,8 +61,11 @@ const DiaryForm = () => {
       diaryTitle: Yup.string().required('Diary Title is required!'),
     }),
     onSubmit: async (values) => {
-      alert('submitted');
-      handleClose();
+      setStatus('success');
+      setMessage('Diary data successfully posted!');
+      setTimeout(() => {
+        handleClose();
+      }, 5000);
     },
   });
 
@@ -90,6 +96,13 @@ const DiaryForm = () => {
               </Button>
             </Toolbar>
           </AppBar>
+          {status && (
+            <Snackbar
+              type={status}
+              message={message}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            />
+          )}
           <div className={classes.formBody}>
             <TextField
               id="diaryTitle"
