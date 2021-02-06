@@ -8,7 +8,10 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import { TextField } from '@material-ui/core';
+import { ListItemIcon, ListItemText, TextField } from '@material-ui/core';
+import MenuItem from '@material-ui/core/MenuItem';
+import SimpleMenu from '../../../common/menu/SimpleMenu';
+import SendIcon from '@material-ui/icons/Send';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -40,6 +43,8 @@ const DiaryForm = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleMenuLinkClick = () => {};
   return (
     <React.Fragment>
       <h1>Diary Form</h1>
@@ -73,6 +78,7 @@ const DiaryForm = () => {
         </AppBar>
         <div className={classes.formBody}>
           <TextField
+            required
             fullWidth
             variant="outlined"
             label="Diary Title"
@@ -86,9 +92,17 @@ const DiaryForm = () => {
             label="Description"
             className={classes.textField}
           />
-          <Button color="primary" variant="contained">
-            Attach File
-          </Button>
+          <SimpleMenu
+            button={{ color: 'primary', variant: 'contained', text: 'Attach' }}
+          >
+            <MenuItem onClick={handleMenuLinkClick}>
+              <ListItemIcon>
+                <SendIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="File" />
+            </MenuItem>
+            <MenuItem onClick={handleMenuLinkClick}>Link</MenuItem>
+          </SimpleMenu>
         </div>
       </Dialog>
     </React.Fragment>
