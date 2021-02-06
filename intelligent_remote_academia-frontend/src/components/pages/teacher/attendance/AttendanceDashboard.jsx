@@ -10,8 +10,10 @@ import {
   TableRow,
   TableCell,
   TableContainer,
+  Grid,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import SimpleMenu from '../../../common/menu/SimpleMenu';
 
 const useStyles = makeStyles({
   paper: { padding: '30px' },
@@ -49,13 +51,28 @@ const AttendanceDashboard = () => {
               </MenuItem>
             ))}
           </TextField>
-          <Button
-            color="primary"
-            variant="contained"
-            className={classes.marginY10}
-          >
-            Mark Attendance
-          </Button>
+
+          <Grid container>
+            <Grid item xs={6} className={classes.marginY10}>
+              <Button variant="contained">{'<'}</Button>
+              <TextField
+                select
+                label="Month"
+                size="small"
+                style={{ width: '200px' }}
+              ></TextField>
+              <Button variant="contained">{'>'}</Button>
+            </Grid>
+            <Grid item xs={6} alignItems="flex-end">
+              <Button
+                color="primary"
+                variant="contained"
+                className={classes.marginY10}
+              >
+                Mark Attendance
+              </Button>
+            </Grid>
+          </Grid>
 
           <div>
             <TableContainer
