@@ -54,9 +54,13 @@ const AttendanceDashboard = () => {
             Mark Attendance
           </Button>
 
-          <div className="">
+          <div>
             <TableContainer
-              style={{ border: '1px solid #E0E0E0', borderRadius: '5px' }}
+              style={{
+                border: '1px solid #E0E0E0',
+                borderRadius: '5px',
+                overflowX: 'auto',
+              }}
             >
               <Table className={classes.table} size="small" stickyHeader>
                 <TableHead>
