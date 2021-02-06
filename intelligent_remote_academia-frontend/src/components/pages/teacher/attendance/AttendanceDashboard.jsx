@@ -17,9 +17,7 @@ const useStyles = makeStyles({
   paper: { padding: '30px' },
   marginY10: { margin: '10px 0' },
   tableCell: {
-    display: 'borderBox',
     padding: '10px',
-    border: 'none',
   },
 });
 
@@ -27,17 +25,14 @@ const AttendanceDashboard = () => {
   // State variables
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
-  const [monthDaysCount, setMonthDaysCount] = useState(null);
   const [attendance, setAttendance] = useState(null);
 
   useEffect(() => {
     const classes = classListConst;
     const students = studentsListConst;
-    const days = monthDaysCountConst.reverse();
     const attendance = attendanceConst;
     setClassList(classes);
     setStudentsList(students);
-    setMonthDaysCount(days);
     setAttendance(attendance);
   }, []);
 
@@ -76,20 +71,21 @@ const AttendanceDashboard = () => {
                     <TableCell align="center" colSpan={2}>
                       Days
                     </TableCell>
-                    <TableCell colSpan={4} style={{ padding: '0' }}>
-                      {attendance.map((day, index) => (
-                        <TableCell key={index} className={classes.tableCell}>
-                          {day.date}
-                        </TableCell>
-                      ))}
-                    </TableCell>
+                    {attendance.map((day, index) => (
+                      <TableCell
+                        key={index}
+                        className={classes.tableCell}
+                        align="center"
+                      >
+                        {`${new Date(day.date).getDate()}`}
+                      </TableCell>
+                    ))}
                   </TableRow>
                   <TableRow>
                     <TableCell className={classes.tableCell}>Roll #</TableCell>
                     <TableCell className={classes.tableCell}>
                       Student Name
                     </TableCell>
-                    <TableCell colSpan={4} className={classes.tableCell} />
                   </TableRow>
                 </TableHead>
 
@@ -101,7 +97,7 @@ const AttendanceDashboard = () => {
                         {`${student.firstName} ${student.lastName}`}
                       </TableCell>
                       {attendance.map((day, i) =>
-                        filterStudent(student, day.students, i)
+                        filterStudent(student, day.students, i, classes)
                       )}
                     </TableRow>
                   ))}
@@ -119,9 +115,13 @@ const AttendanceDashboard = () => {
 
 export default AttendanceDashboard;
 
-function filterStudent(currentStudent, studentsArray, i) {
+function filterStudent(currentStudent, studentsArray, i, classes) {
   const student = studentsArray.filter((x) => x.id === currentStudent.id)[0];
-  return <TableCell>{student.status}</TableCell>;
+  return (
+    <TableCell key={i} className={classes.tableCell} align="center">
+      {student.status}
+    </TableCell>
+  );
 }
 
 const classListConst = [
@@ -271,38 +271,94 @@ const attendanceConst = [
       { id: 5, status: 'P' },
     ],
   },
-];
-
-const monthDaysCountConst = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  15,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20,
-  21,
-  22,
-  23,
-  24,
-  25,
-  26,
-  27,
-  28,
-  29,
-  30,
-  31,
+  {
+    date: '01/02/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/03/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/04/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/05/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/06/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/07/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/08/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/09/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
+  {
+    date: '01/10/2021',
+    students: [
+      { id: 1, status: 'P' },
+      { id: 2, status: 'P' },
+      { id: 3, status: 'P' },
+      { id: 4, status: 'P' },
+      { id: 5, status: 'P' },
+    ],
+  },
 ];
