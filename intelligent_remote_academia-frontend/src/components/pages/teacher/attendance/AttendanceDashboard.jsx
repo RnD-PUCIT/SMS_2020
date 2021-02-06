@@ -1,32 +1,87 @@
-import { MenuItem, TextField } from '@material-ui/core';
+import {
+  Button,
+  makeStyles,
+  MenuItem,
+  Paper,
+  TextField,
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableContainer,
+} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+
+const useStyles = makeStyles({
+  paper: { padding: '30px' },
+  marginY10: { margin: '10px 0' },
+});
 
 const AttendanceDashboard = () => {
   // State variables
   const [classList, setClassList] = useState(null);
+  const [studentsList, setStudentsList] = useState(null);
 
   useEffect(() => {
     const classes = classListConst;
+    const students = studentsListConst;
     setClassList(classes);
+    setStudentsList(students);
   }, []);
+
+  const classes = useStyles();
 
   if (classList) {
     return (
       <React.Fragment>
         <h1>Attendance Dashboard</h1>
 
-        <TextField
-          select
-          variant="outlined"
-          fullWidth
-          label="Select class and section"
-        >
-          {classList.map((c, index) => (
-            <MenuItem key={index} value={c.id}>
-              {`${c.className} ${c.section}`}
-            </MenuItem>
-          ))}
-        </TextField>
+        <Paper className={classes.paper}>
+          <TextField select variant="outlined" fullWidth label="Select Class">
+            {classList.map((c, index) => (
+              <MenuItem key={index} value={c.id}>
+                {`${c.className} ${c.section}`}
+              </MenuItem>
+            ))}
+          </TextField>
+          <Button
+            color="primary"
+            variant="contained"
+            className={classes.marginY10}
+          >
+            Mark Attendance
+          </Button>
+
+          <div className="">
+            <TableContainer component={Paper}>
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Student Name</TableCell>
+                    <TableCell align="right">Week 01</TableCell>
+                    <TableCell align="right">Week 02</TableCell>
+                    <TableCell align="right">Week 03</TableCell>
+                    <TableCell align="right">Week 04</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {studentsList.map((student, index) => (
+                    <TableRow key={index}>
+                      <TableCell component="th" scope="row">
+                        {student.firstName}
+                      </TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right"></TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+        </Paper>
       </React.Fragment>
     );
   }
@@ -136,5 +191,38 @@ const classListConst = [
     id: 20,
     className: '10',
     section: 'Red',
+  },
+];
+
+const studentsListConst = [
+  {
+    id: 1,
+    firstName: 'Sohaib',
+    lastName: 'Salman',
+    rollNumber: 'BITF17A040',
+  },
+  {
+    id: 2,
+    firstName: 'Arslan',
+    lastName: 'Yousaf',
+    rollNumber: 'BITF17A012',
+  },
+  {
+    id: 3,
+    firstName: 'Daniyal',
+    lastName: 'Ahmad',
+    rollNumber: 'BITF17A026',
+  },
+  {
+    id: 4,
+    firstName: 'Tehreem',
+    lastName: 'Akhter',
+    rollNumber: 'BITF17A041',
+  },
+  {
+    id: 5,
+    firstName: 'Zainab',
+    lastName: 'Zulfiqar',
+    rollNumber: 'BITF17A019',
   },
 ];
