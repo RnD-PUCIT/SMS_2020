@@ -58,16 +58,12 @@ const AttendanceDashboard = () => {
             <TableContainer
               style={{ border: '1px solid #E0E0E0', borderRadius: '5px' }}
             >
-              <Table className={classes.table} aria-label="simple table">
+              <Table className={classes.table} size="small" stickyHeader>
                 <TableHead>
                   <TableRow>
-                    <TableCell>Roll #</TableCell>
-                    <TableCell>Student Name</TableCell>
-                    <TableCell colSpan={4}>Month Attendance</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell />
-                    <TableCell />
+                    <TableCell align="center" colSpan={2}>
+                      Days
+                    </TableCell>
                     <TableCell colSpan={4} style={{ padding: '0' }}>
                       {monthDaysCount.map((day, index) => (
                         <TableCell
@@ -79,7 +75,13 @@ const AttendanceDashboard = () => {
                       ))}
                     </TableCell>
                   </TableRow>
+                  <TableRow>
+                    <TableCell>Roll #</TableCell>
+                    <TableCell>Student Name</TableCell>
+                    <TableCell colSpan={4} />
+                  </TableRow>
                 </TableHead>
+
                 <TableBody>
                   {studentsList.map((student, index) => (
                     <TableRow key={index}>
