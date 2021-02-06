@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -13,6 +13,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import SimpleMenu from '../../../common/menu/SimpleMenu';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import LinkIcon from '@material-ui/icons/Link';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+
 const DiaryForm = () => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -46,6 +49,17 @@ const DiaryForm = () => {
   };
 
   const handleMenuLinkClick = () => {};
+
+  const formik = useFormik({
+    initialValues: {
+      diaryTitle: '',
+    },
+    validationSchema: Yup.object({
+      diaryTitle: Yup.string().required('Diary Title is required!'),
+    }),
+    onSubmit: async (values) => {},
+  });
+
   return (
     <React.Fragment>
       <h1>Diary Form</h1>
@@ -77,20 +91,30 @@ const DiaryForm = () => {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className={classes.formBody}>
+        <form className={classes.formBody} onSubmit={formik.handleSubmit}>
           <TextField
+            id="diaryTitle"
             required
             fullWidth
             variant="outlined"
             label="Diary Title"
             className={classes.textField}
+            value={formik.values.diaryTitle}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            helperText={
+              formik.touched.diaryTitle ? formik.errors.diaryTitle : ''
+            }
+            error={
+              formik.touched.diaryTitle && Boolean(formik.errors.diaryTitle)
+            }
           />
           <TextField
             multiline
             fullWidth
             rows={15}
             variant="outlined"
-            label="Description"
+            label="Diary Content"
             className={classes.textField}
           />
           <SimpleMenu
@@ -109,7 +133,7 @@ const DiaryForm = () => {
               <ListItemText primary="Link" />
             </MenuItem>
           </SimpleMenu>
-        </div>
+        </form>
       </Dialog>
     </React.Fragment>
   );
