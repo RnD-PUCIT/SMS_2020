@@ -11,7 +11,8 @@ import Slide from '@material-ui/core/Slide';
 import { ListItemIcon, ListItemText, TextField } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import SimpleMenu from '../../../common/menu/SimpleMenu';
-import SendIcon from '@material-ui/icons/Send';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import LinkIcon from '@material-ui/icons/Link';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -96,12 +97,17 @@ const DiaryForm = () => {
             button={{ color: 'primary', variant: 'contained', text: 'Attach' }}
           >
             <MenuItem onClick={handleMenuLinkClick}>
-              <ListItemIcon>
-                <SendIcon fontSize="small" />
+              <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
+                <AttachFileIcon fontSize="small" />
               </ListItemIcon>
               <ListItemText primary="File" />
             </MenuItem>
-            <MenuItem onClick={handleMenuLinkClick}>Link</MenuItem>
+            <MenuItem onClick={handleMenuLinkClick}>
+              <ListItemIcon style={{ minWidth: 'auto', marginRight: '15px' }}>
+                <LinkIcon fontSize="small" />
+              </ListItemIcon>
+              <ListItemText primary="Link" />
+            </MenuItem>
           </SimpleMenu>
         </div>
       </Dialog>
