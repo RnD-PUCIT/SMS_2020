@@ -22,12 +22,15 @@ const AttendanceDashboard = () => {
   // State variables
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
+  const [monthDaysCount, setMonthDaysCount] = useState(null);
 
   useEffect(() => {
     const classes = classListConst;
     const students = studentsListConst;
+    const days = monthDaysCountConst.reverse();
     setClassList(classes);
     setStudentsList(students);
+    setMonthDaysCount(days);
   }, []);
 
   const classes = useStyles();
@@ -35,8 +38,6 @@ const AttendanceDashboard = () => {
   if (classList) {
     return (
       <React.Fragment>
-        <h1>Attendance Dashboard</h1>
-
         <Paper className={classes.paper}>
           <TextField select variant="outlined" fullWidth label="Select Class">
             {classList.map((c, index) => (
@@ -54,27 +55,42 @@ const AttendanceDashboard = () => {
           </Button>
 
           <div className="">
-            <TableContainer component={Paper}>
+            <TableContainer
+              style={{ border: '1px solid #E0E0E0', borderRadius: '5px' }}
+            >
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>
                   <TableRow>
+                    <TableCell>Roll #</TableCell>
                     <TableCell>Student Name</TableCell>
-                    <TableCell align="right">Week 01</TableCell>
-                    <TableCell align="right">Week 02</TableCell>
-                    <TableCell align="right">Week 03</TableCell>
-                    <TableCell align="right">Week 04</TableCell>
+                    <TableCell colSpan={4}>Month Attendance</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell />
+                    <TableCell />
+                    <TableCell colSpan={4} style={{ padding: '0' }}>
+                      {monthDaysCount.map((day, index) => (
+                        <TableCell
+                          key={index}
+                          style={{ padding: '10px', border: 'none' }}
+                        >
+                          {day}
+                        </TableCell>
+                      ))}
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {studentsList.map((student, index) => (
                     <TableRow key={index}>
-                      <TableCell component="th" scope="row">
-                        {student.firstName}
+                      <TableCell>{student.rollNumber}</TableCell>
+                      <TableCell>
+                        {`${student.firstName} ${student.lastName}`}
                       </TableCell>
-                      <TableCell align="right"></TableCell>
-                      <TableCell align="right"></TableCell>
-                      <TableCell align="right"></TableCell>
-                      <TableCell align="right"></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
+                      <TableCell></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -225,4 +241,38 @@ const studentsListConst = [
     lastName: 'Zulfiqar',
     rollNumber: 'BITF17A019',
   },
+];
+
+const monthDaysCountConst = [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  15,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
 ];
