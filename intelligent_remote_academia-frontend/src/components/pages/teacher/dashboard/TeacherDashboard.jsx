@@ -5,7 +5,14 @@ const TeacherDashboard = () => {
   return (
     <React.Fragment>
       <h1>Teachers Dashboard</h1>
-      <Link to="diary-form">Diary</Link>
+      <ul>
+        <li>
+          <Link to="diary-form">Diary</Link>
+        </li>
+        <li>
+          <Link to="mark-attendance">Attendance</Link>
+        </li>
+      </ul>
     </React.Fragment>
   );
 };
