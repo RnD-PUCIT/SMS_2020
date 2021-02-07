@@ -13,7 +13,7 @@ import {
   Grid,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import SimpleMenu from '../../../common/menu/SimpleMenu';
+import { getMonths } from '../../../constants/calendarConsts';
 
 const useStyles = makeStyles({
   paper: { padding: '30px' },
@@ -28,6 +28,7 @@ const AttendanceDashboard = () => {
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
   const [attendance, setAttendance] = useState(null);
+  const monthList = getMonths();
 
   useEffect(() => {
     const classes = classListConst;
@@ -44,7 +45,13 @@ const AttendanceDashboard = () => {
     return (
       <React.Fragment>
         <Paper className={classes.paper}>
-          <TextField select variant="outlined" fullWidth label="Select Class">
+          <TextField
+            select
+            variant="outlined"
+            fullWidth
+            label="Select Class"
+            size="small"
+          >
             {classList.map((c, index) => (
               <MenuItem key={index} value={c.id}>
                 {`${c.className} ${c.section}`}
@@ -59,8 +66,15 @@ const AttendanceDashboard = () => {
                 select
                 label="Month"
                 size="small"
-                style={{ width: '200px' }}
-              ></TextField>
+                style={{ width: '200px', margin: '0 10px' }}
+                variant="outlined"
+              >
+                {monthList.map((month) => (
+                  <MenuItem key={month.id} value={month.id}>
+                    {`${month.name}`}
+                  </MenuItem>
+                ))}
+              </TextField>
               <Button variant="contained">{'>'}</Button>
             </Grid>
             <Grid item xs={6} alignItems="flex-end">
