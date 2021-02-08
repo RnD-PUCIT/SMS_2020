@@ -17,6 +17,7 @@ import ApplicationForm from '../../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../../pages/applicationForm/ApplicationsDashboard';
 import TeacherDashboard from '../../pages/teacher/dashboard/TeacherDashboard';
 import DiaryForm from '../../pages/teacher/diary/DiaryForm';
+import AttendanceDashboard from '../../pages/teacher/attendance/AttendanceDashboard';
 
 const MainContent = ({
   subjects,
@@ -43,6 +44,7 @@ const MainContent = ({
 
           <Route path="/teachers" component={TeacherDashboard} />
           <Route path="/diary-form" component={DiaryForm} />
+          <Route path="/mark-attendance" component={AttendanceDashboard} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
