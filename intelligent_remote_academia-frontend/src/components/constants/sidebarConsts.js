@@ -39,6 +39,10 @@ const sideBarLinks = [
     text: 'Applications',
     url: '/applications',
   },
+  {
+    text: 'Teachers',
+    url: '/teachers',
+  },
 ];
 
 export { sideBarLinks };
