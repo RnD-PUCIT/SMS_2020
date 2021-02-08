@@ -11,6 +11,7 @@ import {
   TableCell,
   TableContainer,
   Grid,
+  Select,
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { getMonths } from '../../../constants/calendarConsts';
@@ -29,6 +30,8 @@ const AttendanceDashboard = () => {
   const [studentsList, setStudentsList] = useState(null);
   const [attendance, setAttendance] = useState(null);
   const monthList = getMonths();
+  const currentMonth = new Date().getMonth();
+  const [selectedMonth, setSelectedMonth] = useState('');
 
   useEffect(() => {
     const classes = classListConst;
@@ -62,19 +65,25 @@ const AttendanceDashboard = () => {
           <Grid container>
             <Grid item xs={6} className={classes.marginY10}>
               <Button variant="contained">{'<'}</Button>
-              <TextField
-                select
-                label="Month"
-                size="small"
+              <Select
                 style={{ width: '200px', margin: '0 10px' }}
                 variant="outlined"
+                defaultValue={currentMonth}
+                displayEmpty
+                renderValue={() => {
+                  return monthList[currentMonth].name;
+                }}
+                value={selectedMonth}
+                onChange={(e) => {
+                  setSelectedMonth(e.target.value);
+                }}
               >
                 {monthList.map((month) => (
                   <MenuItem key={month.id} value={month.id}>
                     {`${month.name}`}
                   </MenuItem>
                 ))}
-              </TextField>
+              </Select>
               <Button variant="contained">{'>'}</Button>
             </Grid>
             <Grid item xs={6} alignItems="flex-end">
