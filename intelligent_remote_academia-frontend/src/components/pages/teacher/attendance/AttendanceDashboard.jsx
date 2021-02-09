@@ -66,7 +66,11 @@ const AttendanceDashboard = () => {
             <Grid item xs={6} className={classes.marginY10}>
               <Button variant="contained">{'<'}</Button>
               <Select
-                style={{ width: '200px', margin: '0 10px' }}
+                id="material-select-small"
+                style={{
+                  width: '200px',
+                  margin: '0 10px',
+                }}
                 variant="outlined"
                 defaultValue={currentMonth}
                 displayEmpty
@@ -89,7 +93,7 @@ const AttendanceDashboard = () => {
               </Select>
               <Button variant="contained">{'>'}</Button>
             </Grid>
-            <Grid item xs={6} alignItems="flex-end">
+            <Grid container item xs={6} justify="flex-end">
               <Button
                 color="primary"
                 variant="contained"
