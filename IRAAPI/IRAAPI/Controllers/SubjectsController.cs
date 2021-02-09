@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.Models;
+using AutoMapper;
 
 namespace IRAAPI.Controllers
 {
@@ -12,9 +13,11 @@ namespace IRAAPI.Controllers
     public class SubjectsController : ControllerBase
     {
         private readonly IRAAPIContext context;
-        public SubjectsController(IRAAPIContext context)
+        private readonly IMapper _mapper;
+        public SubjectsController(IRAAPIContext context, IMapper mapper)
         {
             this.context = context;
+            _mapper = mapper;
         }
 
         [Authorize]
@@ -118,6 +121,8 @@ namespace IRAAPI.Controllers
 
             try
             {
+                
+                
                 int studentNumericId = context.Students.Where(a => a.Guid == studentId)
                     .Select(a => a.Id)
                     .SingleOrDefault();
@@ -130,6 +135,28 @@ namespace IRAAPI.Controllers
                 int sessionNumericId = context.Sessions.Where(s => s.Guid == sessionId)
                     .Select(s => s.Id)
                     .SingleOrDefault();
+                if (subjectNumericId == 0 || classNumericId == 0 || sessionNumericId == 0)
+                {
+                    return CreatedAtAction("Not Found", null);
+                }
+                List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles = new List<CourseOutlinesWithFiles>();
+                List<CourseOutline> ListOfCourseOutlines = context.CourseOutlines.Where(a => a.SessionId == sessionNumericId && a.ClassId == classNumericId && a.SubjectId == subjectNumericId).ToList();
+                CourseOutlinesWithFiles sowf = new CourseOutlinesWithFiles();
+                if (ListOfCourseOutlines == null)
+                {
+                    return CreatedAtAction("Course Outlines Not found", null);
+                }
+                for (int i = 0; i < ListOfCourseOutlines.Count; i++)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+
+                }
+
 
                 int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectNumericId && ts.ClassId == classNumericId)
                     .Select(t => t.TeacherId).SingleOrDefault();
@@ -152,6 +179,7 @@ namespace IRAAPI.Controllers
                         gradeTypeId = g.GradeType.Guid,
                         gradeTypeName = g.GradeType.GradeType1,
                         gradeTypeSlug = g.GradeType.GradeTypeSlug
+
                     }).ToList();
 
                 var diaryData = context.Diaries.Where(d => d.SubjectId == subjectNumericId && d.SessionId == sessionNumericId && d.ClassId == classNumericId)
@@ -163,10 +191,12 @@ namespace IRAAPI.Controllers
                         diaryContent = d.DiaryContent
                     }).ToList();
 
+
                 SubjectServiceDTO subjectService = new SubjectServiceDTO();
                 subjectService.subject = subjectData;
                 subjectService.gradeTypeNames = gradeTypesData;
                 subjectService.diary = diaryData;
+                subjectService.courseOutlinefromCourseContent = ListOfCourseOutlinesWithFiles;
 
                 return new { SubjectService = subjectService };
                 
@@ -184,6 +214,9 @@ namespace IRAAPI.Controllers
         public SubjectDTO subject { get; set; }
         public List<GradeTypeDTO> gradeTypeNames { get; set; }
         public List<DiaryDTO> diary { get; set; }
+         public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
+
+       
     }
 
     public class GradeTypeDTO
