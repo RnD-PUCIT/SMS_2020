@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 using AutoMapper;
+using IRAAPI.Authentication;
 using IRAAPI.Models;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -48,33 +50,60 @@ namespace IRAAPI
 
             services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = "http://ira.com", //some string, normally web url,
-                      ValidAudience = "http://ira.com",
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
-                  };
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<IRAAPIContext>()
+                .AddDefaultTokenProviders();
 
-                  options.Events = new JwtBearerEvents
-                  {
-                      OnAuthenticationFailed = context =>
-                      {
-                          if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                          {
-                              context.Response.Headers.Add("Token-Expired", "true");
-                          }
-                          return Task.CompletedTask;
-                      }
-                  };
-              });
-           services.AddAutoMapper(typeof(Startup));
-           services.AddControllers();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = "http://ira.com",
+                    ValidIssuer = "http://ira.com", //some string, normally web url,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
+                };
+            });
+            services.AddAutoMapper(typeof(Startup));
+            services.AddControllers();
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            //  .AddJwtBearer(options =>
+            //  {
+            //      options.TokenValidationParameters = new TokenValidationParameters
+            //      {
+            //          ValidateIssuer = true,
+            //          ValidateAudience = true,
+            //          ValidateIssuerSigningKey = true,
+            //          ValidIssuer = "http://ira.com", //some string, normally web url,
+            //          ValidAudience = "http://ira.com",
+            //          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
+            //      };
+
+
+            //      options.Events = new JwtBearerEvents
+            //      {
+            //          OnAuthenticationFailed = context =>
+            //          {
+            //              if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
+            //              {
+            //                  context.Response.Headers.Add("Token-Expired", "true");
+            //              }
+            //              return Task.CompletedTask;
+            //          }
+            //      };
+            //  });
+
             //services.AddMvc()
             //   .AddJsonOptions(options =>
             //   {
