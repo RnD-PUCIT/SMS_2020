@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { getMonths } from '../../../constants/calendarConsts';
+import MarkAttendance from './MarkAttendance';
 
 const useStyles = makeStyles({
   paper: { padding: '30px' },
@@ -128,14 +129,8 @@ const AttendanceDashboard = () => {
               </Button>
             </Grid>
             <Grid container item xs={6} justify="flex-end">
-              <Button
-                color="primary"
-                variant="contained"
-                disabled={!isClassSelected}
-                className={classes.marginY10}
-              >
-                Mark Attendance
-              </Button>
+              {/* {isClassSelected && <MarkAttendance />} */}
+              <MarkAttendance />
             </Grid>
           </Grid>
 
