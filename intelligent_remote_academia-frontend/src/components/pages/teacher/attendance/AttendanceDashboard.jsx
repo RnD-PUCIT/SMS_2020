@@ -29,7 +29,10 @@ const AttendanceDashboard = () => {
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
   const [attendance, setAttendance] = useState(null);
+
+  const [selectedClass, setSelectedClass] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+
   const [isClassSelected, setIsClassSelected] = useState(false);
   const monthList = getMonths();
 
@@ -58,6 +61,12 @@ const AttendanceDashboard = () => {
     }
   };
 
+  const handleClassSelectionChange = (event) => {
+    const selectedClassId = event.target.value;
+    setSelectedClass(selectedClassId);
+    setIsClassSelected(true);
+  };
+
   if (classList) {
     return (
       <React.Fragment>
@@ -68,6 +77,9 @@ const AttendanceDashboard = () => {
             fullWidth
             label="Select Class"
             size="small"
+            onChange={(e) => {
+              handleClassSelectionChange(e);
+            }}
           >
             {classList.map((c, index) => (
               <MenuItem key={index} value={c.id}>
@@ -139,7 +151,7 @@ const AttendanceDashboard = () => {
                 <TableHead style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
                   <TableRow>
                     <TableCell align="center" colSpan={2}>
-                      Days
+                      Date
                     </TableCell>
                     {attendance.map((day, index) => (
                       <TableCell
