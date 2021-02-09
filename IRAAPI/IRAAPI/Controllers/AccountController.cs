@@ -130,6 +130,24 @@ namespace IRAAPI.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
+        [HttpPost]
+        [Route("createRole")]
+        public async Task<IActionResult> CreateRole([FromBody] string role)
+        {
+            try
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                else
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Role already exists!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
+            }
+            return Ok(new Response { Status = "Success", Message = "Role created successfully!" });
+        }
+
         [HttpPost("login")]
         public Object Login()
         {
