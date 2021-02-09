@@ -21,7 +21,6 @@ namespace IRAAPI.Controllers
         private readonly IRAAPIContext context;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
-
         public AccountController(IRAAPIContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.context = context;
@@ -40,7 +39,8 @@ namespace IRAAPI.Controllers
 
                 var authClaims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim("userId", user.Id),
+                    new Claim("userName", user.UserName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
@@ -49,8 +49,6 @@ namespace IRAAPI.Controllers
                     authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                 }
 
-
-                //Old
                 string key = "ADSTZ_1226404119";
                 var issuer = "http://ira.com";
                 var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
@@ -60,15 +58,6 @@ namespace IRAAPI.Controllers
                             authClaims,
                             expires: DateTime.Now.AddDays(1),
                             signingCredentials: credentials);
-
-                //var token = new JwtSecurityToken(
-                //    issuer: _configuration["JWT:ValidIssuer"],
-                //    audience: _configuration["JWT:ValidAudience"],
-                //    expires: DateTime.Now.AddHours(3),
- 
-                //    signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                //    );
-
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -79,12 +68,26 @@ namespace IRAAPI.Controllers
         }
 
         [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        [Route("registerParent")]
+        public async Task<IActionResult> RegisterParent([FromBody] ParentRegisterModel model)
+        {
+            var aspNetUser = await RegisterAspNetUser(model.registerModel);
+            if ( aspNetUser!= null)
+            {
+                model.parent.UserId = Guid.Parse(aspNetUser);
+                await context.Parents.AddAsync(model.parent);
+                await context.SaveChangesAsync();
+                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Something went wrong!" });
+        }
+
+        [NonAction]
+        public async Task<string> RegisterAspNetUser(RegisterModel model)
         {
             var userExists = await userManager.FindByNameAsync(model.Username);
             if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+                return null;
 
             ApplicationUser user = new ApplicationUser()
             {
@@ -94,10 +97,42 @@ namespace IRAAPI.Controllers
             };
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return null;
 
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            if (!await roleManager.RoleExistsAsync(model.Role))
+                await roleManager.CreateAsync(new IdentityRole(model.Role));
+            if (await roleManager.RoleExistsAsync(model.Role))
+            {
+                await userManager.AddToRoleAsync(user, model.Role);
+            }
+            return user.Id;
         }
+
+        //[NonAction]
+        //public async Task<IActionResult> RegisterAspNetUser(RegisterModel model)
+        //{
+        //    var userExists = await userManager.FindByNameAsync(model.Username);
+        //    if (userExists != null)
+        //        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+
+        //    ApplicationUser user = new ApplicationUser()
+        //    {
+        //        Email = model.Email,
+        //        SecurityStamp = Guid.NewGuid().ToString(),
+        //        UserName = model.Username
+        //    };
+        //    var result = await userManager.CreateAsync(user, model.Password);
+        //    if (!result.Succeeded)
+        //        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+
+        //    if (!await roleManager.RoleExistsAsync(model.Role))
+        //        await roleManager.CreateAsync(new IdentityRole(model.Role));
+        //    if (await roleManager.RoleExistsAsync(model.Role))
+        //    {
+        //        await userManager.AddToRoleAsync(user, model.Role);
+        //    }
+        //    return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+        //}
 
         [HttpPost]
         [Route("register-admin")]

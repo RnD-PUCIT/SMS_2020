@@ -17,7 +17,7 @@ namespace IRAAPI.Controllers
             this.context = context;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Parent")]
         [HttpGet]
         public Object GetDashboardSubjectsInfo()
         {
