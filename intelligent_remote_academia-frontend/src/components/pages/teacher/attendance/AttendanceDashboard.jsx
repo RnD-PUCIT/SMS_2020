@@ -29,9 +29,12 @@ const AttendanceDashboard = () => {
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
   const [attendance, setAttendance] = useState(null);
+
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+
+  const [isClassSelected, setIsClassSelected] = useState(false);
   const monthList = getMonths();
-  const currentMonth = new Date().getMonth();
-  const [selectedMonth, setSelectedMonth] = useState('');
 
   useEffect(() => {
     const classes = classListConst;
@@ -44,6 +47,26 @@ const AttendanceDashboard = () => {
 
   const classes = useStyles();
 
+  const handleMonthIncrement = () => {
+    if (selectedMonth < 11) {
+      let month = selectedMonth + 1;
+      setSelectedMonth(month);
+    }
+  };
+
+  const handleMonthDecrement = () => {
+    if (selectedMonth > 0) {
+      let month = selectedMonth - 1;
+      setSelectedMonth(month);
+    }
+  };
+
+  const handleClassSelectionChange = (event) => {
+    const selectedClassId = event.target.value;
+    setSelectedClass(selectedClassId);
+    setIsClassSelected(true);
+  };
+
   if (classList) {
     return (
       <React.Fragment>
@@ -54,6 +77,9 @@ const AttendanceDashboard = () => {
             fullWidth
             label="Select Class"
             size="small"
+            onChange={(e) => {
+              handleClassSelectionChange(e);
+            }}
           >
             {classList.map((c, index) => (
               <MenuItem key={index} value={c.id}>
@@ -64,16 +90,25 @@ const AttendanceDashboard = () => {
 
           <Grid container>
             <Grid item xs={6} className={classes.marginY10}>
-              <Button variant="contained">{'<'}</Button>
+              <Button
+                variant="contained"
+                onClick={handleMonthDecrement}
+                disabled={!isClassSelected}
+              >
+                {'<'}
+              </Button>
               <Select
-                style={{ width: '200px', margin: '0 10px' }}
-                variant="outlined"
-                defaultValue={currentMonth}
-                displayEmpty
-                renderValue={() => {
-                  return monthList[currentMonth].name;
+                id="material-select-small"
+                style={{
+                  width: '200px',
+                  margin: '0 10px',
                 }}
-                value={selectedMonth}
+                displayEmpty
+                disabled={!isClassSelected}
+                variant="outlined"
+                renderValue={() => {
+                  return monthList[selectedMonth].name;
+                }}
                 onChange={(e) => {
                   setSelectedMonth(e.target.value);
                 }}
@@ -84,12 +119,19 @@ const AttendanceDashboard = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <Button variant="contained">{'>'}</Button>
+              <Button
+                variant="contained"
+                onClick={handleMonthIncrement}
+                disabled={!isClassSelected}
+              >
+                {'>'}
+              </Button>
             </Grid>
-            <Grid item xs={6} alignItems="flex-end">
+            <Grid container item xs={6} justify="flex-end">
               <Button
                 color="primary"
                 variant="contained"
+                disabled={!isClassSelected}
                 className={classes.marginY10}
               >
                 Mark Attendance
@@ -109,7 +151,7 @@ const AttendanceDashboard = () => {
                 <TableHead style={{ backgroundColor: 'rgb(250, 250, 250)' }}>
                   <TableRow>
                     <TableCell align="center" colSpan={2}>
-                      Days
+                      Date
                     </TableCell>
                     {attendance.map((day, index) => (
                       <TableCell

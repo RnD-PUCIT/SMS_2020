@@ -24,3 +24,7 @@ p#diaryTitle-helper-text {
 main {
   overflow: hidden;
 }
+
+#material-select-small {
+  padding: 10.5px 32px 10.5px 14px;
+}
