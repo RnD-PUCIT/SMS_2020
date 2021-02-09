@@ -8,6 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import { getMonths } from '../../constants/calendarConsts';
 import DoughnutGraph from '../graphs/graphs';
@@ -27,11 +28,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#2875c7',
     color: 'white',
     borderRadius: '4px',
-    // borderTopLeftRadius: '4px',
-    // borderTopRightRadius: '4px',
   },
   innerTitle: {
     paddingRight: '15px',
+  },
+  div: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  button: {
+    marginLeft: 'auto',
   },
 }));
 
@@ -51,7 +57,7 @@ const AccordionContainer = ({ statusArray, name, children }) => {
               {children}
             </Grid>
             <Grid item xs>
-              <DoughnutGraph statusArray={statusArray} />
+              {statusArray && <DoughnutGraph statusArray={statusArray} />}
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -64,7 +70,6 @@ const SimpleAccordion = ({ title, description, status, date }) => {
   const classes = useStyles();
   const months = getMonths();
   const fullDate = new Date(date);
-  console.log('Date', fullDate);
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
@@ -76,7 +81,7 @@ const SimpleAccordion = ({ title, description, status, date }) => {
         />
       </AccordionSummary>
       <Divider />
-      <AccordionDetails>
+      <AccordionDetails className={classes.div}>
         <Typography className={classes.innerTitle}>{description}</Typography>
         <Chip
           label={
@@ -89,6 +94,13 @@ const SimpleAccordion = ({ title, description, status, date }) => {
           variant='outlined'
           size='small'
         />
+        <Button
+          className={classes.button}
+          variant='contained'
+          size='small'
+          disableElevation>
+          View More
+        </Button>
       </AccordionDetails>
     </Accordion>
   );
