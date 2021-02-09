@@ -21,11 +21,6 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public Object GetGradeDetails(Guid studentId, Guid classId, Guid subjectId,  Guid gradeTypeId, Guid sessionId)
         {
-            var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
-            if (parentId == null)
-                return Unauthorized();
-
             try
             {
                 int studentNumericId = context.Students.Where(a => a.Guid == studentId)
