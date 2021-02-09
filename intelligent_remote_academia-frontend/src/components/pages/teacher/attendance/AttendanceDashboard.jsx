@@ -31,7 +31,7 @@ const AttendanceDashboard = () => {
   const [attendance, setAttendance] = useState(null);
   const monthList = getMonths();
   const currentMonth = new Date().getMonth();
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   useEffect(() => {
     const classes = classListConst;
@@ -43,6 +43,20 @@ const AttendanceDashboard = () => {
   }, []);
 
   const classes = useStyles();
+
+  const handleMonthIncrement = () => {
+    if (selectedMonth < 11) {
+      let month = selectedMonth + 1;
+      setSelectedMonth(month);
+    }
+  };
+
+  const handleMonthDecrement = () => {
+    if (selectedMonth > 0) {
+      let month = selectedMonth - 1;
+      setSelectedMonth(month);
+    }
+  };
 
   if (classList) {
     return (
@@ -64,7 +78,9 @@ const AttendanceDashboard = () => {
 
           <Grid container>
             <Grid item xs={6} className={classes.marginY10}>
-              <Button variant="contained">{'<'}</Button>
+              <Button variant="contained" onClick={handleMonthDecrement}>
+                {'<'}
+              </Button>
               <Select
                 id="material-select-small"
                 style={{
@@ -72,17 +88,12 @@ const AttendanceDashboard = () => {
                   margin: '0 10px',
                 }}
                 variant="outlined"
-                defaultValue={currentMonth}
                 displayEmpty
                 renderValue={() => {
-                  return selectedMonth
-                    ? selectedMonth
-                    : monthList[currentMonth].name;
+                  return monthList[selectedMonth].name;
                 }}
-                value={selectedMonth}
                 onChange={(e) => {
-                  const monthNumber = e.target.value;
-                  setSelectedMonth(monthList[monthNumber - 1].name);
+                  setSelectedMonth(e.target.value);
                 }}
               >
                 {monthList.map((month) => (
@@ -91,7 +102,9 @@ const AttendanceDashboard = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <Button variant="contained">{'>'}</Button>
+              <Button variant="contained" onClick={handleMonthIncrement}>
+                {'>'}
+              </Button>
             </Grid>
             <Grid container item xs={6} justify="flex-end">
               <Button
