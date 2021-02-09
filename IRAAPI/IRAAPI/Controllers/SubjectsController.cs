@@ -22,21 +22,21 @@ namespace IRAAPI.Controllers
         public Object GetDashboardSubjectsInfo()
         {
             var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            var parentId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
             if (parentId == null)
                 return NotFound();
             Guid parentGuid = Guid.Parse(parentId);
 
             try
             {
-                int parentNumericId = context.Parents.Where(p => p.Guid == parentGuid)
+                int parentNumericId = context.Parents.Where(p => p.UserId == parentGuid)
                     .Select(p => p.Id)
                     .SingleOrDefault();
 
-                var parentData = context.Parents.Where(p => p.Guid == parentGuid)
+                var parentData = context.Parents.Where(p => p.UserId == parentGuid)
                     .Select(p => new ParentDTO()
                     {
-                        id = p.Guid,
+                        id = p.UserId,
                         firstName = p.FirstName,
                         lastName = p.LastName,
                         profilePic = p.ProfilePicture
