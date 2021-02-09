@@ -68,6 +68,21 @@ namespace IRAAPI.Controllers
         }
 
         [HttpPost]
+        [Route("registerStudent")]
+        public async Task<IActionResult> RegisterStudent([FromBody] StudentRegisterModel model)
+        {
+            var aspNetUser = await RegisterAspNetUser(model.aspNetUser);
+            if (aspNetUser != null)
+            {
+                model.student.UserId = Guid.Parse(aspNetUser);
+                await context.Students.AddAsync(model.student);
+                await context.SaveChangesAsync();
+                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Something went wrong!" });
+        }
+
+        [HttpPost]
         [Route("registerTeacher")]
         public async Task<IActionResult> RegisterTeacher([FromBody] TeacherRegisterModel model)
         {
@@ -115,11 +130,10 @@ namespace IRAAPI.Controllers
                 return null;
 
             if (!await roleManager.RoleExistsAsync(model.Role))
-                await roleManager.CreateAsync(new IdentityRole(model.Role));
-            if (await roleManager.RoleExistsAsync(model.Role))
             {
-                await userManager.AddToRoleAsync(user, model.Role);
+                await roleManager.CreateAsync(new IdentityRole(model.Role));
             }
+            await userManager.AddToRoleAsync(user, model.Role);
             return user.Id;
         }
 
@@ -149,36 +163,6 @@ namespace IRAAPI.Controllers
         //    return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         //}
 
-        [HttpPost]
-        [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
-        {
-            var userExists = await userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-            ApplicationUser user = new ApplicationUser()
-            {
-                Email = model.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
-            };
-            var result = await userManager.CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-            if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-            if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-
-            if (await roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
-
-            return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        }
 
         [HttpPost]
         [Route("createRole")]
