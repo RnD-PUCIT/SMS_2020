@@ -71,11 +71,14 @@ const AttendanceDashboard = () => {
                 defaultValue={currentMonth}
                 displayEmpty
                 renderValue={() => {
-                  return monthList[currentMonth].name;
+                  return selectedMonth
+                    ? selectedMonth
+                    : monthList[currentMonth].name;
                 }}
                 value={selectedMonth}
                 onChange={(e) => {
-                  setSelectedMonth(e.target.value);
+                  const monthNumber = e.target.value;
+                  setSelectedMonth(monthList[monthNumber - 1].name);
                 }}
               >
                 {monthList.map((month) => (
