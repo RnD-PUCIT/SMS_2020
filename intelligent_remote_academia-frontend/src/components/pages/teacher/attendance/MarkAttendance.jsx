@@ -15,7 +15,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import CommentIcon from '@material-ui/icons/Comment';
-import { Divider } from '@material-ui/core';
+import { Avatar, Divider, Grid, ListItemAvatar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -27,6 +27,16 @@ const useStyles = makeStyles((theme) => ({
   },
   root: {
     width: '100%',
+    padding: '0',
+  },
+  attendanceTable: {
+    margin: '50px',
+    border: '1px solid rgba(224, 224, 224, 1)',
+    borderRadius: '5px',
+  },
+  tableHeader: {
+    borderBottom: '1px solid rgba(224, 224, 224, 1)',
+    background: 'rgb(250, 250, 250)',
   },
 }));
 
@@ -96,12 +106,21 @@ export default function MarkAttendance(props) {
             </Button>
           </Toolbar>
         </AppBar>
-        <div>
+        <div className={classes.attendanceTable}>
           <List className={classes.root}>
-            <ListItem>
+            <ListItem className={classes.tableHeader}>
               <ListItemIcon></ListItemIcon>
-              <ListItemText>Roll Number</ListItemText>
-              <ListItemText>Student Name</ListItemText>
+              <ListItemAvatar></ListItemAvatar>
+              <ListItemText>
+                <Grid container>
+                  <Grid item xs={2}>
+                    <span>Roll Number</span>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <span>Student Name</span>
+                  </Grid>
+                </Grid>
+              </ListItemText>
             </ListItem>
             {studentList.map((student) => {
               return (
@@ -121,15 +140,24 @@ export default function MarkAttendance(props) {
                       disableRipple
                     />
                   </ListItemIcon>
-                  <ListItemText
-                    primary={`${student.rollNumber}`}
-                    secondary={`${student.firstName} ${student.lastName}`}
-                  />
-                  <ListItemSecondaryAction>
+                  <ListItemAvatar>
+                    <Avatar>{student.firstName.charAt(0)}</Avatar>
+                  </ListItemAvatar>
+                  <ListItemText>
+                    <Grid container>
+                      <Grid item xs={2}>
+                        <span>{`${student.rollNumber}`}</span>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <span>{`${student.firstName} ${student.lastName}`}</span>
+                      </Grid>
+                    </Grid>
+                  </ListItemText>
+                  {/* <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="comments">
                       <CommentIcon />
                     </IconButton>
-                  </ListItemSecondaryAction>
+                  </ListItemSecondaryAction> */}
                 </ListItem>
               );
             })}
