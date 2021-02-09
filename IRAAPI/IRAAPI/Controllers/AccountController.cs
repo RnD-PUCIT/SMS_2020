@@ -71,7 +71,7 @@ namespace IRAAPI.Controllers
         [Route("registerParent")]
         public async Task<IActionResult> RegisterParent([FromBody] ParentRegisterModel model)
         {
-            var aspNetUser = await RegisterAspNetUser(model.registerModel);
+            var aspNetUser = await RegisterAspNetUser(model.aspNetUser);
             if ( aspNetUser!= null)
             {
                 model.parent.UserId = Guid.Parse(aspNetUser);

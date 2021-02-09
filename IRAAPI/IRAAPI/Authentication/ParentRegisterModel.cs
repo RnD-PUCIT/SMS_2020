@@ -9,6 +9,6 @@ namespace IRAAPI.Authentication
     public class ParentRegisterModel
     {
         public Parent parent { get; set; }
-        public RegisterModel registerModel { get; set; }
+        public RegisterModel aspNetUser { get; set; }
     }
 }
