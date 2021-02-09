@@ -29,9 +29,9 @@ const AttendanceDashboard = () => {
   const [classList, setClassList] = useState(null);
   const [studentsList, setStudentsList] = useState(null);
   const [attendance, setAttendance] = useState(null);
-  const monthList = getMonths();
-  const currentMonth = new Date().getMonth();
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [isClassSelected, setIsClassSelected] = useState(false);
+  const monthList = getMonths();
 
   useEffect(() => {
     const classes = classListConst;
@@ -78,7 +78,11 @@ const AttendanceDashboard = () => {
 
           <Grid container>
             <Grid item xs={6} className={classes.marginY10}>
-              <Button variant="contained" onClick={handleMonthDecrement}>
+              <Button
+                variant="contained"
+                onClick={handleMonthDecrement}
+                disabled={!isClassSelected}
+              >
                 {'<'}
               </Button>
               <Select
@@ -87,8 +91,9 @@ const AttendanceDashboard = () => {
                   width: '200px',
                   margin: '0 10px',
                 }}
-                variant="outlined"
                 displayEmpty
+                disabled={!isClassSelected}
+                variant="outlined"
                 renderValue={() => {
                   return monthList[selectedMonth].name;
                 }}
@@ -102,7 +107,11 @@ const AttendanceDashboard = () => {
                   </MenuItem>
                 ))}
               </Select>
-              <Button variant="contained" onClick={handleMonthIncrement}>
+              <Button
+                variant="contained"
+                onClick={handleMonthIncrement}
+                disabled={!isClassSelected}
+              >
                 {'>'}
               </Button>
             </Grid>
@@ -110,6 +119,7 @@ const AttendanceDashboard = () => {
               <Button
                 color="primary"
                 variant="contained"
+                disabled={!isClassSelected}
                 className={classes.marginY10}
               >
                 Mark Attendance
