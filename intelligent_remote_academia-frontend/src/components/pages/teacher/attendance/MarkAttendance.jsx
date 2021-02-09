@@ -8,6 +8,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import CommentIcon from '@material-ui/icons/Comment';
+import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -17,15 +25,34 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  root: {
+    width: '100%',
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function MarkAttendance() {
+export default function MarkAttendance(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const { studentList } = props;
+
+  const [checked, setChecked] = React.useState([0]);
+
+  const handleToggle = (value) => () => {
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,6 +96,45 @@ export default function MarkAttendance() {
             </Button>
           </Toolbar>
         </AppBar>
+        <div>
+          <List className={classes.root}>
+            <ListItem>
+              <ListItemIcon></ListItemIcon>
+              <ListItemText>Roll Number</ListItemText>
+              <ListItemText>Student Name</ListItemText>
+            </ListItem>
+            {studentList.map((student) => {
+              return (
+                <ListItem
+                  key={student.id}
+                  role={undefined}
+                  dense
+                  button
+                  onClick={handleToggle(student)}
+                  style={{ borderBottom: '1px solid rgba(224, 224, 224, 1)' }}
+                >
+                  <ListItemIcon>
+                    <Checkbox
+                      edge="start"
+                      checked={checked.indexOf(student) !== -1}
+                      tabIndex={-1}
+                      disableRipple
+                    />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={`${student.rollNumber}`}
+                    secondary={`${student.firstName} ${student.lastName}`}
+                  />
+                  <ListItemSecondaryAction>
+                    <IconButton edge="end" aria-label="comments">
+                      <CommentIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              );
+            })}
+          </List>
+        </div>
       </Dialog>
     </div>
   );

@@ -130,7 +130,7 @@ const AttendanceDashboard = () => {
             </Grid>
             <Grid container item xs={6} justify="flex-end">
               {/* {isClassSelected && <MarkAttendance />} */}
-              <MarkAttendance />
+              <MarkAttendance studentList={studentsList} />
             </Grid>
           </Grid>
 
