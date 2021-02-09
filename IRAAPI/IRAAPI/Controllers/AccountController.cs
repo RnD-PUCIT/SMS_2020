@@ -68,6 +68,21 @@ namespace IRAAPI.Controllers
         }
 
         [HttpPost]
+        [Route("registerTeacher")]
+        public async Task<IActionResult> RegisterTeacher([FromBody] TeacherRegisterModel model)
+        {
+            var aspNetUser = await RegisterAspNetUser(model.aspNetUser);
+            if (aspNetUser != null)
+            {
+                model.teacher.UserId = Guid.Parse(aspNetUser);
+                await context.Teachers.AddAsync(model.teacher);
+                await context.SaveChangesAsync();
+                return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+            }
+            return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Something went wrong!" });
+        }
+
+        [HttpPost]
         [Route("registerParent")]
         public async Task<IActionResult> RegisterParent([FromBody] ParentRegisterModel model)
         {
