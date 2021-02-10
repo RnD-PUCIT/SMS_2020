@@ -11,11 +11,9 @@ import Slide from '@material-ui/core/Slide';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
-import CommentIcon from '@material-ui/icons/Comment';
-import { Avatar, Divider, Grid, ListItemAvatar } from '@material-ui/core';
+import { Avatar, Chip, Grid, ListItemAvatar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -49,7 +47,7 @@ export default function MarkAttendance(props) {
   const [open, setOpen] = React.useState(false);
   const { studentList } = props;
 
-  const [checked, setChecked] = React.useState([0]);
+  const [checked, setChecked] = React.useState([]);
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -70,6 +68,14 @@ export default function MarkAttendance(props) {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSelectAll = () => {
+    setChecked(studentList);
+  };
+
+  const handleClearAll = () => {
+    setChecked([]);
   };
 
   return (
@@ -106,62 +112,66 @@ export default function MarkAttendance(props) {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className={classes.attendanceTable}>
-          <List className={classes.root}>
-            <ListItem className={classes.tableHeader}>
-              <ListItemIcon></ListItemIcon>
-              <ListItemAvatar></ListItemAvatar>
-              <ListItemText>
-                <Grid container>
-                  <Grid item xs={2}>
-                    <span>Roll Number</span>
-                  </Grid>
-                  <Grid item xs={10}>
-                    <span>Student Name</span>
-                  </Grid>
-                </Grid>
-              </ListItemText>
-            </ListItem>
-            {studentList.map((student) => {
-              return (
-                <ListItem
-                  key={student.id}
-                  role={undefined}
-                  dense
-                  button
-                  onClick={handleToggle(student)}
-                  style={{ borderBottom: '1px solid rgba(224, 224, 224, 1)' }}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(student) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                    />
-                  </ListItemIcon>
-                  <ListItemAvatar>
-                    <Avatar>{student.firstName.charAt(0)}</Avatar>
-                  </ListItemAvatar>
-                  <ListItemText>
-                    <Grid container>
-                      <Grid item xs={2}>
-                        <span>{`${student.rollNumber}`}</span>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <span>{`${student.firstName} ${student.lastName}`}</span>
-                      </Grid>
+        <div className="attendanceBody">
+          <Chip label="Select All" onClick={handleSelectAll} />
+          <Chip label="Clear All" onClick={handleClearAll} />
+          <div className={classes.attendanceTable}>
+            <List className={classes.root}>
+              <ListItem className={classes.tableHeader}>
+                <ListItemIcon></ListItemIcon>
+                <ListItemAvatar></ListItemAvatar>
+                <ListItemText>
+                  <Grid container>
+                    <Grid item xs={2}>
+                      <span>Roll Number</span>
                     </Grid>
-                  </ListItemText>
-                  {/* <ListItemSecondaryAction>
+                    <Grid item xs={10}>
+                      <span>Student Name</span>
+                    </Grid>
+                  </Grid>
+                </ListItemText>
+              </ListItem>
+              {studentList.map((student) => {
+                return (
+                  <ListItem
+                    key={student.id}
+                    role={undefined}
+                    dense
+                    button
+                    onClick={handleToggle(student)}
+                    style={{ borderBottom: '1px solid rgba(224, 224, 224, 1)' }}
+                  >
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={checked.indexOf(student) !== -1}
+                        tabIndex={-1}
+                        disableRipple
+                      />
+                    </ListItemIcon>
+                    <ListItemAvatar>
+                      <Avatar>{student.firstName.charAt(0)}</Avatar>
+                    </ListItemAvatar>
+                    <ListItemText>
+                      <Grid container>
+                        <Grid item xs={2}>
+                          <span>{`${student.rollNumber}`}</span>
+                        </Grid>
+                        <Grid item xs={10}>
+                          <span>{`${student.firstName} ${student.lastName}`}</span>
+                        </Grid>
+                      </Grid>
+                    </ListItemText>
+                    {/* <ListItemSecondaryAction>
                     <IconButton edge="end" aria-label="comments">
                       <CommentIcon />
                     </IconButton>
                   </ListItemSecondaryAction> */}
-                </ListItem>
-              );
-            })}
-          </List>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </div>
         </div>
       </Dialog>
     </div>
