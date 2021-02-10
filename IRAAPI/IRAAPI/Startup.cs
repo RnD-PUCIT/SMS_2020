@@ -50,7 +50,15 @@ namespace IRAAPI
 
             services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>(option=>
+            {
+                option.Password.RequireDigit = false;
+                option.Password.RequiredUniqueChars = 0;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+
+
+            })
                 .AddEntityFrameworkStores<IRAAPIContext>()
                 .AddDefaultTokenProviders();
 

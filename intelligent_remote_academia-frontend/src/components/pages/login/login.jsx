@@ -79,7 +79,7 @@ class Login extends Component {
       const { cnic, password } = values;
 
       // Add the input values in form-data
-      formData.set('cnic', cnic);
+      formData.set('username', cnic);
       formData.set('password', password);
 
       try {

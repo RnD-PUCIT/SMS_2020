@@ -29,11 +29,13 @@ namespace IRAAPI.Controllers
         }
 
         [HttpPost]
-        [Route("login1")]
-        public async Task<IActionResult> Login1([FromBody] LoginModel model)
+        [Route("login")]
+        public async Task<IActionResult> Login()
         {
-            var user = await userManager.FindByNameAsync(model.Username);
-            if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
+            var username = HttpContext.Request.Form["username"];
+            var password = HttpContext.Request.Form["password"];
+            var user = await userManager.FindByNameAsync(username);
+            if (user != null && await userManager.CheckPasswordAsync(user, password))
             {
                 var userRoles = await userManager.GetRolesAsync(user);
 
@@ -137,33 +139,6 @@ namespace IRAAPI.Controllers
             return user.Id;
         }
 
-        //[NonAction]
-        //public async Task<IActionResult> RegisterAspNetUser(RegisterModel model)
-        //{
-        //    var userExists = await userManager.FindByNameAsync(model.Username);
-        //    if (userExists != null)
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
-
-        //    ApplicationUser user = new ApplicationUser()
-        //    {
-        //        Email = model.Email,
-        //        SecurityStamp = Guid.NewGuid().ToString(),
-        //        UserName = model.Username
-        //    };
-        //    var result = await userManager.CreateAsync(user, model.Password);
-        //    if (!result.Succeeded)
-        //        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-        //    if (!await roleManager.RoleExistsAsync(model.Role))
-        //        await roleManager.CreateAsync(new IdentityRole(model.Role));
-        //    if (await roleManager.RoleExistsAsync(model.Role))
-        //    {
-        //        await userManager.AddToRoleAsync(user, model.Role);
-        //    }
-        //    return Ok(new Response { Status = "Success", Message = "User created successfully!" });
-        //}
-
-
         [HttpPost]
         [Route("createRole")]
         public async Task<IActionResult> CreateRole([FromBody] string role)
@@ -180,68 +155,6 @@ namespace IRAAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
             }
             return Ok(new Response { Status = "Success", Message = "Role created successfully!" });
-        }
-
-        [HttpPost("login")]
-        public Object Login()
-        {
-            string cnic = HttpContext.Request.Form["cnic"];
-            string password = HttpContext.Request.Form["password"];
-            bool passwordVerified = false;
-
-            try
-            {
-                var parentData = context.ParentLogins.Where(a => a.Cnic == cnic)
-                    .SingleOrDefault();
-                if (parentData != null)
-                {
-                    passwordVerified = BCrypt.Net.BCrypt.Verify(password, parentData.Password);
-                    if (passwordVerified)
-                    {
-                        return getToken(context.Parents.Where(a=> a.Id == parentData.Id).Select(a=> a.Guid).SingleOrDefault().ToString());
-                    }
-                    else
-                    {
-                        return BadRequest("Invalid Credentials");
-                    }
-                }
-                else
-                {
-                    return BadRequest("User Not Registered");
-                }
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
-
-        [NonAction]
-        public Object getToken(string parentId)
-        {
-            string key = "ADSTZ_1226404119";
-            var issuer = "http://ira.com";
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var permClaims = new List<Claim>();
-            permClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-
-            permClaims.Add(new Claim("parent_id", parentId));
-            
-
-
-
-            var token = new JwtSecurityToken(issuer,
-                            issuer,
-                            permClaims,
-                            expires: DateTime.Now.AddDays(1),
-                            signingCredentials: credentials);
-            var jwt_token = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return new { token = jwt_token };
         }
     }
 }
