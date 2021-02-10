@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20210209121534_identity-added")]
+    partial class identityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -768,16 +770,7 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("profile_picture");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Parents");
                 });
@@ -942,20 +935,11 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("session_id");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
 
                     b.HasIndex("SessionId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Students");
                 });
@@ -1214,16 +1198,7 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("specialization");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("user_id");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Teachers");
                 });
@@ -1678,15 +1653,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("CourseOutline");
                 });
 
-            modelBuilder.Entity("IRAAPI.Models.Parent", b =>
-                {
-                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("IRAAPI.Models.ParentLogin", b =>
                 {
                     b.HasOne("IRAAPI.Models.SecurityQuestion", "Sq")
@@ -1711,15 +1677,9 @@ namespace IRAAPI.Migrations
                         .HasConstraintName("FK_Students_Sessions")
                         .IsRequired();
 
-                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("Class");
 
                     b.Navigation("Session");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.StudentApplication", b =>
@@ -1758,15 +1718,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("GradeType");
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.Teacher", b =>
-                {
-                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.TeacherSubjectAlloc", b =>

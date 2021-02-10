@@ -1,4 +1,6 @@
 ﻿using System;
+using IRAAPI.Authentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,14 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace IRAAPI.Models
 {
-    public partial class IRAAPIContext : DbContext
+    public partial class IRAAPIContext : IdentityDbContext<ApplicationUser>
     {
         public IRAAPIContext()
         {
         }
 
-        public IRAAPIContext(DbContextOptions<IRAAPIContext> options)
-            : base(options)
+        public IRAAPIContext(DbContextOptions<IRAAPIContext> options)   : base(options)
         {
         }
         public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
@@ -55,6 +56,7 @@ namespace IRAAPI.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Announcement>(entity =>
             {
                 entity.Property(e => e.Announcment).IsUnicode(false);
