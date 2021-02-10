@@ -84,39 +84,6 @@ namespace IRAAPI
             });
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            //  .AddJwtBearer(options =>
-            //  {
-            //      options.TokenValidationParameters = new TokenValidationParameters
-            //      {
-            //          ValidateIssuer = true,
-            //          ValidateAudience = true,
-            //          ValidateIssuerSigningKey = true,
-            //          ValidIssuer = "http://ira.com", //some string, normally web url,
-            //          ValidAudience = "http://ira.com",
-            //          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
-            //      };
-
-
-            //      options.Events = new JwtBearerEvents
-            //      {
-            //          OnAuthenticationFailed = context =>
-            //          {
-            //              if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-            //              {
-            //                  context.Response.Headers.Add("Token-Expired", "true");
-            //              }
-            //              return Task.CompletedTask;
-            //          }
-            //      };
-            //  });
-
-            //services.AddMvc()
-            //   .AddJsonOptions(options =>
-            //   {
-            //       options.JsonSerializerOptions.PropertyNameCaseInsensitive = false;
-            //       options.JsonSerializerOptions.PropertyNamingPolicy = null;
-            //   });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
