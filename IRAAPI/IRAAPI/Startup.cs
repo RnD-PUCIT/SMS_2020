@@ -56,8 +56,7 @@ namespace IRAAPI
                 option.Password.RequiredUniqueChars = 0;
                 option.Password.RequireUppercase = false;
                 option.Password.RequireNonAlphanumeric = false;
-
-
+                option.Password.RequireLowercase = false;
             })
                 .AddEntityFrameworkStores<IRAAPIContext>()
                 .AddDefaultTokenProviders();
