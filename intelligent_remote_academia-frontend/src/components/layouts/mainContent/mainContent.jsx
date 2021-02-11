@@ -19,6 +19,7 @@ import TeacherDashboard from '../../pages/teacher/dashboard/TeacherDashboard';
 import DiaryForm from '../../pages/teacher/diary/DiaryForm';
 import AttendanceDashboard from '../../pages/teacher/attendance/AttendanceDashboard';
 import ClassList from '../../pages/teacher/classes/ClassList';
+import SubjecList from '../../pages/teacher/subjects/SubjectList';
 
 const MainContent = ({
   subjects,
@@ -42,11 +43,11 @@ const MainContent = ({
           <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
 
           {/* Teacher Module Links */}
-
           <Route path="/teachers" component={TeacherDashboard} />
           <Route path="/diary-form" component={DiaryForm} />
           <Route path="/mark-attendance" component={AttendanceDashboard} />
           <Route path="/classes" component={ClassList} />
+          <Route exact path="/classes/:classSlug" component={SubjecList} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
