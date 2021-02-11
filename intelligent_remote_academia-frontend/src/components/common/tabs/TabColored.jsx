@@ -5,23 +5,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { AppBar } from '@material-ui/core';
 
-const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-  },
-});
-
-export default function TabColored(props) {
-  const classes = useStyles();
-
+export default function TabColored({ tabs, onTabClick }) {
   const [value, setValue] = React.useState(0);
-
-  const { tabs } = props;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <AppBar position="static" color="default">
       <Tabs
@@ -32,7 +21,14 @@ export default function TabColored(props) {
         centered
       >
         {tabs.map((tab, index) => {
-          return <Tab label={tab.text} />;
+          return (
+            <Tab
+              label={tab.text}
+              onClick={() => {
+                onTabClick(tab);
+              }}
+            />
+          );
         })}
       </Tabs>
     </AppBar>
