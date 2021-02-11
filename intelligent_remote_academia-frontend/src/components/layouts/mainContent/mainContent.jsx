@@ -46,8 +46,8 @@ const MainContent = ({
           <Route path="/teachers" component={TeacherDashboard} />
           <Route path="/diary-form" component={DiaryForm} />
           <Route path="/mark-attendance" component={AttendanceDashboard} />
-          <Route path="/classes" component={ClassList} />
-          <Route exact path="/classes/:classSlug" component={SubjecList} />
+          <Route exact path="/classes" component={ClassList} />
+          <Route path="/classes/:classSlug" component={SubjecList} />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
