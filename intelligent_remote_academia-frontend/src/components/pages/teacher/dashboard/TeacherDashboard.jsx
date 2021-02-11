@@ -13,7 +13,7 @@ const TeacherDashboard = () => {
           <Link to="mark-attendance">Attendance</Link>
         </li>
         <li>
-          <Link to="teacher-subject">Subjects</Link>
+          <Link to="classes">Classes</Link>
         </li>
       </ul>
     </React.Fragment>
