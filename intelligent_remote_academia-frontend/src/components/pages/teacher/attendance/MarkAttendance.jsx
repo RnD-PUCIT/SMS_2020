@@ -13,6 +13,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
+import DoneIcon from '@material-ui/icons/Done';
+
 import { Avatar, Chip, Grid, ListItemAvatar } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
@@ -27,14 +29,24 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: '0',
   },
+  attendanceBody: {
+    padding: '50px',
+  },
   attendanceTable: {
-    margin: '50px',
+    marginTop: '10px',
     border: '1px solid rgba(224, 224, 224, 1)',
     borderRadius: '5px',
   },
   tableHeader: {
     borderBottom: '1px solid rgba(224, 224, 224, 1)',
     background: 'rgb(250, 250, 250)',
+  },
+  actionButtons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    '& > *': {
+      margin: theme.spacing(0.5),
+    },
   },
 }));
 
@@ -112,9 +124,15 @@ export default function MarkAttendance(props) {
             </Button>
           </Toolbar>
         </AppBar>
-        <div className="attendanceBody">
-          <Chip label="Select All" onClick={handleSelectAll} />
-          <Chip label="Clear All" onClick={handleClearAll} />
+        <div className={classes.attendanceBody}>
+          <div className={classes.actionButtons}>
+            <Chip
+              label="Select All"
+              onClick={handleSelectAll}
+              icon={<DoneIcon />}
+            />
+            <Chip label="Clear All" onClick={handleClearAll} />
+          </div>
           <div className={classes.attendanceTable}>
             <List className={classes.root}>
               <ListItem className={classes.tableHeader}>
