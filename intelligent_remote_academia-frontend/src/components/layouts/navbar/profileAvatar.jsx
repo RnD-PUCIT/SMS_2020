@@ -1,10 +1,10 @@
-import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
+import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
-import Avatar from "../../common/avatar";
-import { accountMenu } from "../../constants/navbarConsts";
+import Avatar from '../../common/avatar';
+import { accountMenu } from '../../constants/navbarConsts';
 
 const ProfileAvatar = (props) => {
   return (
@@ -16,13 +16,13 @@ const ProfileAvatar = (props) => {
         id="menu-appbar"
         anchorEl={props.anchorEl}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: 'top',
+          horizontal: 'right',
         }}
         keepMounted
         transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: 'top',
+          horizontal: 'right',
         }}
         open={props.open}
         onClose={props.onMenuClose}
