@@ -110,6 +110,11 @@ export default function MarkAttendance(props) {
     setOpen(false);
   };
 
+  const handleSubmit = () => {
+    console.log(checked);
+    setOpen(false);
+  };
+
   const handleSelectAll = () => {
     setChecked(studentList);
   };
@@ -147,7 +152,7 @@ export default function MarkAttendance(props) {
             <Typography variant="h6" className={classes.title}>
               Mark Attendance
             </Typography>
-            <Button color="default" variant="contained" onClick={handleClose}>
+            <Button color="default" variant="contained" onClick={handleSubmit}>
               Save
             </Button>
           </Toolbar>
