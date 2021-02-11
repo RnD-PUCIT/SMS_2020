@@ -12,6 +12,9 @@ const TeacherDashboard = () => {
         <li>
           <Link to="mark-attendance">Attendance</Link>
         </li>
+        <li>
+          <Link to="classes">Classes</Link>
+        </li>
       </ul>
     </React.Fragment>
   );
