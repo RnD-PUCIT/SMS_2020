@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,6 +16,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import DoneIcon from '@material-ui/icons/Done';
 
 import { Avatar, Chip, Grid, ListItemAvatar } from '@material-ui/core';
+import DatePicker from 'react-datepicker';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -48,6 +51,27 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(0.5),
     },
   },
+  datePicker: {
+    padding: '10px',
+    cursor: 'pointer',
+  },
+  labelBlock: {
+    display: 'block',
+  },
+  presentText: {
+    color: 'rgb(113, 187, 48)',
+    fontSize: '60px',
+    textAlign: 'center',
+  },
+  absentText: {
+    color: 'rgb(235, 57, 59)',
+    fontSize: '60px',
+    textAlign: 'center',
+  },
+  stats: {
+    textAlign: 'center',
+    lineHeight: '60px',
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -55,11 +79,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function MarkAttendance(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  // State variables
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
+  const [checked, setChecked] = useState([]);
+
   const { studentList } = props;
 
-  const [checked, setChecked] = React.useState([]);
+  const classes = useStyles();
 
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
@@ -125,6 +152,34 @@ export default function MarkAttendance(props) {
           </Toolbar>
         </AppBar>
         <div className={classes.attendanceBody}>
+          <Grid container>
+            <Grid item md={4}>
+              <label className={classes.labelBlock}>
+                <Typography>Select Date:</Typography>
+              </label>
+              <DatePicker
+                className={classes.datePicker}
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+              />
+            </Grid>
+            <Grid container item md={4}>
+              <Grid item xs={6}>
+                <div className={classes.stats}>
+                  <Typography>Present</Typography>
+                  <span className={classes.presentText}>{checked.length}</span>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className={classes.stats}>
+                  <Typography>Absent</Typography>
+                  <span className={classes.absentText}>
+                    {studentList.length - checked.length}
+                  </span>
+                </div>
+              </Grid>
+            </Grid>
+          </Grid>
           <div className={classes.actionButtons}>
             <Chip
               label="Select All"
