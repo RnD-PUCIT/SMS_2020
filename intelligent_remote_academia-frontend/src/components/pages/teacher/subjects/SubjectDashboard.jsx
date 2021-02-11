@@ -1,11 +1,14 @@
 import React from 'react';
+import TabColored from '../../../common/tabs/TabColored';
 
 const SubjectDashboard = () => {
   return (
     <React.Fragment>
-      <h1>Subject Dashboard</h1>
+      <TabColored />
     </React.Fragment>
   );
 };
 
 export default SubjectDashboard;
+
+const tabsConst = [{ text: 'Grade Book', url: '/gradebook' }];
