@@ -42,9 +42,10 @@ const useStyles = makeStyles((theme) => ({
   },
   tableHeader: {
     borderBottom: '1px solid rgba(224, 224, 224, 1)',
-    background: 'rgb(250, 250, 250)',
+    background: '#f0f0f0',
   },
   actionButtons: {
+    height: '100%',
     display: 'flex',
     justifyContent: 'flex-end',
     '& > *': {
@@ -166,28 +167,30 @@ export default function MarkAttendance(props) {
             <Grid container item md={4}>
               <Grid item xs={6}>
                 <div className={classes.stats}>
-                  <Typography>Present</Typography>
+                  <Typography variant="h6">Present</Typography>
                   <span className={classes.presentText}>{checked.length}</span>
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className={classes.stats}>
-                  <Typography>Absent</Typography>
+                  <Typography variant="h6">Absent</Typography>
                   <span className={classes.absentText}>
                     {studentList.length - checked.length}
                   </span>
                 </div>
               </Grid>
             </Grid>
+            <Grid item md={4}>
+              <div className={classes.actionButtons}>
+                <Chip
+                  label="Select All"
+                  onClick={handleSelectAll}
+                  icon={<DoneIcon />}
+                />
+                <Chip label="Clear All" onClick={handleClearAll} />
+              </div>
+            </Grid>
           </Grid>
-          <div className={classes.actionButtons}>
-            <Chip
-              label="Select All"
-              onClick={handleSelectAll}
-              icon={<DoneIcon />}
-            />
-            <Chip label="Clear All" onClick={handleClearAll} />
-          </div>
           <div className={classes.attendanceTable}>
             <List className={classes.root}>
               <ListItem className={classes.tableHeader}>
