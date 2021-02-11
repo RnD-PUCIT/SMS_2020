@@ -13,7 +13,10 @@ const useStyles = makeStyles({
 
 export default function TabColored(props) {
   const classes = useStyles();
+
   const [value, setValue] = React.useState(0);
+
+  const { tabs } = props;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -28,9 +31,9 @@ export default function TabColored(props) {
         textColor="primary"
         centered
       >
-        <Tab label="Item One" />
-        <Tab label="Item Two" />
-        <Tab label="Item Three" />
+        {tabs.map((tab, index) => {
+          return <Tab label={tab.text} />;
+        })}
       </Tabs>
     </AppBar>
   );
