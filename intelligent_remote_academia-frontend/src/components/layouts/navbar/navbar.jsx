@@ -24,7 +24,13 @@ export default function Navbar(props) {
   };
 
   const handleMenuLinkClick = (text) => {
-    alert(text);
+    // Check which link is clicked
+    if (text.toLowerCase() === 'logout') {
+      window.localStorage.removeItem('token');
+      window.location = '/login';
+    }
+
+    // Close the menu
     setAnchorEl(null);
   };
 
