@@ -29,7 +29,12 @@ const ProfileAvatar = (props) => {
       >
         {accountMenu.map((item) => {
           return (
-            <MenuItem onClick={props.onMenuClose} key={item.text}>
+            <MenuItem
+              onClick={() => {
+                props.onMenuItemClick(item.text);
+              }}
+              key={item.text}
+            >
               <i className={item.icon}></i>
               {item.text}
             </MenuItem>

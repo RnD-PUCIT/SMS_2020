@@ -23,7 +23,8 @@ export default function Navbar(props) {
     setAnchorEl(null);
   };
 
-  const handleMenuLinkClick = () => {
+  const handleMenuLinkClick = (text) => {
+    alert(text);
     setAnchorEl(null);
   };
 
