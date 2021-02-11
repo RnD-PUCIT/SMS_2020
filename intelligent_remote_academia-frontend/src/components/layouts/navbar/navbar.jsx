@@ -1,14 +1,14 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 
-import MenuIcon from "@material-ui/icons/Menu";
+import MenuIcon from '@material-ui/icons/Menu';
 
-import { brandName } from "../../constants/navbarConsts";
-import { useStyles } from "../../constants/layoutConsts";
-import ProfileAvatar from "./profileAvatar";
+import { brandName } from '../../constants/navbarConsts';
+import { useStyles } from '../../constants/layoutConsts';
+import ProfileAvatar from './profileAvatar';
 
 export default function Navbar(props) {
   const classes = useStyles();
@@ -20,6 +20,17 @@ export default function Navbar(props) {
   };
 
   const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleMenuLinkClick = (text) => {
+    // Check which link is clicked
+    if (text.toLowerCase() === 'logout') {
+      window.localStorage.removeItem('token');
+      window.location = '/login';
+    }
+
+    // Close the menu
     setAnchorEl(null);
   };
 
@@ -44,6 +55,7 @@ export default function Navbar(props) {
           <ProfileAvatar
             onMenuOpen={handleMenu}
             onMenuClose={handleClose}
+            onMenuItemClick={handleMenuLinkClick}
             anchorEl={anchorEl}
             open={open}
           />
