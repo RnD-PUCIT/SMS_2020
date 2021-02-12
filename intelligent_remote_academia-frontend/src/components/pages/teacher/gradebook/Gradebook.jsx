@@ -1,9 +1,12 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
 
 const Gradebook = () => {
   return (
     <React.Fragment>
-      <h1>Grade book</h1>
+      <Button color="primary" variant="contained">
+        Create
+      </Button>
     </React.Fragment>
   );
 };
