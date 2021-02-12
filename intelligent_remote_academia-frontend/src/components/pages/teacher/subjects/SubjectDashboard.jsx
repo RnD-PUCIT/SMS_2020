@@ -12,19 +12,20 @@ const SubjectDashboard = (props) => {
   const { params } = match;
 
   // Custom variables
+  const { classSlug } = params;
+  const { subjectSlug } = params;
+
   const history = useHistory();
 
   // Hooks
   useEffect(() => {
     setTabLinks(tabsConst);
+    history.replace(`/classes/${classSlug}/${subjectSlug}${tabsConst[0].url}`);
   }, []);
 
   // handler functions
   const handleTabClick = (tab) => {
-    const { classSlug } = params;
-    const { subjectSlug } = params;
-
-    history.push(`/classes/${classSlug}/${subjectSlug}${tab.url}`);
+    history.replace(`/classes/${classSlug}/${subjectSlug}${tab.url}`);
   };
 
   return (
@@ -37,6 +38,6 @@ const SubjectDashboard = (props) => {
 export default SubjectDashboard;
 
 const tabsConst = [
-  { text: 'Grade Book', url: '/gradebook', component: <Gradebook /> },
+  { text: 'Grade Book', url: '/gradebook' },
   { text: 'Diary', url: '/diary' },
 ];
