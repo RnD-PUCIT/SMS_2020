@@ -21,6 +21,7 @@ import AttendanceDashboard from '../../pages/teacher/attendance/AttendanceDashbo
 import ClassList from '../../pages/teacher/classes/ClassList';
 import SubjecList from '../../pages/teacher/subjects/SubjectList';
 import SubjectDashboard from '../../pages/teacher/subjects/SubjectDashboard';
+import Gradebook from '../../pages/teacher/gradebook/Gradebook';
 
 const MainContent = ({
   subjects,
