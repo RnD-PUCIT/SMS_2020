@@ -8,13 +8,19 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Snackbar from '../../../common/snackbars/Snackbar';
 
-export default function GradedActivityForm({ button }) {
+export default function GradedActivityForm({
+  button,
+  gradesList,
+  setGradeTypeList,
+}) {
   const [open, setOpen] = useState(false);
   const [activityTitle, setActivityTitle] = useState('');
   const [status, setStatus] = useState(null);
   const [message, setMessage] = useState('');
 
   const handleClickOpen = () => {
+    setStatus(null);
+    setMessage('');
     setOpen(true);
   };
 
@@ -30,6 +36,7 @@ export default function GradedActivityForm({ button }) {
   const handleCreateActivity = async () => {
     setMessage('New Graded Activity Created!');
     setStatus('success');
+    setGradeTypeList([...gradesList, activityTitle]);
     setTimeout(() => {
       handleClose();
     }, 5000);
