@@ -1,12 +1,12 @@
-import { Button } from '@material-ui/core';
 import React from 'react';
+import GradedActivityForm from './GradedActivityForm';
 
 const Gradebook = () => {
   return (
     <React.Fragment>
-      <Button color="primary" variant="contained">
-        Create
-      </Button>
+      <GradedActivityForm
+        button={{ text: 'Create', variant: 'contained', color: 'primary' }}
+      />
     </React.Fragment>
   );
 };
