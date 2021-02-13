@@ -9,6 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
 import {
+  Box,
   Container,
   ListItemIcon,
   ListItemText,
@@ -61,9 +62,11 @@ const GradedActivityForm = ({ selectedGradeType }) => {
   const formik = useFormik({
     initialValues: {
       activityTitle: '',
+      activityMarks: 0,
     },
     validationSchema: Yup.object({
       activityTitle: Yup.string().required('Activity Title is required!'),
+      activityMarks: Yup.string().required('Activity Marks are required!'),
     }),
     onSubmit: async (values) => {
       setStatus('success');
@@ -126,10 +129,50 @@ const GradedActivityForm = ({ selectedGradeType }) => {
                 Boolean(formik.errors.activityTitle)
               }
             />
+            <Box display="flex">
+              <TextField
+                style={{ width: '50%', marginRight: '5px' }}
+                disabled
+                id="gradeTypeName"
+                variant="outlined"
+                label="Grade Type"
+                className={classes.textField}
+                value={selectedGradeType.gradeName}
+                helperText={
+                  formik.touched.gradeTypeName
+                    ? formik.errors.gradeTypeName
+                    : ''
+                }
+                error={
+                  formik.touched.gradeTypeName &&
+                  Boolean(formik.errors.gradeTypeName)
+                }
+              />
+              <TextField
+                style={{ width: '50%', marginLeft: '5px' }}
+                id="activityMarks"
+                variant="outlined"
+                label="Total Marks"
+                type="number"
+                className={classes.textField}
+                value={formik.values.activityMarks}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                helperText={
+                  formik.touched.activityMarks
+                    ? formik.errors.activityMarks
+                    : ''
+                }
+                error={
+                  formik.touched.activityMarks &&
+                  Boolean(formik.errors.activityMarks)
+                }
+              />
+            </Box>
             <TextField
               multiline
               fullWidth
-              rows={15}
+              rows={10}
               variant="outlined"
               label="Instructions"
               placeholder="Instructions (optional)"
