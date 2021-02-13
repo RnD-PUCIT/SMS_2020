@@ -33,3 +33,23 @@ main {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   padding: 20px;
 }
+
+.paper_padding--sm {
+  padding: 30px;
+}
+
+.u_mt_huge {
+  margin-top: 50px;
+}
+.u_mt_large {
+  margin-top: 40px;
+}
+.u_mt_medium {
+  margin-top: 30px;
+}
+.u_mt_small {
+  margin-top: 20px;
+}
+.u_mt_tiny {
+  margin-top: 10px;
+}
