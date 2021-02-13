@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import GradedActivityForm from './GradedActivityForm';
+import GradedActivityForm from './GradeTypeForm';
 import GradeTypeList from './GradeTypeList';
 
 const Gradebook = () => {

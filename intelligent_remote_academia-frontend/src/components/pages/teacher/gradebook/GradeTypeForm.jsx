@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Snackbar from '../../../common/snackbars/Snackbar';
 
-export default function GradedActivityForm({
+export default function GradeTypeForm({
   button,
   gradesList,
   setGradeTypeList,
@@ -41,7 +41,7 @@ export default function GradedActivityForm({
     setGradeTypeList([...gradesList, newType]);
     setTimeout(() => {
       handleClose();
-    }, 5000);
+    }, 1000);
   };
   return (
     <div>
