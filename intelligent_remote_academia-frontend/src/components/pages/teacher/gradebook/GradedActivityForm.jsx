@@ -43,7 +43,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const GradedActivityForm = ({ selectedGradeType }) => {
+const GradedActivityForm = ({
+  selectedGradeType,
+  setGradeTypeList,
+  gradeTypeList,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = useState(null);
@@ -71,7 +75,14 @@ const GradedActivityForm = ({ selectedGradeType }) => {
       activityMarks: Yup.string().required('Activity Marks are required!'),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      // add data to state variable
+      const index = gradeTypeList.indexOf(selectedGradeType);
+
+      const newGradeTypeList = [...gradeTypeList];
+      newGradeTypeList[index].activities.push(values);
+
+      setGradeTypeList(newGradeTypeList);
+
       setStatus('success');
       setMessage('Graded activity created successfully!');
       setTimeout(() => {
@@ -173,6 +184,7 @@ const GradedActivityForm = ({ selectedGradeType }) => {
               />
             </Box>
             <TextField
+              id="instructions"
               multiline
               fullWidth
               rows={10}
@@ -181,6 +193,8 @@ const GradedActivityForm = ({ selectedGradeType }) => {
               placeholder="Instructions (optional)"
               className={classes.textField}
               value={formik.values.instructions}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
             />
             <SimpleMenu
               button={{

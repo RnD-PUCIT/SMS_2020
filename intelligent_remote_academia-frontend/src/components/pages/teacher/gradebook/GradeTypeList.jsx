@@ -18,11 +18,18 @@ const useStyles = makeStyles({
   },
 });
 
-const GradeTypeList = ({ gradeTypeList }) => {
+const GradeTypeList = ({ gradeTypeList, setGradeTypeList }) => {
   return (
     <Paper className="paper_padding--sm u_mt_small">
       {gradeTypeList.map((gradeType, index) => {
-        return <GradeTypeHeading gradeType={gradeType} key={index} />;
+        return (
+          <GradeTypeHeading
+            key={index}
+            gradeType={gradeType}
+            gradeTypeList={gradeTypeList}
+            setGradeTypeList={setGradeTypeList}
+          />
+        );
       })}
     </Paper>
   );
@@ -30,17 +37,24 @@ const GradeTypeList = ({ gradeTypeList }) => {
 
 export default GradeTypeList;
 
-const GradeTypeHeading = ({ gradeType }) => {
+const GradeTypeHeading = ({ gradeType, gradeTypeList, setGradeTypeList }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <div className={classes.gradeHeadingRoot}>
         <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
         <span className={classes.floatRight}>
-          <GradedActivityForm selectedGradeType={gradeType} />
+          <GradedActivityForm
+            selectedGradeType={gradeType}
+            gradeTypeList={gradeTypeList}
+            setGradeTypeList={setGradeTypeList}
+          />
         </span>
       </div>
-      <div>{gradeType.activities && <ActivityErrorMsg />}</div>
+      <div>
+        {gradeType.activities && <ActivityErrorMsg />}
+        {!gradeType.activities && <ActivityList currentGradeType={gradeType} />}
+      </div>
     </React.Fragment>
   );
 };
@@ -50,5 +64,15 @@ const ActivityErrorMsg = () => {
     <div className="u_p_small">
       <Typography>No graded activity added yet.</Typography>
     </div>
+  );
+};
+
+const ActivityList = ({ currentGradeType }) => {
+  return (
+    <ul>
+      {currentGradeType.activities.map((grade, index) => (
+        <li key={index}>{grade.activityTitle}</li>
+      ))}
+    </ul>
   );
 };
