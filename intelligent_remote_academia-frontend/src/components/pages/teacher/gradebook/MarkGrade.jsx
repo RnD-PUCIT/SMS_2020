@@ -11,6 +11,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  TextField,
 } from '@material-ui/core';
 
 const MarkGrade = () => {
@@ -48,8 +49,14 @@ const MarkGrade = () => {
                     </ListItemText>
                   </ListItem>
                 </TableCell>
-                <TableCell>{row.calories}</TableCell>
-                <TableCell>{row.fat}</TableCell>
+                <TableCell>
+                  <TextField size="small" style={{width: '40px'}} />
+                  <span style={{fontSize: '25px'}}> / </span> 
+                  <span style={{fontSize: '16px'}}>{row.totalMarks}</span>
+                </TableCell>
+                <TableCell>
+                  <TextField size="small" fullWidth multiline />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
