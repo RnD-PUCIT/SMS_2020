@@ -36,7 +36,9 @@ export default function GradedActivityForm({
   const handleCreateActivity = async () => {
     setMessage('New Graded Activity Created!');
     setStatus('success');
-    setGradeTypeList([...gradesList, activityTitle]);
+
+    const newType = { gradeName: activityTitle, activities: [] };
+    setGradeTypeList([...gradesList, newType]);
     setTimeout(() => {
       handleClose();
     }, 5000);
