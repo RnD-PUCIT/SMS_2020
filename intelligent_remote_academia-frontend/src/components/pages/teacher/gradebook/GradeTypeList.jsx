@@ -37,7 +37,7 @@ const GradeTypeHeading = ({ gradeType }) => {
       <div className={classes.gradeHeadingRoot}>
         <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
         <span className={classes.floatRight}>
-          <GradedActivityForm />
+          <GradedActivityForm selectedGradeType={gradeType} />
         </span>
       </div>
       <div>{gradeType.activities && <ActivityErrorMsg />}</div>
