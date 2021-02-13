@@ -26,4 +26,7 @@ const Gradebook = () => {
 
 export default Gradebook;
 
-const gradeTypeListConst = ['Quizzes', 'Assignments'];
+const gradeTypeListConst = [
+  { id: 0, gradeName: 'Quizes', activities: [] },
+  { id: 0, gradeName: 'Assignments', activities: [] },
+];

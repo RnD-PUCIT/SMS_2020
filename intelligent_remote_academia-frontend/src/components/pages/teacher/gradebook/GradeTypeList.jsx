@@ -33,7 +33,7 @@ const GradeTypeHeading = ({ gradeType }) => {
   const classes = useStyles();
   return (
     <div className={classes.gradeHeadingRoot}>
-      <h2 className={classes.gradeHeading}>{gradeType}</h2>
+      <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
       <span className={classes.floatRight}>
         <Button variant="contained">New</Button>
       </span>
