@@ -30,6 +30,17 @@ const Gradebook = () => {
 export default Gradebook;
 
 const gradeTypeListConst = [
-  { id: 0, gradeName: 'Quizes', activities: [] },
+  {
+    id: 0,
+    gradeName: 'Quizzes',
+    activities: [
+      {
+        activityTitle: 'Quiz 01',
+        gradeTypeName: 'Quizzes',
+        activityMarks: 100,
+        instructions: '',
+      },
+    ],
+  },
   { id: 0, gradeName: 'Assignments', activities: [] },
 ];

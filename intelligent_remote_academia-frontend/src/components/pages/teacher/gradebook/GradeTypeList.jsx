@@ -52,22 +52,20 @@ const GradeTypeHeading = ({ gradeType, gradeTypeList, setGradeTypeList }) => {
         </span>
       </div>
       <div>
-        {gradeType.activities && <ActivityErrorMsg />}
-        {!gradeType.activities && <ActivityList currentGradeType={gradeType} />}
+        <ActivityList currentGradeType={gradeType} />
       </div>
     </React.Fragment>
   );
 };
 
-const ActivityErrorMsg = () => {
-  return (
-    <div className="u_p_small">
-      <Typography>No graded activity added yet.</Typography>
-    </div>
-  );
-};
-
 const ActivityList = ({ currentGradeType }) => {
+  if (currentGradeType.activities.length === 0) {
+    return (
+      <div className="u_p_small">
+        <Typography>No graded activity added yet.</Typography>
+      </div>
+    );
+  }
   return (
     <ul>
       {currentGradeType.activities.map((grade, index) => (
