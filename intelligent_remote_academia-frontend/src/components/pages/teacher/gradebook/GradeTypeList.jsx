@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, makeStyles, Paper } from '@material-ui/core';
+import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
 
 const useStyles = makeStyles({
   gradeHeadingRoot: {
@@ -32,11 +32,22 @@ export default GradeTypeList;
 const GradeTypeHeading = ({ gradeType }) => {
   const classes = useStyles();
   return (
-    <div className={classes.gradeHeadingRoot}>
-      <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
-      <span className={classes.floatRight}>
-        <Button variant="contained">New</Button>
-      </span>
+    <React.Fragment>
+      <div className={classes.gradeHeadingRoot}>
+        <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
+        <span className={classes.floatRight}>
+          <Button variant="contained">New</Button>
+        </span>
+      </div>
+      <div>{gradeType.activities && <ActivityErrorMsg />}</div>
+    </React.Fragment>
+  );
+};
+
+const ActivityErrorMsg = () => {
+  return (
+    <div className="u_p_small">
+      <Typography>No graded activity added yet.</Typography>
     </div>
   );
 };

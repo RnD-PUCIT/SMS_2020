@@ -53,3 +53,19 @@ main {
 .u_mt_tiny {
   margin-top: 10px;
 }
+
+.u_p_huge {
+  padding: 50px;
+}
+.u_p_large {
+  padding: 40px;
+}
+.u_p_medium {
+  padding: 30px;
+}
+.u_p_small {
+  padding: 20px;
+}
+.u_p_tiny {
+  padding: 10px;
+}
