@@ -36,7 +36,9 @@ export default function GradedActivityForm({
   const handleCreateActivity = async () => {
     setMessage('New Graded Activity Created!');
     setStatus('success');
-    setGradeTypeList([...gradesList, activityTitle]);
+
+    const newType = { gradeName: activityTitle, activities: [] };
+    setGradeTypeList([...gradesList, newType]);
     setTimeout(() => {
       handleClose();
     }, 5000);
@@ -56,18 +58,18 @@ export default function GradedActivityForm({
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Create New Graded Activity
+          Create New Grade Distribution
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Add a new graded activity to your course. Enter the title for the
-            activity (e.g. Quiz, Assignment, Homework, Project, etc.)
+            Add a new grade distribution for your course. Enter the title for
+            the distribution (e.g. Quiz, Assignment, Homework, Project, etc.)
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Graded Activity Title"
+            label="Graded Distribution Title"
             fullWidth
             onChange={handleTextChange}
           />
