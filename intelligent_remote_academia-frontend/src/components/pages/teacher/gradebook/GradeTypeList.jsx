@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import { makeStyles, Paper, Typography } from '@material-ui/core';
 import GradedActivityForm from './GradedActivityForm';
 
 const useStyles = makeStyles({

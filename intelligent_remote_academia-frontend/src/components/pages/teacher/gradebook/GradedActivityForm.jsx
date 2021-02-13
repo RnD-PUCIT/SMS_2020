@@ -62,13 +62,16 @@ const GradedActivityForm = ({ selectedGradeType }) => {
   const formik = useFormik({
     initialValues: {
       activityTitle: '',
+      gradeTypeName: selectedGradeType.gradeName,
       activityMarks: 0,
+      instructions: '',
     },
     validationSchema: Yup.object({
       activityTitle: Yup.string().required('Activity Title is required!'),
       activityMarks: Yup.string().required('Activity Marks are required!'),
     }),
     onSubmit: async (values) => {
+      console.log(values);
       setStatus('success');
       setMessage('Graded activity created successfully!');
       setTimeout(() => {
@@ -137,7 +140,7 @@ const GradedActivityForm = ({ selectedGradeType }) => {
                 variant="outlined"
                 label="Grade Type"
                 className={classes.textField}
-                value={selectedGradeType.gradeName}
+                value={formik.values.gradeTypeName}
                 helperText={
                   formik.touched.gradeTypeName
                     ? formik.errors.gradeTypeName
@@ -177,6 +180,7 @@ const GradedActivityForm = ({ selectedGradeType }) => {
               label="Instructions"
               placeholder="Instructions (optional)"
               className={classes.textField}
+              value={formik.values.instructions}
             />
             <SimpleMenu
               button={{
