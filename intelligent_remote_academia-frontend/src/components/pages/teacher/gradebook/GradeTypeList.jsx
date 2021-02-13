@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import GradedActivityForm from './GradedActivityForm';
 
 const useStyles = makeStyles({
   gradeHeadingRoot: {
@@ -36,7 +37,7 @@ const GradeTypeHeading = ({ gradeType }) => {
       <div className={classes.gradeHeadingRoot}>
         <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
         <span className={classes.floatRight}>
-          <Button variant="contained">New</Button>
+          <GradedActivityForm />
         </span>
       </div>
       <div>{gradeType.activities && <ActivityErrorMsg />}</div>
