@@ -1,5 +1,16 @@
 import React from 'react';
-import { Button, makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  makeStyles,
+  Paper,
+  Typography,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import GradedActivityForm from './GradedActivityForm';
 
 const useStyles = makeStyles({
   gradeHeadingRoot: {
@@ -17,11 +28,18 @@ const useStyles = makeStyles({
   },
 });
 
-const GradeTypeList = ({ gradeTypeList }) => {
+const GradeTypeList = ({ gradeTypeList, setGradeTypeList }) => {
   return (
     <Paper className="paper_padding--sm u_mt_small">
       {gradeTypeList.map((gradeType, index) => {
-        return <GradeTypeHeading gradeType={gradeType} key={index} />;
+        return (
+          <GradeTypeHeading
+            key={index}
+            gradeType={gradeType}
+            gradeTypeList={gradeTypeList}
+            setGradeTypeList={setGradeTypeList}
+          />
+        );
       })}
     </Paper>
   );
@@ -29,25 +47,59 @@ const GradeTypeList = ({ gradeTypeList }) => {
 
 export default GradeTypeList;
 
-const GradeTypeHeading = ({ gradeType }) => {
+const GradeTypeHeading = ({ gradeType, gradeTypeList, setGradeTypeList }) => {
   const classes = useStyles();
   return (
     <React.Fragment>
       <div className={classes.gradeHeadingRoot}>
         <h2 className={classes.gradeHeading}>{gradeType.gradeName}</h2>
         <span className={classes.floatRight}>
-          <Button variant="contained">New</Button>
+          <GradedActivityForm
+            selectedGradeType={gradeType}
+            gradeTypeList={gradeTypeList}
+            setGradeTypeList={setGradeTypeList}
+          />
         </span>
       </div>
-      <div>{gradeType.activities && <ActivityErrorMsg />}</div>
+      <div>
+        <ActivityList currentGradeType={gradeType} />
+      </div>
     </React.Fragment>
   );
 };
 
-const ActivityErrorMsg = () => {
+const ActivityList = ({ currentGradeType }) => {
+  if (currentGradeType.activities.length === 0) {
+    return (
+      <div className="u_p_small">
+        <Typography>No graded activity added yet.</Typography>
+      </div>
+    );
+  }
   return (
-    <div className="u_p_small">
-      <Typography>No graded activity added yet.</Typography>
-    </div>
+    <List component="nav" style={{ padding: '0' }}>
+      {currentGradeType.activities.map((grade, index) => (
+        <ListItem
+          button
+          key={index}
+          style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
+        >
+          <ListItemText>
+            {grade.activityTitle}
+            <Typography
+              color="textSecondary"
+              style={{ float: 'right', marginRight: '10px' }}
+            >
+              {`${grade.activityMarks} marks`}
+            </Typography>
+          </ListItemText>
+          <ListItemSecondaryAction>
+            <IconButton edge="end">
+              <MoreVertIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      ))}
+    </List>
   );
 };

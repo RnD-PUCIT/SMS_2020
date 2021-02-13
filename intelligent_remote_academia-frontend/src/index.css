@@ -17,8 +17,9 @@ code {
   height: 500px;
 }
 
-p#diaryTitle-helper-text {
-  margin: 5px 0;
+.MuiFormHelperText-root.Mui-error {
+  margin: 0;
+  margin-top: 10px;
 }
 
 main {

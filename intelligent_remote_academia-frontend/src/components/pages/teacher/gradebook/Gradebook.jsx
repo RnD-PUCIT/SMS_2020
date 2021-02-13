@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import GradedActivityForm from './GradedActivityForm';
+import GradeTypeForm from './GradeTypeForm';
 import GradeTypeList from './GradeTypeList';
 
 const Gradebook = () => {
@@ -12,14 +12,17 @@ const Gradebook = () => {
 
   return (
     <React.Fragment>
-      <GradedActivityForm
+      <GradeTypeForm
         gradesList={gradeTypeList}
         setGradeTypeList={setGradeTypeList}
         button={{ text: 'Create', variant: 'contained', color: 'primary' }}
       />
 
       {/* Grade Type list compnent */}
-      <GradeTypeList gradeTypeList={gradeTypeList} />
+      <GradeTypeList
+        gradeTypeList={gradeTypeList}
+        setGradeTypeList={setGradeTypeList}
+      />
     </React.Fragment>
   );
 };
@@ -27,6 +30,17 @@ const Gradebook = () => {
 export default Gradebook;
 
 const gradeTypeListConst = [
-  { id: 0, gradeName: 'Quizes', activities: [] },
+  {
+    id: 0,
+    gradeName: 'Quizzes',
+    activities: [
+      {
+        activityTitle: 'Quiz 01',
+        gradeTypeName: 'Quizzes',
+        activityMarks: 100,
+        instructions: '',
+      },
+    ],
+  },
   { id: 0, gradeName: 'Assignments', activities: [] },
 ];
