@@ -73,8 +73,7 @@ const GradedActivityList = ({ currentGradeType }) => {
   const history = useHistory();
 
   const handleListItemClick = (selectedActivity) => {
-    console.log(selectedActivity);
-    const url = `${history.location.pathname}/mark`;
+    const url = `${history.location.pathname}/mark?activity=${selectedActivity.activityTitle}`;
     history.push(url);
   };
 
