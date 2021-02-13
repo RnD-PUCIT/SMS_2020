@@ -87,7 +87,7 @@ const GradedActivityForm = ({
       setMessage('Graded activity created successfully!');
       setTimeout(() => {
         handleClose();
-      }, 5000);
+      }, 1000);
     },
   });
 

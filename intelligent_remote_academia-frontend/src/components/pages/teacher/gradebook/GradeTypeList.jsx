@@ -1,5 +1,15 @@
 import React from 'react';
-import { makeStyles, Paper, Typography } from '@material-ui/core';
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  makeStyles,
+  Paper,
+  Typography,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import GradedActivityForm from './GradedActivityForm';
 
 const useStyles = makeStyles({
@@ -67,10 +77,29 @@ const ActivityList = ({ currentGradeType }) => {
     );
   }
   return (
-    <ul>
+    <List component="nav" style={{ padding: '0' }}>
       {currentGradeType.activities.map((grade, index) => (
-        <li key={index}>{grade.activityTitle}</li>
+        <ListItem
+          button
+          key={index}
+          style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
+        >
+          <ListItemText>
+            {grade.activityTitle}
+            <Typography
+              color="textSecondary"
+              style={{ float: 'right', marginRight: '10px' }}
+            >
+              {`${grade.activityMarks} marks`}
+            </Typography>
+          </ListItemText>
+          <ListItemSecondaryAction>
+            <IconButton edge="end">
+              <MoreVertIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
