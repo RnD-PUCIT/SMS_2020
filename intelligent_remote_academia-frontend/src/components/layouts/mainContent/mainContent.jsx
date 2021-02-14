@@ -8,11 +8,12 @@ import SubjectDetails from '../../pages/subjects/subjectDetails';
 import GradeDetails from '../../pages/subjects/gradeDetails';
 import Announcements from '../../pages/announcements/announcements';
 import AcademicCalendar from '../../pages/academicCalendar/academicCalendar';
-
-import { useStyles } from '../../constants/layoutConsts';
 import FeeChallan from '../../pages/fee-challan/feeChallan';
 import StudentDropdown from '../../studentDropdown/studentDropdown';
 import TimeTable from '../../pages/time-table/TimeTable';
+import CourseContent from './../../pages/courseContentOutline/courseContent';
+
+import { useStyles } from '../../constants/layoutConsts';
 
 const MainContent = ({
   subjects,
@@ -52,6 +53,7 @@ const MainContent = ({
               </StudentDropdown>
             )}
           />
+          <Route path='/courseContent' component={CourseContent} />
           <Route
             path='/attendance'
             render={() => (

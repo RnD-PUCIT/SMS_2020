@@ -12,6 +12,7 @@ import Button from '@material-ui/core/Button';
 
 import { getMonths } from '../../constants/calendarConsts';
 import DoughnutGraph from '../graphs/graphs';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   outerRoot: {
@@ -29,15 +30,20 @@ const useStyles = makeStyles((theme) => ({
     color: 'white',
     borderRadius: '4px',
   },
-  innerTitle: {
-    paddingRight: '15px',
-  },
   div: {
     display: 'flex',
     justifyContent: 'flex-end',
   },
   button: {
     marginLeft: 'auto',
+  },
+  // text: {
+  //   backgroundColor: '#E4F5F8',
+  //   border: '1px solid #C0DEED',
+  //   textDecoration: 'none',
+  // },
+  chip: {
+    marginLeft: '5px',
   },
 }));
 
@@ -66,23 +72,24 @@ const AccordionContainer = ({ statusArray, name, children }) => {
   );
 };
 
-const SimpleAccordion = ({ title, description, status, date }) => {
+const SimpleAccordion = ({ title, description, status, date, handleClick }) => {
   const classes = useStyles();
   const months = getMonths();
   const fullDate = new Date(date);
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
-        <Typography className={classes.innerTitle}>{title}</Typography>
+        <Typography>{title}</Typography>
         <Chip
           label={status ? 'Completed' : 'Not Completed'}
           color={status ? 'primary' : 'secondary'}
           size='small'
+          className={classes.chip}
         />
       </AccordionSummary>
       <Divider />
       <AccordionDetails className={classes.div}>
-        <Typography className={classes.innerTitle}>{description}</Typography>
+        <Typography>{description}</Typography>
         <Chip
           label={
             months[fullDate.getMonth()].name +
@@ -93,13 +100,18 @@ const SimpleAccordion = ({ title, description, status, date }) => {
           }
           variant='outlined'
           size='small'
+          className={classes.chip}
         />
         <Button
           className={classes.button}
           variant='contained'
           size='small'
-          disableElevation>
-          View More
+          disableElevation
+          // onClick={handleClick}
+        >
+          <Link to='/courseContent' className={classes.text}>
+            View More
+          </Link>
         </Button>
       </AccordionDetails>
     </Accordion>

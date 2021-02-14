@@ -13,7 +13,6 @@ class CourseOutline extends Component {
   render() {
     const { outline } = courseOutlineConst;
     const { courseContentOutline } = this.state;
-    console.log(courseContentOutline);
     if (terms && terms.length) {
       return (
         <div style={{ width: '100%' }}>
@@ -23,7 +22,7 @@ class CourseOutline extends Component {
                 <AccordionContainer
                   key={index}
                   name={term.termName}
-                  statusArray={term.details.map((item) => item.status)}>
+                  statusArray={term.details.map((index) => index.status)}>
                   {term.details.map((item, index) => (
                     <SimpleAccordion
                       key={index}
@@ -31,6 +30,7 @@ class CourseOutline extends Component {
                       description={item.description}
                       status={item.status}
                       date={item.date}
+                      // onClick={this.handleClick}
                     />
                   ))}
                 </AccordionContainer>
@@ -49,6 +49,9 @@ class CourseOutline extends Component {
       );
     }
   }
+  // handleClick = () => {
+  //   this.props.history.replace('/courseContent');
+  // };
 }
 
 const courseOutlineConst = {
@@ -60,7 +63,7 @@ const courseOutlineConst = {
           title: 'Chapter 1',
           description: 'DMAS Rules',
           date: '01/01/2021 12:00:00 AM',
-          status: false,
+          status: 0,
           lectureContentFilesList: {
             references: 'if any',
             date: '',
@@ -71,7 +74,7 @@ const courseOutlineConst = {
           title: 'Chapter 2',
           description: 'Multiplication And Division',
           date: '01/02/2021 12:00:00 AM',
-          status: true,
+          status: 1,
           lectureContentFilesList: {
             references: 'if any',
             date: '',
@@ -82,7 +85,7 @@ const courseOutlineConst = {
           title: 'Chapter 3',
           description: 'Geometry Concepts',
           date: '01/03/2021 12:00:00 AM',
-          status: true,
+          status: 1,
         },
         {
           title: 'Revision',
