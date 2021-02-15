@@ -32,6 +32,23 @@ code {
 .u_mt_tiny {
   margin-top: 10px;
 }
+
+.u_mb_huge {
+  margin-bottom: 50px;
+}
+.u_mb_large {
+  margin-bottom: 40px;
+}
+.u_mb_medium {
+  margin-bottom: 30px;
+}
+.u_mb_small {
+  margin-bottom: 20px;
+}
+.u_mb_tiny {
+  margin-bottom: 10px;
+}
+
 .u_p_huge {
   padding: 50px;
 }
@@ -46,6 +63,11 @@ code {
 }
 .u_p_tiny {
   padding: 10px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
 }
 
 /* Custom Styling */

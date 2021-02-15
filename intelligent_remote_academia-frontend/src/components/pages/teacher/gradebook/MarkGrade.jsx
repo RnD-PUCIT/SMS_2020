@@ -41,22 +41,12 @@ const MarkGrade = () => {
     setGradesList(grades);
   }, []);
 
-  const handleMarksInputChange = (event, student) => {
-    const marks = event.target.value;
+  const handleInputChange = (event, student) => {
+    const { value, name } = event.target;
     const grades = [...gradesList];
     const index = grades.indexOf(student);
 
-    grades[index].obtainedMarks = marks;
-
-    setGradesList(grades);
-  };
-
-  const handleRemarksInputChange = (event, student) => {
-    const remarks = event.target.value;
-    const grades = [...gradesList];
-    const index = grades.indexOf(student);
-
-    grades[index].remarks = remarks;
+    grades[index][name] = value;
 
     setGradesList(grades);
   };
@@ -69,13 +59,15 @@ const MarkGrade = () => {
     <React.Fragment>
       <div>
         <h1>Mark Grade</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleGradesSubmission}
-        >
-          Save Grades
-        </Button>
+        <div className="flex-end u_mb_tiny">
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGradesSubmission}
+          >
+            Save Grades
+          </Button>
+        </div>
       </div>
 
       <Paper>
@@ -114,9 +106,10 @@ const MarkGrade = () => {
                   <TextField
                     size="small"
                     type="number"
+                    name="obtainedMarks"
                     value={row.obtainedMarks}
                     style={{ width: '50px', textAlign: 'right' }}
-                    onChange={(e) => handleMarksInputChange(e, row)}
+                    onChange={(e) => handleInputChange(e, row)}
                   />
                   <span style={{ fontSize: '25px' }}> / </span>
                   <span style={{ fontSize: '16px' }}>{row.totalMarks}</span>
@@ -126,8 +119,9 @@ const MarkGrade = () => {
                     size="small"
                     fullWidth
                     multiline
+                    name="remarks"
                     value={row.remarks}
-                    onChange={(e) => handleRemarksInputChange(e, row)}
+                    onChange={(e) => handleInputChange(e, row)}
                   />
                 </TableCell>
               </TableRow>
@@ -136,7 +130,7 @@ const MarkGrade = () => {
         </Table>
       </Paper>
 
-      {gradesList.map((grade, index) => {})}
+      {gradesList.map(() => {})}
     </React.Fragment>
   );
 };
