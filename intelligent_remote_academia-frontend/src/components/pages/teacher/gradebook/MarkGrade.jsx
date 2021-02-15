@@ -16,10 +16,12 @@ import {
 
 const useStyles = makeStyles({
   borderedCell: { borderRight: '1px solid rgba(224, 224, 224, 1)' },
+  cellCentered: { textAlign: 'center' },
 });
 
 const MarkGrade = () => {
   const [gradesList, setGradesList] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     const grades = gradesConst;
@@ -34,12 +36,20 @@ const MarkGrade = () => {
         return 1;
       }
     });
-
     // Set state variable
     setGradesList(grades);
   }, []);
 
-  const classes = useStyles();
+  const handleMarksInputChange = (event, student) => {
+    const marks = event.target.value;
+    const grades = [...gradesList];
+    const index = grades.indexOf(student);
+
+    grades[index].obtainedMarks = marks;
+
+    setGradesList(grades);
+  };
+
   return (
     <React.Fragment>
       <h1>Mark Grade</h1>
@@ -51,7 +61,10 @@ const MarkGrade = () => {
               <TableCell className={classes.borderedCell}>
                 Student Information
               </TableCell>
-              <TableCell className={classes.borderedCell}>
+              <TableCell
+                className={classes.borderedCell}
+                style={{ textAlign: 'center' }}
+              >
                 Marks obtained
               </TableCell>
               <TableCell>Remarks</TableCell>
@@ -70,10 +83,16 @@ const MarkGrade = () => {
                     </ListItemText>
                   </ListItem>
                 </TableCell>
-                <TableCell className={classes.borderedCell}>
+                <TableCell
+                  className={classes.borderedCell}
+                  style={{ textAlign: 'center' }}
+                >
                   <TextField
                     size="small"
+                    type="number"
+                    value={row.obtainedMarks}
                     style={{ width: '40px', textAlign: 'right' }}
+                    onChange={(e) => handleMarksInputChange(e, row)}
                   />
                   <span style={{ fontSize: '25px' }}> / </span>
                   <span style={{ fontSize: '16px' }}>{row.totalMarks}</span>
@@ -106,7 +125,7 @@ const gradesConst = [
     },
     gradeDate: '2/13/2021',
     totalMarks: 100,
-    obtainedMarks: '',
+    obtainedMarks: 0,
     gradeTitle: 'Quiz 01',
     remarks: '',
     classId: 1,
@@ -125,7 +144,7 @@ const gradesConst = [
     },
     gradeDate: '2/13/2021',
     totalMarks: 100,
-    obtainedMarks: '',
+    obtainedMarks: 0,
     gradeTitle: 'Quiz 01',
     remarks: '',
     classId: 1,
@@ -144,7 +163,7 @@ const gradesConst = [
     },
     gradeDate: '2/13/2021',
     totalMarks: 100,
-    obtainedMarks: '',
+    obtainedMarks: 0,
     gradeTitle: 'Quiz 01',
     remarks: '',
     classId: 1,
@@ -163,7 +182,7 @@ const gradesConst = [
     },
     gradeDate: '2/13/2021',
     totalMarks: 100,
-    obtainedMarks: '',
+    obtainedMarks: 0,
     gradeTitle: 'Quiz 01',
     remarks: '',
     classId: 1,
@@ -182,7 +201,7 @@ const gradesConst = [
     },
     gradeDate: '2/13/2021',
     totalMarks: 100,
-    obtainedMarks: '',
+    obtainedMarks: 0,
     gradeTitle: 'Quiz 01',
     remarks: '',
     classId: 1,
