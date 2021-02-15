@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
@@ -11,8 +10,13 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
+  makeStyles,
   TextField,
 } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  borderedCell: { borderRight: '1px solid rgba(224, 224, 224, 1)' },
+});
 
 const MarkGrade = () => {
   const [gradesList, setGradesList] = useState([]);
@@ -34,6 +38,8 @@ const MarkGrade = () => {
     // Set state variable
     setGradesList(grades);
   }, []);
+
+  const classes = useStyles();
   return (
     <React.Fragment>
       <h1>Mark Grade</h1>
@@ -42,15 +48,19 @@ const MarkGrade = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell> Student Information</TableCell>
-              <TableCell>Marks obtained</TableCell>
+              <TableCell className={classes.borderedCell}>
+                Student Information
+              </TableCell>
+              <TableCell className={classes.borderedCell}>
+                Marks obtained
+              </TableCell>
               <TableCell>Remarks</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {gradesList.map((row, index) => (
               <TableRow key={index}>
-                <TableCell component="th" scope="row">
+                <TableCell className={classes.borderedCell}>
                   <ListItem style={{ padding: '0' }}>
                     <ListItemAvatar>
                       <Avatar>{row.studentInfo.firstName.charAt(0)}</Avatar>
@@ -60,8 +70,11 @@ const MarkGrade = () => {
                     </ListItemText>
                   </ListItem>
                 </TableCell>
-                <TableCell>
-                  <TextField size="small" style={{ width: '40px' }} />
+                <TableCell className={classes.borderedCell}>
+                  <TextField
+                    size="small"
+                    style={{ width: '40px', textAlign: 'right' }}
+                  />
                   <span style={{ fontSize: '25px' }}> / </span>
                   <span style={{ fontSize: '16px' }}>{row.totalMarks}</span>
                 </TableCell>

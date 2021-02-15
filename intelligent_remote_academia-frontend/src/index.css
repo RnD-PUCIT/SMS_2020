@@ -1,3 +1,4 @@
+/* General Styling */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -12,6 +13,42 @@ code {
     monospace;
 }
 
+/* Generic styling */
+.paper_padding--sm {
+  padding: 30px;
+}
+.u_mt_huge {
+  margin-top: 50px;
+}
+.u_mt_large {
+  margin-top: 40px;
+}
+.u_mt_medium {
+  margin-top: 30px;
+}
+.u_mt_small {
+  margin-top: 20px;
+}
+.u_mt_tiny {
+  margin-top: 10px;
+}
+.u_p_huge {
+  padding: 50px;
+}
+.u_p_large {
+  padding: 40px;
+}
+.u_p_medium {
+  padding: 30px;
+}
+.u_p_small {
+  padding: 20px;
+}
+.u_p_tiny {
+  padding: 10px;
+}
+
+/* Custom Styling */
 .application-editor .ql-editor,
 .application-editor .ql-blank {
   height: 500px;
@@ -35,38 +72,6 @@ main {
   padding: 20px;
 }
 
-.paper_padding--sm {
-  padding: 30px;
-}
-
-.u_mt_huge {
-  margin-top: 50px;
-}
-.u_mt_large {
-  margin-top: 40px;
-}
-.u_mt_medium {
-  margin-top: 30px;
-}
-.u_mt_small {
-  margin-top: 20px;
-}
-.u_mt_tiny {
-  margin-top: 10px;
-}
-
-.u_p_huge {
-  padding: 50px;
-}
-.u_p_large {
-  padding: 40px;
-}
-.u_p_medium {
-  padding: 30px;
-}
-.u_p_small {
-  padding: 20px;
-}
-.u_p_tiny {
-  padding: 10px;
+input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
+  text-align: right;
 }
