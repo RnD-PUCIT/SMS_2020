@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import GradedActivityForm from './GradedActivityForm';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
   gradeHeadingRoot: {
@@ -62,13 +63,20 @@ const GradeTypeHeading = ({ gradeType, gradeTypeList, setGradeTypeList }) => {
         </span>
       </div>
       <div>
-        <ActivityList currentGradeType={gradeType} />
+        <GradedActivityList currentGradeType={gradeType} />
       </div>
     </React.Fragment>
   );
 };
 
-const ActivityList = ({ currentGradeType }) => {
+const GradedActivityList = ({ currentGradeType }) => {
+  const history = useHistory();
+
+  const handleListItemClick = (selectedActivity) => {
+    const url = `${history.location.pathname}/mark?activity=${selectedActivity.activityTitle}`;
+    history.push(url);
+  };
+
   if (currentGradeType.activities.length === 0) {
     return (
       <div className="u_p_small">
@@ -83,6 +91,9 @@ const ActivityList = ({ currentGradeType }) => {
           button
           key={index}
           style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
+          onClick={() => {
+            handleListItemClick(grade);
+          }}
         >
           <ListItemText>
             {grade.activityTitle}

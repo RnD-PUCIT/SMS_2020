@@ -21,7 +21,7 @@ import AttendanceDashboard from '../../pages/teacher/attendance/AttendanceDashbo
 import ClassList from '../../pages/teacher/classes/ClassList';
 import SubjecList from '../../pages/teacher/subjects/SubjectList';
 import SubjectDashboard from '../../pages/teacher/subjects/SubjectDashboard';
-import Gradebook from '../../pages/teacher/gradebook/Gradebook';
+import MarkGrade from '../../pages/teacher/gradebook/MarkGrade';
 
 const MainContent = ({
   subjects,
@@ -49,6 +49,10 @@ const MainContent = ({
           <Route path="/diary-form" component={DiaryForm} />
           <Route path="/mark-attendance" component={AttendanceDashboard} />
           <Route exact path="/classes" component={ClassList} />
+          <Route
+            path="/classes/:classSlug/:subjectSlug/gradebook/mark"
+            component={MarkGrade}
+          />
           <Route exact path="/classes/:classSlug" component={SubjecList} />
           <Route
             path="/classes/:classSlug/:subjectSlug"
