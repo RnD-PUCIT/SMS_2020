@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {
   Avatar,
+  Button,
   ListItem,
   ListItemAvatar,
   ListItemText,
@@ -50,9 +51,32 @@ const MarkGrade = () => {
     setGradesList(grades);
   };
 
+  const handleRemarksInputChange = (event, student) => {
+    const remarks = event.target.value;
+    const grades = [...gradesList];
+    const index = grades.indexOf(student);
+
+    grades[index].remarks = remarks;
+
+    setGradesList(grades);
+  };
+
+  const handleGradesSubmission = () => {
+    console.log(gradesList);
+  };
+
   return (
     <React.Fragment>
-      <h1>Mark Grade</h1>
+      <div>
+        <h1>Mark Grade</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleGradesSubmission}
+        >
+          Save Grades
+        </Button>
+      </div>
 
       <Paper>
         <Table>
@@ -91,14 +115,20 @@ const MarkGrade = () => {
                     size="small"
                     type="number"
                     value={row.obtainedMarks}
-                    style={{ width: '40px', textAlign: 'right' }}
+                    style={{ width: '50px', textAlign: 'right' }}
                     onChange={(e) => handleMarksInputChange(e, row)}
                   />
                   <span style={{ fontSize: '25px' }}> / </span>
                   <span style={{ fontSize: '16px' }}>{row.totalMarks}</span>
                 </TableCell>
                 <TableCell>
-                  <TextField size="small" fullWidth multiline />
+                  <TextField
+                    size="small"
+                    fullWidth
+                    multiline
+                    value={row.remarks}
+                    onChange={(e) => handleRemarksInputChange(e, row)}
+                  />
                 </TableCell>
               </TableRow>
             ))}
