@@ -21,7 +21,40 @@ namespace IRAAPI.Controllers
             this.context = context;
         }
 
-        [Authorize(Roles = "Teacher")]
+        //[Authorize(Roles = "Teacher")]
+        [HttpGet("SingleDiary")]
+        public async Task<Object> GetSingle(Guid Id)
+        {
+            try
+            {
+                if (Id != null)
+                {
+                    var diary = await context.Diaries.Where(b => b.Guid == Id)
+                        .Select(x => new
+                        {
+                            Id = x.Guid,
+                            DiaryTitle = x.DiaryTitle,
+                            DiaryContent = x.DiaryContent
+                        }).FirstOrDefaultAsync();
+
+                    if (diary != null)
+                    {
+                        return new { diary = diary };
+                    }
+                    else
+                    {
+                        return BadRequest(new Response { Status = "Error", Message = "Data not exists!" });
+                    }
+                }
+                return BadRequest(new Response { Status = "Error", Message = "Id is null!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
+            }
+        }
+
+        //[Authorize(Roles = "Teacher")]
         [HttpGet]
         public async Task<Object> GetDiaries(Guid ClassId, Guid SubjectId, Guid SessionId)
         {
@@ -41,12 +74,14 @@ namespace IRAAPI.Controllers
 
                     if (sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
                     {
-                        var diaries = await context.Diaries.Select(x => new
-                        {
-                            Id = x.Guid,
-                            DiaryTitle = x.DiaryTitle,
-                            DiaryContent = x.DiaryContent
-                        }).ToListAsync();
+                        var diaries = await context.Diaries
+                            .Where(d=>d.ClassId == classNumericId && d.SubjectId == subjectNumericId && d.SessionId == sessionNumericId)
+                            .Select(x => new
+                            {
+                                Id = x.Guid,
+                                DiaryTitle = x.DiaryTitle,
+                                DiaryContent = x.DiaryContent
+                            }).ToListAsync();
                         return new { diary = diaries };
                     }
                     else
