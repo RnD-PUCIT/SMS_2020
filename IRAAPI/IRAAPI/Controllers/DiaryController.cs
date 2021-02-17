@@ -3,6 +3,7 @@ using IRAAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,48 @@ namespace IRAAPI.Controllers
         {
             this.context = context;
         }
-        
+
+        [Authorize(Roles = "Teacher")]
+        [HttpGet]
+        public async Task<Object> GetDiaries(Guid ClassId, Guid SubjectId, Guid SessionId)
+        {
+            try
+            {
+                if (ClassId != null && SubjectId != null && SessionId != null)
+                {
+                    int classNumericId = context.Classes.Where(c => c.Guid == ClassId)
+                        .Select(c => c.Id)
+                        .SingleOrDefault();
+                    int subjectNumericId = context.Subjects.Where(c => c.Guid == SubjectId)
+                        .Select(c => c.Id)
+                        .SingleOrDefault();
+                    int sessionNumericId = context.Sessions.Where(s => s.Guid == SessionId)
+                        .Select(s => s.Id)
+                        .SingleOrDefault();
+
+                    if (sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
+                    {
+                        var diaries = await context.Diaries.Select(x => new
+                        {
+                            Id = x.Guid,
+                            DiaryTitle = x.DiaryTitle,
+                            DiaryContent = x.DiaryContent
+                        }).ToListAsync();
+                        return new { diary = diaries };
+                    }
+                    else
+                    {
+                        return BadRequest(new Response { Status = "Error", Message = "Invalid reference data!" });
+                    }
+                }
+                return BadRequest(new Response { Status = "Error", Message = "Content is null!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
+            }
+        }
+
         [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> CreateDiary([FromBody] DiaryDTO DiaryDTO)
@@ -60,6 +102,7 @@ namespace IRAAPI.Controllers
             }
         }
 
+
         [Authorize(Roles = "Teacher")]
         [HttpPut]
         public async Task<IActionResult> EditDiary([FromBody] DiaryDTO DiaryDTO)
@@ -91,7 +134,7 @@ namespace IRAAPI.Controllers
             }
         }
 
-        //[Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         [HttpDelete]
         public async Task<IActionResult> DeleteDiary(Guid Id)
         {

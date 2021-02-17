@@ -65,7 +65,6 @@ namespace IRAAPI.Models
         [Required]
         [Column("user_id")]
         [ForeignKey("Id")]
-
         public Guid UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
