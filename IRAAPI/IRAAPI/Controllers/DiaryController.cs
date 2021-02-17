@@ -60,8 +60,68 @@ namespace IRAAPI.Controllers
             }
         }
 
+        [Authorize(Roles = "Teacher")]
+        [HttpPut]
+        public async Task<IActionResult> EditDiary([FromBody] DiaryDTO DiaryDTO)
+        {
+            try
+            {
+                if (DiaryDTO != null)
+                {
+                    Diary diary = context.Diaries.FirstOrDefault(b => b.Guid == DiaryDTO.Id);
+                    if(diary!=null)
+                    {
+                        diary.DiaryTitle = DiaryDTO.DiaryTitle;
+                        diary.DiaryContent = DiaryDTO.DiaryContent;
+
+                        context.Diaries.Update(diary);
+                        await context.SaveChangesAsync();
+                        return Ok(new Response { Status = "Success", Message = "Diary updated successfully!" });
+                    }
+                    else
+                    {
+                        return BadRequest(new Response { Status = "Error", Message = "Data not exists!" });
+                    }
+                }
+                return BadRequest(new Response { Status = "Error", Message = "Content is null!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
+            }
+        }
+
+        //[Authorize(Roles = "Teacher")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteDiary(Guid Id)
+        {
+            try
+            {
+                if (Id != null)
+                {
+                    Diary diary = context.Diaries.FirstOrDefault(b => b.Guid == Id);
+                    if (diary != null)
+                    {
+                        context.Remove(diary);
+                        await context.SaveChangesAsync();
+                        return Ok(new Response { Status = "Success", Message = "Diary deleted successfully!" });
+                    }
+                    else
+                    {
+                        return BadRequest(new Response { Status = "Error", Message = "Data not exists!" });
+                    }
+                }
+                return BadRequest(new Response { Status = "Error", Message = "Id is null!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
+            }
+        }
+
         public class DiaryDTO
         {   
+            public Guid Id { get; set; }
             public Guid ClassId { get; set; }
             public Guid SubjectId { get; set; }
             public Guid SessionId { get; set; }
