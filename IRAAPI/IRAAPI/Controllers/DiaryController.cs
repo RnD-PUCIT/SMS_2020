@@ -20,7 +20,7 @@ namespace IRAAPI.Controllers
             this.context = context;
         }
         
-        [Authorize]
+        [Authorize(Roles = "Teacher")]
         [HttpPost]
         public async Task<IActionResult> CreateDiary([FromBody] DiaryDTO DiaryDTO)
         {

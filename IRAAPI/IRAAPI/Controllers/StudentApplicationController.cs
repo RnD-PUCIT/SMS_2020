@@ -27,7 +27,7 @@ namespace IRAAPI.Controllers
             _web = web;
         }
 
-        [Authorize]
+        [Authorize(Roles ="Teacher")]
         [HttpGet]
         public Object GetApplications(Guid studentId)
         {
