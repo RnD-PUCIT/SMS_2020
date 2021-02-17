@@ -20,6 +20,7 @@ namespace IRAAPI.Controllers
         }
 
         [HttpPost]
+        
         public async Task<IActionResult> CreateDiary([FromBody] DiaryDTO DiaryDTO)
         {
             try
@@ -35,6 +36,7 @@ namespace IRAAPI.Controllers
                     int sessionNumericId = context.Sessions.Where(s => s.Guid == DiaryDTO.SessionId)
                         .Select(s => s.Id)
                         .SingleOrDefault();
+
                     if(sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
                     {
                         DiaryDTO.DiaryDate = DateTime.Now;
@@ -55,8 +57,6 @@ namespace IRAAPI.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = ex.ToString() });
             }
-            
-            
         }
 
         public class DiaryDTO
