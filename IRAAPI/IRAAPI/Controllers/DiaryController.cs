@@ -54,7 +54,7 @@ namespace IRAAPI.Controllers
             }
         }
 
-        //[Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         [HttpGet]
         public async Task<Object> GetDiaries(Guid ClassId, Guid SubjectId, Guid SessionId)
         {
