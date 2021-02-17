@@ -103,8 +103,6 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-
-            
         }
 
         [Authorize]

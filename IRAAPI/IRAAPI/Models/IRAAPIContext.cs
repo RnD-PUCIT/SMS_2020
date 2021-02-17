@@ -45,14 +45,14 @@ namespace IRAAPI.Models
         public virtual DbSet<StudentApplication> StudentApplications { get; set; }
         public virtual DbSet<StudentApplicationFile> StudentApplicationFiles { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
 
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFHGHRM\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            }
-        }
+        //        optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFHGHRM\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
