@@ -21,7 +21,7 @@ namespace IRAAPI.Controllers
             this.context = context;
         }
 
-        //[Authorize(Roles = "Teacher")]
+        [Authorize(Roles = "Teacher")]
         [HttpGet("SingleDiary")]
         public async Task<Object> GetSingle(Guid Id)
         {
