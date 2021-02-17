@@ -1,5 +1,6 @@
 ﻿using IRAAPI.Authentication;
 using IRAAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,9 +19,9 @@ namespace IRAAPI.Controllers
         {
             this.context = context;
         }
-
-        [HttpPost]
         
+        [Authorize]
+        [HttpPost]
         public async Task<IActionResult> CreateDiary([FromBody] DiaryDTO DiaryDTO)
         {
             try
