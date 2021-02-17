@@ -69,5 +69,6 @@ namespace IRAAPI.Models
         public Guid UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
+
     }
 }
