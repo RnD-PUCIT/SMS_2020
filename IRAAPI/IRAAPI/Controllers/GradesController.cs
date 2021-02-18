@@ -62,11 +62,6 @@ namespace IRAAPI.Controllers
 
                 throw;
             }
-            //List<Grade> gradeDetails = new GradeBLL().GetGradeDetails(studentId, classId, subjectId, gradeTypeId);
-            //if (gradeDetails == null)
-            //    return NotFound();
-
-            //return new { grades = gradeDetails};
         }
     }
 
