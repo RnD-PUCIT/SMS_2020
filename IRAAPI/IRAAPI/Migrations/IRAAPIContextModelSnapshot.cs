@@ -614,6 +614,10 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int")
+                        .HasColumnName("class_id");
+
                     b.Property<string>("GradeType1")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -634,7 +638,21 @@ namespace IRAAPI.Migrations
                         .HasColumnName("guid")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int")
+                        .HasColumnName("session_id");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int")
+                        .HasColumnName("subject_id");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Grade_Types");
                 });
@@ -1663,6 +1681,33 @@ namespace IRAAPI.Migrations
                     b.Navigation("Session");
 
                     b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Session");
 
                     b.Navigation("Subject");
                 });
