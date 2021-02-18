@@ -24,7 +24,7 @@ namespace IRAAPI.Models
 
         [Column("grade_activity_id")]
         [ForeignKey("Id")]
-        public int GradeActivityId { get; set; }
+        public Guid GradeActivityId { get; set; }
         public virtual GradeActivity GradeActivity { get; set; }
 
         [Required]
