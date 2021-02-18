@@ -44,6 +44,7 @@ namespace IRAAPI.Models
         public virtual DbSet<Days> Days { get; set; }
         public virtual DbSet<StudentApplication> StudentApplications { get; set; }
         public virtual DbSet<StudentApplicationFile> StudentApplicationFiles { get; set; }
+        public virtual DbSet<GradeActivity> GradeActivities { get; set; }
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{

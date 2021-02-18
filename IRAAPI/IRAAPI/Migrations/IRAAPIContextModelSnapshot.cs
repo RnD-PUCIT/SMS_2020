@@ -606,6 +606,37 @@ namespace IRAAPI.Migrations
                     b.ToTable("Grades");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.GradeActivity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("GradeDate")
+                        .HasColumnType("date")
+                        .HasColumnName("grade_date");
+
+                    b.Property<string>("GradeTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("grade_title");
+
+                    b.Property<int>("GradeTypeId")
+                        .HasColumnType("int")
+                        .HasColumnName("grade_type_id");
+
+                    b.Property<int>("TotalMarks")
+                        .HasColumnType("int")
+                        .HasColumnName("total_marks");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeTypeId");
+
+                    b.ToTable("GradeActivities");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
                 {
                     b.Property<int>("Id")
@@ -1683,6 +1714,17 @@ namespace IRAAPI.Migrations
                     b.Navigation("Student");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.GradeActivity", b =>
+                {
+                    b.HasOne("IRAAPI.Models.GradeType", "GradeType")
+                        .WithMany()
+                        .HasForeignKey("GradeTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GradeType");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
