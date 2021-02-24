@@ -107,8 +107,8 @@ namespace IRAAPI.Controllers
 
         [Authorize]
         [HttpGet("{subject-name}")]
-        // Old //public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
-        public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
+        public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
+        //public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
         {
             try
             {

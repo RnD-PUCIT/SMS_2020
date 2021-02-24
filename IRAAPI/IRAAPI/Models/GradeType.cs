@@ -13,7 +13,7 @@ namespace IRAAPI.Models
     {
         public GradeType()
         {
-            Grades = new HashSet<Grade>();
+            //Grades = new HashSet<Grade>();
             SubjectGradeTypeAllocs = new HashSet<SubjectGradeTypeAlloc>();
         }
 
@@ -31,8 +31,8 @@ namespace IRAAPI.Models
         [Column("guid")]
         public Guid Guid { get; set; }
 
-        [InverseProperty(nameof(Grade.GradeType))]
-        public virtual ICollection<Grade> Grades { get; set; }
+        //[InverseProperty(nameof(Grade.GradeType))]
+        //public virtual ICollection<Grade> Grades { get; set; }
         [InverseProperty(nameof(SubjectGradeTypeAlloc.GradeType))]
         public virtual ICollection<SubjectGradeTypeAlloc> SubjectGradeTypeAllocs { get; set; }
 

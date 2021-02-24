@@ -11,7 +11,7 @@ namespace IRAAPI.Migrations
                 name: "GradeActivities",
                 columns: table => new
                 {
-                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValue: "(newid())"),
                     grade_type_id = table.Column<int>(type: "int", nullable: false),
                     grade_title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     grade_date = table.Column<DateTime>(type: "date", nullable: false),

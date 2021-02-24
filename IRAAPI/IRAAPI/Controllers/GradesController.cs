@@ -19,8 +19,8 @@ namespace IRAAPI.Controllers
         }
         [Authorize]
         [HttpGet]
-        //Old //public Object GetGradeDetails(Guid studentId, Guid classId, Guid subjectId,  Guid gradeTypeId, Guid sessionId)
-        public Object GetGradeDetails(Guid studentId, Guid gradeTypeId)//Updated
+        public Object GetGradeDetails(Guid studentId, Guid classId, Guid subjectId,  Guid gradeTypeId, Guid sessionId)
+        //public Object GetGradeDetails(Guid studentId, Guid gradeTypeId)//Updated
         {
             try
             {
@@ -35,7 +35,7 @@ namespace IRAAPI.Controllers
                     .OrderByDescending(p => p.GradeDate)
                     .ToList();
 
-                List<GradeDTO> gradesData = null;
+                List<GradeDTO> gradesData = new List<GradeDTO>();
                 foreach (var activity in gradeActivities)
                 {
                     GradeDTO singleGradesData = null;

@@ -196,29 +196,29 @@ namespace IRAAPI.Models
 
             modelBuilder.Entity<Grade>(entity =>
             {
-                entity.Property(e => e.GradeTitle).IsUnicode(false);
+                //entity.Property(e => e.GradeTitle).IsUnicode(false);
 
                 entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Remarks).IsUnicode(false);
 
-                entity.HasOne(d => d.Class)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.ClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Classes");
+                //entity.HasOne(d => d.Class)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.ClassId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Classes");
 
-                entity.HasOne(d => d.GradeType)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.GradeTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Grade_Types");
+                //entity.HasOne(d => d.GradeType)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.GradeTypeId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Grade_Types");
 
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.SessionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Sessions");
+                //entity.HasOne(d => d.Session)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.SessionId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Sessions");
 
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Grades)
@@ -226,11 +226,11 @@ namespace IRAAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Grades_Students");
 
-                entity.HasOne(d => d.Subject)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.SubjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Subjects");
+                //entity.HasOne(d => d.Subject)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.SubjectId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Subjects");
             });
 
             modelBuilder.Entity<GradeType>(entity =>

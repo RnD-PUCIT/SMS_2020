@@ -15,7 +15,7 @@ namespace IRAAPI.Models
             Announcements = new HashSet<Announcement>();
             Attendances = new HashSet<Attendance>();
             Diaries = new HashSet<Diary>();
-            Grades = new HashSet<Grade>();
+            //Grades = new HashSet<Grade>();
             Students = new HashSet<Student>();
         }
 
@@ -35,8 +35,8 @@ namespace IRAAPI.Models
         public virtual ICollection<Attendance> Attendances { get; set; }
         [InverseProperty(nameof(Diary.Session))]
         public virtual ICollection<Diary> Diaries { get; set; }
-        [InverseProperty(nameof(Grade.Session))]
-        public virtual ICollection<Grade> Grades { get; set; }
+        //[InverseProperty(nameof(Grade.Session))]
+        //public virtual ICollection<Grade> Grades { get; set; }
         [InverseProperty(nameof(Student.Session))]
         public virtual ICollection<Student> Students { get; set; }
     }
