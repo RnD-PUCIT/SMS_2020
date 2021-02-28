@@ -3,6 +3,7 @@ using IRAAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IRAAPI
 {
@@ -12,7 +13,18 @@ namespace IRAAPI
         {
             SeedRoles(roleManager);
             SeedUsers(context, userManager);
+
             SeedTerms(context);
+
+            // Add Admin user
+            CreateASPNetUser(userManager, 
+                new RegisterModel { 
+                    Username = "admin", 
+                    Email = "admin@ira.com",
+                    Password = "Password@123",
+                    Role = "Admin"
+                }, 
+                true);
         }
 
 
@@ -43,7 +55,7 @@ namespace IRAAPI
         private static void SeedTeachers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
             // Seed Teacher Data
-            if (userManager.FindByNameAsync("sohaib").Result == null)
+            if (userManager.FindByNameAsync("admin").Result == null)
             {
                 // Create list of teachers
                 List<TeacherRegisterModel> list = new List<TeacherRegisterModel>
@@ -175,8 +187,19 @@ namespace IRAAPI
             }
         }
 
-        private static void CreateASPNetUser(UserManager<ApplicationUser> userManager, RegisterModel model)
+        private static void CreateASPNetUser(UserManager<ApplicationUser> userManager, RegisterModel model, bool isDefaultUser = false)
         {
+            if(isDefaultUser)
+            {
+                /*
+                    Check if the user to be created is default or not.
+                    If it is default, then check that if it already exists in DB
+                    or not. If it exists, then we will not create another default user,
+                    and simply return.
+                 */
+                if (userManager.FindByNameAsync("admin").Result != null)
+                    return;
+            }
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
@@ -192,14 +215,17 @@ namespace IRAAPI
 
         private static void SeedTerms(IRAAPIContext context)
         {
-            List<Terms> terms = new List<Terms>
+            if (!context.Terms.Any())
             {
-                new Terms { Name = "First Term" },
-                new Terms { Name = "Second Term" },
-                new Terms { Name = "Third Term" },
-            };
-            context.AddRange(terms);
-            context.SaveChanges();
+                List<Terms> terms = new List<Terms>
+                {
+                    new Terms { Name = "First Term", Guid = Guid.NewGuid() },
+                    new Terms { Name = "Second Term", Guid = Guid.NewGuid() },
+                    new Terms { Name = "Third Term", Guid = Guid.NewGuid() },
+                };
+                context.AddRange(terms);
+                context.SaveChanges();
+            }
         }
     }
 }
