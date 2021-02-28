@@ -22,12 +22,10 @@ namespace IRAAPI
                 try
                 {
                     var context = services.GetRequiredService<IRAAPIContext>();
-                    context.Database.Migrate();
-                    
                     var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-                    Seed.SeedUsers(userManager);
+                    Seed.SeedData(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

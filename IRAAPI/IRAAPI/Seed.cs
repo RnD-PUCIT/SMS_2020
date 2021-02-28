@@ -7,7 +7,30 @@ namespace IRAAPI
 {
     public class Seed
     {
-        public static void SeedUsers(UserManager<ApplicationUser> userManager)
+        public static void SeedData(IRAAPIContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        {
+            SeedRoles(roleManager);
+            SeedUsers(context, userManager);
+        }
+
+        private static void SeedRoles(RoleManager<IdentityRole> roleManager)
+        {
+            // Create Parent Role
+            if (!roleManager.RoleExistsAsync("Parent").Result)
+                roleManager.CreateAsync(new IdentityRole("Parent")).Wait();
+
+            // Create Teacher Role
+            if (!roleManager.RoleExistsAsync("Teacher").Result)
+                roleManager.CreateAsync(new IdentityRole("Teacher")).Wait();
+
+        }
+
+        private static void SeedUsers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
+        {
+            SeedTeachers(context, userManager);
+        }
+
+        private static void SeedTeachers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
             // Seed Teacher Data
             if (userManager.FindByNameAsync("sohaib").Result == null)
@@ -36,18 +59,26 @@ namespace IRAAPI
                     }
                 };
 
-                ApplicationUser user = new ApplicationUser()
-                {
-                    Email = model.aspNetUser.Email,
-                    SecurityStamp = Guid.NewGuid().ToString(),
-                    UserName = model.aspNetUser.Username
-                };
-
-                var result = userManager.CreateAsync(user, model.aspNetUser.Password).Result;
-
-                if(result.Succeeded)
-                    userManager.AddToRoleAsync(user, model.aspNetUser.Role);
+                CreateASPNetUser(userManager, model.aspNetUser);
+                
+                context.Teachers.Add(model.teacher);
+                context.SaveChanges();
             }
+        }
+
+        private static void CreateASPNetUser(UserManager<ApplicationUser> userManager, RegisterModel model)
+        {
+            ApplicationUser user = new ApplicationUser()
+            {
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.Username
+            };
+
+            var result = userManager.CreateAsync(user, model.Password).Result;
+
+            if (result.Succeeded)
+                userManager.AddToRoleAsync(user, model.Role).Wait();
         }
     }
 }
