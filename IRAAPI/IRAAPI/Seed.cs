@@ -2,6 +2,7 @@
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 
 namespace IRAAPI
 {
@@ -35,34 +36,133 @@ namespace IRAAPI
             // Seed Teacher Data
             if (userManager.FindByNameAsync("sohaib").Result == null)
             {
-                TeacherRegisterModel model = new TeacherRegisterModel
+                // Create list of teachers
+                List<TeacherRegisterModel> list = new List<TeacherRegisterModel>
                 {
-                    teacher = new Teacher
-                    {
-                        FirstName = "Sohaib",
-                        LastName = "Salman",
-                        Cnic = "1234567890112",
-                        Dob = new DateTime(1999, 01, 12).Date,
-                        Email = "sohaib@ira.com",
-                        Address = "Lahore",
-                        ContactPrimary = "03164141068",
-                        Specialization = "Computer Science",
-                        JoiningDate = DateTime.Now.Date,
-                        Salary = 50000
-                    },
-                    aspNetUser = new RegisterModel
-                    {
-                        Username = "sohaib",
-                        Email = "sohaib@ira.com",
-                        Password = "Password@123",
-                        Role = "Teacher",
-                    }
+                     new TeacherRegisterModel
+                     {
+                        teacher = new Teacher
+                        {
+                            FirstName = "Iftikhar",
+                            LastName = "BUtt",
+                            Cnic = "1234567890112",
+                            Dob = new DateTime(1980, 01, 12).Date,
+                            Email = "iftikhar.butt@ira.com",
+                            Address = "Lahore",
+                            ContactPrimary = "",
+                            Specialization = "Computer Science",
+                            JoiningDate = DateTime.Now.Date,
+                            Salary = 70000
+                         },
+                        aspNetUser = new RegisterModel
+                        {
+                            Username = "iftikhar.butt",
+                            Email = "iftikhar.butt@ira.com",
+                            Password = "Password@123",
+                            Role = "Teacher",
+                        }
+                     },
+                     new TeacherRegisterModel
+                     {
+                        teacher = new Teacher
+                        {
+                            FirstName = "Nadeem",
+                            LastName = "Abbass",
+                            Cnic = "3214567890112",
+                            Dob = new DateTime(1980, 12, 31).Date,
+                            Email = "nadeem.abbass@ira.com",
+                            Address = "Lahore",
+                            ContactPrimary = "",
+                            Specialization = "Maths",
+                            JoiningDate = DateTime.Now.Date,
+                            Salary = 65000
+                         },
+                        aspNetUser = new RegisterModel
+                        {
+                            Username = "nadeem.abbass",
+                            Email = "nadeem@ira.com",
+                            Password = "Password@123",
+                            Role = "Teacher",
+                        }
+                     },
+                     new TeacherRegisterModel
+                     {
+                        teacher = new Teacher
+                        {
+                            FirstName = "Imran",
+                            LastName = "Afzal",
+                            Cnic = "321456789752",
+                            Dob = new DateTime(1975, 8, 31).Date,
+                            Email = "imran.afzal@ira.com",
+                            Address = "Lahore",
+                            ContactPrimary = "",
+                            Specialization = "Physics",
+                            JoiningDate = DateTime.Now.Date,
+                            Salary = 45000
+                         },
+                        aspNetUser = new RegisterModel
+                        {
+                            Username = "imran.afzal",
+                            Email = "imran.afzal@ira.com",
+                            Password = "Password@123",
+                            Role = "Teacher",
+                        }
+                     },
+                     new TeacherRegisterModel
+                     {
+                        teacher = new Teacher
+                        {
+                            FirstName = "Samshad",
+                            LastName = "Sheikh",
+                            Cnic = "321402789752",
+                            Dob = new DateTime(1975, 8, 31).Date,
+                            Email = "samshad.sheikh@ira.com",
+                            Address = "Lahore",
+                            ContactPrimary = "",
+                            Specialization = "English",
+                            JoiningDate = DateTime.Now.Date,
+                            Salary = 55000
+                         },
+                        aspNetUser = new RegisterModel
+                        {
+                            Username = "samshad.sheikh",
+                            Email = "samshad.sheikh@ira.com",
+                            Password = "Password@123",
+                            Role = "Teacher",
+                        }
+                     },
+                     new TeacherRegisterModel
+                     {
+                        teacher = new Teacher
+                        {
+                            FirstName = "Muhammad",
+                            LastName = "Tahir",
+                            Cnic = "321402797152",
+                            Dob = new DateTime(1975, 8, 31).Date,
+                            Email = "muhammad.tahir@ira.com",
+                            Address = "Lahore",
+                            ContactPrimary = "",
+                            Specialization = "Urdu",
+                            JoiningDate = DateTime.Now.Date,
+                            Salary = 55000
+                         },
+                        aspNetUser = new RegisterModel
+                        {
+                            Username = "muhammad.tahir",
+                            Email = "muhammad.tahir@ira.com",
+                            Password = "Password@123",
+                            Role = "Teacher",
+                        }
+                     },
                 };
 
-                CreateASPNetUser(userManager, model.aspNetUser);
-                
-                context.Teachers.Add(model.teacher);
-                context.SaveChanges();
+                // Add each teacher to Db
+                foreach (var model in list)
+                {
+                    CreateASPNetUser(userManager, model.aspNetUser);
+                    context.Teachers.Add(model.teacher);
+                    context.SaveChanges();
+                }
             }
         }
 
