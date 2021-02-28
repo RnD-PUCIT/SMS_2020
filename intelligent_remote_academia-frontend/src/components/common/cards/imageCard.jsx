@@ -23,9 +23,7 @@ const Cards = ({ subject, studentId, classId, sessionId }) => {
         to={{
           pathname: '/subjects/' + subject.subjectSlug,
           search:
-            'studentId=' +
-            studentId +
-            '&classId=' +
+            'classId=' +
             classId +
             '&subjectId=' +
             subject.subjectId +
