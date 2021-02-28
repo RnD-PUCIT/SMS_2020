@@ -33,7 +33,7 @@ namespace IRAAPI
 
         private static void SeedBankDetails(IRAAPIContext context)
         {
-            if(!context.BankDetails.Any())
+            if (!context.BankDetails.Any())
             {
                 BankDetail bankDetail = new BankDetail
                 {
@@ -48,7 +48,7 @@ namespace IRAAPI
 
         private static void SeedClasses(IRAAPIContext context)
         {
-            if(!context.Classes.Any())
+            if (!context.Classes.Any())
             {
                 List<Class> classes = new List<Class>
                 {
@@ -66,7 +66,7 @@ namespace IRAAPI
 
         private static void SeedDays(IRAAPIContext context)
         {
-            if(!context.Days.Any())
+            if (!context.Days.Any())
             {
                 List<Days> days = new List<Days>
                 {
@@ -108,13 +108,40 @@ namespace IRAAPI
             if (userManager.FindByNameAsync("admin").Result == null)
             {
                 SeedTeachers(context, userManager);
+                SeedParents(context, userManager);
+            }
+        }
+
+        private static void SeedParents(IRAAPIContext context, UserManager<ApplicationUser> userManager)
+        {
+            List<ParentRegisterModel> list = new List<ParentRegisterModel>
+            {
+                new ParentRegisterModel
+                {
+                    parent = new Parent
+                    {
+                        FirstName = "Salman",
+                        LastName = "Sadiq",
+                        Email = "salman@gmail.com",
+                        Cnic = "12345-1234567-1",
+                        Address = "Lahore",
+                        ContactPrimary = "03164141068",
+                        Occupation = "Job",
+                        JobAddress = "Lahore",
+                    }
+                }
+            };
+
+            foreach (var model in list)
+            {
+                CreateASPNetUser(userManager, model.aspNetUser);
+                context.Parents.Add(model.parent);
+                context.SaveChanges();
             }
         }
 
         private static void SeedTeachers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
-            // Seed Teacher Data
-
             // Create list of teachers
             List<TeacherRegisterModel> list = new List<TeacherRegisterModel>
                 {
