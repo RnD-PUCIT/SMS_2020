@@ -14,8 +14,10 @@ namespace IRAAPI
             SeedRoles(roleManager);
             SeedUsers(context, userManager);
 
+            SeedClasses(context);
             SeedTerms(context);
             SeedDays(context);
+            SeedBankDetails(context);
 
             // Add Admin user
             CreateASPNetUser(userManager,
@@ -27,6 +29,39 @@ namespace IRAAPI
                     Role = "Admin"
                 },
                 true);
+        }
+
+        private static void SeedBankDetails(IRAAPIContext context)
+        {
+            if(!context.BankDetails.Any())
+            {
+                BankDetail bankDetail = new BankDetail
+                {
+                    BankName = "Bank Al Habib",
+                    BankBranch = "Mall Road, Lahore",
+                    AccountNo = 12345
+                };
+                context.Add(bankDetail);
+                context.SaveChanges();
+            }
+        }
+
+        private static void SeedClasses(IRAAPIContext context)
+        {
+            if(!context.Classes.Any())
+            {
+                List<Class> classes = new List<Class>
+                {
+                    new Class {ClassName = "8th", Section = "Blue"},
+                    new Class {ClassName = "8th", Section = "Red"},
+                    new Class {ClassName = "9th", Section = "Blue"},
+                    new Class {ClassName = "9th", Section = "Red"},
+                    new Class {ClassName = "10th", Section = "Blue"},
+                    new Class {ClassName = "10th", Section = "Red"},
+                };
+                context.Classes.AddRange(classes);
+                context.SaveChanges();
+            }
         }
 
         private static void SeedDays(IRAAPIContext context)
