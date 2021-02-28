@@ -15,18 +15,39 @@ namespace IRAAPI
             SeedUsers(context, userManager);
 
             SeedTerms(context);
+            SeedDays(context);
 
             // Add Admin user
-            CreateASPNetUser(userManager, 
-                new RegisterModel { 
-                    Username = "admin", 
+            CreateASPNetUser(userManager,
+                new RegisterModel
+                {
+                    Username = "admin",
                     Email = "admin@ira.com",
                     Password = "Password@123",
                     Role = "Admin"
-                }, 
+                },
                 true);
         }
 
+        private static void SeedDays(IRAAPIContext context)
+        {
+            if(!context.Days.Any())
+            {
+                List<Days> days = new List<Days>
+                {
+                    new Days {Day = "Monday"},
+                    new Days {Day = "Tuesday"},
+                    new Days {Day = "Wednesday"},
+                    new Days {Day = "Thursday"},
+                    new Days {Day = "Friday"},
+                    new Days {Day = "Saturday"},
+                    new Days {Day = "Sunday"},
+                };
+
+                context.AddRange(days);
+                context.SaveChanges();
+            }
+        }
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
@@ -49,16 +70,18 @@ namespace IRAAPI
 
         private static void SeedUsers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
-            SeedTeachers(context, userManager);
+            if (userManager.FindByNameAsync("admin").Result == null)
+            {
+                SeedTeachers(context, userManager);
+            }
         }
 
         private static void SeedTeachers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
             // Seed Teacher Data
-            if (userManager.FindByNameAsync("admin").Result == null)
-            {
-                // Create list of teachers
-                List<TeacherRegisterModel> list = new List<TeacherRegisterModel>
+
+            // Create list of teachers
+            List<TeacherRegisterModel> list = new List<TeacherRegisterModel>
                 {
                      new TeacherRegisterModel
                      {
@@ -177,19 +200,19 @@ namespace IRAAPI
                      },
                 };
 
-                // Add each teacher to Db
-                foreach (var model in list)
-                {
-                    CreateASPNetUser(userManager, model.aspNetUser);
-                    context.Teachers.Add(model.teacher);
-                    context.SaveChanges();
-                }
+            // Add each teacher to Db
+            foreach (var model in list)
+            {
+                CreateASPNetUser(userManager, model.aspNetUser);
+                context.Teachers.Add(model.teacher);
+                context.SaveChanges();
             }
+
         }
 
         private static void CreateASPNetUser(UserManager<ApplicationUser> userManager, RegisterModel model, bool isDefaultUser = false)
         {
-            if(isDefaultUser)
+            if (isDefaultUser)
             {
                 /*
                     Check if the user to be created is default or not.
