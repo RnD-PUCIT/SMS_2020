@@ -15,6 +15,8 @@ namespace IRAAPI
             SeedUsers(context, userManager);
 
             SeedClasses(context);
+            SeedSubjects(context);
+
             SeedTerms(context);
             SeedDays(context);
             SeedBankDetails(context);
@@ -29,6 +31,55 @@ namespace IRAAPI
                     Role = "Admin"
                 },
                 true);
+        }
+
+        private static void SeedSubjects(IRAAPIContext context)
+        {
+            if(!context.Subjects.Any())
+            {
+                List<Subject> subjects = new List<Subject>
+                {
+                    new Subject
+                    {
+                        SubjectCode = "8th-physics",
+                        SubjectName = "Physics",
+                        SubjectSlug = "physics",
+                    },
+                    new Subject
+                    {
+                        SubjectCode = "8th-math",
+                        SubjectName = "Maths",
+                        SubjectSlug = "maths",
+                    },
+                    new Subject
+                    {
+                        SubjectCode = "8th-english",
+                        SubjectName = "English",
+                        SubjectSlug = "english",
+                    },
+                    new Subject
+                    {
+                        SubjectCode = "5th-science",
+                        SubjectName = "Science",
+                        SubjectSlug = "science",
+                    },
+                    new Subject
+                    {
+                        SubjectCode = "5th-urdu",
+                        SubjectName = "Urdu",
+                        SubjectSlug = "urdu",
+                    },
+                    new Subject
+                    {
+                        SubjectCode = "8th-social",
+                        SubjectName = "Social Studies",
+                        SubjectSlug = "social-studies",
+                    },
+                };
+
+                context.AddRange(subjects);
+                context.SaveChanges();
+            }
         }
 
         private static void SeedBankDetails(IRAAPIContext context)
