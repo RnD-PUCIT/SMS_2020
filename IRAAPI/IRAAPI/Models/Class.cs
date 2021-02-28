@@ -17,7 +17,7 @@ namespace IRAAPI.Models
             Charges = new HashSet<Charge>();
             ClassSubjectAllocs = new HashSet<ClassSubjectAlloc>();
             Diaries = new HashSet<Diary>();
-            Grades = new HashSet<Grade>();
+            //Grades = new HashSet<Grade>();
             Students = new HashSet<Student>();
             SubjectGradeTypeAllocs = new HashSet<SubjectGradeTypeAlloc>();
             TeacherSubjectAllocs = new HashSet<TeacherSubjectAlloc>();
@@ -46,8 +46,8 @@ namespace IRAAPI.Models
         public virtual ICollection<ClassSubjectAlloc> ClassSubjectAllocs { get; set; }
         [InverseProperty(nameof(Diary.Class))]
         public virtual ICollection<Diary> Diaries { get; set; }
-        [InverseProperty(nameof(Grade.Class))]
-        public virtual ICollection<Grade> Grades { get; set; }
+        //[InverseProperty(nameof(Grade.Class))]
+        //public virtual ICollection<Grade> Grades { get; set; }
         [InverseProperty(nameof(Student.Class))]
         public virtual ICollection<Student> Students { get; set; }
         [InverseProperty(nameof(SubjectGradeTypeAlloc.Class))]

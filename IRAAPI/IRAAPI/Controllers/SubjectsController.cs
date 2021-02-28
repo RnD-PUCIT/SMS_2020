@@ -108,12 +108,10 @@ namespace IRAAPI.Controllers
         [Authorize]
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
+        //public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
         {
             try
             {
-                int studentNumericId = context.Students.Where(a => a.Guid == studentId)
-                    .Select(a => a.Id)
-                    .SingleOrDefault();
                 int classNumericId = context.Classes.Where(c => c.Guid == classId)
                     .Select(c => c.Id)
                     .SingleOrDefault();
@@ -139,12 +137,12 @@ namespace IRAAPI.Controllers
 
                     }).SingleOrDefault();
                 
-                var gradeTypesData = context.SubjectGradeTypeAllocs.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId)
+                var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
-                        gradeTypeId = g.GradeType.Guid,
-                        gradeTypeName = g.GradeType.GradeType1,
-                        gradeTypeSlug = g.GradeType.GradeTypeSlug
+                        gradeTypeId = g.Guid,
+                        gradeTypeName = g.GradeType1,
+                        gradeTypeSlug = g.GradeTypeSlug
                     }).ToList();
 
                 var diaryData = context.Diaries.Where(d => d.SubjectId == subjectNumericId && d.SessionId == sessionNumericId && d.ClassId == classNumericId)
