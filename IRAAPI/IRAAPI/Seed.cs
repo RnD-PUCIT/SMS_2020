@@ -160,7 +160,25 @@ namespace IRAAPI
             {
                 SeedTeachers(context, userManager);
                 SeedParents(context, userManager);
+                //SeedStudents(context, userManager);
             }
+        }
+
+        private static void SeedStudents(IRAAPIContext context, UserManager<ApplicationUser> userManager)
+        {
+            List<StudentRegisterModel> list = new List<StudentRegisterModel>
+            {
+                new StudentRegisterModel
+                {
+                    student = new Student
+                    {
+                        RollNo = "BITF17A040",
+                        FirstName = "Sohaib",
+                        LastName = "Salman",
+                        Dob = new DateTime(12, 01, 12).Date,
+                    }
+                }
+            };
         }
 
         private static void SeedParents(IRAAPIContext context, UserManager<ApplicationUser> userManager)
