@@ -12,18 +12,27 @@ namespace IRAAPI
         {
             SeedRoles(roleManager);
             SeedUsers(context, userManager);
+            SeedTerms(context);
         }
+
 
         private static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            // Create Parent Role
-            if (!roleManager.RoleExistsAsync("Parent").Result)
-                roleManager.CreateAsync(new IdentityRole("Parent")).Wait();
+            // Create List of Roles
+            List<string> roles = new List<string>
+            {
+                "Admin",
+                "Teacher",
+                "Parent",
+                "Student",
+            };
 
-            // Create Teacher Role
-            if (!roleManager.RoleExistsAsync("Teacher").Result)
-                roleManager.CreateAsync(new IdentityRole("Teacher")).Wait();
-
+            // Add each role in DB
+            foreach (string role in roles)
+            {
+                if (!roleManager.RoleExistsAsync(role).Result)
+                    roleManager.CreateAsync(new IdentityRole(role)).Wait();
+            }
         }
 
         private static void SeedUsers(IRAAPIContext context, UserManager<ApplicationUser> userManager)
@@ -179,6 +188,18 @@ namespace IRAAPI
 
             if (result.Succeeded)
                 userManager.AddToRoleAsync(user, model.Role).Wait();
+        }
+
+        private static void SeedTerms(IRAAPIContext context)
+        {
+            List<Terms> terms = new List<Terms>
+            {
+                new Terms { Name = "First Term" },
+                new Terms { Name = "Second Term" },
+                new Terms { Name = "Third Term" },
+            };
+            context.AddRange(terms);
+            context.SaveChanges();
         }
     }
 }
