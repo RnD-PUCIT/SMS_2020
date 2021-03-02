@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Redirect, Route, Switch } from 'react-router-dom';
 
@@ -33,6 +33,10 @@ const MainContent = ({
   onClick,
 }) => {
   const classes = useStyles();
+
+  useEffect(()=> {
+    
+  }, [])
 
   return (
     <main className={classes.content}>
