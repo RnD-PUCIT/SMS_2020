@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using IRAAPI.Authentication;
+using IRAAPI.Dtos;
 
 namespace IRAAPI.Controllers
 {
@@ -30,10 +30,10 @@ namespace IRAAPI.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(LoginDto login)
         {
-            var username = HttpContext.Request.Form["username"];
-            var password = HttpContext.Request.Form["password"];
+            var username = login.Username;
+            var password = login.Password;
             var user = await userManager.FindByNameAsync(username);
             if (user != null && await userManager.CheckPasswordAsync(user, password))
             {
@@ -105,7 +105,7 @@ namespace IRAAPI.Controllers
         public async Task<IActionResult> RegisterParent([FromBody] ParentRegisterModel model)
         {
             var aspNetUser = await RegisterAspNetUser(model.aspNetUser);
-            if ( aspNetUser!= null)
+            if (aspNetUser != null)
             {
                 model.parent.UserId = Guid.Parse(aspNetUser);
                 await context.Parents.AddAsync(model.parent);
