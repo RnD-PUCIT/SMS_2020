@@ -83,17 +83,16 @@ class Login extends Component {
       formData.set('username', cnic);
       formData.set('password', password);
 
+      // const url = 'https://localhost:44334/account/login'; // For Visual Studio
+      const url = 'https://localhost:5001/account/login'; // For dotnet CLI
+
       try {
         // Send Ajax call to the server
-        const { data } = await axios.post(
-          'https://localhost:44334/account/login',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          }
-        );
+        const { data } = await axios.post(url, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
         // Get token
         const { token: jwt } = data;
 

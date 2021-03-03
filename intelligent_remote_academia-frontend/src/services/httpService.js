@@ -1,7 +1,8 @@
-import axios from "axios";
-import auth from "./authService";
+import axios from 'axios';
+import auth from './authService';
 
-const apiUrl = "https://localhost:44334";
+// const apiUrl = 'https://localhost:44334'; // For Visual Studio
+const apiUrl = 'https://localhost:5001'; // For dotnet CLI
 
 axios.interceptors.response.use(null, (error) => {
   const expectedErrors =
@@ -10,7 +11,7 @@ axios.interceptors.response.use(null, (error) => {
     error.response.status < 500;
 
   if (!expectedErrors) {
-    alert("Unexpected error occured");
+    alert('Unexpected error occured');
   }
   return Promise.reject(error);
 });
@@ -29,7 +30,7 @@ http.interceptors.response.use(null, (error) => {
     error.response.status < 500;
 
   if (!expectedErrors) {
-    alert("Unexpected error occured");
+    alert('Unexpected error occured');
   }
   return Promise.reject(error);
 });
