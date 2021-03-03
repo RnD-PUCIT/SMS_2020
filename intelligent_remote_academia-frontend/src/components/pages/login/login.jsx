@@ -21,6 +21,7 @@ import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 
 import AlertSimple from '../../common/alerts/alertSimple';
+import http from '../../../services/httpService';
 
 const styles = (theme) => ({
   outerContainer: {
@@ -51,7 +52,7 @@ const styles = (theme) => ({
 });
 
 const formSchema = Yup.object().shape({
-  cnic: Yup.string()
+  username: Yup.string()
     .required('Required*')
     .matches(/^[0-9]+$/, 'Must be only digits')
     .min(4, 'Must be exactly 13 digits')
@@ -73,26 +74,12 @@ class Login extends Component {
 
   render() {
     const handleLogin = async (values) => {
-      // To send data in form-body, use FormData class
-      const formData = new FormData();
-
-      // Get form input values
-      const { cnic, password } = values;
-
-      // Add the input values in form-data
-      formData.set('username', cnic);
-      formData.set('password', password);
-
-      // const url = 'https://localhost:44334/account/login'; // For Visual Studio
-      const url = 'https://localhost:5001/account/login'; // For dotnet CLI
+      const url = '/account/login';
 
       try {
         // Send Ajax call to the server
-        const { data } = await axios.post(url, formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        });
+        const { data } = await http.post(url, values);
+
         // Get token
         const { token: jwt } = data;
 
@@ -128,7 +115,7 @@ class Login extends Component {
             </Typography>
             <Formik
               initialValues={{
-                cnic: '',
+                username: '',
                 password: '',
               }}
               validationSchema={formSchema}
@@ -139,16 +126,18 @@ class Login extends Component {
                     <TextField
                       variant="outlined"
                       margin="normal"
-                      error={errors.cnic && touched.cnic ? true : false}
+                      error={errors.username && touched.username ? true : false}
                       fullWidth
-                      // id='cnic'
-                      label="CNIC"
-                      name="cnic"
+                      // id='username'
+                      label="Username"
+                      name="username"
                       autoComplete="true"
                       autoFocus
-                      {...getFieldProps('cnic')}
+                      {...getFieldProps('username')}
                       helperText={
-                        errors.cnic && touched.cnic ? errors.cnic : ''
+                        errors.username && touched.username
+                          ? errors.username
+                          : ''
                       }
                       InputProps={{
                         startAdornment: (
