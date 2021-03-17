@@ -34,9 +34,7 @@ const MainContent = ({
 }) => {
   const classes = useStyles();
 
-  useEffect(()=> {
-    
-  }, [])
+  useEffect(() => {}, []);
 
   return (
     <main className={classes.content}>
