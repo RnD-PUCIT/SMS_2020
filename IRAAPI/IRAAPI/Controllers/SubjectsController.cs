@@ -196,7 +196,7 @@ namespace IRAAPI.Controllers
                 subjectService.subject = subjectData;
                 subjectService.gradeTypeNames = gradeTypesData;
                 subjectService.diary = diaryData;
-                subjectService.courseOutlinefromCourseContent = ListOfCourseOutlinesWithFiles;
+                subjectService.termWiseCourseOutlinesfromCourseContent = ListOfCourseOutlinesWithFiles;
 
                 return new { SubjectService = subjectService };
 
@@ -214,7 +214,7 @@ namespace IRAAPI.Controllers
         public SubjectDTO subject { get; set; }
         public List<GradeTypeDTO> gradeTypeNames { get; set; }
         public List<DiaryDTO> diary { get; set; }
-        public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
+        public List<TermWiseCourseOutlinesWithFiles> termWiseCourseOutlinesfromCourseContent { get; set; }
 
 
     }
