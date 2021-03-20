@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.Models;
+using AutoMapper;
 
 namespace IRAAPI.Controllers
 {
@@ -12,31 +13,33 @@ namespace IRAAPI.Controllers
     public class SubjectsController : ControllerBase
     {
         private readonly IRAAPIContext context;
-        public SubjectsController(IRAAPIContext context)
+        private readonly IMapper _mapper;
+        public SubjectsController(IRAAPIContext context, IMapper mapper)
         {
             this.context = context;
+            _mapper = mapper;
         }
 
-        [Authorize(Roles = "Parent")]
+        [Authorize]
         [HttpGet]
         public Object GetDashboardSubjectsInfo()
         {
             var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
+            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
             if (parentId == null)
                 return NotFound();
             Guid parentGuid = Guid.Parse(parentId);
 
             try
             {
-                int parentNumericId = context.Parents.Where(p => p.UserId == parentGuid)
+                int parentNumericId = context.Parents.Where(p => p.Guid == parentGuid)
                     .Select(p => p.Id)
                     .SingleOrDefault();
 
-                var parentData = context.Parents.Where(p => p.UserId == parentGuid)
+                var parentData = context.Parents.Where(p => p.Guid == parentGuid)
                     .Select(p => new ParentDTO()
                     {
-                        id = p.UserId,
+                        id = p.Guid,
                         firstName = p.FirstName,
                         lastName = p.LastName,
                         profilePic = p.ProfilePicture
@@ -65,15 +68,15 @@ namespace IRAAPI.Controllers
                 List<Object> subjectsList = new List<Object>();
                 foreach (var student in studentsData)
                 {
-                    var classNumericId = context.Classes.Where(c=> c.Guid == student.classId)
+                    var classNumericId = context.Classes.Where(c => c.Guid == student.classId)
                         .Select(s => s.Id).SingleOrDefault();
 
-                    var subjectsIds = context.ClassSubjectAllocs.Where(c => c.ClassId == classNumericId).Select(s=>s.SubjectId).ToList();
+                    var subjectsIds = context.ClassSubjectAllocs.Where(c => c.ClassId == classNumericId).Select(s => s.SubjectId).ToList();
 
                     List<SubjectDTO> oneStudentSubjectsList = new List<SubjectDTO>();
                     foreach (var subjectId in subjectsIds)
                     {
-                        int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectId && ts.ClassId == classNumericId).Select(t=>t.TeacherId).SingleOrDefault();
+                        int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectId && ts.ClassId == classNumericId).Select(t => t.TeacherId).SingleOrDefault();
                         var teacherData = context.Teachers.Where(t => t.Id == teacherNumericId).SingleOrDefault();
                         var subjectData = context.Subjects.Where(s => s.Id == subjectId).
                             Select(sb => new SubjectDTO()
@@ -84,8 +87,8 @@ namespace IRAAPI.Controllers
                                 subjectSlug = sb.SubjectSlug,
                                 teacherId = teacherData.Guid,
                                 teacherName = teacherData.FirstName + " " + teacherData.LastName,
-                                
-                            }).SingleOrDefault() ;
+
+                            }).SingleOrDefault();
                         oneStudentSubjectsList.Add(subjectData);
                     }
                     subjectsList.Add(oneStudentSubjectsList);
@@ -96,22 +99,33 @@ namespace IRAAPI.Controllers
                 dashboard.students = studentsData;
                 dashboard.subjects = subjectsList;
 
-                return new { dashboard = dashboard };
+                return new { Dashboard = dashboard };
             }
             catch (Exception)
             {
 
                 throw;
             }
+
+
         }
 
         [Authorize]
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
-        //public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
         {
+            var claims = User.Claims;
+            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            if (parentId == null)
+                return Unauthorized();
+
             try
             {
+
+
+                int studentNumericId = context.Students.Where(a => a.Guid == studentId)
+                    .Select(a => a.Id)
+                    .SingleOrDefault();
                 int classNumericId = context.Classes.Where(c => c.Guid == classId)
                     .Select(c => c.Id)
                     .SingleOrDefault();
@@ -121,6 +135,28 @@ namespace IRAAPI.Controllers
                 int sessionNumericId = context.Sessions.Where(s => s.Guid == sessionId)
                     .Select(s => s.Id)
                     .SingleOrDefault();
+                if (subjectNumericId == 0 || classNumericId == 0 || sessionNumericId == 0)
+                {
+                    return CreatedAtAction("Not Found", null);
+                }
+                List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles = new List<CourseOutlinesWithFiles>();
+                List<CourseOutline> ListOfCourseOutlines = context.CourseOutlines.Where(a => a.SessionId == sessionNumericId && a.ClassId == classNumericId && a.SubjectId == subjectNumericId).ToList();
+                CourseOutlinesWithFiles sowf = new CourseOutlinesWithFiles();
+                if (ListOfCourseOutlines == null)
+                {
+                    return CreatedAtAction("Course Outlines Not found", null);
+                }
+                for (int i = 0; i < ListOfCourseOutlines.Count; i++)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+
+                }
+
 
                 int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectNumericId && ts.ClassId == classNumericId)
                     .Select(t => t.TeacherId).SingleOrDefault();
@@ -136,13 +172,14 @@ namespace IRAAPI.Controllers
                         teacherName = teacherData.FirstName + " " + teacherData.LastName,
 
                     }).SingleOrDefault();
-                
-                var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
+
+                var gradeTypesData = context.SubjectGradeTypeAllocs.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
-                        gradeTypeId = g.Guid,
-                        gradeTypeName = g.GradeType1,
-                        gradeTypeSlug = g.GradeTypeSlug
+                        gradeTypeId = g.GradeType.Guid,
+                        gradeTypeName = g.GradeType.GradeType1,
+                        gradeTypeSlug = g.GradeType.GradeTypeSlug
+
                     }).ToList();
 
                 var diaryData = context.Diaries.Where(d => d.SubjectId == subjectNumericId && d.SessionId == sessionNumericId && d.ClassId == classNumericId)
@@ -154,19 +191,21 @@ namespace IRAAPI.Controllers
                         diaryContent = d.DiaryContent
                     }).ToList();
 
+
                 SubjectServiceDTO subjectService = new SubjectServiceDTO();
                 subjectService.subject = subjectData;
                 subjectService.gradeTypeNames = gradeTypesData;
                 subjectService.diary = diaryData;
+                subjectService.courseOutlinefromCourseContent = ListOfCourseOutlinesWithFiles;
 
                 return new { SubjectService = subjectService };
-                
+
             }
             catch (Exception)
             {
-               throw;
+                throw;
             }
-            
+
         }
     }
 
@@ -175,6 +214,9 @@ namespace IRAAPI.Controllers
         public SubjectDTO subject { get; set; }
         public List<GradeTypeDTO> gradeTypeNames { get; set; }
         public List<DiaryDTO> diary { get; set; }
+        public List<CourseOutlinesWithFiles> courseOutlinefromCourseContent { get; set; }
+
+
     }
 
     public class GradeTypeDTO
@@ -187,7 +229,7 @@ namespace IRAAPI.Controllers
     public class DiaryDTO
     {
         public Guid id { get; set; }
-        public string  diaryDate { get; set; }
+        public string diaryDate { get; set; }
         public string diaryTitle { get; set; }
         public string diaryContent { get; set; }
     }

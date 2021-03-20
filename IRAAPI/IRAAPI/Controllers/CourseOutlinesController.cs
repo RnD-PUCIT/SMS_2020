@@ -31,7 +31,6 @@ namespace IRAAPI.Controllers
 
 
         // GET: api/CourseOutlines
-        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CourseOutline>>> GetCourseOutlines(Guid subject_id, Guid class_id, Guid session_id)
         {
@@ -43,24 +42,65 @@ namespace IRAAPI.Controllers
                 return CreatedAtAction("Not Found", null);
             }
             List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles=new List<CourseOutlinesWithFiles>();
+            List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles2 = new List<CourseOutlinesWithFiles>();
+            List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles3 = new List<CourseOutlinesWithFiles>();
+
+
             List<CourseOutline> ListOfCourseOutlines=_context.CourseOutlines.Where(a => a.SessionId == sessiontId && a.ClassId == classId && a.SubjectId == subjectId).ToList();
             CourseOutlinesWithFiles sowf = new CourseOutlinesWithFiles();
-            if(ListOfCourseOutlines==null)
+            
+
+            if (ListOfCourseOutlines==null)
             {
                 return CreatedAtAction("Course Outlines Not found", null);
             }
             for (int i = 0; i < ListOfCourseOutlines.Count; i++)
             {
-               sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
-                List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
-                
-             
-                sowf.lectureContentFilesList = getlectureContentFilesLists;
-                ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines=sowf.courseOutlines,lectureContentFilesList=sowf.lectureContentFilesList});
-                
-            }
+                if(ListOfCourseOutlines[i].TermsId==1)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+                   
 
-            return CreatedAtAction("200 OK",ListOfCourseOutlinesWithFiles);
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+                }
+                if (ListOfCourseOutlines[i].TermsId == 2)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles2.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+                }
+                if (ListOfCourseOutlines[i].TermsId == 3)
+                {
+                    sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                    List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                    sowf.lectureContentFilesList = getlectureContentFilesLists;
+                    ListOfCourseOutlinesWithFiles3.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
+                }
+
+                //sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
+                //List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
+
+
+                //sowf.lectureContentFilesList = getlectureContentFilesLists;
+                //ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines=sowf.courseOutlines,lectureContentFilesList=sowf.lectureContentFilesList});
+
+            }
+            TermWiseCourseOutlinesWithFiles firstTerm = new TermWiseCourseOutlinesWithFiles { termName="First term", term_wiseCourseOutlineWithFiles= ListOfCourseOutlinesWithFiles };
+            TermWiseCourseOutlinesWithFiles secondTerm = new TermWiseCourseOutlinesWithFiles { termName = "Second term", term_wiseCourseOutlineWithFiles = ListOfCourseOutlinesWithFiles2 };
+            TermWiseCourseOutlinesWithFiles ThirdTerm = new TermWiseCourseOutlinesWithFiles { termName = "Third term", term_wiseCourseOutlineWithFiles = ListOfCourseOutlinesWithFiles3 };
+            List<TermWiseCourseOutlinesWithFiles> listOfTermWiseCourseOutlineWithFile = new List<TermWiseCourseOutlinesWithFiles>();
+            listOfTermWiseCourseOutlineWithFile.Add(firstTerm);
+            listOfTermWiseCourseOutlineWithFile.Add(secondTerm);
+            listOfTermWiseCourseOutlineWithFile.Add(ThirdTerm);
+
+            return CreatedAtAction("200 OK",listOfTermWiseCourseOutlineWithFile);
         }
 
         // GET: api/CourseOutlines/5
@@ -212,5 +252,10 @@ namespace IRAAPI.Controllers
     {
         public CourseOutlineDTO courseOutlines { get; set; }
         public List<LectureContentFileDTO> lectureContentFilesList { get; set; }
+    }
+    public class TermWiseCourseOutlinesWithFiles
+    {
+        public string termName { get; set; }
+        public List<CourseOutlinesWithFiles> term_wiseCourseOutlineWithFiles { get; set; }
     }
 }
