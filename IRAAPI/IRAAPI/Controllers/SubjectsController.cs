@@ -109,7 +109,6 @@ namespace IRAAPI.Controllers
 
 
         }
-
         [Authorize]
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
