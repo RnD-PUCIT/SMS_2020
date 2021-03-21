@@ -14,13 +14,6 @@ import StudentDropdown from '../studentDropdown/studentDropdown';
 import TimeTable from '../pages/time-table/TimeTable';
 import ApplicationForm from '../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../pages/applicationForm/ApplicationsDashboard';
-import TeacherDashboard from '../pages/teacher/dashboard/TeacherDashboard';
-import DiaryForm from '../pages/teacher/diary/DiaryForm';
-import AttendanceDashboard from '../pages/teacher/attendance/AttendanceDashboard';
-import ClassList from '../pages/teacher/classes/ClassList';
-import SubjecList from '../pages/teacher/subjects/SubjectList';
-import SubjectDashboard from '../pages/teacher/subjects/SubjectDashboard';
-import MarkGrade from '../pages/teacher/gradebook/MarkGrade';
 
 const ParentRouting = ({
   subjects,

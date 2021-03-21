@@ -1,5 +1,12 @@
 import React from 'react';
-import { Redirect, Switch } from 'react-router';
+import { Redirect, Route, Switch } from 'react-router';
+import TeacherDashboard from '../pages/teacher/dashboard/TeacherDashboard';
+import DiaryForm from '../pages/teacher/diary/DiaryForm';
+import AttendanceDashboard from '../pages/teacher/attendance/AttendanceDashboard';
+import ClassList from '../pages/teacher/classes/ClassList';
+import MarkGrade from '../pages/teacher/gradebook/MarkGrade';
+import SubjecList from '../pages/teacher/subjects/SubjectList';
+import SubjectDashboard from '../pages/teacher/subjects/SubjectDashboard';
 
 const TeacherRouting = () => {
   return (
