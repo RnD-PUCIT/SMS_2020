@@ -38,12 +38,12 @@ const AttendanceDashboard = () => {
   const monthList = getMonths();
 
   useEffect(() => {
-    const classes = classListConst;
+    const classesList = classListConst;
     const students = studentsListConst;
-    const attendance = attendanceConst.reverse();
-    setClassList(classes);
+    const attendanceList = attendanceConst.reverse();
+    setClassList(classesList);
     setStudentsList(students);
-    setAttendance(attendance);
+    setAttendance(attendanceList);
   }, []);
 
   const classes = useStyles();

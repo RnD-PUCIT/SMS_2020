@@ -23,7 +23,7 @@ function Sidebar(props) {
 
   useEffect(() => {
     setLinks(sideBarLinks[role]);
-  }, []);
+  }, [role]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
