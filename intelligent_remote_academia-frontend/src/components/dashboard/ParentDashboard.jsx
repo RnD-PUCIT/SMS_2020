@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import http from '../../services/httpService';
-import MainContent from '../layouts/mainContent/mainContent';
+import ParentRouting from '../routing/ParentRouting';
 
 const ParentDashboard = () => {
   //   State variables
@@ -59,7 +59,7 @@ const ParentDashboard = () => {
 
   if (dashboardInfo) {
     return (
-      <MainContent
+      <ParentRouting
         studentList={studentList}
         subjects={subjects}
         selectedStudent={selectedStudent}

@@ -9,7 +9,6 @@ import GradeDetails from '../../pages/subjects/gradeDetails';
 import Announcements from '../../pages/announcements/announcements';
 import AcademicCalendar from '../../pages/academicCalendar/academicCalendar';
 
-import { useStyles } from '../../constants/layoutConsts';
 import FeeChallan from '../../pages/fee-challan/feeChallan';
 import StudentDropdown from '../../studentDropdown/studentDropdown';
 import TimeTable from '../../pages/time-table/TimeTable';
@@ -32,8 +31,6 @@ const MainContent = ({
   sessionId,
   onClick,
 }) => {
-  const classes = useStyles();
-
   return (
     <Switch>
       <Route
