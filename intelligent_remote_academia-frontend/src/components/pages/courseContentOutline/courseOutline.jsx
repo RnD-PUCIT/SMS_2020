@@ -22,15 +22,12 @@ class CourseOutline extends Component {
                 <AccordionContainer
                   key={index}
                   name={term.termName}
-                  statusArray={term.details.map((index) => index.status)}>
-                  {term.details.map((item, index) => (
+                  statusArray={term.details.map((subject) => subject.status)}>
+                  {term.details.map((subjectItem, index) => (
                     <SimpleAccordion
                       key={index}
-                      title={item.title}
-                      description={item.description}
-                      status={item.status}
-                      date={item.date}
-                      // onClick={this.handleClick}
+                      subjectItem={subjectItem}
+                      termName={term.termName}
                     />
                   ))}
                 </AccordionContainer>
@@ -49,9 +46,6 @@ class CourseOutline extends Component {
       );
     }
   }
-  // handleClick = () => {
-  //   this.props.history.replace('/courseContent');
-  // };
 }
 
 const courseOutlineConst = {

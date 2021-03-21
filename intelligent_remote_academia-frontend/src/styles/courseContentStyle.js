@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core';
-import { NoEncryption } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {

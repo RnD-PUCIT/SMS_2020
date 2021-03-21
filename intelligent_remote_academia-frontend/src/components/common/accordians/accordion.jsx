@@ -32,18 +32,12 @@ const useStyles = makeStyles((theme) => ({
   },
   div: {
     display: 'flex',
-    justifyContent: 'flex-end',
   },
   button: {
     marginLeft: 'auto',
   },
-  // text: {
-  //   backgroundColor: '#E4F5F8',
-  //   border: '1px solid #C0DEED',
-  //   textDecoration: 'none',
-  // },
   chip: {
-    marginLeft: '5px',
+    marginLeft: '2px',
   },
 }));
 
@@ -72,10 +66,17 @@ const AccordionContainer = ({ statusArray, name, children }) => {
   );
 };
 
-const SimpleAccordion = ({ title, description, status, date, handleClick }) => {
+const SimpleAccordion = ({ subjectItem, termName }) => {
   const classes = useStyles();
   const months = getMonths();
+  const { title, description, status, date } = subjectItem;
   const fullDate = new Date(date);
+  subjectItem.date =
+    months[fullDate.getMonth()].name +
+    ' ' +
+    fullDate.getDate() +
+    ', ' +
+    fullDate.getFullYear();
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
@@ -91,28 +92,23 @@ const SimpleAccordion = ({ title, description, status, date, handleClick }) => {
       <AccordionDetails className={classes.div}>
         <Typography>{description}</Typography>
         <Chip
-          label={
-            months[fullDate.getMonth()].name +
-            ' ' +
-            fullDate.getDate() +
-            ', ' +
-            fullDate.getFullYear()
-          }
+          label={subjectItem.date}
           variant='outlined'
           size='small'
           className={classes.chip}
         />
-        <Button
-          className={classes.button}
-          variant='contained'
-          size='small'
-          disableElevation
-          // onClick={handleClick}
-        >
-          <Link to='/courseContent' className={classes.text}>
+        <Link
+          to={{
+            pathname: '/courseContent',
+            state: { subjectItem: subjectItem, termName: termName },
+            // state: { subjectItem: subjectItem,
+            // date: },
+          }}
+          className={classes.button}>
+          <Button variant='contained' size='small' disableElevation>
             View More
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </AccordionDetails>
     </Accordion>
   );

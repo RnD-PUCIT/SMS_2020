@@ -15,18 +15,22 @@ import useStyles from './../../../styles/courseContentStyle';
 
 class CourseContent extends Component {
   state = { content: [] };
+
   render() {
-    return <ContentDisplay />;
+    const { subjectItem, termName } = this.props.location.state;
+    return <ContentDisplay subjectItem={subjectItem} termName={termName} />;
   }
 }
 
-const ContentDisplay = () => {
+const ContentDisplay = ({ subjectItem, termName }) => {
   const classes = useStyles();
+  const { lectureContentFilesList, title, date, description } = subjectItem;
   const array = [
     'https://www.youtube.com/watch?v=fj2RX-h1k9E&list=PLOoogDtEDyvvw5bIV77qibe73XfdsM2lP&index=3&ab_channel=FeelFreetoLearn',
     'Eat',
     'Repeat',
   ];
+  console.log(subjectItem);
   return (
     <div>
       <Container className={classes.root} maxWidth='md'>
@@ -35,14 +39,14 @@ const ContentDisplay = () => {
             <FontAwesomeIcon icon={faBook} size='lg' />
           </Avatar>
           <div>
-            <Typography variant='h4'>Course Content</Typography>
+            <Typography variant='h4'>{title}</Typography>
             <Typography variant='subtitle2' color='textSecondary'>
-              First Term • Dec 2, 2020
+              {termName} • {date}
             </Typography>
           </div>
         </div>
         <Divider className={classes.divider} />
-        <Typography>Content and Files</Typography>
+        <Typography>{description}</Typography>
         <Divider style={{ margin: '20px 0px' }} />
         <div className={classes.title}>
           <LinkIcon className={classes.icon} />
