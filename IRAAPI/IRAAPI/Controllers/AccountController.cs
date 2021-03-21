@@ -43,14 +43,15 @@ namespace IRAAPI.Controllers
                 {
                     new Claim("userId", user.Id),
                     new Claim("userName", user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 };
 
                 foreach (var userRole in userRoles)
                 {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    // authClaims.Add(new Claim(ClaimTypes.Role, userRole));
                     authClaims.Add(new Claim("role", userRole));
                 }
+
+                // authClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
 
                 string key = "ADSTZ_1226404119";
                 var issuer = "http://ira.com";

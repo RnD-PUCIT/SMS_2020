@@ -65,15 +65,15 @@ namespace IRAAPI.Controllers
                 List<Object> subjectsList = new List<Object>();
                 foreach (var student in studentsData)
                 {
-                    var classNumericId = context.Classes.Where(c=> c.Guid == student.classId)
+                    var classNumericId = context.Classes.Where(c => c.Guid == student.classId)
                         .Select(s => s.Id).SingleOrDefault();
 
-                    var subjectsIds = context.ClassSubjectAllocs.Where(c => c.ClassId == classNumericId).Select(s=>s.SubjectId).ToList();
+                    var subjectsIds = context.ClassSubjectAllocs.Where(c => c.ClassId == classNumericId).Select(s => s.SubjectId).ToList();
 
                     List<SubjectDTO> oneStudentSubjectsList = new List<SubjectDTO>();
                     foreach (var subjectId in subjectsIds)
                     {
-                        int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectId && ts.ClassId == classNumericId).Select(t=>t.TeacherId).SingleOrDefault();
+                        int teacherNumericId = context.TeacherSubjectAllocs.Where(ts => ts.SubjectId == subjectId && ts.ClassId == classNumericId).Select(t => t.TeacherId).SingleOrDefault();
                         var teacherData = context.Teachers.Where(t => t.Id == teacherNumericId).SingleOrDefault();
                         var subjectData = context.Subjects.Where(s => s.Id == subjectId).
                             Select(sb => new SubjectDTO()
@@ -84,8 +84,8 @@ namespace IRAAPI.Controllers
                                 subjectSlug = sb.SubjectSlug,
                                 teacherId = teacherData.Guid,
                                 teacherName = teacherData.FirstName + " " + teacherData.LastName,
-                                
-                            }).SingleOrDefault() ;
+
+                            }).SingleOrDefault();
                         oneStudentSubjectsList.Add(subjectData);
                     }
                     subjectsList.Add(oneStudentSubjectsList);
@@ -136,7 +136,7 @@ namespace IRAAPI.Controllers
                         teacherName = teacherData.FirstName + " " + teacherData.LastName,
 
                     }).SingleOrDefault();
-                
+
                 var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
@@ -160,13 +160,13 @@ namespace IRAAPI.Controllers
                 subjectService.diary = diaryData;
 
                 return new { SubjectService = subjectService };
-                
+
             }
             catch (Exception)
             {
-               throw;
+                throw;
             }
-            
+
         }
     }
 
@@ -187,7 +187,7 @@ namespace IRAAPI.Controllers
     public class DiaryDTO
     {
         public Guid id { get; set; }
-        public string  diaryDate { get; set; }
+        public string diaryDate { get; set; }
         public string diaryTitle { get; set; }
         public string diaryContent { get; set; }
     }
