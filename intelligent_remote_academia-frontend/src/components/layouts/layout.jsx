@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar/sidebar';
-import ParentDashboard from '../dashboard/ParentDashboard';
 
 import jwt_decode from 'jwt-decode';
 import http from '../../services/httpService';
 import Content from './mainContent/Content';
 
 const Layout = () => {
+  // State variables
   const [userInfo, setUserInfo] = useState(null);
   const [role, setRole] = useState('');
+
+  // Init state data from api
   useEffect(async () => {
-    //Get token
+    //Get token and decode it using jwt_decode library
     const token = window.localStorage.getItem('token');
     const decoded = jwt_decode(token);
 
+    // Set the role of the user in the state
     const { role: userRole } = decoded;
     setRole(userRole);
 
+    // Call api to get layout data
     try {
       const { data } = await http.get('/layout');
       setUserInfo(data);
@@ -28,6 +32,7 @@ const Layout = () => {
       }
     }
   }, []);
+
   return (
     <React.Fragment>
       <Sidebar userInfo={userInfo}>

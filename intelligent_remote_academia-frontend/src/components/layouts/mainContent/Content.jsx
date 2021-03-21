@@ -1,8 +1,18 @@
 import React from 'react';
 import ParentDashboard from '../../dashboard/ParentDashboard';
+import { useStyles } from '../../constants/layoutConsts';
 
 const Content = ({ role }) => {
-  if (role) return RoleToDashboard[role.trim().toLowerCase()];
+  const classes = useStyles();
+  if (role) {
+    return (
+      <main className={classes.content}>
+        <div className={classes.toolbar}>
+          {RoleToDashboard[role.trim().toLowerCase()]}
+        </div>
+      </main>
+    );
+  }
   return null;
 };
 
