@@ -183,12 +183,6 @@ namespace IRAAPI.Controllers
                             ListOfCourseOutlinesWithFiles3.Add(new CourseOutlinesWithFiles { courseOutlines = sowf.courseOutlines, lectureContentFilesList = sowf.lectureContentFilesList });
                         }
 
-                        //sowf.courseOutlines = _mapper.Map<CourseOutlineDTO>(ListOfCourseOutlines[i]);
-                        //List<LectureContentFileDTO> getlectureContentFilesLists = _mapper.Map<List<LectureContentFileDTO>>(_context.LectureContentFiles.Where(a => a.CourseOutlineId == ListOfCourseOutlines[i].Id).ToList());
-
-
-                        //sowf.lectureContentFilesList = getlectureContentFilesLists;
-                        //ListOfCourseOutlinesWithFiles.Add(new CourseOutlinesWithFiles { courseOutlines=sowf.courseOutlines,lectureContentFilesList=sowf.lectureContentFilesList});
 
                     }
                     TermWiseCourseOutlinesWithFiles firstTerm = new TermWiseCourseOutlinesWithFiles { termName = "First term", term_wiseCourseOutlineWithFiles = ListOfCourseOutlinesWithFiles };
