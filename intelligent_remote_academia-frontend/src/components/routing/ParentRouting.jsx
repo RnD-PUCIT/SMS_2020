@@ -38,22 +38,6 @@ const ParentRouting = ({
         component={GradeDetails}
       />
       <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
-
-      {/* Teacher Module Links */}
-      <Route path="/teachers" component={TeacherDashboard} />
-      <Route path="/diary-form" component={DiaryForm} />
-      <Route path="/mark-attendance" component={AttendanceDashboard} />
-      <Route exact path="/classes" component={ClassList} />
-      <Route
-        path="/classes/:classSlug/:subjectSlug/gradebook/mark"
-        component={MarkGrade}
-      />
-      <Route exact path="/classes/:classSlug" component={SubjecList} />
-      <Route
-        path="/classes/:classSlug/:subjectSlug"
-        component={SubjectDashboard}
-      />
-
       {/* Sending subjects array as a prop to Subject component */}
       <Route
         path="/subjects"

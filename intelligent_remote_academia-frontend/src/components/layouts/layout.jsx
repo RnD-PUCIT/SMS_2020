@@ -18,7 +18,7 @@ const Layout = () => {
 
     // Set the role of the user in the state
     const { role: userRole } = decoded;
-    setRole(userRole);
+    setRole(userRole.trim().toLowerCase());
 
     // Call api to get layout data
     try {
@@ -33,13 +33,16 @@ const Layout = () => {
     }
   }, []);
 
-  return (
-    <React.Fragment>
-      <Sidebar userInfo={userInfo}>
-        <Content role={role} />
-      </Sidebar>
-    </React.Fragment>
-  );
+  if (userInfo) {
+    return (
+      <React.Fragment>
+        <Sidebar userInfo={userInfo} role={role}>
+          <Content role={role} />
+        </Sidebar>
+      </React.Fragment>
+    );
+  }
+  return null;
 };
 
 export default Layout;
