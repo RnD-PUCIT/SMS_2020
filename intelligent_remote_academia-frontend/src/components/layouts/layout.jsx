@@ -1,82 +1,98 @@
-import React, { Component } from 'react';
-import MainContent from './mainContent/mainContent';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar/sidebar';
 import ParentDashboard from '../dashboard/ParentDashboard';
 
 import http from '../../services/httpService';
 
-class Layout extends Component {
-  state = {
-    dashboardInfo: null,
-    studentList: null,
-    selectedStudent: null,
-    subjects: null,
-  };
-
-  async componentDidMount() {
-    try {
-      // Get parent personal info from the service
-      const { data } = await http.get(`/subjects`);
-
-      // Get selected student's index from browsers local storage
-      let index = localStorage.getItem('selectedChildIndex');
-
-      if (!index) index = 0;
-
-      const { dashboard: dashboardInfo } = data;
-      const studentList = dashboardInfo.students;
-      const subjects = dashboardInfo.subjects[index];
-      const selectedStudent = dashboardInfo.students[index];
-
-      this.setState({
-        dashboardInfo,
-        studentList,
-        selectedStudent,
-        subjects,
-      });
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location = '/login';
-      } else if (error.response && error.response.status === 404) {
-        window.location = '/notFound';
-      }
-    }
-  }
-
-  render() {
-    const { dashboardInfo } = this.state;
-    if (dashboardInfo) {
-      return (
-        <React.Fragment>
-          <Sidebar userInfo={dashboardInfo.parentInfo}>
-            <ParentDashboard />
-          </Sidebar>
-        </React.Fragment>
-      );
-    }
-    return null;
-  }
-
-  handleClick = (value) => {
-    if (value) {
-      const seletedID = value.id;
-
-      const studentsList = [...this.state.studentList];
-      const selectedStudent = studentsList.filter((s) => s.id === seletedID)[0];
-
-      const index = studentsList.indexOf(selectedStudent);
-
-      const subjects = this.state.dashboardInfo.subjects[index];
-
-      this.setState({ subjects, selectedStudent });
-
-      /* 
-      Add selected index to browser's local storage
-      to maintain the selected student on page refresh.
-      */
-      localStorage.setItem('selectedChildIndex', index);
-    }
-  };
-}
+const Layout = () => {
+  const [userInfo, setUserInfo] = useState(null);
+  useEffect(async () => {
+    const { data } = await http.get('/layout');
+    setUserInfo(data);
+  }, []);
+  return (
+    <React.Fragment>
+      <Sidebar userInfo={userInfo}>
+        <ParentDashboard />
+      </Sidebar>
+    </React.Fragment>
+  );
+};
 
 export default Layout;
+
+// class Layout extends Component {
+//   state = {
+//     dashboardInfo: null,
+//     studentList: null,
+//     selectedStudent: null,
+//     subjects: null,
+//   };
+
+//   async componentDidMount() {
+//     try {
+//       // Get parent personal info from the service
+//       const { data } = await http.get(`/subjects`);
+
+//       // Get selected student's index from browsers local storage
+//       let index = localStorage.getItem('selectedChildIndex');
+
+//       if (!index) index = 0;
+
+//       const { dashboard: dashboardInfo } = data;
+//       const studentList = dashboardInfo.students;
+//       const subjects = dashboardInfo.subjects[index];
+//       const selectedStudent = dashboardInfo.students[index];
+
+//       this.setState({
+//         dashboardInfo,
+//         studentList,
+//         selectedStudent,
+//         subjects,
+//       });
+//     } catch (error) {
+//       if (error.response && error.response.status === 401) {
+//         window.location = '/login';
+//       } else if (error.response && error.response.status === 404) {
+//         window.location = '/notFound';
+//       }
+//     }
+//   }
+
+//   render() {
+//     const { dashboardInfo } = this.state;
+//     if (dashboardInfo) {
+//       return (
+//         <React.Fragment>
+//           <Sidebar userInfo={dashboardInfo.parentInfo}>
+//             <ParentDashboard />
+//           </Sidebar>
+//         </React.Fragment>
+//       );
+//     }
+//     return null;
+//   }
+
+//   handleClick = (value) => {
+//     if (value) {
+//       const seletedID = value.id;
+
+//       const studentsList = [...this.state.studentList];
+//       const selectedStudent = studentsList.filter((s) => s.id === seletedID)[0];
+
+//       const index = studentsList.indexOf(selectedStudent);
+
+//       const subjects = this.state.dashboardInfo.subjects[index];
+
+//       this.setState({ subjects, selectedStudent });
+
+//       /*
+//       Add selected index to browser's local storage
+//       to maintain the selected student on page refresh.
+//       */
+//       localStorage.setItem('selectedChildIndex', index);
+//     }
+//   };
+// }
+
+// export default Layout;
