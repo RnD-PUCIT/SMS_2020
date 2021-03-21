@@ -11,19 +11,31 @@ const ParentDashboard = () => {
 
   //   function to call api
   useEffect(async () => {
-    // Get parent personal info from the service
-    const { data } = await http.get(`/subjects`);
+    try {
+      // Get parent personal info from the service
+      const { data } = await http.get(`/subjects`);
 
-    // Get selected student's index from browsers local storage
-    let index = localStorage.getItem('selectedChildIndex');
+      // Get selected student's index from browsers local storage
+      let index = localStorage.getItem('selectedChildIndex');
 
-    if (!index) index = 0;
+      if (!index) index = 0;
 
-    const { dashboard } = data;
-    setDashboardInfo(dashboard);
-    setStudentList(dashboard.students);
-    setSubjects(dashboard.subjects[index]);
-    setSelectedStudent(dashboard.students[index]);
+      const { dashboard } = data;
+      const studentsList = dashboard.students;
+      const subjectsList = dashboard.subjects[index];
+      const studentSelected = dashboard.students[index];
+
+      setStudentList(studentsList);
+      setSelectedStudent(studentSelected);
+      setSubjects(subjectsList);
+      setDashboardInfo(dashboard);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location = '/login';
+      } else if (error.response && error.response.status === 404) {
+        window.location = '/notFound';
+      }
+    }
   }, []);
 
   const handleClick = (value) => {
@@ -45,17 +57,20 @@ const ParentDashboard = () => {
     }
   };
 
-  return (
-    <MainContent
-      studentList={studentList}
-      subjects={subjects}
-      selectedStudent={selectedStudent}
-      studentId={selectedStudent.id}
-      classId={selectedStudent.classId}
-      sessionId={selectedStudent.sessionId}
-      onClick={handleClick}
-    />
-  );
+  if (dashboardInfo) {
+    return (
+      <MainContent
+        studentList={studentList}
+        subjects={subjects}
+        selectedStudent={selectedStudent}
+        studentId={selectedStudent.id}
+        classId={selectedStudent.classId}
+        sessionId={selectedStudent.sessionId}
+        onClick={handleClick}
+      />
+    );
+  }
+  return null;
 };
 
 export default ParentDashboard;

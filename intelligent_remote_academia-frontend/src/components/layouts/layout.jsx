@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainContent from './mainContent/mainContent';
 import Sidebar from './sidebar/sidebar';
+import ParentDashboard from '../dashboard/ParentDashboard';
 
 import http from '../../services/httpService';
 
@@ -48,15 +49,7 @@ class Layout extends Component {
       return (
         <React.Fragment>
           <Sidebar userInfo={dashboardInfo.parentInfo}>
-            <MainContent
-              studentList={this.state.studentList}
-              subjects={this.state.subjects}
-              selectedStudent={this.state.selectedStudent}
-              studentId={this.state.selectedStudent.id}
-              classId={this.state.selectedStudent.classId}
-              sessionId={this.state.selectedStudent.sessionId}
-              onClick={this.handleClick}
-            />
+            <ParentDashboard />
           </Sidebar>
         </React.Fragment>
       );
