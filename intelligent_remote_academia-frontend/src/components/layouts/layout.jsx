@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import MainContent from "./mainContent/mainContent";
-import Sidebar from "./sidebar/sidebar";
+import React, { Component } from 'react';
+import MainContent from './mainContent/mainContent';
+import Sidebar from './sidebar/sidebar';
 
-import http from "../../services/httpService";
+import http from '../../services/httpService';
 
 class Layout extends Component {
   state = {
@@ -18,7 +18,7 @@ class Layout extends Component {
       const { data } = await http.get(`/subjects`);
 
       // Get selected student's index from browsers local storage
-      let index = localStorage.getItem("selectedChildIndex");
+      let index = localStorage.getItem('selectedChildIndex');
 
       if (!index) index = 0;
 
@@ -35,9 +35,9 @@ class Layout extends Component {
       });
     } catch (error) {
       if (error.response && error.response.status === 401) {
-        window.location = "/login";
+        window.location = '/login';
       } else if (error.response && error.response.status === 404) {
-        window.location = "/notFound";
+        window.location = '/notFound';
       }
     }
   }
@@ -81,7 +81,7 @@ class Layout extends Component {
       Add selected index to browser's local storage
       to maintain the selected student on page refresh.
       */
-      localStorage.setItem("selectedChildIndex", index);
+      localStorage.setItem('selectedChildIndex', index);
     }
   };
 }
