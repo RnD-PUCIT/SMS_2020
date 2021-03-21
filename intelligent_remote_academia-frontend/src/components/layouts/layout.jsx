@@ -2,18 +2,36 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar/sidebar';
 import ParentDashboard from '../dashboard/ParentDashboard';
 
+import jwt_decode from 'jwt-decode';
 import http from '../../services/httpService';
+import Content from './mainContent/Content';
 
 const Layout = () => {
   const [userInfo, setUserInfo] = useState(null);
+  const [role, setRole] = useState('');
   useEffect(async () => {
-    const { data } = await http.get('/layout');
-    setUserInfo(data);
+    //Get token
+    const token = window.localStorage.getItem('token');
+    const decoded = jwt_decode(token);
+
+    const { role: userRole } = decoded;
+    setRole(userRole);
+
+    try {
+      const { data } = await http.get('/layout');
+      setUserInfo(data);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        window.location = '/login';
+      } else if (error.response && error.response.status === 404) {
+        window.location = '/notFound';
+      }
+    }
   }, []);
   return (
     <React.Fragment>
       <Sidebar userInfo={userInfo}>
-        <ParentDashboard />
+        <Content role={role} />
       </Sidebar>
     </React.Fragment>
   );

@@ -16,7 +16,6 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockIcon from '@material-ui/icons/Lock';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import jwt_decode from 'jwt-decode';
 
 import AlertSimple from '../../common/alerts/alertSimple';
 import http from '../../../services/httpService';
@@ -77,9 +76,6 @@ const Login = () => {
 
       // store it to local storage
       localStorage.setItem('token', jwt);
-
-      const decoded = jwt_decode(jwt);
-      const { role } = decoded;
 
       // Redirect the user to dashboard
       window.location = '/';
