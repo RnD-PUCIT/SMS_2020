@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
 
 const formSchema = Yup.object().shape({
   username: Yup.string()
-    .required('Required*')
-    .min(6, 'Username must be atleast 6 characters long'),
+    // .min(6, 'Username must be atleast 6 characters long')
+    .required('Required*'),
   password: Yup.string()
     .required('Required*')
     .min(3, 'Must be atleast 6 characters'),
