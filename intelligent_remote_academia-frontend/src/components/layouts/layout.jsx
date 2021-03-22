@@ -12,13 +12,17 @@ const Layout = () => {
 
   // Init state data from api
   useEffect(async () => {
-    //Get token and decode it using jwt_decode library
-    const token = window.localStorage.getItem('token');
-    const decoded = jwt_decode(token);
+    try {
+      //Get token and decode it using jwt_decode library
+      const token = window.localStorage.getItem('token');
+      const decoded = jwt_decode(token);
 
-    // Set the role of the user in the state
-    const { role: userRole } = decoded;
-    setRole(userRole.trim().toLowerCase());
+      // Set the role of the user in the state
+      const { role: userRole } = decoded;
+      setRole(userRole.trim().toLowerCase());
+    } catch (error) {
+      window.location = '/login';
+    }
 
     // Call api to get layout data
     try {
