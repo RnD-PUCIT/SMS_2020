@@ -11,11 +11,11 @@ class App extends Component {
   render() {
     return (
       <Switch>
-        <Route path="/notFound" component={NotFound} exact />
-        <Route path="/login" component={Login} exact />
-        <Route path="/" component={Layout} />
-        <Redirect from="/" to="/subjects" exact />
-        <Route component={NotFound} />
+        {/* <Route path='/notFound' component={NotFound} exact /> */}
+        <Route path='/login' component={Login} exact />
+        <Route path='/' component={Layout} />
+        <Redirect from='/' to='/subjects' exact />
+        {/* <Route component={NotFound} /> */}
       </Switch>
     );
   }

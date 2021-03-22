@@ -79,7 +79,7 @@ class Login extends Component {
       const { cnic, password } = values;
 
       // Add the input values in form-data
-      formData.set('cnic', cnic);
+      formData.set('username', cnic);
       formData.set('password', password);
 
       try {
@@ -106,7 +106,7 @@ class Login extends Component {
           const error = ex.response.data;
           this.setState({ error });
         } else if (ex.response && ex.response.status === 404) {
-          window.location = '/notFound';
+          // window.location = '/notFound';
         }
       }
     };
