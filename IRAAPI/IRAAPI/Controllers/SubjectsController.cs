@@ -212,7 +212,7 @@ namespace IRAAPI.Controllers
 
                     }).SingleOrDefault();
 
-                var gradeTypesData = context.SubjectGradeTypeAllocs.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId)
+                var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
                         gradeTypeId = g.GradeType.Guid,

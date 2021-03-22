@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,10 +16,14 @@ import { ListItemIcon } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Sidebar(props) {
-  const { window } = props;
-  const { userInfo } = props;
+  const { window, userInfo, role } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [links, setLinks] = useState([]);
+
+  useEffect(() => {
+    setLinks(sideBarLinks[role]);
+  }, []);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -32,7 +36,7 @@ function Sidebar(props) {
 
       {/* Sidebar Links */}
       <List>
-        {sideBarLinks.map((item) => {
+        {links.map((item) => {
           return (
             <ListItem
               button

@@ -1,89 +1,128 @@
-import React, { Component } from 'react';
-import MainContent from './mainContent/mainContent';
+import React, { useEffect, useState } from 'react';
 import Sidebar from './sidebar/sidebar';
 
+import jwt_decode from 'jwt-decode';
 import http from '../../services/httpService';
+import Content from './mainContent/Content';
 
-class Layout extends Component {
-  state = {
-    dashboardInfo: null,
-    studentList: null,
-    selectedStudent: null,
-    subjects: null,
-  };
+const Layout = () => {
+  // State variables
+  const [userInfo, setUserInfo] = useState(null);
+  const [role, setRole] = useState('');
 
-  async componentDidMount() {
+  // Init state data from api
+  useEffect(async () => {
     try {
-      // Get parent personal info from the service
-      const { data } = await http.get(`/subjects`);
+      //Get token and decode it using jwt_decode library
+      const token = window.localStorage.getItem('token');
+      const decoded = jwt_decode(token);
 
-      // Get selected student's index from browsers local storage
-      let index = localStorage.getItem('selectedChildIndex');
+      // Set the role of the user in the state
+      const { role: userRole } = decoded;
+      setRole(userRole.trim().toLowerCase());
+    } catch (error) {
+      window.location = '/login';
+    }
 
-      if (!index) index = 0;
-
-      const { dashboard: dashboardInfo } = data;
-      const studentList = dashboardInfo.students;
-      const subjects = dashboardInfo.subjects[index];
-      const selectedStudent = dashboardInfo.students[index];
-
-      this.setState({
-        dashboardInfo,
-        studentList,
-        selectedStudent,
-        subjects,
-      });
+    // Call api to get layout data
+    try {
+      const { data } = await http.get('/layout');
+      setUserInfo(data);
     } catch (error) {
       if (error.response && error.response.status === 401) {
         window.location = '/login';
       } else if (error.response && error.response.status === 404) {
-        // window.location = '/notFound';
+        window.location = '/notFound';
       }
     }
+  }, []);
+
+  if (userInfo) {
+    return (
+      <React.Fragment>
+        <Sidebar userInfo={userInfo} role={role}>
+          <Content role={role} />
+        </Sidebar>
+      </React.Fragment>
+    );
   }
-
-  render() {
-    const { dashboardInfo } = this.state;
-    if (dashboardInfo) {
-      return (
-        <React.Fragment>
-          <Sidebar userInfo={dashboardInfo.parentInfo}>
-            <MainContent
-              studentList={this.state.studentList}
-              subjects={this.state.subjects}
-              selectedStudent={this.state.selectedStudent}
-              studentId={this.state.selectedStudent.id}
-              classId={this.state.selectedStudent.classId}
-              sessionId={this.state.selectedStudent.sessionId}
-              onClick={this.handleClick}
-            />
-          </Sidebar>
-        </React.Fragment>
-      );
-    }
-    return null;
-  }
-
-  handleClick = (value) => {
-    if (value) {
-      const seletedID = value.id;
-
-      const studentsList = [...this.state.studentList];
-      const selectedStudent = studentsList.filter((s) => s.id === seletedID)[0];
-
-      const index = studentsList.indexOf(selectedStudent);
-
-      const subjects = this.state.dashboardInfo.subjects[index];
-
-      this.setState({ subjects, selectedStudent });
-
-      /* 
-      Add selected index to browser's local storage
-      to maintain the selected student on page refresh.
-      */
-      localStorage.setItem('selectedChildIndex', index);
-    }
-  };
-}
+  return null;
+};
 
 export default Layout;
+
+// class Layout extends Component {
+//   state = {
+//     dashboardInfo: null,
+//     studentList: null,
+//     selectedStudent: null,
+//     subjects: null,
+//   };
+
+//   async componentDidMount() {
+//     try {
+//       // Get parent personal info from the service
+//       const { data } = await http.get(`/subjects`);
+
+//       // Get selected student's index from browsers local storage
+//       let index = localStorage.getItem('selectedChildIndex');
+
+//       if (!index) index = 0;
+
+//       const { dashboard: dashboardInfo } = data;
+//       const studentList = dashboardInfo.students;
+//       const subjects = dashboardInfo.subjects[index];
+//       const selectedStudent = dashboardInfo.students[index];
+
+//       this.setState({
+//         dashboardInfo,
+//         studentList,
+//         selectedStudent,
+//         subjects,
+//       });
+//     } catch (error) {
+//       if (error.response && error.response.status === 401) {
+//         window.location = '/login';
+//       } else if (error.response && error.response.status === 404) {
+//         window.location = '/notFound';
+//       }
+//     }
+//   }
+
+//   render() {
+//     const { dashboardInfo } = this.state;
+//     if (dashboardInfo) {
+//       return (
+//         <React.Fragment>
+//           <Sidebar userInfo={dashboardInfo.parentInfo}>
+//             <ParentDashboard />
+//           </Sidebar>
+//         </React.Fragment>
+//       );
+//     }
+//     return null;
+//   }
+
+//   handleClick = (value) => {
+//     if (value) {
+//       const seletedID = value.id;
+
+//       const studentsList = [...this.state.studentList];
+//       const selectedStudent = studentsList.filter((s) => s.id === seletedID)[0];
+
+//       const index = studentsList.indexOf(selectedStudent);
+
+//       const subjects = this.state.dashboardInfo.subjects[index];
+
+//       this.setState({ subjects, selectedStudent });
+
+//       /*
+//       Add selected index to browser's local storage
+//       to maintain the selected student on page refresh.
+//       */
+//       localStorage.setItem('selectedChildIndex', index);
+//     }
+//   };
+// }
+
+// export default Layout;
