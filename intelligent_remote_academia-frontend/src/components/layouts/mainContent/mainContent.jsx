@@ -14,6 +14,15 @@ import TimeTable from '../../pages/time-table/TimeTable';
 import CourseContent from './../../pages/courseContentOutline/courseContent';
 
 import { useStyles } from '../../constants/layoutConsts';
+import ApplicationForm from '../../pages/applicationForm/ApplicationForm';
+import ApplicationsDashboard from '../../pages/applicationForm/ApplicationsDashboard';
+import TeacherDashboard from '../../pages/teacher/dashboard/TeacherDashboard';
+import DiaryForm from '../../pages/teacher/diary/DiaryForm';
+import AttendanceDashboard from '../../pages/teacher/attendance/AttendanceDashboard';
+import ClassList from '../../pages/teacher/classes/ClassList';
+import SubjecList from '../../pages/teacher/subjects/SubjectList';
+import SubjectDashboard from '../../pages/teacher/subjects/SubjectDashboard';
+import MarkGrade from '../../pages/teacher/gradebook/MarkGrade';
 
 const MainContent = ({
   subjects,
@@ -35,6 +44,21 @@ const MainContent = ({
             component={GradeDetails}
           />
           <Route path='/subjects/:subjectSlug' component={SubjectDetails} />
+
+          {/* Teacher Module Links */}
+          <Route path='/teachers' component={TeacherDashboard} />
+          <Route path='/diary-form' component={DiaryForm} />
+          <Route path='/mark-attendance' component={AttendanceDashboard} />
+          <Route exact path='/classes' component={ClassList} />
+          <Route
+            path='/classes/:classSlug/:subjectSlug/gradebook/mark'
+            component={MarkGrade}
+          />
+          <Route exact path='/classes/:classSlug' component={SubjecList} />
+          <Route
+            path='/classes/:classSlug/:subjectSlug'
+            component={SubjectDashboard}
+          />
 
           {/* Sending subjects array as a prop to Subject component */}
           <Route
@@ -118,6 +142,35 @@ const MainContent = ({
                 onClick={onClick}
                 selectedStudent={selectedStudent}>
                 <AcademicCalendar
+                  sessionId={sessionId}
+                  selectedStudent={selectedStudent}
+                />
+              </StudentDropdown>
+            )}
+          />
+          <Route
+            path='/applications'
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}>
+                <ApplicationsDashboard
+                  sessionId={sessionId}
+                  selectedStudent={selectedStudent}
+                />
+              </StudentDropdown>
+            )}
+            exact
+          />
+          <Route
+            path='/applications/new'
+            render={() => (
+              <StudentDropdown
+                studentList={studentList}
+                onClick={onClick}
+                selectedStudent={selectedStudent}>
+                <ApplicationForm
                   sessionId={sessionId}
                   selectedStudent={selectedStudent}
                 />

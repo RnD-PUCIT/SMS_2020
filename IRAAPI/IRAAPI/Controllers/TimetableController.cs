@@ -23,11 +23,6 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public Object GetTimeTable(Guid classId, Guid sessionId)
         {
-            var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
-            if (parentId == null)
-                return Unauthorized();
-
             try
             {
                 int classNumericId = context.Classes.Where(c => c.Guid == classId)

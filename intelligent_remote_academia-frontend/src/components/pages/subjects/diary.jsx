@@ -1,26 +1,28 @@
-import React, { Component } from 'react';
-import { Button, Grid, Paper, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from "react";
+import { Button, Grid, Paper, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { getMonths, getDays, getWeeks } from '../../constants/calendarConsts';
-import AlertDescriptive from '../../common/alerts/alertDescriptive';
+import { getMonths, getDays, getWeeks } from "../../constants/calendarConsts";
+import AlertDescriptive from "../../common/alerts/alertDescriptive";
+import Pagination from "../../common/pagination/Pagination";
+import { paginate } from "../../../utils/paginate";
 
 const useStyles = makeStyles({
   paper: {
-    marginTop: '30px',
+    marginTop: "30px",
   },
   paperBody: {
-    padding: '20px 30px',
+    padding: "20px 30px",
   },
   toolbar: {
-    backgroundColor: '#2875c7',
-    borderTopLeftRadius: '4px',
-    borderTopRightRadius: '4px',
-    color: 'white',
-    padding: '5px 20px',
+    backgroundColor: "#2875c7",
+    borderTopLeftRadius: "4px",
+    borderTopRightRadius: "4px",
+    color: "white",
+    padding: "5px 20px",
   },
   selectDropdown: {
-    padding: '8px 10px',
+    padding: "8px 10px",
   },
 });
 
@@ -30,6 +32,8 @@ class Diary extends Component {
   state = {
     diary: this.props.diary,
     allDiary: this.props.diary,
+    currentPage: 1,
+    pageSize: 2,
     isMonthSelected: false,
     isWeekSelected: false,
     selectedMonth: null,
@@ -38,116 +42,127 @@ class Diary extends Component {
   };
 
   render() {
-    const { diary } = this.state;
-    const handleDayChange = (buttonId) => {
-      // Get selected week and month from the state
-      const { selectedWeek, selectedMonth } = this.state;
-      const selectedDay = buttonId;
-
-      let diary = [...this.state.allDiary];
-
-      if (buttonId !== 0) {
-        diary = diary.filter((d) => {
-          const diaryDate = new Date(d.diaryDate);
-          const month = diaryDate.getMonth() + 1;
-          const week = Math.floor(diaryDate.getDate() / 7);
-          const day = diaryDate.getDay();
-          return (
-            week === selectedWeek &&
-            month === selectedMonth &&
-            day === selectedDay
-          );
-        });
-      } else {
-      }
-
-      // Change the selected day value to toggle button selection
-      this.setState({ diary, selectedDay });
-    };
-
-    const handleWeekChange = (event) => {
-      // Get selected week from dropdown
-      const selectedWeek = event.target.value;
-      let { selectedMonth } = this.state;
-
-      // Get diary object from state
-      let diary = [...this.state.allDiary];
-      let { isWeekSelected } = this.state;
-
-      if (selectedWeek !== 0) {
-        // Filter the contnet of diary according to the month selected.
-        diary = diary.filter((d) => {
-          const diaryDate = new Date(d.diaryDate);
-          const month = diaryDate.getMonth() + 1;
-          const week = Math.floor(diaryDate.getDate() / 7);
-          return week === selectedWeek && month === selectedMonth;
-        });
-        isWeekSelected = true;
-      } else {
-        isWeekSelected = false;
-      }
-
-      // Update the state of diary
-      this.setState({ diary, isWeekSelected, selectedWeek });
-    };
-
-    const handleMonthChange = (event) => {
-      // Get selected month from dropdown
-      let selectedMonth = event.target.value;
-
-      // Get diary object from state
-      let diary = [...this.state.allDiary];
-      let { isMonthSelected } = this.state;
-
-      if (selectedMonth !== 0) {
-        // Filter the contnet of diary according to the month selected.
-        diary = diary.filter((d) => {
-          const diaryDate = new Date(d.diaryDate);
-          const month = diaryDate.getMonth() + 1;
-          return month === selectedMonth;
-        });
-        isMonthSelected = true;
-      } else {
-        isMonthSelected = false;
-      }
-      // Update the state of diary
-      this.setState({ diary, isMonthSelected, selectedMonth });
-    };
-
+    const { diary: allDiary, currentPage, pageSize } = this.state;
+    const diary = paginate(allDiary, currentPage, pageSize);
     return (
       <React.Fragment>
         {/* Component for Months and Weeks dropdown */}
         <DiaryFilterMenu
-          onWeekChange={handleWeekChange}
-          onMonthChange={handleMonthChange}
+          onWeekChange={this.handleWeekChange}
+          onMonthChange={this.handleMonthChange}
           disableWeek={this.state.isMonthSelected}
         />
 
         {/* Component for Day buttons */}
         <DayFilterButtons
           disableDays={this.state.isWeekSelected}
-          onDayChange={handleDayChange}
+          onDayChange={this.handleDayChange}
           selectedDay={this.state.selectedDay}
         />
 
         {/* Diary content */}
         <DiaryContent diary={diary} />
+
+        <Pagination
+          pageSize={this.state.pageSize}
+          itemsCount={this.state.allDiary.length}
+          onPageChange={this.handlePageChange}
+        />
       </React.Fragment>
     );
   }
+  handleDayChange = (buttonId) => {
+    // Get selected week and month from the state
+    const { selectedWeek, selectedMonth } = this.state;
+    const selectedDay = buttonId;
+
+    let diary = [...this.state.allDiary];
+
+    if (buttonId !== 0) {
+      diary = diary.filter((d) => {
+        const diaryDate = new Date(d.diaryDate);
+        const month = diaryDate.getMonth() + 1;
+        const week = Math.floor(diaryDate.getDate() / 7);
+        const day = diaryDate.getDay();
+        return (
+          week === selectedWeek &&
+          month === selectedMonth &&
+          day === selectedDay
+        );
+      });
+    } else {
+    }
+
+    // Change the selected day value to toggle button selection
+    this.setState({ diary, selectedDay });
+  };
+
+  handleWeekChange = (event) => {
+    // Get selected week from dropdown
+    const selectedWeek = event.target.value;
+    let { selectedMonth } = this.state;
+
+    // Get diary object from state
+    let diary = [...this.state.allDiary];
+    let { isWeekSelected } = this.state;
+
+    if (selectedWeek !== 0) {
+      // Filter the contnet of diary according to the month selected.
+      diary = diary.filter((d) => {
+        const diaryDate = new Date(d.diaryDate);
+        const month = diaryDate.getMonth() + 1;
+        const week = Math.floor(diaryDate.getDate() / 7);
+        return week === selectedWeek && month === selectedMonth;
+      });
+      isWeekSelected = true;
+    } else {
+      isWeekSelected = false;
+    }
+
+    // Update the state of diary
+    this.setState({ diary, isWeekSelected, selectedWeek });
+  };
+
+  handleMonthChange = (event) => {
+    // Get selected month from dropdown
+    let selectedMonth = event.target.value;
+
+    // Get diary object from state
+    let diary = [...this.state.allDiary];
+    let { isMonthSelected } = this.state;
+
+    if (selectedMonth !== 0) {
+      // Filter the contnet of diary according to the month selected.
+      diary = diary.filter((d) => {
+        const diaryDate = new Date(d.diaryDate);
+        const month = diaryDate.getMonth() + 1;
+        return month === selectedMonth;
+      });
+      isMonthSelected = true;
+    } else {
+      isMonthSelected = false;
+    }
+    // Update the state of diary
+    this.setState({ diary, isMonthSelected, selectedMonth });
+  };
+
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
 }
 
 const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
   const weeks = getWeeks();
   const classes = useStyles();
   return (
-    <Grid container spacing={1} justify='flex-end'>
+    <Grid container spacing={1} justify="flex-end">
       <Grid item>
         <select
           className={classes.selectDropdown}
           onChange={onWeekChange}
-          disabled={!disableWeek}>
-          <option value='0'>Select Week</option>
+          disabled={!disableWeek}
+        >
+          <option value="0">Select Week</option>
           {weeks.map((week) => {
             return (
               <option key={week.id} value={week.id}>
@@ -159,7 +174,7 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
       </Grid>
       <Grid item>
         <select className={classes.selectDropdown} onChange={onMonthChange}>
-          <option value='0'>Select Month</option>
+          <option value="0">Select Month</option>
           {months.map((month) => {
             return (
               <option key={month.id} value={month.id}>
@@ -176,12 +191,13 @@ const DiaryFilterMenu = ({ onWeekChange, onMonthChange, disableWeek }) => {
 const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
   const days = getDays();
   return (
-    <Grid container spacing={1} justify='center' style={{ margin: '20px 0' }}>
+    <Grid container spacing={1} justify="center" style={{ margin: "20px 0" }}>
       <Grid item>
         <Button
-          color='primary'
-          variant={selectedDay === 0 ? 'contained' : 'outlined'}
-          onClick={() => onDayChange(0)}>
+          color="primary"
+          variant={selectedDay === 0 ? "contained" : "outlined"}
+          onClick={() => onDayChange(0)}
+        >
           All
         </Button>
       </Grid>
@@ -191,9 +207,10 @@ const DayFilterButtons = ({ disableDays, onDayChange, selectedDay }) => {
             <Button
               // variant='outlined'
               disabled={!disableDays}
-              color='primary'
-              variant={selectedDay === day.id ? 'contained' : 'outlined'}
-              onClick={() => onDayChange(day.id)}>
+              color="primary"
+              variant={selectedDay === day.id ? "contained" : "outlined"}
+              onClick={() => onDayChange(day.id)}
+            >
               {day.name}
             </Button>
           </Grid>
@@ -213,12 +230,12 @@ const DiaryContent = ({ diary }) => {
           return (
             <Paper className={classes.paper} key={item.id}>
               {/* Toolbar Starts */}
-              <div className={classes.toolbar} variant='dense'>
-                <Typography variant='h6'>
+              <div className={classes.toolbar} variant="dense">
+                <Typography variant="h6">
                   {months[diaryDate.getMonth()].name +
-                    ' ' +
+                    " " +
                     diaryDate.getDate() +
-                    ', ' +
+                    ", " +
                     diaryDate.getFullYear()}
                 </Typography>
               </div>
@@ -235,9 +252,9 @@ const DiaryContent = ({ diary }) => {
   }
   return (
     <AlertDescriptive
-      severity='error'
-      title='No Diary Content Found'
-      description='Oops! Looks like no diary is found of the selected day. Enjoy the relaxation!!'
+      severity="error"
+      title="No Diary Content Found"
+      description="Oops! Looks like no diary is found of the selected day. Enjoy the relaxation!!"
     />
   );
 };

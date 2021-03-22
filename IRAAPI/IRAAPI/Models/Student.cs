@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using IRAAPI.Authentication;
 using Microsoft.EntityFrameworkCore;
 
 #nullable disable
@@ -65,6 +66,13 @@ namespace IRAAPI.Models
         public virtual ICollection<FeeChallan> FeeChallans { get; set; }
         [InverseProperty(nameof(Grade.Student))]
         public virtual ICollection<Grade> Grades { get; set; }
+
+        [Required]
+        [Column("user_id")]
+        [ForeignKey("Id")]
+
+        public Guid UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
     public class STDDTO
     {

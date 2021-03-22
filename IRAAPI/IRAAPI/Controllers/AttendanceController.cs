@@ -24,11 +24,6 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public Object GetAttendance(Guid studentId, Guid classId, Guid sessionId)
         {
-            var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
-            if (parentId == null)
-                return Unauthorized();
-
             try
             {
                 int studentNumericId = context.Students.Where(a => a.Guid == studentId)
@@ -46,7 +41,7 @@ namespace IRAAPI.Controllers
                     .Select(p => new AttendanceDTO()
                     {
                         id = p.Guid,
-                        attendanceDate = Convert.ToDateTime(p.AttendanceDate).ToString("MM/d/yyyy"),
+                        attendanceDate = Convert.ToDateTime(p.AttendanceDate).ToString("M/d/yyyy"),
                         status = p.Status
                     })
                     .ToList();

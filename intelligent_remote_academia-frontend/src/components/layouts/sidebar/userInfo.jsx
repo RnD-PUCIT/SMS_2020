@@ -7,13 +7,10 @@ const useStyles = makeStyles(() => ({
     padding: "20px 0",
   },
   avatar: {
-    width: "100px",
-    height: "100px",
+    width: "85px",
+    height: "85px",
     margin: "20px 0",
-  },
-  portalHeading: {
-    fontSize: "16px",
-    fontWeight: "500",
+    boxShadow: "0 5px 15px rgb(0,0,0, .25)",
   },
 }));
 
@@ -24,16 +21,9 @@ const UserInfo = (props) => {
   if (parentInfo) {
     return (
       <center className={classes.root}>
-        <Typography
-          variant="h6"
-          className={classes.portalHeading}
-          color="textSecondary"
-        >
-          Parents Portal
-        </Typography>
         <ImageAvatar className={classes.avatar} />
-        <Typography style={{ textTransform: "capitalize" }}>
-          {parentInfo.firstName + " " + parentInfo.lastName}
+        <Typography variant="h6" style={{ textTransform: "capitalize" }}>
+          {`${parentInfo.firstName} ${parentInfo.lastName}`}
         </Typography>
       </center>
     );

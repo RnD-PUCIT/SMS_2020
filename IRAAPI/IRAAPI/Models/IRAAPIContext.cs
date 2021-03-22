@@ -1,4 +1,6 @@
 ﻿using System;
+using IRAAPI.Authentication;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,14 +8,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace IRAAPI.Models
 {
-    public partial class IRAAPIContext : DbContext
+    public partial class IRAAPIContext : IdentityDbContext<ApplicationUser>
     {
         public IRAAPIContext()
         {
         }
 
-        public IRAAPIContext(DbContextOptions<IRAAPIContext> options)
-            : base(options)
+        public IRAAPIContext(DbContextOptions<IRAAPIContext> options)   : base(options)
         {
         }
         public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
@@ -41,18 +42,22 @@ namespace IRAAPI.Models
         public virtual DbSet<TeacherSubjectAlloc> TeacherSubjectAllocs { get; set; }
         public virtual DbSet<Timetable> TimeTables { get; set; }
         public virtual DbSet<Days> Days { get; set; }
+        public virtual DbSet<StudentApplication> StudentApplications { get; set; }
+        public virtual DbSet<StudentApplicationFile> StudentApplicationFiles { get; set; }
+        public virtual DbSet<GradeActivity> GradeActivities { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
 
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-N6KSGAQ\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            }
-        }
+        //        optionsBuilder.UseSqlServer("Data Source=DESKTOP-BFHGHRM\\SQLEXPRESS;Initial Catalog=IRA_API;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+        //    }
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Announcement>(entity =>
             {
                 entity.Property(e => e.Announcment).IsUnicode(false);
@@ -191,29 +196,29 @@ namespace IRAAPI.Models
 
             modelBuilder.Entity<Grade>(entity =>
             {
-                entity.Property(e => e.GradeTitle).IsUnicode(false);
+                //entity.Property(e => e.GradeTitle).IsUnicode(false);
 
                 entity.Property(e => e.Guid).HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Remarks).IsUnicode(false);
 
-                entity.HasOne(d => d.Class)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.ClassId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Classes");
+                //entity.HasOne(d => d.Class)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.ClassId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Classes");
 
-                entity.HasOne(d => d.GradeType)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.GradeTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Grade_Types");
+                //entity.HasOne(d => d.GradeType)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.GradeTypeId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Grade_Types");
 
-                entity.HasOne(d => d.Session)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.SessionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Sessions");
+                //entity.HasOne(d => d.Session)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.SessionId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Sessions");
 
                 entity.HasOne(d => d.Student)
                     .WithMany(p => p.Grades)
@@ -221,11 +226,11 @@ namespace IRAAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Grades_Students");
 
-                entity.HasOne(d => d.Subject)
-                    .WithMany(p => p.Grades)
-                    .HasForeignKey(d => d.SubjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Grades_Subjects");
+                //entity.HasOne(d => d.Subject)
+                //    .WithMany(p => p.Grades)
+                //    .HasForeignKey(d => d.SubjectId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_Grades_Subjects");
             });
 
             modelBuilder.Entity<GradeType>(entity =>

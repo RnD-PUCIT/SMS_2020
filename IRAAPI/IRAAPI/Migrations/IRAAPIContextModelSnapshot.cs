@@ -17,7 +17,72 @@ namespace IRAAPI.Migrations
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.0");
+                .HasAnnotation("ProductVersion", "5.0.2");
+
+            modelBuilder.Entity("IRAAPI.Authentication.ApplicationUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+                });
 
             modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
                 {
@@ -476,24 +541,9 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
-                    b.Property<int>("ClassId")
-                        .HasColumnType("int")
-                        .HasColumnName("class_id");
-
-                    b.Property<DateTime>("GradeDate")
-                        .HasColumnType("date")
-                        .HasColumnName("grade_date");
-
-                    b.Property<string>("GradeTitle")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("grade_title");
-
-                    b.Property<int>("GradeTypeId")
-                        .HasColumnType("int")
-                        .HasColumnName("grade_type_id");
+                    b.Property<Guid>("GradeActivityId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("grade_activity_id");
 
                     b.Property<Guid>("Guid")
                         .ValueGeneratedOnAdd()
@@ -506,21 +556,43 @@ namespace IRAAPI.Migrations
                         .HasColumnName("obtained_marks");
 
                     b.Property<string>("Remarks")
+                        .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)")
                         .HasColumnName("remarks");
-
-                    b.Property<int>("SessionId")
-                        .HasColumnType("int")
-                        .HasColumnName("session_id");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
                         .HasColumnName("student_id");
 
-                    b.Property<int>("SubjectId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("GradeActivityId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.GradeActivity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("id");
+
+                    b.Property<DateTime>("GradeDate")
+                        .HasColumnType("date")
+                        .HasColumnName("grade_date");
+
+                    b.Property<string>("GradeTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("grade_title");
+
+                    b.Property<int>("GradeTypeId")
                         .HasColumnType("int")
-                        .HasColumnName("subject_id");
+                        .HasColumnName("grade_type_id");
 
                     b.Property<int>("TotalMarks")
                         .HasColumnType("int")
@@ -528,17 +600,9 @@ namespace IRAAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClassId");
-
                     b.HasIndex("GradeTypeId");
 
-                    b.HasIndex("SessionId");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("Grades");
+                    b.ToTable("GradeActivities");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
@@ -548,6 +612,10 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id")
                         .UseIdentityColumn();
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int")
+                        .HasColumnName("class_id");
 
                     b.Property<string>("GradeType1")
                         .IsRequired()
@@ -569,7 +637,21 @@ namespace IRAAPI.Migrations
                         .HasColumnName("guid")
                         .HasDefaultValueSql("(newid())");
 
+                    b.Property<int>("SessionId")
+                        .HasColumnType("int")
+                        .HasColumnName("session_id");
+
+                    b.Property<int>("SubjectId")
+                        .HasColumnType("int")
+                        .HasColumnName("subject_id");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Grade_Types");
                 });
@@ -703,7 +785,16 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("profile_picture");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Parents");
                 });
@@ -868,13 +959,121 @@ namespace IRAAPI.Migrations
                         .HasColumnType("int")
                         .HasColumnName("session_id");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClassId");
 
                     b.HasIndex("SessionId");
 
+                    b.HasIndex("UserId1");
+
                     b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("content");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("end_date");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("start_date");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("status");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int")
+                        .HasColumnName("student_id");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("subject");
+
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("StudentApplications");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplicationFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ApplicationId")
+                        .HasColumnType("int")
+                        .HasColumnName("application_id");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("content_type");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("extension");
+
+                    b.Property<string>("LogicalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("logical_name");
+
+                    b.Property<string>("OrignalName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("orignal_name");
+
+                    b.Property<double>("Size")
+                        .HasColumnType("float")
+                        .HasColumnName("size");
+
+                    b.Property<Guid>("guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StudentApplicationFiles");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Subject", b =>
@@ -1032,7 +1231,16 @@ namespace IRAAPI.Migrations
                         .HasColumnType("varchar(100)")
                         .HasColumnName("specialization");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Teachers");
                 });
@@ -1134,6 +1342,137 @@ namespace IRAAPI.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("TimeTables");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.AcademicCalender", b =>
@@ -1304,22 +1643,10 @@ namespace IRAAPI.Migrations
 
             modelBuilder.Entity("IRAAPI.Models.Grade", b =>
                 {
-                    b.HasOne("IRAAPI.Models.Class", "Class")
-                        .WithMany("Grades")
-                        .HasForeignKey("ClassId")
-                        .HasConstraintName("FK_Grades_Classes")
-                        .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.GradeType", "GradeType")
-                        .WithMany("Grades")
-                        .HasForeignKey("GradeTypeId")
-                        .HasConstraintName("FK_Grades_Grade_Types")
-                        .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.Session", "Session")
-                        .WithMany("Grades")
-                        .HasForeignKey("SessionId")
-                        .HasConstraintName("FK_Grades_Sessions")
+                    b.HasOne("IRAAPI.Models.GradeActivity", "GradeActivity")
+                        .WithMany()
+                        .HasForeignKey("GradeActivityId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("IRAAPI.Models.Student", "Student")
@@ -1328,19 +1655,45 @@ namespace IRAAPI.Migrations
                         .HasConstraintName("FK_Grades_Students")
                         .IsRequired();
 
+                    b.Navigation("GradeActivity");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.GradeActivity", b =>
+                {
+                    b.HasOne("IRAAPI.Models.GradeType", "GradeType")
+                        .WithMany()
+                        .HasForeignKey("GradeTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GradeType");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("IRAAPI.Models.Subject", "Subject")
-                        .WithMany("Grades")
+                        .WithMany()
                         .HasForeignKey("SubjectId")
-                        .HasConstraintName("FK_Grades_Subjects")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Class");
 
-                    b.Navigation("GradeType");
-
                     b.Navigation("Session");
-
-                    b.Navigation("Student");
 
                     b.Navigation("Subject");
                 });
@@ -1354,6 +1707,15 @@ namespace IRAAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("CourseOutline");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.Parent", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.ParentLogin", b =>
@@ -1380,9 +1742,26 @@ namespace IRAAPI.Migrations
                         .HasConstraintName("FK_Students_Sessions")
                         .IsRequired();
 
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
                     b.Navigation("Class");
 
                     b.Navigation("Session");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.StudentApplication", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SubjectGradeTypeAlloc", b =>
@@ -1410,6 +1789,15 @@ namespace IRAAPI.Migrations
                     b.Navigation("GradeType");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.Teacher", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.TeacherSubjectAlloc", b =>
@@ -1474,6 +1862,57 @@ namespace IRAAPI.Migrations
                     b.Navigation("Subject");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Class", b =>
                 {
                     b.Navigation("Announcements");
@@ -1486,8 +1925,6 @@ namespace IRAAPI.Migrations
 
                     b.Navigation("Diaries");
 
-                    b.Navigation("Grades");
-
                     b.Navigation("Students");
 
                     b.Navigation("SubjectGradeTypeAllocs");
@@ -1497,8 +1934,6 @@ namespace IRAAPI.Migrations
 
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
                 {
-                    b.Navigation("Grades");
-
                     b.Navigation("SubjectGradeTypeAllocs");
                 });
 
@@ -1514,8 +1949,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("Attendances");
 
                     b.Navigation("Diaries");
-
-                    b.Navigation("Grades");
 
                     b.Navigation("Students");
                 });
@@ -1536,8 +1969,6 @@ namespace IRAAPI.Migrations
                     b.Navigation("ClassSubjectAllocs");
 
                     b.Navigation("Diaries");
-
-                    b.Navigation("Grades");
 
                     b.Navigation("SubjectGradeTypeAllocs");
 

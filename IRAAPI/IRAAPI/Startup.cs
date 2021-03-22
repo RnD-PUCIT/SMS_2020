@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using AutoMapper;
+using IRAAPI.Authentication;
 using IRAAPI.Models;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,7 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-
+using Newtonsoft.Json.Serialization;
 
 namespace IRAAPI
 {
@@ -48,33 +48,39 @@ namespace IRAAPI
 
             services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-              .AddJwtBearer(options =>
-              {
-                  options.TokenValidationParameters = new TokenValidationParameters
-                  {
-                      ValidateIssuer = true,
-                      ValidateAudience = true,
-                      ValidateIssuerSigningKey = true,
-                      ValidIssuer = "http://ira.com", //some string, normally web url,
-                      ValidAudience = "http://ira.com",
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
-                  };
+            services.AddIdentity<ApplicationUser, IdentityRole>(option=>
+            {
+                option.Password.RequireDigit = false;
+                option.Password.RequiredUniqueChars = 0;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.Password.RequireLowercase = false;
+            })
+                .AddEntityFrameworkStores<IRAAPIContext>()
+                .AddDefaultTokenProviders();
 
-                  options.Events = new JwtBearerEvents
-                  {
-                      OnAuthenticationFailed = context =>
-                      {
-                          if (context.Exception.GetType() == typeof(SecurityTokenExpiredException))
-                          {
-                              context.Response.Headers.Add("Token-Expired", "true");
-                          }
-                          return Task.CompletedTask;
-                      }
-                  };
-              });
-           services.AddAutoMapper(typeof(Startup));
-            // services.AddDbContext()
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+
+            // Adding Jwt Bearer  
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = "http://ira.com",
+                    ValidIssuer = "http://ira.com", //some string, normally web url,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ADSTZ_1226404119"))
+                };
+            });
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
         }
 
@@ -87,6 +93,7 @@ namespace IRAAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors("defaultcorspolicy");

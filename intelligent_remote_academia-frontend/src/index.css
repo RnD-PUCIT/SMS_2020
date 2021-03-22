@@ -1,3 +1,4 @@
+/* General Styling */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,89 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Generic styling */
+.paper_padding--sm {
+  padding: 30px;
+}
+.u_mt_huge {
+  margin-top: 50px;
+}
+.u_mt_large {
+  margin-top: 40px;
+}
+.u_mt_medium {
+  margin-top: 30px;
+}
+.u_mt_small {
+  margin-top: 20px;
+}
+.u_mt_tiny {
+  margin-top: 10px;
+}
+
+.u_mb_huge {
+  margin-bottom: 50px;
+}
+.u_mb_large {
+  margin-bottom: 40px;
+}
+.u_mb_medium {
+  margin-bottom: 30px;
+}
+.u_mb_small {
+  margin-bottom: 20px;
+}
+.u_mb_tiny {
+  margin-bottom: 10px;
+}
+
+.u_p_huge {
+  padding: 50px;
+}
+.u_p_large {
+  padding: 40px;
+}
+.u_p_medium {
+  padding: 30px;
+}
+.u_p_small {
+  padding: 20px;
+}
+.u_p_tiny {
+  padding: 10px;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Custom Styling */
+.application-editor .ql-editor,
+.application-editor .ql-blank {
+  height: 500px;
+}
+
+.MuiFormHelperText-root.Mui-error {
+  margin: 0;
+  margin-top: 10px;
+}
+
+main {
+  overflow: hidden;
+}
+
+#material-select-small {
+  padding: 10.5px 32px 10.5px 14px;
+}
+
+.shadow_small_rounded {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+}
+
+input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
+  text-align: right;
 }
