@@ -11,30 +11,33 @@ const Layout = () => {
   const [role, setRole] = useState('');
 
   // Init state data from api
-  useEffect(async () => {
-    try {
-      //Get token and decode it using jwt_decode library
-      const token = window.localStorage.getItem('token');
-      const decoded = jwt_decode(token);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        //Get token and decode it using jwt_decode library
+        const token = window.localStorage.getItem('token');
+        const decoded = jwt_decode(token);
 
-      // Set the role of the user in the state
-      const { role: userRole } = decoded;
-      setRole(userRole.trim().toLowerCase());
-    } catch (error) {
-      window.location = '/login';
-    }
-
-    // Call api to get layout data
-    try {
-      const { data } = await http.get('/layout');
-      setUserInfo(data);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
+        // Set the role of the user in the state
+        const { role: userRole } = decoded;
+        setRole(userRole.trim().toLowerCase());
+      } catch (error) {
         window.location = '/login';
-      } else if (error.response && error.response.status === 404) {
-        window.location = '/notFound';
+      }
+
+      // Call api to get layout data
+      try {
+        const { data } = await http.get('/layout');
+        setUserInfo(data);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          window.location = '/login';
+        } else if (error.response && error.response.status === 404) {
+          window.location = '/notFound';
+        }
       }
     }
+    fetchData();
   }, []);
 
   if (userInfo) {

@@ -30,12 +30,10 @@ const MarkGrade = () => {
     grades.sort((a, b) => {
       var x = a.studentInfo.rollNumber.toLowerCase();
       var y = b.studentInfo.rollNumber.toLowerCase();
-      if (x < y) {
-        return -1;
-      }
       if (x > y) {
         return 1;
       }
+      return -1;
     });
     // Set state variable
     setGradesList(grades);

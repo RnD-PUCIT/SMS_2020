@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Gradebook from '../gradebook/Gradebook';
-import { AppBar } from '@material-ui/core';
 import DiaryForm from '../diary/DiaryForm';
 
 const SubjectDashboard = (props) => {

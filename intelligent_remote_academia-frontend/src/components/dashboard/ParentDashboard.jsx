@@ -10,32 +10,35 @@ const ParentDashboard = () => {
   const [subjects, setSubjects] = useState([]);
 
   //   function to call api
-  useEffect(async () => {
-    try {
-      // Get parent personal info from the service
-      const { data } = await http.get(`/subjects`);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        // Get parent personal info from the service
+        const { data } = await http.get(`/subjects`);
 
-      // Get selected student's index from browsers local storage
-      let index = localStorage.getItem('selectedChildIndex');
+        // Get selected student's index from browsers local storage
+        let index = localStorage.getItem('selectedChildIndex');
 
-      if (!index) index = 0;
+        if (!index) index = 0;
 
-      const { dashboard } = data;
-      const studentsList = dashboard.students;
-      const subjectsList = dashboard.subjects[index];
-      const studentSelected = dashboard.students[index];
+        const { dashboard } = data;
+        const studentsList = dashboard.students;
+        const subjectsList = dashboard.subjects[index];
+        const studentSelected = dashboard.students[index];
 
-      setStudentList(studentsList);
-      setSelectedStudent(studentSelected);
-      setSubjects(subjectsList);
-      setDashboardInfo(dashboard);
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        window.location = '/login';
-      } else if (error.response && error.response.status === 404) {
-        window.location = '/notFound';
+        setStudentList(studentsList);
+        setSelectedStudent(studentSelected);
+        setSubjects(subjectsList);
+        setDashboardInfo(dashboard);
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          window.location = '/login';
+        } else if (error.response && error.response.status === 404) {
+          window.location = '/notFound';
+        }
       }
     }
+    fetchData();
   }, []);
 
   const handleClick = (value) => {
