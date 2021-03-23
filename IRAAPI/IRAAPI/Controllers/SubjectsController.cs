@@ -112,16 +112,10 @@ namespace IRAAPI.Controllers
         [Authorize]
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
+        //public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
         {
-            var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
-            if (parentId == null)
-                return Unauthorized();
-
             try
             {
-
-
                 int studentNumericId = context.Students.Where(a => a.Guid == studentId)
                     .Select(a => a.Id)
                     .SingleOrDefault();
@@ -136,7 +130,8 @@ namespace IRAAPI.Controllers
                     .SingleOrDefault();
                 if (subjectNumericId == 0 || classNumericId == 0 || sessionNumericId == 0)
                 {
-                    return CreatedAtAction("Not Found", null);
+                    //return CreatedAtAction("Not Found", null);
+                    return NotFound();
                 }
                 List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles = new List<CourseOutlinesWithFiles>();
                 List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles2 = new List<CourseOutlinesWithFiles>();
@@ -215,9 +210,9 @@ namespace IRAAPI.Controllers
                 var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
-                        gradeTypeId = g.GradeType.Guid,
-                        gradeTypeName = g.GradeType.GradeType1,
-                        gradeTypeSlug = g.GradeType.GradeTypeSlug
+                        gradeTypeId = g.Guid,
+                        gradeTypeName = g.GradeType1,
+                        gradeTypeSlug = g.GradeTypeSlug
 
                     }).ToList();
 
