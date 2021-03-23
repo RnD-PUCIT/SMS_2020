@@ -71,7 +71,6 @@ const DiaryForm = () => {
 
   return (
     <React.Fragment>
-      <h1>Diary Form</h1>
       <Button color="primary" variant="contained" onClick={handleClickOpen}>
         New Diary
       </Button>
