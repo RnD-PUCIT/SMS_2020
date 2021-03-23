@@ -15,12 +15,14 @@ namespace IRAAPI.Controllers
     [ApiController]
     public class AcademicCalendersController : ControllerBase
     {
-        private readonly IRAAPIContext _context = new IRAAPIContext();
 
         private readonly IMapper _mapper;
-        public AcademicCalendersController(IMapper mapper)
+        private readonly IRAAPIContext _context;
+
+        public AcademicCalendersController(IMapper mapper, IRAAPIContext context)
         {
             _mapper = mapper;
+            _context = context;
         }
 
         
