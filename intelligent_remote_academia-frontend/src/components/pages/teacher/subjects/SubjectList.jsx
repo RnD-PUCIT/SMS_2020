@@ -1,9 +1,11 @@
 import { Grid } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import LinkCard from '../../../common/cards/LinkCard';
+import SubjectStore from '../../../store/teacher/subjectStore';
 
 const SubjecList = () => {
   const [subjectList, setSubjectList] = useState([]);
+  const subjectStore = useContext(SubjectStore);
 
   useEffect(() => {
     setSubjectList(subjectListConst);
