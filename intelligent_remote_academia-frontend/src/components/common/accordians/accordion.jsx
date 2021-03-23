@@ -8,9 +8,11 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 
 import { getMonths } from '../../constants/calendarConsts';
 import DoughnutGraph from '../graphs/graphs';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   outerRoot: {
@@ -27,11 +29,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#2875c7',
     color: 'white',
     borderRadius: '4px',
-    // borderTopLeftRadius: '4px',
-    // borderTopRightRadius: '4px',
   },
-  innerTitle: {
-    paddingRight: '15px',
+  div: {
+    display: 'flex',
+  },
+  button: {
+    marginLeft: 'auto',
+  },
+  chip: {
+    marginLeft: '2px',
   },
 }));
 
@@ -51,7 +57,7 @@ const AccordionContainer = ({ statusArray, name, children }) => {
               {children}
             </Grid>
             <Grid item xs>
-              <DoughnutGraph statusArray={statusArray} />
+              {statusArray && <DoughnutGraph statusArray={statusArray} />}
             </Grid>
           </Grid>
         </AccordionDetails>
@@ -60,35 +66,49 @@ const AccordionContainer = ({ statusArray, name, children }) => {
   );
 };
 
-const SimpleAccordion = ({ title, description, status, date }) => {
+const SimpleAccordion = ({ subjectItem, termName }) => {
   const classes = useStyles();
   const months = getMonths();
+  const { title, description, status, date } = subjectItem;
   const fullDate = new Date(date);
-  console.log('Date', fullDate);
+  subjectItem.date =
+    months[fullDate.getMonth()].name +
+    ' ' +
+    fullDate.getDate() +
+    ', ' +
+    fullDate.getFullYear();
   return (
     <Accordion className={classes.innerRoot} square>
       <AccordionSummary className={classes.summary}>
-        <Typography className={classes.innerTitle}>{title}</Typography>
+        <Typography>{title}</Typography>
         <Chip
           label={status ? 'Completed' : 'Not Completed'}
           color={status ? 'primary' : 'secondary'}
           size='small'
+          className={classes.chip}
         />
       </AccordionSummary>
       <Divider />
-      <AccordionDetails>
-        <Typography className={classes.innerTitle}>{description}</Typography>
+      <AccordionDetails className={classes.div}>
+        <Typography>{description}</Typography>
         <Chip
-          label={
-            months[fullDate.getMonth()].name +
-            ' ' +
-            fullDate.getDate() +
-            ', ' +
-            fullDate.getFullYear()
-          }
+          label={subjectItem.date}
           variant='outlined'
           size='small'
+          className={classes.chip}
         />
+        <Link
+          to={{
+            pathname: '/courseContent',
+            state: { subjectItem: subjectItem, termName: termName },
+            // state: { subjectItem: subjectItem,
+            // date: },
+          }}
+          className={classes.button}>
+          <Button variant='contained' size='small' disableElevation>
+            View More
+          </Button>
+        </Link>
       </AccordionDetails>
     </Accordion>
   );

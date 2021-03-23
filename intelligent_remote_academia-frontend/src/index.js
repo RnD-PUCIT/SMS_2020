@@ -14,7 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import theme from './themes/defaultTheme';
 
 ReactDOM.render(
-  <React.StrictMode>
+  <React.StrictMode>  
     <BrowserRouter>
       <ThemeProvider theme={theme}>
         <App />

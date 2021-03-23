@@ -81,7 +81,6 @@ class TimeTableBody extends Component {
     const url = `/timetable?classId=${classId}&sessionId=${sessionId}`;
     try {
       const { data } = await http.get(url);
-      console.log(data);
       const { timeTableInfo: timeTable } = data.timeTable;
       this.setState({ timeTable });
     } catch (error) {}

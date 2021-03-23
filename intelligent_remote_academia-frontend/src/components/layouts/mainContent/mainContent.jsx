@@ -8,10 +8,12 @@ import SubjectDetails from '../../pages/subjects/subjectDetails';
 import GradeDetails from '../../pages/subjects/gradeDetails';
 import Announcements from '../../pages/announcements/announcements';
 import AcademicCalendar from '../../pages/academicCalendar/academicCalendar';
-
 import FeeChallan from '../../pages/fee-challan/feeChallan';
 import StudentDropdown from '../../studentDropdown/studentDropdown';
 import TimeTable from '../../pages/time-table/TimeTable';
+import CourseContent from './../../pages/courseContentOutline/courseContent';
+
+import { useStyles } from '../../constants/layoutConsts';
 import ApplicationForm from '../../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../../pages/applicationForm/ApplicationsDashboard';
 import TeacherDashboard from '../../pages/teacher/dashboard/TeacherDashboard';

@@ -1,37 +1,50 @@
 import React, { Component } from 'react';
+
+import { terms } from '../../constants/outlineTermsConsts';
+import AlertDescriptive from '../../common/alerts/alertDescriptive';
 import {
   AccordionContainer,
   SimpleAccordion,
 } from '../../common/accordians/accordion';
 
 class CourseOutline extends Component {
-  state = { outline: [] };
+  state = { courseContentOutline: this.props.courseContentOutline };
+
   render() {
     const { outline } = courseOutlineConst;
-    return (
-      <div style={{ width: '100%' }}>
-        {outline.map((term, index) => {
-          if (term.details) {
-            return (
-              <AccordionContainer
-                key={index}
-                name={term.termName}
-                statusArray={term.details.map((item) => item.status)}>
-                {term.details.map((item, index) => (
-                  <SimpleAccordion
-                    key={index}
-                    title={item.title}
-                    description={item.description}
-                    status={item.status}
-                    date={item.date}
-                  />
-                ))}
-              </AccordionContainer>
-            );
-          }
-        })}
-      </div>
-    );
+    const { courseContentOutline } = this.state;
+    if (terms && terms.length) {
+      return (
+        <div style={{ width: '100%' }}>
+          {outline.map((term, index) => {
+            if (term.details) {
+              return (
+                <AccordionContainer
+                  key={index}
+                  name={term.termName}
+                  statusArray={term.details.map((subject) => subject.status)}>
+                  {term.details.map((subjectItem, index) => (
+                    <SimpleAccordion
+                      key={index}
+                      subjectItem={subjectItem}
+                      termName={term.termName}
+                    />
+                  ))}
+                </AccordionContainer>
+              );
+            }
+          })}
+        </div>
+      );
+    } else {
+      return (
+        <AlertDescriptive
+          severity='error'
+          title='No Course Details'
+          description='Course Details have been uploaded yet. Kindly check later!'
+        />
+      );
+    }
   }
 }
 
@@ -44,13 +57,23 @@ const courseOutlineConst = {
           title: 'Chapter 1',
           description: 'DMAS Rules',
           date: '01/01/2021 12:00:00 AM',
-          status: 1,
+          status: 0,
+          lectureContentFilesList: {
+            references: 'if any',
+            date: '',
+            extension: '',
+          },
         },
         {
           title: 'Chapter 2',
           description: 'Multiplication And Division',
           date: '01/02/2021 12:00:00 AM',
           status: 1,
+          lectureContentFilesList: {
+            references: 'if any',
+            date: '',
+            extension: '',
+          },
         },
         {
           title: 'Chapter 3',

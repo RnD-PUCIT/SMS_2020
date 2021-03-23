@@ -26,7 +26,7 @@ const DoughnutGraph = ({ statusArray }) => {
 
   return (
     <div>
-      <Typography variant='button' display='block' gutterBottom>
+      <Typography variant='button' gutterBottom>
         Completion Weightage
       </Typography>
       <Doughnut data={data} />
