@@ -13,8 +13,7 @@ const TeacherRouting = () => {
     <Switch>
       {/* Teacher Module Links */}
       <Route path="/dashboard" component={TeacherDashboard} />
-      <Route path="/diary-form" component={DiaryForm} />
-      <Route path="/mark-attendance" component={AttendanceDashboard} />
+      <Route path="/attendance" component={AttendanceDashboard} />
       <Route exact path="/classes" component={ClassList} />
       <Route
         path="/classes/:classSlug/:subjectSlug/gradebook/mark"
