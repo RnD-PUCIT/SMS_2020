@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction='up' ref={ref} {...props} />;
 });
 
 export default function MarkAttendance(props) {
@@ -126,33 +126,30 @@ export default function MarkAttendance(props) {
   return (
     <div>
       <Button
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         onClick={handleClickOpen}
-        style={{ margin: '10px 0' }}
-      >
+        style={{ margin: '10px 0' }}>
         Mark Attendance
       </Button>
       <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
-        TransitionComponent={Transition}
-      >
+        TransitionComponent={Transition}>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton
-              edge="start"
-              color="inherit"
+              edge='start'
+              color='inherit'
               onClick={handleClose}
-              aria-label="close"
-            >
+              aria-label='close'>
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
+            <Typography variant='h6' className={classes.title}>
               Mark Attendance
             </Typography>
-            <Button color="default" variant="contained" onClick={handleSubmit}>
+            <Button color='default' variant='contained' onClick={handleSubmit}>
               Save
             </Button>
           </Toolbar>
@@ -172,13 +169,13 @@ export default function MarkAttendance(props) {
             <Grid container item md={4}>
               <Grid item xs={6}>
                 <div className={classes.stats}>
-                  <Typography variant="h6">Present</Typography>
+                  <Typography variant='h6'>Present</Typography>
                   <span className={classes.presentText}>{checked.length}</span>
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className={classes.stats}>
-                  <Typography variant="h6">Absent</Typography>
+                  <Typography variant='h6'>Absent</Typography>
                   <span className={classes.absentText}>
                     {studentList.length - checked.length}
                   </span>
@@ -188,11 +185,11 @@ export default function MarkAttendance(props) {
             <Grid item md={4}>
               <div className={classes.actionButtons}>
                 <Chip
-                  label="Select All"
+                  label='Select All'
                   onClick={handleSelectAll}
                   icon={<DoneIcon />}
                 />
-                <Chip label="Clear All" onClick={handleClearAll} />
+                <Chip label='Clear All' onClick={handleClearAll} />
               </div>
             </Grid>
           </Grid>
@@ -220,11 +217,12 @@ export default function MarkAttendance(props) {
                     dense
                     button
                     onClick={handleToggle(student)}
-                    style={{ borderBottom: '1px solid rgba(224, 224, 224, 1)' }}
-                  >
+                    style={{
+                      borderBottom: '1px solid rgba(224, 224, 224, 1)',
+                    }}>
                     <ListItemIcon>
                       <Checkbox
-                        edge="start"
+                        edge='start'
                         checked={checked.indexOf(student) !== -1}
                         tabIndex={-1}
                         disableRipple

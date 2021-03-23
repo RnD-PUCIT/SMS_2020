@@ -14,6 +14,7 @@ import StudentDropdown from '../studentDropdown/studentDropdown';
 import TimeTable from '../pages/time-table/TimeTable';
 import ApplicationForm from '../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../pages/applicationForm/ApplicationsDashboard';
+import CourseOutline from '../pages/courseContentOutline/courseOutline';
 
 const ParentRouting = ({
   subjects,
@@ -31,6 +32,7 @@ const ParentRouting = ({
         component={GradeDetails}
       />
       <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
+      <Route path="/courseContent" component={CourseOutline} />
       {/* Sending subjects array as a prop to Subject component */}
       <Route
         path="/subjects"

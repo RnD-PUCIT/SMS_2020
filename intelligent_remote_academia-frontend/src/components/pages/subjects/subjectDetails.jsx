@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import Tabs from "../../common/tabs/tabs";
+import Tabs from '../../common/tabs/tabs';
 
-import { subjectTabs } from "../../constants/tabsConsts";
-import TextCard from "../../common/cards/textCard";
+import { subjectTabs } from '../../constants/tabsConsts';
+import TextCard from '../../common/cards/textCard';
 
-import http from "../../../services/httpService";
+import http from '../../../services/httpService';
 
 class SubjectDetails extends Component {
   state = { subjectDetails: null };
@@ -24,7 +24,7 @@ class SubjectDetails extends Component {
       this.setState({ subjectDetails });
     } catch (ex) {
       if (ex.response && ex.response.status === 401) {
-        window.location = "/notFound";
+        window.location = '/notFound';
       }
     }
   }
@@ -38,6 +38,7 @@ class SubjectDetails extends Component {
         diary,
         gradeTypeNames,
         subject: subjectDetails,
+        courseOutlinefromCourseContent: courseContentOutline,
       } = this.state.subjectDetails;
 
       return (
@@ -45,7 +46,7 @@ class SubjectDetails extends Component {
           <TextCard
             titleMain={subjectDetails.subjectName}
             titleSub={subjectDetails.teacherName}
-            variant="outlined"
+            variant='outlined'
           />
           <Tabs
             subjectTabs={subjectTabs}
@@ -53,6 +54,7 @@ class SubjectDetails extends Component {
             search={search}
             gradeTypes={gradeTypeNames}
             diary={diary}
+            courseContentOutline={courseContentOutline}
           />
         </React.Fragment>
       );

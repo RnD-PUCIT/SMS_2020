@@ -1,8 +1,8 @@
 import axios from 'axios';
 import auth from './authService';
 
-// const apiUrl = 'https://localhost:44334'; // For Visual Studio
-const apiUrl = 'https://localhost:5001'; // For dotnet CLI
+const apiUrl = 'https://localhost:44334'; // For Visual Studio
+// const apiUrl = 'https://localhost:5001'; // For dotnet CLI
 
 axios.interceptors.response.use(null, (error) => {
   const expectedErrors =
