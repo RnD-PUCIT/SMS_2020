@@ -1,8 +1,19 @@
-import { List, Paper, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import {
+  IconButton,
+  List,
+  ListItem,
+  ListItemSecondaryAction,
+  ListItemText,
+  Paper,
+  Typography,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { useHistory } from 'react-router';
 
 const DiaryList = () => {
   const [diaryData, setDiaryData] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     function fetchData() {
@@ -11,6 +22,11 @@ const DiaryList = () => {
     }
     fetchData();
   }, []);
+
+  const handleDiaryClick = (id) => {
+    const url = `${history.location.pathname}/${id}`;
+    history.push(url);
+  };
 
   if (diaryData.length === 0) {
     return (
@@ -22,7 +38,35 @@ const DiaryList = () => {
   return (
     <React.Fragment>
       <Paper className="paper_padding--sm u_mt_small">
-        <List component="nav" style={{ padding: 0 }}></List>
+        <List component="nav" style={{ padding: 0 }}>
+          {diaryData.map((diary, index) => {
+            return (
+              <ListItem
+                button
+                key={index}
+                style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
+                onClick={() => {
+                  handleDiaryClick(diary.id);
+                }}
+              >
+                <ListItemText>
+                  {diary.diaryTitle}
+                  <Typography
+                    color="textSecondary"
+                    style={{ float: 'right', marginRight: '10px' }}
+                  >
+                    {`${diary.diaryDate}`}
+                  </Typography>
+                </ListItemText>
+                <ListItemSecondaryAction>
+                  <IconButton edge="end">
+                    <MoreVertIcon />
+                  </IconButton>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
+        </List>
       </Paper>
     </React.Fragment>
   );
