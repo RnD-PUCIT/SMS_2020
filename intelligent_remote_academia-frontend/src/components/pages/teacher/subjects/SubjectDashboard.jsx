@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Gradebook from '../gradebook/Gradebook';
-import DiaryForm from '../diary/DiaryForm';
+import Diary from '../diary/Diary';
 
 const SubjectDashboard = (props) => {
   // Prop variables
@@ -76,5 +76,5 @@ const SubjectTabs = ({ classSlug, subjectSlug }) => {
 
 const tabsConst = [
   { text: 'Grade Book', url: '/gradebook', component: <Gradebook /> },
-  { text: 'Diary', url: '/diary', component: <DiaryForm /> },
+  { text: 'Diary', url: '/diary', component: <Diary /> },
 ];

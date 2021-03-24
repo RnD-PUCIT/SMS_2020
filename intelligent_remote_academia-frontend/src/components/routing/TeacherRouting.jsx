@@ -1,12 +1,12 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
 import TeacherDashboard from '../pages/teacher/dashboard/TeacherDashboard';
-import DiaryForm from '../pages/teacher/diary/DiaryForm';
 import AttendanceDashboard from '../pages/teacher/attendance/AttendanceDashboard';
 import ClassList from '../pages/teacher/classes/ClassList';
 import MarkGrade from '../pages/teacher/gradebook/MarkGrade';
 import SubjecList from '../pages/teacher/subjects/SubjectList';
 import SubjectDashboard from '../pages/teacher/subjects/SubjectDashboard';
+import DiaryDetails from '../pages/teacher/diary/DiaryDetails';
 
 const TeacherRouting = () => {
   return (
@@ -18,6 +18,10 @@ const TeacherRouting = () => {
       <Route
         path="/classes/:classSlug/:subjectSlug/gradebook/mark"
         component={MarkGrade}
+      />
+      <Route
+        path="/classes/:classSlug/:subjectSlug/diary/:diaryId"
+        component={DiaryDetails}
       />
       <Route exact path="/classes/:classSlug" component={SubjecList} />
       <Route
