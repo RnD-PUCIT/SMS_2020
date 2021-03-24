@@ -77,41 +77,43 @@ const ContentDisplay = ({ subjectItem, termName }) => {
 
 const DisplayFileCards = ({ lectureContentFilesList }) => {
   console.log('lectureContentFilesList', lectureContentFilesList);
-  // if (lectureContentFilesList.length === 0) {
+  if (lectureContentFilesList.length === 0) {
+    return (
+      <div style={{ marginTop: '20px' }}>
+        <Alert severity='info'>
+          <AlertTitle>Files Not Found!</AlertTitle>
+          <Typography>
+            No Files have been uploaded by the teacher yet.
+          </Typography>
+        </Alert>
+      </div>
+    );
+  }
   return (
-    <div style={{ marginTop: '20px' }}>
-      <Alert severity='info'>
-        <AlertTitle>Files Not Found!</AlertTitle>
-        <Typography>No Files have been uploaded by the teacher yet.</Typography>
-      </Alert>
-    </div>
+    <Grid item xs={12} sm={6} md={4}>
+      {lectureContentFilesList.map((file, index) => {
+        return (
+          <div style={{ marginTop: '20px' }}>
+            <Card
+              key={index}
+              variant='outlined'
+              onClick={() => {
+                FileDownload(file);
+              }}>
+              <CardActionArea>
+                <CardMedia style={{ height: 40, paddingTop: '5px' }} />
+                <CardContent>
+                  <Typography variant='subtitle1' component='h2'>
+                    {file.orginal_Name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        );
+      })}
+    </Grid>
   );
-  // }
-  // return (
-  //   <Grid item xs={12} sm={6} md={4}>
-  //     {lectureContentFilesList.map((file, index) => {
-  //       return (
-  //         <div style={{ marginTop: '20px' }}>
-  //           <Card
-  //             key={index}
-  //             variant='outlined'
-  //             onClick={() => {
-  //               FileDownload(file);
-  //             }}>
-  //             <CardActionArea>
-  //               <CardMedia style={{ height: 40, paddingTop: '5px' }} />
-  //               <CardContent>
-  //                 <Typography variant='subtitle1' component='h2'>
-  //                   {file.orginal_Name}
-  //                 </Typography>
-  //               </CardContent>
-  //             </CardActionArea>
-  //           </Card>
-  //         </div>
-  //       );
-  //     })}
-  //   </Grid>
-  // );
 };
 
 const FileDownload = (file) => {};
