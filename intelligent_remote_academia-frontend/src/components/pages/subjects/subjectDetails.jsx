@@ -38,9 +38,8 @@ class SubjectDetails extends Component {
         diary,
         gradeTypeNames,
         subject: subjectDetails,
-        courseOutlinefromCourseContent: courseContentOutline,
+        termWiseCourseOutlinesfromCourseContent: courseContentOutline,
       } = this.state.subjectDetails;
-
       return (
         <React.Fragment>
           <TextCard

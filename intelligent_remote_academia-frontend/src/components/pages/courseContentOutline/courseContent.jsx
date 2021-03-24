@@ -7,9 +7,14 @@ import LinkIcon from '@material-ui/icons/Link';
 import Timeline from '@material-ui/lab/Timeline';
 import TimelineItem from '@material-ui/lab/TimelineItem';
 import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
-import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import { Alert, AlertTitle } from '@material-ui/lab';
+import { Grid } from '@material-ui/core';
 
 import useStyles from './../../../styles/courseContentStyle';
 
@@ -24,13 +29,8 @@ class CourseContent extends Component {
 
 const ContentDisplay = ({ subjectItem, termName }) => {
   const classes = useStyles();
-  const { lectureContentFilesList, title, date, description } = subjectItem;
-  const array = [
-    'https://www.youtube.com/watch?v=fj2RX-h1k9E&list=PLOoogDtEDyvvw5bIV77qibe73XfdsM2lP&index=3&ab_channel=FeelFreetoLearn',
-    'Eat',
-    'Repeat',
-  ];
-  console.log(subjectItem);
+  const { courseOutlines, lectureContentFilesList, date } = subjectItem;
+  const { title, description } = courseOutlines;
   return (
     <div>
       <Container className={classes.root} maxWidth='md'>
@@ -47,35 +47,74 @@ const ContentDisplay = ({ subjectItem, termName }) => {
         </div>
         <Divider className={classes.divider} />
         <Typography>{description}</Typography>
+
+        <DisplayFileCards lectureContentFilesList={lectureContentFilesList} />
+
         <Divider style={{ margin: '20px 0px' }} />
         <div className={classes.title}>
           <LinkIcon className={classes.icon} />
           <Typography variant='body1'>References</Typography>
         </div>
-
         <Timeline style={{ marginTop: '5px' }}>
-          {array.map((item, index) => {
-            return (
-              <TimelineItem
-                classes={{
-                  missingOppositeContent: classes.missingOppositeContent,
-                }}
-                key={index}>
-                <TimelineSeparator>
-                  <TimelineDot />
-                  {index + 1 < array.length && <TimelineConnector />}
-                </TimelineSeparator>
-                <TimelineContent>
-                  <a href={item} target='_blank'>
-                    {item}
-                  </a>
-                </TimelineContent>
-              </TimelineItem>
-            );
-          })}
+          <TimelineItem
+            classes={{
+              missingOppositeContent: classes.missingOppositeContent,
+            }}>
+            <TimelineSeparator>
+              <TimelineDot />
+            </TimelineSeparator>
+            <TimelineContent>
+              <a href={courseOutlines.references} target='_blank'>
+                {courseOutlines.references}
+              </a>
+            </TimelineContent>
+          </TimelineItem>
         </Timeline>
       </Container>
     </div>
   );
 };
+
+const DisplayFileCards = ({ lectureContentFilesList }) => {
+  console.log('lectureContentFilesList', lectureContentFilesList);
+  if (lectureContentFilesList.length === 0) {
+    return (
+      <div style={{ marginTop: '20px' }}>
+        <Alert severity='info'>
+          <AlertTitle>Files Not Found!</AlertTitle>
+          <Typography>
+            No Files have been uploaded by the teacher yet.
+          </Typography>
+        </Alert>
+      </div>
+    );
+  }
+  return (
+    <Grid item xs={12} sm={6} md={4}>
+      {lectureContentFilesList.map((file, index) => {
+        return (
+          <div style={{ marginTop: '20px' }}>
+            <Card
+              key={index}
+              variant='outlined'
+              onClick={() => {
+                FileDownload(file);
+              }}>
+              <CardActionArea>
+                <CardMedia style={{ height: 40, paddingTop: '5px' }} />
+                <CardContent>
+                  <Typography variant='subtitle1' component='h2'>
+                    {file.orginal_Name}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </div>
+        );
+      })}
+    </Grid>
+  );
+};
+
+const FileDownload = (file) => {};
 export default CourseContent;
