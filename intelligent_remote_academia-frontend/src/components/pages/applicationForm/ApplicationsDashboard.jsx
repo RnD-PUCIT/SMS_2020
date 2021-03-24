@@ -56,7 +56,7 @@ class ApplicationsDashboard extends Component {
 
   render() {
     return (
-      <Paper style={{ padding: '20px' }} variant="outlined" square>
+      <Paper style={{ padding: '20px' }} variant='outlined' square>
         <NewApplicationButton />
         <ApplicationsList
           studentApplications={this.state.studentApplications}
@@ -86,14 +86,13 @@ class ApplicationsDashboard extends Component {
 const NewApplicationButton = () => {
   const history = useHistory();
   return (
-    <Grid container justify="flex-end">
+    <Grid container justify='flex-end'>
       <Button
-        variant="contained"
-        color="primary"
+        variant='contained'
+        color='primary'
         onClick={() => {
           history.push('/applications/new');
-        }}
-      >
+        }}>
         New Application
       </Button>
     </Grid>
@@ -111,13 +110,13 @@ const ApplicationsList = ({ studentApplications, studentApplicationFiles }) => {
   if (studentApplications.length === 0) {
     return (
       <div className={classes.accordionDiv}>
-        <Alert severity="info">
+        <Alert severity='info'>
           <AlertTitle>Hmm... Applications are empty!</AlertTitle>
           <Typography>
             Looks like you haven't submitted any application yet. You can find
             all of your submitted applications in this page, along with their
             status and submission date! <br />
-            Send <Link to="applications/new">New Application</Link>
+            Send <Link to='applications/new'>New Application</Link>
           </Typography>
         </Alert>
       </div>
@@ -130,25 +129,23 @@ const ApplicationsList = ({ studentApplications, studentApplicationFiles }) => {
           <Accordion
             expanded={expanded === `${index}`}
             onChange={handleChange(`${index}`)}
-            key={index}
-          >
+            key={index}>
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
-              className={classes.accordianSummary}
-            >
+              className={classes.accordianSummary}>
               <Grid container>
                 <Grid item xs={8}>
-                  <Typography className={classes.heading} variant="h6">
+                  <Typography className={classes.heading} variant='h6'>
                     {application.subject}
                   </Typography>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography variant="subtitle2" color="textSecondary">
+                  <Typography variant='subtitle2' color='textSecondary'>
                     {application.date}
                   </Typography>
                 </Grid>
                 <Grid item xs={1}>
-                  <Chip label={application.status} size="small" />
+                  <Chip label={application.status} size='small' />
                 </Grid>
               </Grid>
             </AccordionSummary>
@@ -173,7 +170,7 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
       <React.Fragment>
         <Divider />
         <AccordionActions className={classes.accordianFooter}>
-          <Typography color="textSecondary">
+          <Typography color='textSecondary'>
             Additional Files Uploaded
           </Typography>
           <ul>
@@ -181,9 +178,8 @@ function DisplayAdditionalFiles(studentApplicationFiles, classes) {
               return (
                 <li key={index}>
                   <a
-                    href="#"
-                    onClick={() => handleFileDownlad(file.id, file.fileName)}
-                  >
+                    href='#'
+                    onClick={() => handleFileDownlad(file.id, file.fileName)}>
                     {file.fileName}
                   </a>
                 </li>

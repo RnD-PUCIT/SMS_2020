@@ -69,7 +69,8 @@ const AccordionContainer = ({ statusArray, name, children }) => {
 const SimpleAccordion = ({ subjectItem, termName }) => {
   const classes = useStyles();
   const months = getMonths();
-  const { title, description, status, date } = subjectItem;
+  const { courseOutlines } = subjectItem;
+  const { title, description, status, date } = courseOutlines;
   const fullDate = new Date(date);
   subjectItem.date =
     months[fullDate.getMonth()].name +
@@ -101,8 +102,6 @@ const SimpleAccordion = ({ subjectItem, termName }) => {
           to={{
             pathname: '/courseContent',
             state: { subjectItem: subjectItem, termName: termName },
-            // state: { subjectItem: subjectItem,
-            // date: },
           }}
           className={classes.button}>
           <Button variant='contained' size='small' disableElevation>

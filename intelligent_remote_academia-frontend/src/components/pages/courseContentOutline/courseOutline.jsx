@@ -11,25 +11,31 @@ class CourseOutline extends Component {
   state = { courseContentOutline: this.props.courseContentOutline };
 
   render() {
-    const { outline } = courseOutlineConst;
-    const { courseContentOutline } = this.state;
-    if (terms && terms.length) {
+    // const { outline } = courseOutlineConst;
+    const { courseContentOutline: outline } = this.state;
+    // console.log('api data', outline);
+    if (outline && outline.length) {
       return (
         <div style={{ width: '100%' }}>
-          {outline.map((term, index) => {
-            if (term.details) {
+          {outline.map((syllabus, index) => {
+            if (syllabus.term_wiseCourseOutlineWithFiles) {
               return (
                 <AccordionContainer
                   key={index}
-                  name={term.termName}
-                  statusArray={term.details.map((subject) => subject.status)}>
-                  {term.details.map((subjectItem, index) => (
-                    <SimpleAccordion
-                      key={index}
-                      subjectItem={subjectItem}
-                      termName={term.termName}
-                    />
-                  ))}
+                  name={syllabus.termName}
+                  statusArray={syllabus.term_wiseCourseOutlineWithFiles.map(
+                    (subject) => subject.courseOutlines.status
+                  )}>
+                  {syllabus.term_wiseCourseOutlineWithFiles.map(
+                    (subjectItem, index) => (
+                      // console.log('subjectItem', subjectItem),
+                      <SimpleAccordion
+                        key={index}
+                        subjectItem={subjectItem}
+                        termName={syllabus.termName}
+                      />
+                    )
+                  )}
                 </AccordionContainer>
               );
             }

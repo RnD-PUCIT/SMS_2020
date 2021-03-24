@@ -14,7 +14,7 @@ import StudentDropdown from '../studentDropdown/studentDropdown';
 import TimeTable from '../pages/time-table/TimeTable';
 import ApplicationForm from '../pages/applicationForm/ApplicationForm';
 import ApplicationsDashboard from '../pages/applicationForm/ApplicationsDashboard';
-import CourseOutline from '../pages/courseContentOutline/courseOutline';
+import CourseContent from './../pages/courseContentOutline/courseContent';
 
 const ParentRouting = ({
   subjects,
@@ -28,20 +28,19 @@ const ParentRouting = ({
   return (
     <Switch>
       <Route
-        path="/subjects/:subjectSlug/:gradeTypeSlug"
+        path='/subjects/:subjectSlug/:gradeTypeSlug'
         component={GradeDetails}
       />
-      <Route path="/subjects/:subjectSlug" component={SubjectDetails} />
-      <Route path="/courseContent" component={CourseOutline} />
+      <Route path='/subjects/:subjectSlug' component={SubjectDetails} />
+      <Route path='/courseContent' component={CourseContent} />
       {/* Sending subjects array as a prop to Subject component */}
       <Route
-        path="/subjects"
+        path='/subjects'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <Subjects
               subjects={subjects}
               studentId={studentId}
@@ -52,13 +51,12 @@ const ParentRouting = ({
         )}
       />
       <Route
-        path="/attendance"
+        path='/attendance'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <Attendance
               studentId={studentId}
               classId={classId}
@@ -68,13 +66,12 @@ const ParentRouting = ({
         )}
       />
       <Route
-        path="/announcements"
+        path='/announcements'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <Announcements
               studentId={studentId}
               classId={classId}
@@ -84,25 +81,23 @@ const ParentRouting = ({
         )}
       />
       <Route
-        path="/challan"
+        path='/challan'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <FeeChallan studentId={studentId} classId={classId} />
           </StudentDropdown>
         )}
       />
       <Route
-        path="/timetable"
+        path='/timetable'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <TimeTable
               selectedStudent={selectedStudent}
               classId={classId}
@@ -112,13 +107,12 @@ const ParentRouting = ({
         )}
       />
       <Route
-        path="/academic-calendar"
+        path='/academic-calendar'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <AcademicCalendar
               sessionId={sessionId}
               selectedStudent={selectedStudent}
@@ -127,13 +121,12 @@ const ParentRouting = ({
         )}
       />
       <Route
-        path="/applications"
+        path='/applications'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <ApplicationsDashboard
               sessionId={sessionId}
               selectedStudent={selectedStudent}
@@ -143,13 +136,12 @@ const ParentRouting = ({
         exact
       />
       <Route
-        path="/applications/new"
+        path='/applications/new'
         render={() => (
           <StudentDropdown
             studentList={studentList}
             onClick={onClick}
-            selectedStudent={selectedStudent}
-          >
+            selectedStudent={selectedStudent}>
             <ApplicationForm
               sessionId={sessionId}
               selectedStudent={selectedStudent}
@@ -157,7 +149,7 @@ const ParentRouting = ({
           </StudentDropdown>
         )}
       />
-      <Redirect from="/" to="/subjects" exact />
+      <Redirect from='/' to='/subjects' exact />
     </Switch>
   );
 };

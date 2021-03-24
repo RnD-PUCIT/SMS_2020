@@ -31,20 +31,18 @@ const Cards = ({ subject, studentId, classId, sessionId }) => {
             subject.subjectId +
             '&sessionId=' +
             sessionId,
-        }}
-      >
+        }}>
         <Card className={classes.root}>
           <CardActionArea>
             <CardMedia className={classes.media} image={SubImg} />
             <CardContent>
-              <Typography gutterBottom variant="h6" component="h2">
+              <Typography gutterBottom variant='h6' component='h2'>
                 {subject.subjectName}
               </Typography>
               <Typography
-                variant="subtitle1"
-                color="textSecondary"
-                component="span"
-              >
+                variant='subtitle1'
+                color='textSecondary'
+                component='span'>
                 {subject.teacherName}
               </Typography>
             </CardContent>
