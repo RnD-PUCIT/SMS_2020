@@ -92,6 +92,7 @@ namespace IRAAPI.Controllers
                 //var endDate = JsonConvert.DeserializeObject<DateTime>(form["endDate"].ToString());
 
                 //Guid studentGuid = new Guid(HttpContext.Request.Form["studentId"]);
+
                 //studentApplication.Subject = HttpContext.Request.Form["subjectLine"].ToString();
                 //studentApplication.Content = HttpContext.Request.Form["applicationBody"].ToString();
                 //string startDate = HttpContext.Request.Form["startDate"];
@@ -100,7 +101,7 @@ namespace IRAAPI.Controllers
                 if (application.StartDate != null && application.EndDate != null)
                 {
                     studentApplication.StartDate = DateTime.Parse(HttpContext.Request.Form["startDate"]);
-                    studentApplication.EndDate = DateTime.Parse(HttpContext.Request.Form["endDate"]);
+                    studentApplication.EndDate = DateTime.Parse(HttpContext.Request.Form["endDat9+e"]);
                 }
                 
                 var studentNumericId = _db.Students.Where(s => s.Guid == application.StudentId).Select(s => s.Id).FirstOrDefault();
