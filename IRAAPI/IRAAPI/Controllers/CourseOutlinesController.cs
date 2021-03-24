@@ -269,18 +269,22 @@ namespace IRAAPI.Controllers
 
     // DELETE: api/CourseOutlines/5
     [HttpDelete("{id}")]
-    public async Task<ActionResult<CourseOutline>> DeleteCourseOutline(int id)
+    public async Task<ActionResult<CourseOutline>> DeleteCourseOutline(Guid id)
     {
-        var courseOutline = await _context.CourseOutlines.FindAsync(id);
-        if (courseOutline == null)
+
+        int course_outline_Id = _context.CourseOutlines.Where(a => a.Guid == id).Select(a => a.Id).SingleOrDefault();
+        CourseOutline course_outline = await _context.CourseOutlines.FindAsync(course_outline_Id);
+        if (course_outline == null)
         {
             return NotFound();
         }
-
-        _context.CourseOutlines.Remove(courseOutline);
+        List<LectureContentFile> respective_content_files=_context.LectureContentFiles.Where(a => a.CourseOutlineId == course_outline_Id).ToList();
+        _context.CourseOutlines.Remove(course_outline);
         await _context.SaveChangesAsync();
+        _context.LectureContentFiles.RemoveRange(respective_content_files);
+        _context.SaveChanges();
 
-        return courseOutline;
+        return course_outline;
     }
 
     private bool CourseOutlineExists(int id)
