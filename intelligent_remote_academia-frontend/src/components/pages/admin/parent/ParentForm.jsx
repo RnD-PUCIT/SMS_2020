@@ -1,7 +1,19 @@
 import React from 'react';
-import { AppBar, Paper, Toolbar, Typography } from '@material-ui/core';
+import {
+  AppBar,
+  Grid,
+  makeStyles,
+  Paper,
+  TextField,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+
+const useStyles = makeStyles((theme) => ({
+  textField: {},
+}));
 
 const ParentForm = () => {
   const formik = useFormik({
@@ -29,17 +41,145 @@ const ParentForm = () => {
     onSubmit: async (values) => {},
   });
 
+  const classes = useStyles();
+
   return (
     <React.Fragment>
       <Typography variant="h4">Add New Parent Data</Typography>
-      <Paper className="u_mt_small">
-        <AppBar position="static">
-          <Toolbar variant="dense">
-            <Typography variant="h6">Personal Information</Typography>
-          </Toolbar>
-        </AppBar>
-        <form onSubmit={formik.handleSubmit}></form>
-      </Paper>
+      <form onSubmit={formik.handleSubmit}>
+        <Paper className="u_mt_small">
+          <AppBar position="static">
+            <Toolbar variant="dense">
+              <Typography variant="h6">Personal Information</Typography>
+            </Toolbar>
+          </AppBar>
+          <div className="paper_padding--sm form-colored-inputs">
+            <Grid container spacing={2}>
+              <Grid item md={6}>
+                <TextField
+                  id="firstName"
+                  autoFocus
+                  fullWidth
+                  variant="outlined"
+                  label="First Name"
+                  className={classes.textField}
+                  value={formik.values.firstName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.firstName ? formik.errors.firstName : ''
+                  }
+                  error={
+                    formik.touched.firstName && Boolean(formik.errors.firstName)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="lastName"
+                  fullWidth
+                  variant="outlined"
+                  label="Last Name"
+                  value={formik.values.lastName}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.lastName ? formik.errors.lastName : ''
+                  }
+                  error={
+                    formik.touched.lastName && Boolean(formik.errors.lastName)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="email"
+                  fullWidth
+                  variant="outlined"
+                  label="Email"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.email ? formik.errors.email : ''}
+                  error={formik.touched.email && Boolean(formik.errors.email)}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="cnic"
+                  fullWidth
+                  variant="outlined"
+                  label="CNIC"
+                  value={formik.values.cnic}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.cnic ? formik.errors.cnic : ''}
+                  error={formik.touched.cnic && Boolean(formik.errors.cnic)}
+                />
+              </Grid>
+              <Grid item md={12}>
+                <TextField
+                  id="address"
+                  multiline
+                  fullWidth
+                  rows={3}
+                  variant="outlined"
+                  label="Home Address"
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.address ? formik.errors.address : ''
+                  }
+                  error={
+                    formik.touched.address && Boolean(formik.errors.address)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="contactPrimary"
+                  fullWidth
+                  variant="outlined"
+                  label="Contact Primary"
+                  value={formik.values.contactPrimary}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.contactPrimary
+                      ? formik.errors.contactPrimary
+                      : ''
+                  }
+                  error={
+                    formik.touched.contactPrimary &&
+                    Boolean(formik.errors.contactPrimary)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="contactSecondary"
+                  fullWidth
+                  variant="outlined"
+                  label="Contact Secondary (Optional)"
+                  value={formik.values.contactSecondary}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.contactSecondary
+                      ? formik.errors.contactSecondary
+                      : ''
+                  }
+                  error={
+                    formik.touched.contactSecondary &&
+                    Boolean(formik.errors.contactSecondary)
+                  }
+                />
+              </Grid>
+            </Grid>
+          </div>
+        </Paper>
+      </form>
     </React.Fragment>
   );
 };
