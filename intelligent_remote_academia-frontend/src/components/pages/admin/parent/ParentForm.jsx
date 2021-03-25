@@ -27,6 +27,7 @@ const ParentForm = () => {
       contactSecondary: '',
       occupation: '',
       jobAdress: '',
+      password: '',
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required('First Name is required!'),
@@ -37,6 +38,7 @@ const ParentForm = () => {
       contactPrimary: Yup.string().required('Primary Contact is required!'),
       occupation: Yup.string().required('Occupation is required!'),
       jobAddress: Yup.string().required('Job Address is required!'),
+      password: Yup.string().required('Password is required!'),
     }),
     onSubmit: async (values) => {},
   });
@@ -50,6 +52,50 @@ const ParentForm = () => {
         <Paper className="u_mt_small">
           <AppBar position="static">
             <Toolbar variant="dense">
+              <Typography variant="h6">Account Information</Typography>
+            </Toolbar>
+          </AppBar>
+          <div className="paper_padding--sm form-colored-inputs">
+            <Grid container spacing={2}>
+              <Grid item md={6}>
+                <TextField
+                  id="cnic"
+                  autoFocus
+                  fullWidth
+                  variant="outlined"
+                  label="CNIC"
+                  className={classes.textField}
+                  value={formik.values.cnic}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.cnic ? formik.errors.cnic : ''}
+                  error={formik.touched.cnic && Boolean(formik.errors.cnic)}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="password"
+                  fullWidth
+                  variant="outlined"
+                  label="Password"
+                  type="password"
+                  value={formik.values.password}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.password ? formik.errors.password : ''
+                  }
+                  error={
+                    formik.touched.password && Boolean(formik.errors.password)
+                  }
+                />
+              </Grid>
+            </Grid>
+          </div>
+        </Paper>
+        <Paper className="u_mt_small">
+          <AppBar position="static">
+            <Toolbar variant="dense">
               <Typography variant="h6">Personal Information</Typography>
             </Toolbar>
           </AppBar>
@@ -58,7 +104,6 @@ const ParentForm = () => {
               <Grid item md={6}>
                 <TextField
                   id="firstName"
-                  autoFocus
                   fullWidth
                   variant="outlined"
                   label="First Name"
