@@ -55,6 +55,12 @@ const sideBarLinks = {
       url: '/attendance',
     },
   ],
+  admin: [
+    {
+      text: 'Home',
+      url: '/dashboard',
+    },
+  ],
 };
 
 export { sideBarLinks };
