@@ -7,15 +7,10 @@ import MarkGrade from '../pages/teacher/gradebook/MarkGrade';
 import SubjecList from '../pages/teacher/subjects/SubjectList';
 import SubjectDashboard from '../pages/teacher/subjects/SubjectDashboard';
 import DiaryDetails from '../pages/teacher/diary/DiaryDetails';
-import AdminDashboard from '../pages/admin/dashboard/AdminDashboard';
-import ParentForm from '../pages/admin/parent/ParentForm';
 
 const TeacherRouting = () => {
   return (
     <Switch>
-      {/* Admin Module Links */}
-      <Route path="/admin" component={AdminDashboard} />
-      <Route path="/add-parent" component={ParentForm} />
       {/* Teacher Module Links */}
       <Route path="/dashboard" component={TeacherDashboard} />
       <Route path="/attendance" component={AttendanceDashboard} />

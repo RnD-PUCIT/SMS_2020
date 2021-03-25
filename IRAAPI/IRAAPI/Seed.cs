@@ -27,6 +27,17 @@ namespace IRAAPI
                         Password = "Password@123",
                         Role = "Admin"
                     });
+                Admin admin = new Admin
+                {
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Email = "admin@ira.com",
+                    Cnic = "1234-1231231-1",
+                    Address = "Lahore",
+                    ContactPrimary = "03164141068",
+                };
+                context.Admins.Add(admin);
+                context.SaveChanges();
             }
         }
 

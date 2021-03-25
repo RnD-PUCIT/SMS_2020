@@ -2,6 +2,7 @@ import React from 'react';
 import ParentDashboard from '../../dashboard/ParentDashboard';
 import { useStyles } from '../../constants/layoutConsts';
 import TeacherRouting from '../../routing/TeacherRouting';
+import AdminRouting from '../../routing/AdminRouting';
 
 const Content = ({ role }) => {
   const classes = useStyles();
@@ -22,4 +23,5 @@ export default Content;
 const RoleToDashboard = {
   parent: <ParentDashboard />,
   teacher: <TeacherRouting />,
+  admin: <AdminRouting />,
 };
