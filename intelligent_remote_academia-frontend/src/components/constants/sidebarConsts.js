@@ -60,6 +60,10 @@ const sideBarLinks = {
       text: 'Home',
       url: '/dashboard',
     },
+    {
+      text: 'Teachers',
+      url: '/teachers',
+    },
   ],
 };
 
