@@ -97,3 +97,10 @@ main {
 input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
   text-align: right;
 }
+
+.action-button {
+  position: fixed;
+  z-index: 100;
+  bottom: 20px;
+  right: 20px;
+}
