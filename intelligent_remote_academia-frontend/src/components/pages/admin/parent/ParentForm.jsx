@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AppBar,
+  Fab,
   Grid,
   makeStyles,
   Paper,
@@ -8,6 +9,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
@@ -26,7 +28,7 @@ const ParentForm = () => {
       contactPrimary: '',
       contactSecondary: '',
       occupation: '',
-      jobAdress: '',
+      jobAddress: '',
       password: '',
     },
     validationSchema: Yup.object({
@@ -40,7 +42,10 @@ const ParentForm = () => {
       jobAddress: Yup.string().required('Job Address is required!'),
       password: Yup.string().required('Password is required!'),
     }),
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      alert('clicked');
+      console.log(values);
+    },
   });
 
   const classes = useStyles();
@@ -155,6 +160,7 @@ const ParentForm = () => {
                   fullWidth
                   variant="outlined"
                   label="CNIC"
+                  disabled
                   value={formik.values.cnic}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -224,6 +230,61 @@ const ParentForm = () => {
             </Grid>
           </div>
         </Paper>
+        <Paper className="u_mt_small">
+          <AppBar position="static">
+            <Toolbar variant="dense">
+              <Typography variant="h6">Occupation Information</Typography>
+            </Toolbar>
+          </AppBar>
+          <div className="paper_padding--sm form-colored-inputs">
+            <Grid container spacing={2}>
+              <Grid item md={12}>
+                <TextField
+                  id="occupation"
+                  fullWidth
+                  variant="outlined"
+                  label="Occupation"
+                  className={classes.textField}
+                  value={formik.values.occupation}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.occupation ? formik.errors.occupation : ''
+                  }
+                  error={
+                    formik.touched.occupation &&
+                    Boolean(formik.errors.occupation)
+                  }
+                />
+              </Grid>
+              <Grid item md={12}>
+                <TextField
+                  id="jobAddress"
+                  multiline
+                  fullWidth
+                  rows={3}
+                  variant="outlined"
+                  label="Job Address"
+                  value={formik.values.jobAddress}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.jobAddress ? formik.errors.jobAddress : ''
+                  }
+                  error={
+                    formik.touched.jobAddress &&
+                    Boolean(formik.errors.jobAddress)
+                  }
+                />
+              </Grid>
+            </Grid>
+          </div>
+        </Paper>
+        <div className="action-button">
+          <Fab color="secondary" aria-label="add" type="submit">
+            <AddIcon />
+          </Fab>
+        </div>
       </form>
     </React.Fragment>
   );
