@@ -4,7 +4,6 @@ import GradeTypeList from './GradeTypeList';
 
 const Gradebook = () => {
   const [gradeTypeList, setGradeTypeList] = useState([]);
-
   useEffect(() => {
     const gradeTypes = gradeTypeListConst;
     setGradeTypeList(gradeTypes);

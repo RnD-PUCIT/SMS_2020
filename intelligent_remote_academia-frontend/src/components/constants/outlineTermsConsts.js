@@ -1,8 +1,8 @@
 //outline terms constants
 const terms = [
-  { name: 'First Term' },
-  { name: 'Second Term' },
-  { name: 'Third Term' },
+  { id: 0, name: 'First Term' },
+  { id: 1, name: 'Second Term' },
+  { id: 2, name: 'Third Term' },
 ];
 
 export { terms };

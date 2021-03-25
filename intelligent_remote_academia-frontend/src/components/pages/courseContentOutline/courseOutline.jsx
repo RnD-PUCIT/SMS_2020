@@ -11,9 +11,7 @@ class CourseOutline extends Component {
   state = { courseContentOutline: this.props.courseContentOutline };
 
   render() {
-    // const { outline } = courseOutlineConst;
     const { courseContentOutline: outline } = this.state;
-    // console.log('api data', outline);
     if (outline && outline.length) {
       return (
         <div style={{ width: '100%' }}>
@@ -28,7 +26,6 @@ class CourseOutline extends Component {
                   )}>
                   {syllabus.term_wiseCourseOutlineWithFiles.map(
                     (subjectItem, index) => (
-                      // console.log('subjectItem', subjectItem),
                       <SimpleAccordion
                         key={index}
                         subjectItem={subjectItem}
