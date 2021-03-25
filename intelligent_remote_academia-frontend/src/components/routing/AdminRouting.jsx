@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router';
+import AddClassForm from '../pages/admin/classes/AddClassForm';
 import ClassesFeed from '../pages/admin/classes/ClassesFeed';
 import AdminDashboard from '../pages/admin/dashboard/AdminDashboard';
 import ParentForm from '../pages/admin/parent/ParentForm';
@@ -17,7 +18,7 @@ const AdminRouting = () => {
       <Route exact path="/parents" component={ParentsFeed} />
       <Route exact path="/parents/add" component={ParentForm} />
       <Route exact path="/classes" component={ClassesFeed} />
-      <Route exact path="/classes/add" component={ParentForm} />
+      <Route exact path="/classes/add" component={AddClassForm} />
       <Redirect from="/" to="/dashboard" />
     </Switch>
   );
