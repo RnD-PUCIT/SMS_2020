@@ -35,6 +35,7 @@ namespace IRAAPI
                     Cnic = "1234-1231231-1",
                     Address = "Lahore",
                     ContactPrimary = "03164141068",
+                    Guid = Guid.NewGuid(),
                 };
                 context.Admins.Add(admin);
                 context.SaveChanges();

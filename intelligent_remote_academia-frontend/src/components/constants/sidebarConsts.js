@@ -54,9 +54,11 @@ const sideBarLinks = {
       text: 'Attendance',
       url: '/attendance',
     },
+  ],
+  admin: [
     {
-      text: 'Admin',
-      url: '/admin',
+      text: 'Home',
+      url: '/dashboard',
     },
   ],
 };
