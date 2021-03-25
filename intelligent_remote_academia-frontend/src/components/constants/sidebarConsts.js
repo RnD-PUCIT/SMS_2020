@@ -64,6 +64,14 @@ const sideBarLinks = {
       text: 'Teachers',
       url: '/teachers',
     },
+    {
+      text: 'Parents',
+      url: '/parents',
+    },
+    {
+      text: 'Classes',
+      url: '/classes',
+    },
   ],
 };
 
