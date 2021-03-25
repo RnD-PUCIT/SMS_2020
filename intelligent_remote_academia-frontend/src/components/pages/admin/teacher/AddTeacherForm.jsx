@@ -25,6 +25,7 @@ const AddTeacherForm = () => {
       firstName: '',
       lastName: '',
       email: '',
+      birthDate: '',
       cnic: '',
       address: '',
       contactPrimary: '',
@@ -44,6 +45,8 @@ const AddTeacherForm = () => {
       joiningDate: Yup.string().required('Job Address is required!'),
       salary: Yup.string().required('Salary is required!'),
       username: Yup.string().required('Username is required!'),
+      password: Yup.string().required('Password is required!'),
+      birthDate: Yup.string().required('Date of Birth is required!'),
     }),
     onSubmit: async (values) => {
       alert('clicked');
@@ -148,6 +151,19 @@ const AddTeacherForm = () => {
                   }
                 />
               </Grid>
+              <Grid item md={12}>
+                <TextField
+                  id="cnic"
+                  fullWidth
+                  variant="outlined"
+                  label="CNIC"
+                  value={formik.values.cnic}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.cnic ? formik.errors.cnic : ''}
+                  error={formik.touched.cnic && Boolean(formik.errors.cnic)}
+                />
+              </Grid>
               <Grid item md={6}>
                 <TextField
                   id="email"
@@ -163,18 +179,26 @@ const AddTeacherForm = () => {
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  id="cnic"
+                  id="birthDate"
                   fullWidth
                   variant="outlined"
-                  label="CNIC"
-                  disabled
-                  value={formik.values.cnic}
+                  label="Date of Birth"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  value={formik.values.birthDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  helperText={formik.touched.cnic ? formik.errors.cnic : ''}
-                  error={formik.touched.cnic && Boolean(formik.errors.cnic)}
+                  helperText={
+                    formik.touched.birthDate ? formik.errors.birthDate : ''
+                  }
+                  error={
+                    formik.touched.birthDate && Boolean(formik.errors.birthDate)
+                  }
                 />
               </Grid>
+
               <Grid item md={12}>
                 <TextField
                   id="address"
@@ -240,7 +264,7 @@ const AddTeacherForm = () => {
         <Paper className="u_mt_small">
           <AppBar position="static">
             <Toolbar variant="dense">
-              <Typography variant="h6">specialization Information</Typography>
+              <Typography variant="h6">Job Information</Typography>
             </Toolbar>
           </AppBar>
           <div className="paper_padding--sm form-colored-inputs">
@@ -250,7 +274,7 @@ const AddTeacherForm = () => {
                   id="specialization"
                   fullWidth
                   variant="outlined"
-                  label="specialization"
+                  label="Specialization"
                   className={classes.textField}
                   value={formik.values.specialization}
                   onChange={formik.handleChange}
@@ -266,14 +290,16 @@ const AddTeacherForm = () => {
                   }
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
                   id="joiningDate"
-                  multiline
                   fullWidth
-                  rows={3}
                   variant="outlined"
-                  label="Job Address"
+                  type="date"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  label="Joining Date"
                   value={formik.values.joiningDate}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -284,6 +310,19 @@ const AddTeacherForm = () => {
                     formik.touched.joiningDate &&
                     Boolean(formik.errors.joiningDate)
                   }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="salary"
+                  fullWidth
+                  variant="outlined"
+                  label="Salary"
+                  value={formik.values.salary}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={formik.touched.salary ? formik.errors.salary : ''}
+                  error={formik.touched.salary && Boolean(formik.errors.salary)}
                 />
               </Grid>
             </Grid>
