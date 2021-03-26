@@ -9,6 +9,8 @@ import SubjectsFeed from '../pages/admin/subjects/SubjectsFeed';
 import AddSubjectForm from '../pages/admin/subjects/AddSubjectForm';
 import AddTeacherForm from '../pages/admin/teacher/AddTeacherForm';
 import TeachersFeed from '../pages/admin/teacher/TeachersFeed';
+import StudentsFeed from '../pages/admin/students/StudentsFeed';
+import AddStudentForm from '../pages/admin/students/AddStudentForm';
 
 const AdminRouting = () => {
   return (
@@ -19,6 +21,8 @@ const AdminRouting = () => {
       <Route exact path="/teachers/add" component={AddTeacherForm} />
       <Route exact path="/parents" component={ParentsFeed} />
       <Route exact path="/parents/add" component={ParentForm} />
+      <Route exact path="/students" component={StudentsFeed} />
+      <Route exact path="/students/add" component={AddStudentForm} />
       <Route exact path="/classes" component={ClassesFeed} />
       <Route exact path="/classes/add" component={AddClassForm} />
       <Route exact path="/subjects" component={SubjectsFeed} />
