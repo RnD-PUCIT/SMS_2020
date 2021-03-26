@@ -11,6 +11,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import http from '../../../../services/httpService';
 
 const AddSubjectForm = () => {
   const formik = useFormik({
@@ -25,8 +26,18 @@ const AddSubjectForm = () => {
       subjectSlug: Yup.string().required('Subject Slug is required!'),
     }),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      const model = {
+        subjectName: values.subjectName,
+        subjectCode: values.subjectCode,
+        subjectSlug: values.subjectSlug,
+      };
+
+      try {
+        console.log(model);
+        http.post('/subjects/createSubject', model);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
