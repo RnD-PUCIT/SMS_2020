@@ -17,6 +17,8 @@ import {
 } from '@material-ui/core';
 import MenuItem from '@material-ui/core/MenuItem';
 import SimpleMenu from '../../../common/menu/SimpleMenu';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import LinkIcon from '@material-ui/icons/Link';
 import * as Yup from 'yup';
@@ -43,10 +45,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const GradedActivityForm = ({
-  selectedGradeType,
-  setGradeTypeList,
-  gradeTypeList,
+const CourseContentForm = ({
+  termName,
+  selectedtermContent,
+  courseData,
+  setCourseData,
 }) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -65,26 +68,26 @@ const GradedActivityForm = ({
 
   const formik = useFormik({
     initialValues: {
-      activityTitle: '',
-      gradeTypeName: selectedGradeType.gradeName,
-      activityMarks: 0,
-      instructions: '',
+      title: '',
+      references: '',
+      description: '',
+      status: false,
+      date: new Date().toLocaleString(),
     },
     validationSchema: Yup.object({
-      activityTitle: Yup.string().required('Activity Title is required!'),
-      activityMarks: Yup.string().required('Activity Marks are required!'),
+      title: Yup.string().required('Title is required!'),
     }),
     onSubmit: async (values) => {
-      // add data to state variable
-      const index = gradeTypeList.indexOf(selectedGradeType);
+      //add data to state variable
+      const index = courseData.indexOf(selectedtermContent);
 
-      const newGradeTypeList = [...gradeTypeList];
-      newGradeTypeList[index].activities.push(values);
+      const newCourseData = [...courseData];
+      newCourseData[index].details.push(values);
 
-      setGradeTypeList(newGradeTypeList);
+      setCourseData(newCourseData);
 
       setStatus('success');
-      setMessage('Graded activity created successfully!');
+      setMessage('Course content created successfully!');
       setTimeout(() => {
         handleClose();
       }, 1000);
@@ -96,7 +99,6 @@ const GradedActivityForm = ({
       <Button variant='contained' color='primary' onClick={handleClickOpen}>
         New
       </Button>
-
       <Dialog
         fullScreen
         open={open}
@@ -109,7 +111,7 @@ const GradedActivityForm = ({
                 <CloseIcon />
               </IconButton>
               <Typography variant='h6' className={classes.title}>
-                New {selectedGradeType.gradeName} Activity
+                New {termName} Activity
               </Typography>
               <Button variant='contained' type='submit'>
                 Create
@@ -124,74 +126,54 @@ const GradedActivityForm = ({
             />
           )}
           <Container className='u_mt_small'>
-            <TextField
-              id='activityTitle'
-              autoFocus
-              fullWidth
-              variant='outlined'
-              label='Activity Title'
-              className={classes.textField}
-              value={formik.values.activityTitle}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              helperText={
-                formik.touched.activityTitle ? formik.errors.activityTitle : ''
-              }
-              error={
-                formik.touched.activityTitle &&
-                Boolean(formik.errors.activityTitle)
-              }
-            />
             <Box display='flex'>
               <TextField
-                style={{ width: '50%', marginRight: '5px' }}
-                disabled
-                id='gradeTypeName'
+                style={{ width: '70%', marginRight: '5px' }}
+                id='title'
+                autoFocus
                 variant='outlined'
-                label='Grade Type'
+                label='Title'
                 className={classes.textField}
-                value={formik.values.gradeTypeName}
-                helperText={
-                  formik.touched.gradeTypeName
-                    ? formik.errors.gradeTypeName
-                    : ''
-                }
-                error={
-                  formik.touched.gradeTypeName &&
-                  Boolean(formik.errors.gradeTypeName)
-                }
-              />
-              <TextField
-                style={{ width: '50%', marginLeft: '5px' }}
-                id='activityMarks'
-                variant='outlined'
-                label='Total Marks'
-                type='number'
-                className={classes.textField}
-                value={formik.values.activityMarks}
+                value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                helperText={
-                  formik.touched.activityMarks
-                    ? formik.errors.activityMarks
-                    : ''
+                helperText={formik.touched.title ? formik.errors.title : ''}
+                error={formik.touched.title && Boolean(formik.errors.title)}
+              />
+              <FormControlLabel
+                // id='status'
+                control={
+                  <Checkbox
+                    color='primary'
+                    name='status'
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                  />
                 }
-                error={
-                  formik.touched.activityMarks &&
-                  Boolean(formik.errors.activityMarks)
-                }
+                label='Completed'
+                labelPlacement='start'
               />
             </Box>
             <TextField
-              id='instructions'
+              id='references'
+              variant='outlined'
+              fullWidth
+              label='References'
+              placeholder='References (optional)'
+              className={classes.textField}
+              value={formik.values.references}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            <TextField
+              id='description'
               multiline
               fullWidth
               rows={10}
               variant='outlined'
-              label='Instructions'
-              placeholder='Instructions (optional)'
+              label='Description (optional)'
               className={classes.textField}
-              value={formik.values.instructions}
+              value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -221,4 +203,4 @@ const GradedActivityForm = ({
   );
 };
 
-export default GradedActivityForm;
+export default CourseContentForm;

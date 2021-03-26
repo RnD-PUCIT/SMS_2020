@@ -15,25 +15,24 @@ const DiaryDetails = () => {
   if (details) {
     return (
       <React.Fragment>
-        <Typography variant="h4">Diary Details</Typography>
-        <Box display="flex" className="u_mt_small" justifyContent="flex-end">
-          <Button variant="contained" color="primary">
+        <Typography variant='h4'>Diary Details</Typography>
+        <Box display='flex' className='u_mt_small' justifyContent='flex-end'>
+          <Button variant='contained' color='primary'>
             Edit
           </Button>
-          <Button variant="outlined" color="primary">
+          <Button variant='outlined' color='primary'>
             Delete
           </Button>
         </Box>
-        <Paper className="paper_padding--sm u_mt_tiny clearfix">
-          <Typography variant="h6">{details.diaryTitle}</Typography>
+        <Paper className='paper_padding--sm u_mt_tiny clearfix'>
+          <Typography variant='h6'>{details.diaryTitle}</Typography>
           <Divider style={{ margin: '10px 0' }} />
-          <Paper variant="outlined" className="p-3">
+          <Paper variant='outlined' className='p-3'>
             <Typography>{details.diaryContent}</Typography>
           </Paper>
           <Typography
-            color="textSecondary"
-            style={{ float: 'right', marginTop: '5px' }}
-          >
+            color='textSecondary'
+            style={{ float: 'right', marginTop: '5px' }}>
             Date Posted: {details.diaryDate}
           </Typography>
         </Paper>
