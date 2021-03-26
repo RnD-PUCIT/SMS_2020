@@ -43,7 +43,7 @@ const AddStudentForm = () => {
       classId: Yup.string().required('Class ID is required!'),
       sessionId: Yup.string().required('Session ID is required!'),
       enrollmentDate: Yup.string().required('Enrollment Date is required!'),
-    }),
+    }).nullable(),
     onSubmit: async (values) => {
       alert('clicked');
       console.log(values);
@@ -170,7 +170,11 @@ const AddStudentForm = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <SearchableField />
+                <SearchableField
+                  formik={formik}
+                  id="parentCnic"
+                  label="Parent CNIC"
+                />
               </Grid>
             </Grid>
           </div>
@@ -275,16 +279,17 @@ const AddStudentForm = () => {
 
 export default AddStudentForm;
 
-function SearchableField() {
+const SearchableField = ({ formik, id, label }) => {
   return (
     <Autocomplete
-      id="checkboxes-tags-demo"
       options={parentsList}
-      disableCloseOnSelect
+      onChange={(event, newValue) => {
+        formik.values[id] = newValue;
+      }}
       getOptionLabel={(option) => option.cnic}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-          <Avatar style={{ marginRight: '5px' }}>
+          <Avatar style={{ marginRight: '10px' }}>
             {option.firstName.charAt(0)}
           </Avatar>
           {`${option.firstName} ${option.lastName} (${option.cnic})`}
@@ -293,15 +298,20 @@ function SearchableField() {
       renderInput={(params) => (
         <TextField
           {...params}
-          variant="outlined"
-          label="Parent"
-          placeholder="Select Parent"
+          id={id}
           fullWidth
+          variant="outlined"
+          label={label}
+          value={formik.values[id]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          error={formik.touched[id] && Boolean(formik.errors[id])}
         />
       )}
     />
   );
-}
+};
 
 const parentsList = [
   { id: 1, firstName: 'Salman', lastName: 'Sadiq', cnic: '123' },
