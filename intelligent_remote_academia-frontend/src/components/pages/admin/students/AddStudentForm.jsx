@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AppBar,
   Fab,
@@ -14,12 +14,35 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import SearchValidatedInput from '../../../common/inputs/SearchableInputValidated';
 import { Autocomplete } from '@material-ui/lab';
+import http from '../../../../services/httpService';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
 }));
 
 const AddStudentForm = () => {
+  // State variables
+  const [parentsList, setParentsList] = useState([]);
+  const [classesList, setClassesList] = useState([]);
+  const [sessionList, setSessionList] = useState([]);
+
+  // On rendering
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        let response = await http.get('/parents/getParentsList');
+        setParentsList(response.data);
+        response = await http.get('/classes/getClassesList');
+        setClassesList(response.data);
+        response = await http.get('/session/getSessionsList');
+        setSessionList(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       rollNumber: '',
@@ -44,8 +67,35 @@ const AddStudentForm = () => {
       enrollmentDate: Yup.string().required('Enrollment Date is required!'),
     }).nullable(),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      // add register model data
+      const aspNetUser = {
+        username: values.rollNumber,
+        password: values.password,
+        role: 'Student',
+      };
+      // add student data
+      const student = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        rollNo: values.rollNumber,
+        dob: values.birthDate,
+        parentId: values.parentCnic.id,
+        classId: values.classId.id,
+        isActive: true,
+        sessionId: values.sessionId.id,
+      };
+
+      const model = {
+        student,
+        aspNetUser,
+      };
+
+      try {
+        console.log(model);
+        await http.post('/account/registerStudent', model);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -323,23 +373,3 @@ const SearchSessionField = ({ formik, id, label, options, display }) => {
     />
   );
 };
-
-const parentsList = [
-  { id: 1, firstName: 'Salman', lastName: 'Sadiq', cnic: '123' },
-  { id: 2, firstName: 'Rizwan', lastName: 'Sadiq', cnic: '456' },
-  { id: 2, firstName: 'Irfan', lastName: 'Sadiq', cnic: '890' },
-];
-
-const classesList = [
-  { id: 1, className: '9th', section: 'Blue' },
-  { id: 2, className: '8th', section: 'Blue' },
-  { id: 3, className: '7th', section: 'Blue' },
-  { id: 4, className: '6th', section: 'Blue' },
-];
-
-const sessionList = [
-  { id: 1, sessionYear: '2017-2018' },
-  { id: 2, sessionYear: '2018-2019' },
-  { id: 3, sessionYear: '2019-2020' },
-  { id: 4, sessionYear: '2020-2021' },
-];

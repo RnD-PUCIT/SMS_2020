@@ -12,6 +12,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import http from '../../../../services/httpService';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -43,8 +44,37 @@ const ParentForm = () => {
       password: Yup.string().required('Password is required!'),
     }),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      // add register model data
+      const aspNetUser = {
+        username: values.cnic,
+        email: values.email,
+        password: values.password,
+        role: 'Parent',
+      };
+
+      // add parent data
+      const parent = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        cnic: values.cnic,
+        email: values.email,
+        address: values.address,
+        contactPrimary: values.contactPrimary,
+        contactSecondary: values.contactSecondary,
+        occupation: values.occupation,
+        jobAddress: values.jobAddress,
+      };
+
+      const model = {
+        aspNetUser,
+        parent,
+      };
+
+      try {
+        await http.post('/account/registerParent', model);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 

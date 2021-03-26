@@ -88,7 +88,7 @@ namespace IRAAPI.Controllers
 
         [HttpPost]
         [Route("registerTeacher")]
-        public async Task<IActionResult> RegisterTeacher([FromBody] TeacherRegisterModel model)
+        public async Task<IActionResult> RegisterTeacher(TeacherRegisterModel model)
         {
             var aspNetUser = await RegisterAspNetUser(model.aspNetUser);
             if (aspNetUser != null)
