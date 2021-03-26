@@ -1,6 +1,8 @@
 import React from 'react';
 import {
   AppBar,
+  Avatar,
+  Checkbox,
   Fab,
   Grid,
   makeStyles,
@@ -12,6 +14,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -167,22 +170,7 @@ const AddStudentForm = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <TextField
-                  id="parentCnic"
-                  fullWidth
-                  variant="outlined"
-                  label="Parent CNIC"
-                  value={formik.values.parentCnic}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  helperText={
-                    formik.touched.parentCnic ? formik.errors.parentCnic : ''
-                  }
-                  error={
-                    formik.touched.parentCnic &&
-                    Boolean(formik.errors.parentCnic)
-                  }
-                />
+                <SearchableField />
               </Grid>
             </Grid>
           </div>
@@ -286,3 +274,37 @@ const AddStudentForm = () => {
 };
 
 export default AddStudentForm;
+
+function SearchableField() {
+  return (
+    <Autocomplete
+      id="checkboxes-tags-demo"
+      options={parentsList}
+      disableCloseOnSelect
+      getOptionLabel={(option) => option.cnic}
+      renderOption={(option, { selected }) => (
+        <React.Fragment>
+          <Avatar style={{ marginRight: '5px' }}>
+            {option.firstName.charAt(0)}
+          </Avatar>
+          {`${option.firstName} ${option.lastName} (${option.cnic})`}
+        </React.Fragment>
+      )}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant="outlined"
+          label="Parent"
+          placeholder="Select Parent"
+          fullWidth
+        />
+      )}
+    />
+  );
+}
+
+const parentsList = [
+  { id: 1, firstName: 'Salman', lastName: 'Sadiq', cnic: '123' },
+  { id: 2, firstName: 'Rizwan', lastName: 'Sadiq', cnic: '456' },
+  { id: 2, firstName: 'Irfan', lastName: 'Sadiq', cnic: '890' },
+];
