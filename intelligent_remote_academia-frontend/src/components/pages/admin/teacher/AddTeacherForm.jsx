@@ -12,6 +12,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import http from '../../../../services/httpService';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -32,7 +33,7 @@ const AddTeacherForm = () => {
       contactSecondary: '',
       specialization: '',
       joiningDate: '',
-      salary: '',
+      salary: 0,
     },
     validationSchema: Yup.object({
       firstName: Yup.string().required('First Name is required!'),
@@ -49,8 +50,38 @@ const AddTeacherForm = () => {
       birthDate: Yup.string().required('Date of Birth is required!'),
     }),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      // add register model data
+      const aspNetUser = {
+        username: values.username,
+        email: values.email,
+        password: values.password,
+        role: 'Teacher',
+      };
+      // add teacher data
+      const teacher = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        cnic: values.cnic,
+        dob: values.birthDate,
+        email: values.email,
+        address: values.address,
+        contactPrimary: values.contactPrimary,
+        contactSecondary: values.contactSecondary,
+        specialization: values.specialization,
+        joiningDate: values.joiningDate,
+        salary: values.salary,
+      };
+
+      const model = {
+        teacher,
+        aspNetUser,
+      };
+
+      try {
+        const { data } = await http.post('/account/registerTeacher', model);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -316,6 +347,7 @@ const AddTeacherForm = () => {
                 <TextField
                   id="salary"
                   fullWidth
+                  type="number"
                   variant="outlined"
                   label="Salary"
                   value={formik.values.salary}
