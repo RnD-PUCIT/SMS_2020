@@ -18,8 +18,8 @@ namespace IRAAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getClassesList")]
-        public async Task<ActionResult<List<Session>>> GetClassesList()
+        [Route("getSessionsList")]
+        public async Task<ActionResult<List<Session>>> GetSessionsList()
         {
             return await _context.Sessions.ToListAsync();
         }
