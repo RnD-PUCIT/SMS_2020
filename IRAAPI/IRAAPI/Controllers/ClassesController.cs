@@ -1,4 +1,5 @@
 ﻿using IRAAPI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,6 +23,25 @@ namespace IRAAPI.Controllers
         public async Task<ActionResult<List<Class>>> GetClassesList()
         {
             return await _context.Classes.ToListAsync();
+        }
+
+        [HttpPost]
+        [Route("createClass")]
+        public async Task<ActionResult> CreateClass(ClassDTO model)
+        {
+            Class classData = new Class
+            {
+                ClassName = model.ClassName,
+                Section = model.Section
+            };
+
+            _context.Classes.Add(classData);
+            var success = await _context.SaveChangesAsync() > 0;
+
+            if (!success)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok();
         }
     }
 }

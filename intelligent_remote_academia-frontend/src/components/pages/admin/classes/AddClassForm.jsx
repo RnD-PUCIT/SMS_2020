@@ -11,6 +11,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
+import http from '../../../../services/httpService';
 
 const AddClassForm = () => {
   const formik = useFormik({
@@ -23,8 +24,16 @@ const AddClassForm = () => {
       section: Yup.string().required('Section is required!'),
     }),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      const model = {
+        className: values.className,
+        section: values.section,
+      };
+
+      try {
+        await http.post('/classes/createClass', model);
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
   return (
