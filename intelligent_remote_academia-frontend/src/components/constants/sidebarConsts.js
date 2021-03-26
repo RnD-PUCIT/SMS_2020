@@ -55,6 +55,32 @@ const sideBarLinks = {
       url: '/attendance',
     },
   ],
+  admin: [
+    {
+      text: 'Home',
+      url: '/dashboard',
+    },
+    {
+      text: 'Teachers',
+      url: '/teachers',
+    },
+    {
+      text: 'Parents',
+      url: '/parents',
+    },
+    {
+      text: 'Students',
+      url: '/students',
+    },
+    {
+      text: 'Classes',
+      url: '/classes',
+    },
+    {
+      text: 'Subjects',
+      url: '/subjects',
+    },
+  ],
 };
 
 export { sideBarLinks };

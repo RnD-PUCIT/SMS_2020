@@ -65,6 +65,22 @@ namespace IRAAPI.Controllers
                 userInfoDto.LastName = teacherData.LastName;
                 userInfoDto.ProfilePic = teacherData.ProfilePicture;
             }
+            else if(role.Trim().ToLower() == "admin")
+            {
+                int adminNumericId = await _context.Admins.Where(p => p.UserId == guid)
+                     .Select(p => p.Id)
+                     .SingleOrDefaultAsync();
+
+                Admin adminData = await _context.Admins.SingleOrDefaultAsync(p => p.UserId == guid);
+
+                if (adminData == null)
+                    return NotFound();
+
+                userInfoDto.Id = adminData.UserId;
+                userInfoDto.FirstName = adminData.FirstName;
+                userInfoDto.LastName = adminData.LastName;
+                userInfoDto.ProfilePic = adminData.ProfilePicture;
+            }
             return userInfoDto;
         }
     }
