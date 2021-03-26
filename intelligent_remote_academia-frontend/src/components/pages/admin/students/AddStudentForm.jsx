@@ -26,6 +26,9 @@ const AddStudentForm = () => {
       lastName: '',
       birthDate: '',
       parentCnic: '',
+      classId: '',
+      sessionId: '',
+      enrollmentDate: '',
     },
     validationSchema: Yup.object({
       rollNumber: Yup.string().required('Roll Number is required!'),
@@ -34,6 +37,9 @@ const AddStudentForm = () => {
       lastName: Yup.string().required('Last Name is required!'),
       birthDate: Yup.string().required('Date of Birth is required!'),
       parentCnic: Yup.string().required('Parent CNIC is required!'),
+      classId: Yup.string().required('Class ID is required!'),
+      sessionId: Yup.string().required('Session ID is required!'),
+      enrollmentDate: Yup.string().required('Enrollment Date is required!'),
     }),
     onSubmit: async (values) => {
       alert('clicked');
@@ -166,7 +172,6 @@ const AddStudentForm = () => {
                   fullWidth
                   variant="outlined"
                   label="Parent CNIC"
-                  disabled
                   value={formik.values.parentCnic}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -185,49 +190,85 @@ const AddStudentForm = () => {
         <Paper className="u_mt_small">
           <AppBar position="static">
             <Toolbar variant="dense">
-              <Typography variant="h6">Occupation Information</Typography>
+              <Typography variant="h6">Admission Information</Typography>
             </Toolbar>
           </AppBar>
           <div className="paper_padding--sm form-colored-inputs">
             <Grid container spacing={2}>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
-                  id="occupation"
+                  id="rollNumber"
                   fullWidth
+                  disabled
                   variant="outlined"
-                  label="Occupation"
+                  label="Roll Number"
                   className={classes.textField}
-                  value={formik.values.occupation}
+                  value={formik.values.rollNumber}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   helperText={
-                    formik.touched.occupation ? formik.errors.occupation : ''
+                    formik.touched.rollNumber ? formik.errors.rollNumber : ''
                   }
                   error={
-                    formik.touched.occupation &&
-                    Boolean(formik.errors.occupation)
+                    formik.touched.rollNumber &&
+                    Boolean(formik.errors.rollNumber)
                   }
                 />
               </Grid>
-              <Grid item md={12}>
+              <Grid item md={6}>
                 <TextField
-                  id="jobparentCnic"
-                  multiline
+                  id="classId"
                   fullWidth
-                  rows={3}
                   variant="outlined"
-                  label="Job parentCnic"
-                  value={formik.values.jobparentCnic}
+                  label="Class"
+                  className={classes.textField}
+                  value={formik.values.classId}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   helperText={
-                    formik.touched.jobparentCnic
-                      ? formik.errors.jobparentCnic
+                    formik.touched.classId ? formik.errors.classId : ''
+                  }
+                  error={
+                    formik.touched.classId && Boolean(formik.errors.classId)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="sessionId"
+                  fullWidth
+                  variant="outlined"
+                  label="Session"
+                  value={formik.values.sessionId}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.sessionId ? formik.errors.sessionId : ''
+                  }
+                  error={
+                    formik.touched.sessionId && Boolean(formik.errors.sessionId)
+                  }
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  id="enrollmentDate"
+                  fullWidth
+                  variant="outlined"
+                  label="Date of Enrollment"
+                  type="date"
+                  InputLabelProps={{ shrink: true }}
+                  value={formik.values.enrollmentDate}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.enrollmentDate
+                      ? formik.errors.enrollmentDate
                       : ''
                   }
                   error={
-                    formik.touched.jobparentCnic &&
-                    Boolean(formik.errors.jobparentCnic)
+                    formik.touched.enrollmentDate &&
+                    Boolean(formik.errors.enrollmentDate)
                   }
                 />
               </Grid>
