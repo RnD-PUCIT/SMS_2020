@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import { terms } from '../../constants/outlineTermsConsts';
 import AlertDescriptive from '../../common/alerts/alertDescriptive';
 import {
   AccordionContainer,

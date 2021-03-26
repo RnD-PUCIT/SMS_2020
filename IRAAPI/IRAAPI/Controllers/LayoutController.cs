@@ -26,7 +26,7 @@ namespace IRAAPI.Controllers
             var claims = User.Claims;
             string claimID = claims.Where(u => u.Type == "userId").FirstOrDefault()?.Value;
             if (claimID == null)
-                return NotFound();
+                return Unauthorized();
 
             Guid guid = Guid.Parse(claimID);
             string role = claims.Where(u => u.Type == ClaimTypes.Role).FirstOrDefault()?.Value;

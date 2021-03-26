@@ -76,7 +76,6 @@ const GradedActivityList = ({ currentGradeType }) => {
     const url = `${history.location.pathname}/mark?activity=${selectedActivity.activityTitle}`;
     history.push(url);
   };
-
   if (currentGradeType.activities.length === 0) {
     return (
       <div className='u_p_small'>

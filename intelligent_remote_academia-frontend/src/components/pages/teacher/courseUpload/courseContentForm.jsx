@@ -45,7 +45,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const CourseContentForm = () => {
+const CourseContentForm = ({
+  termName,
+  selectedtermContent,
+  courseData,
+  setCourseData,
+}) => {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = useState(null);
@@ -66,19 +71,20 @@ const CourseContentForm = () => {
       title: '',
       references: '',
       description: '',
+      status: false,
+      date: new Date().toLocaleString(),
     },
     validationSchema: Yup.object({
       title: Yup.string().required('Title is required!'),
-      description: Yup.string().required('Description is required!'),
     }),
     onSubmit: async (values) => {
-      // add data to state variable
-      //   const index = gradeTypeList.indexOf(selectedGradeType);
+      //add data to state variable
+      const index = courseData.indexOf(selectedtermContent);
 
-      //   const newGradeTypeList = [...gradeTypeList];
-      //   newGradeTypeList[index].activities.push(values);
+      const newCourseData = [...courseData];
+      newCourseData[index].details.push(values);
 
-      //   setGradeTypeList(newGradeTypeList);
+      setCourseData(newCourseData);
 
       setStatus('success');
       setMessage('Course content created successfully!');
@@ -105,8 +111,7 @@ const CourseContentForm = () => {
                 <CloseIcon />
               </IconButton>
               <Typography variant='h6' className={classes.title}>
-                New SelectedTerm Content
-                {/* New {selectedGradeType.gradeName} Activity */}
+                New {termName} Activity
               </Typography>
               <Button variant='contained' type='submit'>
                 Create
@@ -136,9 +141,14 @@ const CourseContentForm = () => {
                 error={formik.touched.title && Boolean(formik.errors.title)}
               />
               <FormControlLabel
-                value='status'
+                // id='status'
                 control={
-                  <Checkbox color='primary' checked={formik.values.status} />
+                  <Checkbox
+                    color='primary'
+                    name='status'
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                  />
                 }
                 label='Completed'
                 labelPlacement='start'
@@ -161,17 +171,11 @@ const CourseContentForm = () => {
               fullWidth
               rows={10}
               variant='outlined'
-              label='Description'
+              label='Description (optional)'
               className={classes.textField}
               value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              helperText={
-                formik.touched.description ? formik.errors.description : ''
-              }
-              error={
-                formik.touched.description && Boolean(formik.errors.description)
-              }
             />
             <SimpleMenu
               button={{

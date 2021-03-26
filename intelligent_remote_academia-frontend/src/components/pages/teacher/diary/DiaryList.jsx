@@ -30,15 +30,15 @@ const DiaryList = () => {
 
   if (diaryData.length === 0) {
     return (
-      <div className="u_p_small">
-        <Typography>No diaryd data added yet.</Typography>
+      <div className='u_p_small'>
+        <Typography>No diary data added yet.</Typography>
       </div>
     );
   }
   return (
     <React.Fragment>
-      <Paper className="paper_padding--sm u_mt_small">
-        <List component="nav" style={{ padding: 0 }}>
+      <Paper className='paper_padding--sm u_mt_small'>
+        <List component='nav' style={{ padding: 0 }}>
           {diaryData.map((diary, index) => {
             return (
               <ListItem
@@ -47,19 +47,17 @@ const DiaryList = () => {
                 style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
                 onClick={() => {
                   handleDiaryClick(diary.id);
-                }}
-              >
+                }}>
                 <ListItemText>
                   {diary.diaryTitle}
                   <Typography
-                    color="textSecondary"
-                    style={{ float: 'right', marginRight: '10px' }}
-                  >
+                    color='textSecondary'
+                    style={{ float: 'right', marginRight: '10px' }}>
                     {`${diary.diaryDate}`}
                   </Typography>
                 </ListItemText>
                 <ListItemSecondaryAction>
-                  <IconButton edge="end">
+                  <IconButton edge='end'>
                     <MoreVertIcon />
                   </IconButton>
                 </ListItemSecondaryAction>

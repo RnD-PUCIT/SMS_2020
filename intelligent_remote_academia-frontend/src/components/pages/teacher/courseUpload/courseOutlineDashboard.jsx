@@ -1,54 +1,92 @@
-import React from 'react';
-import {
-  IconButton,
-  List,
-  ListItem,
-  ListItemSecondaryAction,
-  ListItemText,
-  makeStyles,
-  Paper,
-  Typography,
-} from '@material-ui/core';
-import { terms } from '../../../constants/outlineTermsConsts';
-import CourseContentForm from './courseContentForm';
-
-const useStyles = makeStyles({
-  termHeadingRoot: {
-    borderBottom: '1px solid black',
-    clear: 'both',
-  },
-  termHeading: {
-    display: 'inline-block',
-    padding: '20px',
-    margin: '0',
-  },
-  floatRight: {
-    float: 'right',
-    marginTop: '20px',
-  },
-});
+import React, { useEffect, useState } from 'react';
+import TermsList from './termsList';
 
 const CourseOutlineDashboard = () => {
+  const [courseData, setCourseData] = useState([]);
+  useEffect(() => {
+    const courseData = outline;
+    setCourseData(courseData);
+  }, []);
+
   return (
-    <Paper className='paper_padding--sm u_mt_small'>
-      {terms.map((term, index) => {
-        return <TermTypesHeading key={index} termName={term.name} />;
-      })}
-    </Paper>
+    <>
+      <TermsList courseData={courseData} setCourseData={setCourseData} />
+    </>
   );
 };
 
-const TermTypesHeading = ({ termName }) => {
-  const classes = useStyles();
-  return (
-    <React.Fragment>
-      <div className={classes.termHeadingRoot}>
-        <h2 className={classes.termHeading}>{termName}</h2>
-        <span className={classes.floatRight}>
-          <CourseContentForm />
-        </span>
-      </div>
-    </React.Fragment>
-  );
-};
 export default CourseOutlineDashboard;
+
+const outline = [
+  {
+    termid: 0,
+    details: [
+      {
+        title: 'Chapter 1',
+        description: 'DMAS Rules',
+        date: '01/01/2021 12:00:00 AM',
+        status: false,
+        references: 'https://www.youtube.com/watch?v=ORVShW0Yjaw',
+      },
+      {
+        title: 'Chapter 2',
+        description: 'Multiplication And Division',
+        date: '01/02/2021 12:00:00 AM',
+        status: true,
+        references: 'https://www.youtube.com/watch?v=ORVShW0Yjaw',
+      },
+    ],
+  },
+  {
+    termid: 1,
+    details: [
+      {
+        title: 'Chapter 5',
+        description: 'Ethical Behavior and its Obligations ',
+        date: '02/05/2021 12:00:00 AM',
+        status: true,
+        references: 'https://www.youtube.com/watch?v=ORVShW0Yjaw',
+      },
+      {
+        title: 'Chapter 6',
+        description: 'Sythetic Division',
+        date: '02/06/2021 12:00:00 AM',
+        status: false,
+        references: 'https://www.youtube.com/watch?v=ORVShW0Yjaw',
+      },
+      {
+        title: 'Chapter 7',
+        description: 'Crammers Rule',
+        date: '02/07/2021 12:00:00 AM',
+        status: false,
+        references: 'https://www.youtube.com/watch?v=ORVShW0Yjaw',
+      },
+    ],
+  },
+  {
+    termid: 2,
+    details: [
+      //   {
+      //     title: 'Chapter 5',
+      //     description: 'Ethical Behavior and its Obligations ',
+      //     date: '02/05/2021 12:00:00 AM',
+      //     status: true,
+      //     references: 'if any',
+      //   },
+      //   {
+      //     title: 'Chapter 6',
+      //     description: 'Sythetic Division',
+      //     date: '02/06/2021 12:00:00 AM',
+      //     status: false,
+      //     references: 'if any',
+      //   },
+      //   {
+      //     title: 'Chapter 7',
+      //     description: 'Crammers Rule',
+      //     date: '02/07/2021 12:00:00 AM',
+      //     status: false,
+      //     references: 'if any',
+      //   },
+    ],
+  },
+];
