@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.Models;
 using AutoMapper;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace IRAAPI.Controllers
 {
@@ -240,6 +242,26 @@ namespace IRAAPI.Controllers
                 throw;
             }
 
+        }
+        
+        [HttpPost]
+        [Route("createSubject")]
+        public async Task<ActionResult> CreateSubject(SubjectDTO model)
+        {
+            Subject subject = new Subject
+            {
+                SubjectName = model.subjectName,
+                SubjectCode = model.subjectCode,
+                SubjectSlug = model.subjectSlug
+            };
+
+            context.Subjects.Add(subject);
+            var success = await context.SaveChangesAsync() > 0;
+
+            if (!success)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok();
         }
     }
 
