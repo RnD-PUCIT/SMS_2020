@@ -78,7 +78,7 @@ const AddTeacherForm = () => {
       };
 
       try {
-        const { data } = await http.post('/account/registerTeacher', model);
+        await http.post('/account/registerTeacher', model);
       } catch (error) {
         console.log(error);
       }
