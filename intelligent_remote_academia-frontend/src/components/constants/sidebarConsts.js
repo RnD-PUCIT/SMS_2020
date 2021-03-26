@@ -72,6 +72,10 @@ const sideBarLinks = {
       text: 'Classes',
       url: '/classes',
     },
+    {
+      text: 'Subjects',
+      url: '/subjects',
+    },
   ],
 };
 
