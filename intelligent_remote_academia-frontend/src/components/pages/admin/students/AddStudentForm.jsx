@@ -13,6 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import SearchValidatedInput from '../../../common/inputs/SearchableInputValidated';
+import { Autocomplete } from '@material-ui/lab';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -170,9 +171,11 @@ const AddStudentForm = () => {
               <Grid item md={6}>
                 <SearchValidatedInput
                   formik={formik}
+                  display="cnic"
                   id="parentCnic"
                   label="Parent CNIC"
                   options={parentsList}
+                  avatar={true}
                 />
               </Grid>
             </Grid>
@@ -207,38 +210,21 @@ const AddStudentForm = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <TextField
+                <SearchClassField
+                  formik={formik}
+                  display="className"
                   id="classId"
-                  fullWidth
-                  variant="outlined"
                   label="Class"
-                  className={classes.textField}
-                  value={formik.values.classId}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  helperText={
-                    formik.touched.classId ? formik.errors.classId : ''
-                  }
-                  error={
-                    formik.touched.classId && Boolean(formik.errors.classId)
-                  }
+                  options={classesList}
                 />
               </Grid>
               <Grid item md={6}>
-                <TextField
+                <SearchSessionField
+                  formik={formik}
+                  display="sessionYear"
                   id="sessionId"
-                  fullWidth
-                  variant="outlined"
                   label="Session"
-                  value={formik.values.sessionId}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  helperText={
-                    formik.touched.sessionId ? formik.errors.sessionId : ''
-                  }
-                  error={
-                    formik.touched.sessionId && Boolean(formik.errors.sessionId)
-                  }
+                  options={sessionList}
                 />
               </Grid>
               <Grid item md={6}>
@@ -278,8 +264,82 @@ const AddStudentForm = () => {
 
 export default AddStudentForm;
 
+const SearchClassField = ({ formik, id, label, options, display }) => {
+  return (
+    <Autocomplete
+      options={options}
+      onChange={(event, newValue) => {
+        formik.values[id] = newValue;
+      }}
+      getOptionLabel={(option) => option[display]}
+      renderOption={(option, { selected }) => (
+        <React.Fragment>
+          {`${option.className} (${option.section})`}
+        </React.Fragment>
+      )}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          id={id}
+          fullWidth
+          variant="outlined"
+          label={label}
+          value={formik.values[id]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          error={formik.touched[id] && Boolean(formik.errors[id])}
+        />
+      )}
+    />
+  );
+};
+
+const SearchSessionField = ({ formik, id, label, options, display }) => {
+  return (
+    <Autocomplete
+      options={options}
+      onChange={(event, newValue) => {
+        formik.values[id] = newValue;
+      }}
+      getOptionLabel={(option) => option[display]}
+      renderOption={(option, { selected }) => (
+        <React.Fragment>{`${option.sessionYear}`}</React.Fragment>
+      )}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          id={id}
+          fullWidth
+          variant="outlined"
+          label={label}
+          value={formik.values[id]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          error={formik.touched[id] && Boolean(formik.errors[id])}
+        />
+      )}
+    />
+  );
+};
+
 const parentsList = [
   { id: 1, firstName: 'Salman', lastName: 'Sadiq', cnic: '123' },
   { id: 2, firstName: 'Rizwan', lastName: 'Sadiq', cnic: '456' },
   { id: 2, firstName: 'Irfan', lastName: 'Sadiq', cnic: '890' },
+];
+
+const classesList = [
+  { id: 1, className: '9th', section: 'Blue' },
+  { id: 2, className: '8th', section: 'Blue' },
+  { id: 3, className: '7th', section: 'Blue' },
+  { id: 4, className: '6th', section: 'Blue' },
+];
+
+const sessionList = [
+  { id: 1, sessionYear: '2017-2018' },
+  { id: 2, sessionYear: '2018-2019' },
+  { id: 3, sessionYear: '2019-2020' },
+  { id: 4, sessionYear: '2020-2021' },
 ];
