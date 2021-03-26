@@ -12,15 +12,17 @@ import {
   Typography,
 } from '@material-ui/core';
 
-const AddClassForm = () => {
+const AddSubjectForm = () => {
   const formik = useFormik({
     initialValues: {
-      className: '',
-      section: '',
+      subjectName: '',
+      subjectCode: '',
+      subjectSlug: '',
     },
     validationSchema: Yup.object({
-      className: Yup.string().required('Class Name is required!'),
-      section: Yup.string().required('Section is required!'),
+      subjectName: Yup.string().required('Class Name is required!'),
+      subjectCode: Yup.string().required('Subject Code is required!'),
+      subjectSlug: Yup.string().required('Subject Slug is required!'),
     }),
     onSubmit: async (values) => {
       alert('clicked');
@@ -34,43 +36,63 @@ const AddClassForm = () => {
         <Paper className="u_mt_small">
           <AppBar position="static">
             <Toolbar variant="dense">
-              <Typography variant="h6">Class Information</Typography>
+              <Typography variant="h6">Subject Information</Typography>
             </Toolbar>
           </AppBar>
-          <div className="paper_padding--sm form-colored-inputs">
+          <div className="paper_padding--sm">
             <Grid container spacing={2}>
               <Grid item md={6}>
                 <TextField
-                  id="className"
+                  id="subjectName"
                   autoFocus
                   fullWidth
                   variant="outlined"
-                  label="Class Name"
-                  value={formik.values.className}
+                  label="Subject Name"
+                  value={formik.values.subjectName}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   helperText={
-                    formik.touched.className ? formik.errors.className : ''
+                    formik.touched.subjectName ? formik.errors.subjectName : ''
                   }
                   error={
-                    formik.touched.className && Boolean(formik.errors.className)
+                    formik.touched.subjectName &&
+                    Boolean(formik.errors.subjectName)
                   }
                 />
               </Grid>
               <Grid item md={6}>
                 <TextField
-                  id="section"
+                  id="subjectCode"
                   fullWidth
                   variant="outlined"
-                  label="Section"
-                  value={formik.values.section}
+                  label="Subject Code"
+                  value={formik.values.subjectCode}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   helperText={
-                    formik.touched.section ? formik.errors.section : ''
+                    formik.touched.subjectCode ? formik.errors.subjectCode : ''
                   }
                   error={
-                    formik.touched.section && Boolean(formik.errors.section)
+                    formik.touched.subjectCode &&
+                    Boolean(formik.errors.subjectCode)
+                  }
+                />
+              </Grid>
+              <Grid item md={12}>
+                <TextField
+                  id="subjectSlug"
+                  fullWidth
+                  variant="outlined"
+                  label="Subject Slug"
+                  value={formik.values.subjectSlug}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  helperText={
+                    formik.touched.subjectSlug ? formik.errors.subjectSlug : ''
+                  }
+                  error={
+                    formik.touched.subjectSlug &&
+                    Boolean(formik.errors.subjectSlug)
                   }
                 />
               </Grid>
@@ -87,4 +109,4 @@ const AddClassForm = () => {
   );
 };
 
-export default AddClassForm;
+export default AddSubjectForm;
