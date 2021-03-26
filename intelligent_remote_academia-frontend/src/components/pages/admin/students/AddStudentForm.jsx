@@ -1,8 +1,6 @@
 import React from 'react';
 import {
   AppBar,
-  Avatar,
-  Checkbox,
   Fab,
   Grid,
   makeStyles,
@@ -14,7 +12,7 @@ import {
 import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Autocomplete } from '@material-ui/lab';
+import SearchValidatedInput from '../../../common/inputs/SearchableInputValidated';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -170,10 +168,11 @@ const AddStudentForm = () => {
                 />
               </Grid>
               <Grid item md={6}>
-                <SearchableField
+                <SearchValidatedInput
                   formik={formik}
                   id="parentCnic"
                   label="Parent CNIC"
+                  options={parentsList}
                 />
               </Grid>
             </Grid>
@@ -278,40 +277,6 @@ const AddStudentForm = () => {
 };
 
 export default AddStudentForm;
-
-const SearchableField = ({ formik, id, label }) => {
-  return (
-    <Autocomplete
-      options={parentsList}
-      onChange={(event, newValue) => {
-        formik.values[id] = newValue;
-      }}
-      getOptionLabel={(option) => option.cnic}
-      renderOption={(option, { selected }) => (
-        <React.Fragment>
-          <Avatar style={{ marginRight: '10px' }}>
-            {option.firstName.charAt(0)}
-          </Avatar>
-          {`${option.firstName} ${option.lastName} (${option.cnic})`}
-        </React.Fragment>
-      )}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          id={id}
-          fullWidth
-          variant="outlined"
-          label={label}
-          value={formik.values[id]}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          helperText={formik.touched[id] ? formik.errors[id] : ''}
-          error={formik.touched[id] && Boolean(formik.errors[id])}
-        />
-      )}
-    />
-  );
-};
 
 const parentsList = [
   { id: 1, firstName: 'Salman', lastName: 'Sadiq', cnic: '123' },
