@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  Chip,
   Divider,
   Grid,
   Paper,
@@ -57,9 +58,32 @@ const ClassSubjectAllocation = () => {
       selectedClass: Yup.string().required('Please select a class'),
       selectedSubjects: Yup.string().required('Please add atleast 1 subject'),
     }).nullable(),
+
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      const arr = [...classSubjectArray];
+      const classSubject = {
+        selectedClass: formik.values.selectedClass,
+        selectedSubjects: formik.values.selectedSubjects,
+      };
+      arr.push(classSubject);
+
+      const teacherSubjectAllocation = {
+        allocation: [],
+      };
+      arr.forEach((classSub) => {
+        const {
+          selectedClass: currentClass,
+          selectedSubjects: currentSubjects,
+        } = classSub;
+        currentSubjects.forEach((subject) => {
+          const temp = {
+            teacherId: values.selectedTeacher.id,
+            subjectId: subject.id,
+            classId: currentClass.id,
+          };
+          teacherSubjectAllocation.allocation.push(temp);
+        });
+      });
     },
   });
 
@@ -70,7 +94,6 @@ const ClassSubjectAllocation = () => {
       selectedSubjects: formik.values.selectedSubjects,
     };
     arr.push(classSubject);
-    console.log(arr);
     setClassSubjectArray(arr);
   };
   return (
@@ -153,7 +176,7 @@ const ClassSubjectAllocation = () => {
                 justifyContent="flex-end"
                 className="u_mt_small"
               >
-                <span onClick={handleNewClassSubject}>Add New</span>
+                <Chip onClick={handleNewClassSubject} label="Add New" />
               </Box>
               <Box
                 display="flex"
