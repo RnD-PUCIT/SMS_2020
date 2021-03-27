@@ -79,22 +79,26 @@ namespace IRAAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<ClassSubjectAlloc>> CreateClassSubjectAlloc(ClassSubjectAllocDTO classsubjectAlloc)
         {
-            List<ClassSubjectAlloc> list_class_subj_alloc = new List<ClassSubjectAlloc>();
+            if(classsubjectAlloc==null)
+            {
+                return CreatedAtAction("Request Not Valid", BadRequest());
+            }
+      
             ClassSubjectAlloc class_subject_alloc = new ClassSubjectAlloc();
             for(int i=0;i<classsubjectAlloc.subject_ids.Count;i++)
             {
                 
                 class_subject_alloc.ClassId = classsubjectAlloc.class_id;
                 class_subject_alloc.SubjectId = classsubjectAlloc.subject_ids[i];
-                //list_class_subj_alloc.Add(class_subject_alloc);
+       
                 _context.ClassSubjectAllocs.Add(class_subject_alloc);
                 await _context.SaveChangesAsync();
 
 
             }
-           // _context.ClassSubjectAllocs.Add(classSubjectAlloc);
-           
+            // _context.ClassSubjectAllocs.Add(classSubjectAlloc);
 
+            return CreatedAtAction("200 OK",class_subject_alloc);
             //return CreatedAtAction("GetClassSubjectAlloc", new { id = classSubjectAlloc.Id }, classSubjectAlloc);
         }
 
