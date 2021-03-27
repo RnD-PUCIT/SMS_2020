@@ -72,7 +72,9 @@ const ClassSubjectAllocation = () => {
                 options={classesList}
               />
 
-              <Typography variant="h6">Select Subjects to Allocate</Typography>
+              <Typography variant="h6" className="u_mt_small">
+                Select Subjects to Allocate
+              </Typography>
               <Divider style={{ margin: '10px 0 20px 0' }} />
 
               <Grid container>
