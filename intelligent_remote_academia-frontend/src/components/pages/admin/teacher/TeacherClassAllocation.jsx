@@ -25,6 +25,7 @@ const ClassSubjectAllocation = () => {
   const [teachersList, setTeachersList] = useState([]);
   const [classesList, setClassesList] = useState([]);
   const [subjectsList, setSubjectsList] = useState([]);
+  const [classSubjectArray, setClassSubjectArray] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -62,6 +63,16 @@ const ClassSubjectAllocation = () => {
     },
   });
 
+  const handleNewClassSubject = () => {
+    const arr = [...classSubjectArray];
+    const classSubject = {
+      selectedClass: formik.values.selectedClass,
+      selectedSubjects: formik.values.selectedSubjects,
+    };
+    arr.push(classSubject);
+    console.log(arr);
+    setClassSubjectArray(arr);
+  };
   return (
     <React.Fragment>
       <h1>Allocate Classes to Teacher</h1>
@@ -78,13 +89,22 @@ const ClassSubjectAllocation = () => {
                 label="Teacher"
                 options={teachersList}
               />
-
               <Grid container spacing={3}>
                 <Grid item xs={5} md={4}>
                   <Typography variant="h6" className="u_mt_small">
                     Select Class to Allocate
                   </Typography>
                   <Divider style={{ margin: '10px 0 20px 0' }} />
+                </Grid>
+                <Grid item xs={7} md={8}>
+                  <Typography variant="h6" className="u_mt_small">
+                    Select Subjects to Allocate
+                  </Typography>
+                  <Divider style={{ margin: '10px 0 20px 0' }} />
+                </Grid>
+              </Grid>
+              <Grid container spacing={3}>
+                <Grid item xs={5} md={4}>
                   <SearchClassField
                     formik={formik}
                     options={classesList}
@@ -94,10 +114,6 @@ const ClassSubjectAllocation = () => {
                   />
                 </Grid>
                 <Grid item xs={7} md={8}>
-                  <Typography variant="h6" className="u_mt_small">
-                    Select Subjects to Allocate
-                  </Typography>
-                  <Divider style={{ margin: '10px 0 20px 0' }} />
                   <SearchSubjectsField
                     formik={formik}
                     options={subjectsList}
@@ -107,7 +123,38 @@ const ClassSubjectAllocation = () => {
                   />
                 </Grid>
               </Grid>
-
+              {classSubjectArray &&
+                classSubjectArray.map((arr, index) => {
+                  return (
+                    <Grid key={index} container spacing={3}>
+                      <Grid item xs={5} md={4}>
+                        <SearchClassField
+                          formik={formik}
+                          options={classesList}
+                          id="selectedClass"
+                          label="Class"
+                          display="className"
+                        />
+                      </Grid>
+                      <Grid item xs={7} md={8}>
+                        <SearchSubjectsField
+                          formik={formik}
+                          options={subjectsList}
+                          id="selectedSubjects"
+                          label="Subjects"
+                          display="subjectName"
+                        />
+                      </Grid>
+                    </Grid>
+                  );
+                })}
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                className="u_mt_small"
+              >
+                <span onClick={handleNewClassSubject}>Add New</span>
+              </Box>
               <Box
                 display="flex"
                 justifyContent="flex-end"
