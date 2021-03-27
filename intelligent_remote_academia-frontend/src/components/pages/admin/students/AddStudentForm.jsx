@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import SearchValidatedInput from '../../../common/inputs/SearchableInputValidated';
 import { Autocomplete } from '@material-ui/lab';
 import http from '../../../../services/httpService';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
@@ -42,6 +43,8 @@ const AddStudentForm = () => {
     }
     fetchData();
   }, []);
+
+  const history = useHistory();
 
   const formik = useFormik({
     initialValues: {
@@ -93,8 +96,10 @@ const AddStudentForm = () => {
       try {
         console.log(model);
         await http.post('/account/registerStudent', model);
+        history.replace('/students');
       } catch (error) {
         console.log(error);
+        alert('Something went wrong while sending the data...');
       }
     },
   });

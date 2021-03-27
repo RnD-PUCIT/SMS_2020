@@ -12,8 +12,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import http from '../../../../services/httpService';
+import { useHistory } from 'react-router';
 
 const AddSubjectForm = () => {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       subjectName: '',
@@ -35,8 +37,10 @@ const AddSubjectForm = () => {
       try {
         console.log(model);
         http.post('/subjects/createSubject', model);
+        history.replace('/subjects');
       } catch (error) {
         console.log(error);
+        alert('Something went wrong while sending the data...');
       }
     },
   });

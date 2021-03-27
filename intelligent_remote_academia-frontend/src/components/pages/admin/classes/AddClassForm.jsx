@@ -12,8 +12,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import http from '../../../../services/httpService';
+import { useHistory } from 'react-router';
 
 const AddClassForm = () => {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       className: '',
@@ -31,8 +33,10 @@ const AddClassForm = () => {
 
       try {
         await http.post('/classes/createClass', model);
+        history.replace('/classes');
       } catch (error) {
         console.log(error);
+        alert('Something went wrong while sending the data...');
       }
     },
   });
