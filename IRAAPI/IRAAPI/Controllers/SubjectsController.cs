@@ -7,6 +7,7 @@ using IRAAPI.Models;
 using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace IRAAPI.Controllers
 {
@@ -262,6 +263,13 @@ namespace IRAAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("getSubjectsList")]
+        public async Task<ActionResult<List<Subject>>> GetSubjectsList()
+        {
+            return await context.Subjects.ToListAsync();
         }
     }
 
