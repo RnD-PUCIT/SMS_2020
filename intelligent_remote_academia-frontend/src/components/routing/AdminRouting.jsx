@@ -12,6 +12,7 @@ import TeachersFeed from '../pages/admin/teacher/TeachersFeed';
 import StudentsFeed from '../pages/admin/students/StudentsFeed';
 import AddStudentForm from '../pages/admin/students/AddStudentForm';
 import ClassSubjectAllocation from '../pages/admin/classes/ClassSubjectAllocation';
+import TeacherClassAllocation from '../pages/admin/teacher/TeacherClassAllocation';
 
 const AdminRouting = () => {
   return (
@@ -21,6 +22,11 @@ const AdminRouting = () => {
       {/* Teacher */}
       <Route exact path="/teachers" component={TeachersFeed} />
       <Route exact path="/teachers/add" component={AddTeacherForm} />
+      <Route
+        exact
+        path="/teachers/class-allocate"
+        component={TeacherClassAllocation}
+      />
       {/* Parent */}
       <Route exact path="/parents" component={ParentsFeed} />
       <Route exact path="/parents/add" component={ParentForm} />

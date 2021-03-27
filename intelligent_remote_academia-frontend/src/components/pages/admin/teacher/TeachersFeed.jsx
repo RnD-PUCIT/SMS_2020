@@ -9,6 +9,9 @@ const TeachersFeed = () => {
         <li>
           <Link to="/teachers/add">Add Teacher</Link>
         </li>
+        <li>
+          <Link to="/teachers/class-allocate">Allocate Class</Link>
+        </li>
       </ul>
     </React.Fragment>
   );
