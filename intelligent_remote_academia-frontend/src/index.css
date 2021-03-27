@@ -48,7 +48,21 @@ code {
 .u_mb_tiny {
   margin-bottom: 10px !important;
 }
-
+.u_mtb_huge {
+  margin: 50px 0 !important;
+}
+.u_mtb_large {
+  margin: 40px 0 !important;
+}
+.u_mtb_medium {
+  margin: 30px 0 !important;
+}
+.u_mtb_small {
+  margin: 20px 0 !important;
+}
+.u_mtb_tiny {
+  margin: 10px 0 !important;
+}
 .u_p_huge {
   padding: 50px !important;
 }

@@ -1,25 +1,19 @@
-import { Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Divider, Grid, Paper, Typography } from '@material-ui/core';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import WcIcon from '@material-ui/icons/Wc';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import PeopleIcon from '@material-ui/icons/People';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
-
-const useStyles = makeStyles({
-  paper: {
-    padding: '30px 15px',
-  },
-});
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const AdminDashboard = () => {
-  const classes = useStyles();
-
   return (
     <React.Fragment>
       <Typography variant="h6">Admin Dashboard</Typography>
       {/* Count Cards */}
-      <Grid container spacing={3}>
+      <Grid container spacing={3} className="u_mt_tiny">
         {countConst.map((item, index) => {
           return (
             <Grid item md={3} xs={6}>
@@ -46,12 +40,29 @@ const AdminDashboard = () => {
           );
         })}
       </Grid>
-
-      <ul>
-        <li>
-          <Link to="add-parent">Add Parent</Link>
-        </li>
-      </ul>
+      {/* Event Calendar and Announcements */}
+      <Grid container spacing={3}>
+        <Grid item md={7}>
+          <Paper className="paper_padding--sm u_mt_tiny">
+            <Typography variant="h6">Event Calendar</Typography>
+            <Divider className="u_mtb_tiny" />
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+            />
+          </Paper>
+        </Grid>
+        <Grid item md={5}>
+          <Paper className="paper_padding--sm u_mt_tiny">
+            <Typography variant="h6">Announcements</Typography>
+            <Divider className="u_mtb_tiny" />
+            <Alert severity="info">
+              <AlertTitle>Emtpy Announcements</AlertTitle>
+              Looks like no announcments are made yet.
+            </Alert>
+          </Paper>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
