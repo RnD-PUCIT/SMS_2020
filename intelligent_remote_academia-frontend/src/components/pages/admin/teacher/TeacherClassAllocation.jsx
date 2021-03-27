@@ -79,13 +79,25 @@ const ClassSubjectAllocation = () => {
                 options={teachersList}
               />
 
-              <Typography variant="h6" className="u_mt_small">
-                Select Class to Allocate
-              </Typography>
-              <Divider style={{ margin: '10px 0 20px 0' }} />
-
-              <Grid container>
-                <Grid xs={8}>
+              <Grid container spacing={3}>
+                <Grid item xs={5} md={4}>
+                  <Typography variant="h6" className="u_mt_small">
+                    Select Class to Allocate
+                  </Typography>
+                  <Divider style={{ margin: '10px 0 20px 0' }} />
+                  <SearchClassField
+                    formik={formik}
+                    options={classesList}
+                    id="selectedClass"
+                    label="Class"
+                    display="className"
+                  />
+                </Grid>
+                <Grid item xs={7} md={8}>
+                  <Typography variant="h6" className="u_mt_small">
+                    Select Subjects to Allocate
+                  </Typography>
+                  <Divider style={{ margin: '10px 0 20px 0' }} />
                   <SearchSubjectsField
                     formik={formik}
                     options={subjectsList}
@@ -94,7 +106,6 @@ const ClassSubjectAllocation = () => {
                     display="subjectName"
                   />
                 </Grid>
-                <Grid xs={4}></Grid>
               </Grid>
 
               <Box
@@ -211,7 +222,6 @@ const SearchSubjectsField = ({ formik, id, label, options, display }) => {
           {...params}
           fullWidth
           variant="outlined"
-          placeholder="Search for subjects"
           id={id}
           label={label}
           value={formik.values[id]}
