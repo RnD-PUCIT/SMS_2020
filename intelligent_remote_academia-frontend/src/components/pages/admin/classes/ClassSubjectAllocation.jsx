@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
+  Box,
+  Button,
   Checkbox,
   Divider,
   Grid,
@@ -47,7 +49,10 @@ const ClassSubjectAllocation = () => {
       selectedClass: Yup.string().required('Please select a class'),
       selectedSubjects: Yup.string().required('Please add atleast 1 subject'),
     }).nullable(),
-    onSubmit: async (values) => {},
+    onSubmit: async (values) => {
+      alert('clicked');
+      console.log(values);
+    },
   });
 
   return (
@@ -66,14 +71,32 @@ const ClassSubjectAllocation = () => {
                 label="Class"
                 options={classesList}
               />
+
               <Typography variant="h6">Select Subjects to Allocate</Typography>
               <Divider style={{ margin: '10px 0 20px 0' }} />
+
               <Grid container>
                 <Grid xs={8}>
-                  <SearchSubjectsField formik={formik} options={subjectsList} />
+                  <SearchSubjectsField
+                    formik={formik}
+                    options={subjectsList}
+                    id="selectedSubjects"
+                    label="Subjects"
+                    display="subjectName"
+                  />
                 </Grid>
                 <Grid xs={4}></Grid>
               </Grid>
+
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                className="u_mt_small"
+              >
+                <Button variant="contained" color="primary" type="submit">
+                  Save Changes
+                </Button>
+              </Box>
             </form>
           </Paper>
         </Grid>
@@ -87,7 +110,7 @@ const ClassSubjectAllocation = () => {
 
 export default ClassSubjectAllocation;
 
-const SearchClassField = ({ formik, options }) => {
+const SearchClassField = ({ formik, id, label, options, display }) => {
   return (
     <Autocomplete
       options={options}
@@ -123,6 +146,9 @@ const SearchSubjectsField = ({ formik, id, label, options, display }) => {
     <Autocomplete
       multiple
       options={options}
+      onChange={(event, newValue) => {
+        formik.values[id] = newValue;
+      }}
       disableCloseOnSelect
       getOptionLabel={(option) => option.subjectName}
       renderOption={(option, { selected }) => (
@@ -136,13 +162,19 @@ const SearchSubjectsField = ({ formik, id, label, options, display }) => {
           {option.subjectName}
         </React.Fragment>
       )}
-      style={{ width: 500 }}
       renderInput={(params) => (
         <TextField
           {...params}
+          fullWidth
           variant="outlined"
-          label="Subjects"
           placeholder="Search for subjects"
+          id={id}
+          label={label}
+          value={formik.values[id]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          error={formik.touched[id] && Boolean(formik.errors[id])}
         />
       )}
     />
