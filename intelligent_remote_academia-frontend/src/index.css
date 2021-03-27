@@ -104,3 +104,36 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   bottom: 20px;
   right: 20px;
 }
+
+.admin-dasboard-rounded-icon {
+  font-size: 50px;
+  border-radius: 50%;
+  height: 85px;
+  width: 85px;
+}
+
+.admin-dasboard-rounded-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon-green {
+  color: #3cb878;
+  background-color: #d1f3e0;
+}
+
+.icon-blue {
+  color: #3f7afc;
+  background-color: #e1f1ff;
+}
+
+.icon-orange {
+  color: #ffa539;
+  background-color: #fff2d8;
+}
+
+.icon-red {
+  color: #ff0000;
+  background-color: #ffeaea;
+}
