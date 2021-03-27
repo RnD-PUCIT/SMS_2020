@@ -13,12 +13,14 @@ import AddIcon from '@material-ui/icons/Add';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import http from '../../../../services/httpService';
+import { useHistory } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
   textField: {},
 }));
 
 const AddTeacherForm = () => {
+  const history = useHistory();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -79,8 +81,10 @@ const AddTeacherForm = () => {
 
       try {
         await http.post('/account/registerTeacher', model);
+        history.replace('/teachers');
       } catch (error) {
         console.log(error);
+        alert('Something went wrong while sending the data...');
       }
     },
   });
