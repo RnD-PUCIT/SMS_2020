@@ -2,7 +2,7 @@ import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import React, { useContext, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import AdminStore from '../../../store/admin/AdminStore';
 
 const TeachersFeed = () => {

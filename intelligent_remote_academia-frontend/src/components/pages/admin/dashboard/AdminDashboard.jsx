@@ -1,5 +1,5 @@
 import { Divider, Grid, Paper, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import WcIcon from '@material-ui/icons/Wc';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import PeopleIcon from '@material-ui/icons/People';
@@ -7,14 +7,54 @@ import MenuBookIcon from '@material-ui/icons/MenuBook';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import AdminStore from '../../../store/admin/AdminStore';
+import { observer } from 'mobx-react';
 
 const AdminDashboard = () => {
+  const adminStore = useContext(AdminStore);
+  const [count, setCount] = useState([]);
+
+  useEffect(() => {
+    adminStore.loadParents();
+    adminStore.loadClasses();
+    adminStore.loadStudents();
+    adminStore.loadTeachers();
+
+    const countConst = [
+      {
+        text: 'Students',
+        count: adminStore.studentsList.length,
+        icon: <LocalLibraryIcon fontSize="inherit" color="inherit" />,
+        css: 'admin-dasboard-rounded-icon icon-green',
+      },
+      {
+        text: 'Parents',
+        count: adminStore.parentsList.length,
+        icon: <WcIcon fontSize="inherit" color="inherit" />,
+        css: 'admin-dasboard-rounded-icon icon-blue',
+      },
+      {
+        text: 'Teachers',
+        count: adminStore.teachersList.length,
+        icon: <PeopleIcon fontSize="inherit" color="inherit" />,
+        css: 'admin-dasboard-rounded-icon icon-orange',
+      },
+      {
+        text: 'Classes',
+        count: adminStore.classesList.length,
+        icon: <MenuBookIcon fontSize="inherit" color="inherit" />,
+        css: 'admin-dasboard-rounded-icon icon-red',
+      },
+    ];
+
+    setCount(countConst);
+  }, []);
   return (
     <React.Fragment>
       <Typography variant="h6">Admin Dashboard</Typography>
       {/* Count Cards */}
       <Grid container spacing={3} className="u_mt_tiny">
-        {countConst.map((item, index) => {
+        {count.map((item, index) => {
           return (
             <Grid item md={3} xs={6}>
               <Paper style={{ padding: '22px 28px' }}>
@@ -67,31 +107,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
-
-const countConst = [
-  {
-    text: 'Students',
-    count: 100,
-    icon: <LocalLibraryIcon fontSize="inherit" color="inherit" />,
-    css: 'admin-dasboard-rounded-icon icon-green',
-  },
-  {
-    text: 'Parents',
-    count: 100,
-    icon: <WcIcon fontSize="inherit" color="inherit" />,
-    css: 'admin-dasboard-rounded-icon icon-blue',
-  },
-  {
-    text: 'Teachers',
-    count: 100,
-    icon: <PeopleIcon fontSize="inherit" color="inherit" />,
-    css: 'admin-dasboard-rounded-icon icon-orange',
-  },
-  {
-    text: 'Classes',
-    count: 100,
-    icon: <MenuBookIcon fontSize="inherit" color="inherit" />,
-    css: 'admin-dasboard-rounded-icon icon-red',
-  },
-];
+export default observer(AdminDashboard);
