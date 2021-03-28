@@ -1,18 +1,46 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Button, Divider, Paper, Typography } from '@material-ui/core';
+import { observer } from 'mobx-react';
+import React, { useContext, useEffect } from 'react';
+import DataTable from 'react-data-table-component';
+import { useHistory } from 'react-router-dom';
+import AdminStore from '../../../store/admin/AdminStore';
 
 const ClassesFeed = () => {
+  const adminStore = useContext(AdminStore);
+  const studentsList = [...adminStore.studentsList];
+
+  const history = useHistory();
+
+  useEffect(() => {
+    adminStore.loadStudents();
+  }, []);
   return (
     <React.Fragment>
-      <h1>Classes Feed</h1>
-      <ul>
-        <li>
-          <Link to="/classes/add">Add Class</Link>
-        </li>
-        <li>
-          <Link to="/classes/subject-allocate">Allocate Subject</Link>
-        </li>
-      </ul>
+      <Typography variant="h6">Classes Feed</Typography>
+      <Paper className="paper_padding--sm u_mt_small">
+        <Typography variant="h5">Admin Options</Typography>
+        <Divider className="u_mtb_tiny" />
+        <Button
+          style={{ marginRight: 5 }}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            history.push('/classes/add');
+          }}
+        >
+          Add Class
+        </Button>
+        <Button
+          style={{ marginRight: 5 }}
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            history.push('/classes/subject-allocate');
+          }}
+        >
+          Allocate Subjects
+        </Button>
+      </Paper>
     </React.Fragment>
   );
 };
