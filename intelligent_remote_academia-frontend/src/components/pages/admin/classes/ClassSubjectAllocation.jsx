@@ -5,17 +5,21 @@ import {
   Checkbox,
   Divider,
   Grid,
+  List,
+  ListItem,
+  ListItemText,
   Paper,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
+import { Alert, AlertTitle, Autocomplete } from '@material-ui/lab';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import http from '../../../../services/httpService';
 
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { useHistory } from 'react-router';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -23,6 +27,9 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 const ClassSubjectAllocation = () => {
   const [classesList, setClassesList] = useState([]);
   const [subjectsList, setSubjectsList] = useState([]);
+  const [selectedClassSubjects, setSelectedClassSubjects] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
@@ -50,10 +57,29 @@ const ClassSubjectAllocation = () => {
       selectedSubjects: Yup.string().required('Please add atleast 1 subject'),
     }).nullable(),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      const model = {
+        classId: values.selectedClass.id,
+        subjectIds: [],
+      };
+      values.selectedSubjects.forEach((subject) => {
+        model.subjectIds.push(subject.id);
+      });
+
+      try {
+        http.post('classes/allocateSubject', model);
+      } catch (error) {
+        history.replace('/classes');
+      }
     },
   });
+
+  const handleClassChange = async () => {
+    const { data } = await http.get(
+      `classes/getAllocatedSubjects?classId=${formik.values.selectedClass.id}`
+    );
+
+    setSelectedClassSubjects(data);
+  };
 
   return (
     <React.Fragment>
@@ -70,6 +96,7 @@ const ClassSubjectAllocation = () => {
                 id="selectedClass"
                 label="Class"
                 options={classesList}
+                onClassChange={handleClassChange}
               />
 
               <Typography variant="h6" className="u_mt_small">
@@ -103,7 +130,29 @@ const ClassSubjectAllocation = () => {
           </Paper>
         </Grid>
         <Grid item md={4}>
-          <Paper className="paper_padding--sm u_mt_small"></Paper>
+          <Paper className="paper_padding--sm u_mt_small">
+            {!selectedClassSubjects && (
+              <Alert severity="warning">
+                <AlertTitle>No class selected</AlertTitle>
+                Select a class to show the allocated subjects.
+              </Alert>
+            )}
+            {selectedClassSubjects && (
+              <React.Fragment>
+                <Typography variant="h6">Allocated Subjects</Typography>
+                <Divider style={{ margin: '10px 0 20px 0' }} />
+                <List>
+                  {selectedClassSubjects.map((subject, index) => {
+                    return (
+                      <ListItem key={index}>
+                        <ListItemText primary={subject} />
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              </React.Fragment>
+            )}
+          </Paper>
         </Grid>
       </Grid>
     </React.Fragment>
@@ -112,12 +161,20 @@ const ClassSubjectAllocation = () => {
 
 export default ClassSubjectAllocation;
 
-const SearchClassField = ({ formik, id, label, options, display }) => {
+const SearchClassField = ({
+  formik,
+  id,
+  label,
+  options,
+  display,
+  onClassChange,
+}) => {
   return (
     <Autocomplete
       options={options}
       onChange={(event, newValue) => {
         formik.values[id] = newValue;
+        onClassChange();
       }}
       getOptionLabel={(option) => option[display]}
       renderOption={(option, { selected }) => (
