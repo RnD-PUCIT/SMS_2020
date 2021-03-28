@@ -151,3 +151,7 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   color: #ff0000;
   background-color: #ffeaea;
 }
+
+.teacher-admin-options {
+  font-size: 50px;
+}

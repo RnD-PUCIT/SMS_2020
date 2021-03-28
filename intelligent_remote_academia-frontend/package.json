@@ -29,6 +29,7 @@
     "react": "^16.13.1",
     "react-calendar": "^3.1.0",
     "react-chartjs-2": "^2.10.0",
+    "react-data-table-component": "^6.11.7",
     "react-datepicker": "^3.6.0",
     "react-dom": "^16.13.1",
     "react-icons": "^4.1.0",
@@ -37,6 +38,7 @@
     "react-scripts": "3.4.3",
     "react-to-print": "^2.11.0",
     "react-vertical-timeline-component": "^3.3.0",
+    "styled-components": "^5.2.1",
     "yup": "^0.29.3"
   },
   "scripts": {
