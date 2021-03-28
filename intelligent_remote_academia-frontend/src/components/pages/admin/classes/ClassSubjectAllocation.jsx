@@ -19,6 +19,7 @@ import http from '../../../../services/httpService';
 
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { useHistory } from 'react-router';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -27,6 +28,8 @@ const ClassSubjectAllocation = () => {
   const [classesList, setClassesList] = useState([]);
   const [subjectsList, setSubjectsList] = useState([]);
   const [selectedClassSubjects, setSelectedClassSubjects] = useState(null);
+
+  const history = useHistory();
 
   useEffect(() => {
     async function fetchData() {
@@ -54,8 +57,19 @@ const ClassSubjectAllocation = () => {
       selectedSubjects: Yup.string().required('Please add atleast 1 subject'),
     }).nullable(),
     onSubmit: async (values) => {
-      alert('clicked');
-      console.log(values);
+      const model = {
+        classId: values.selectedClass.id,
+        subjectIds: [],
+      };
+      values.selectedSubjects.forEach((subject) => {
+        model.subjectIds.push(subject.id);
+      });
+
+      try {
+        http.post('classes/allocateSubject', model);
+      } catch (error) {
+        history.replace('/classes');
+      }
     },
   });
 

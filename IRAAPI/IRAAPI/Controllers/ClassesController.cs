@@ -1,4 +1,5 @@
-﻿using IRAAPI.Models;
+﻿using IRAAPI.Dtos;
+using IRAAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -61,5 +62,26 @@ namespace IRAAPI.Controllers
             return subjectsList;
         }
 
+        [HttpPost]
+        [Route("allocateSubject")]
+        public async Task<ActionResult> AllocateSubject(ClassAllocationDto model)
+        {
+            foreach (var subjectId in model.SubjectIds)
+            {
+                ClassSubjectAlloc allocation = new ClassSubjectAlloc
+                {
+                    ClassId = model.ClassId,
+                    SubjectId = subjectId
+                };
+
+                _context.ClassSubjectAllocs.Add(allocation);
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (!result)
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok();
+        }
     }
 }
