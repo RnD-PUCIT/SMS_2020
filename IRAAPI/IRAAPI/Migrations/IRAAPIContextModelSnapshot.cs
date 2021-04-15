@@ -116,6 +116,76 @@ namespace IRAAPI.Migrations
                     b.ToTable("AcademicCalenders");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.Admin", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("address");
+
+                    b.Property<string>("Cnic")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("cnic");
+
+                    b.Property<string>("ContactPrimary")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("contact_primary");
+
+                    b.Property<string>("ContactSecondary")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("contact_secondary");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)")
+                        .HasColumnName("first_name");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(75)
+                        .HasColumnType("nvarchar(75)")
+                        .HasColumnName("last_name");
+
+                    b.Property<string>("ProfilePicture")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("profile_picture");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId1");
+
+                    b.ToTable("Admins");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>
                 {
                     b.Property<int>("Id")
@@ -1484,6 +1554,15 @@ namespace IRAAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.Admin", b =>
+                {
+                    b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.Announcement", b =>

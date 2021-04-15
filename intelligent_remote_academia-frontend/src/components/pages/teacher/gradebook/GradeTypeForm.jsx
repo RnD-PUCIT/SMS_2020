@@ -48,16 +48,14 @@ export default function GradeTypeForm({
       <Button
         variant={button.variant}
         color={button.color}
-        onClick={handleClickOpen}
-      >
+        onClick={handleClickOpen}>
         {button.text}
       </Button>
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">
+        aria-labelledby='form-dialog-title'>
+        <DialogTitle id='form-dialog-title'>
           Create New Grade Distribution
         </DialogTitle>
         <DialogContent>
@@ -67,22 +65,21 @@ export default function GradeTypeForm({
           </DialogContentText>
           <TextField
             autoFocus
-            margin="dense"
-            id="name"
-            label="Graded Distribution Title"
+            margin='dense'
+            id='name'
+            label='Graded Distribution Title'
             fullWidth
             onChange={handleTextChange}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color='primary'>
             Cancel
           </Button>
           <Button
             onClick={handleCreateActivity}
-            color="primary"
-            disabled={activityTitle.trim().length === 0 ? true : false}
-          >
+            color='primary'
+            disabled={activityTitle.trim().length === 0 ? true : false}>
             Save
           </Button>
         </DialogActions>

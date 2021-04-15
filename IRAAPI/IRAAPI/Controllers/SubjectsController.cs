@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using IRAAPI.Models;
 using AutoMapper;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace IRAAPI.Controllers
 {
@@ -20,26 +23,26 @@ namespace IRAAPI.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        [Authorize(Roles = "Parent")]
         [HttpGet]
         public Object GetDashboardSubjectsInfo()
         {
             var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
+            var parentId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
             if (parentId == null)
                 return NotFound();
             Guid parentGuid = Guid.Parse(parentId);
 
             try
             {
-                int parentNumericId = context.Parents.Where(p => p.Guid == parentGuid)
+                int parentNumericId = context.Parents.Where(p => p.UserId == parentGuid)
                     .Select(p => p.Id)
                     .SingleOrDefault();
 
-                var parentData = context.Parents.Where(p => p.Guid == parentGuid)
+                var parentData = context.Parents.Where(p => p.UserId == parentGuid)
                     .Select(p => new ParentDTO()
                     {
-                        id = p.Guid,
+                        id = p.UserId,
                         firstName = p.FirstName,
                         lastName = p.LastName,
                         profilePic = p.ProfilePicture
@@ -99,29 +102,23 @@ namespace IRAAPI.Controllers
                 dashboard.students = studentsData;
                 dashboard.subjects = subjectsList;
 
-                return new { Dashboard = dashboard };
+                return new { dashboard = dashboard };
             }
             catch (Exception)
             {
 
                 throw;
             }
-
-
         }
+
+
         [Authorize]
         [HttpGet("{subject-name}")]
         public Object GetGradeTypesAndDiary(Guid studentId, Guid classId, Guid subjectId, Guid sessionId)
+        //public Object GetGradeTypesAndDiary(Guid classId, Guid subjectId, Guid sessionId) // Updated
         {
-            var claims = User.Claims;
-            var parentId = claims.Where(p => p.Type == "parent_id").FirstOrDefault()?.Value;
-            if (parentId == null)
-                return Unauthorized();
-
             try
             {
-
-
                 int studentNumericId = context.Students.Where(a => a.Guid == studentId)
                     .Select(a => a.Id)
                     .SingleOrDefault();
@@ -136,7 +133,8 @@ namespace IRAAPI.Controllers
                     .SingleOrDefault();
                 if (subjectNumericId == 0 || classNumericId == 0 || sessionNumericId == 0)
                 {
-                    return CreatedAtAction("Not Found", null);
+                    //return CreatedAtAction("Not Found", null);
+                    return NotFound();
                 }
                 List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles = new List<CourseOutlinesWithFiles>();
                 List<CourseOutlinesWithFiles> ListOfCourseOutlinesWithFiles2 = new List<CourseOutlinesWithFiles>();
@@ -212,12 +210,12 @@ namespace IRAAPI.Controllers
 
                     }).SingleOrDefault();
 
-                var gradeTypesData = context.SubjectGradeTypeAllocs.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId)
+                var gradeTypesData = context.GradeTypes.Where(g => g.ClassId == classNumericId && g.SubjectId == subjectNumericId && g.SessionId == sessionNumericId)
                     .Select(g => new GradeTypeDTO()
                     {
-                        gradeTypeId = g.GradeType.Guid,
-                        gradeTypeName = g.GradeType.GradeType1,
-                        gradeTypeSlug = g.GradeType.GradeTypeSlug
+                        gradeTypeId = g.Guid,
+                        gradeTypeName = g.GradeType1,
+                        gradeTypeSlug = g.GradeTypeSlug
 
                     }).ToList();
 
@@ -245,6 +243,33 @@ namespace IRAAPI.Controllers
                 throw;
             }
 
+        }
+        
+        [HttpPost]
+        [Route("createSubject")]
+        public async Task<ActionResult> CreateSubject(SubjectDTO model)
+        {
+            Subject subject = new Subject
+            {
+                SubjectName = model.subjectName,
+                SubjectCode = model.subjectCode,
+                SubjectSlug = model.subjectSlug
+            };
+
+            context.Subjects.Add(subject);
+            var success = await context.SaveChangesAsync() > 0;
+
+            if (!success)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("getSubjectsList")]
+        public async Task<ActionResult<List<Subject>>> GetSubjectsList()
+        {
+            return await context.Subjects.ToListAsync();
         }
     }
 

@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 const GradeTypeList = ({ gradeTypeList, setGradeTypeList }) => {
   return (
-    <Paper className="paper_padding--sm u_mt_small">
+    <Paper className='paper_padding--sm u_mt_small'>
       {gradeTypeList.map((gradeType, index) => {
         return (
           <GradeTypeHeading
@@ -76,16 +76,15 @@ const GradedActivityList = ({ currentGradeType }) => {
     const url = `${history.location.pathname}/mark?activity=${selectedActivity.activityTitle}`;
     history.push(url);
   };
-
   if (currentGradeType.activities.length === 0) {
     return (
-      <div className="u_p_small">
+      <div className='u_p_small'>
         <Typography>No graded activity added yet.</Typography>
       </div>
     );
   }
   return (
-    <List component="nav" style={{ padding: '0' }}>
+    <List component='nav' style={{ padding: '0' }}>
       {currentGradeType.activities.map((grade, index) => (
         <ListItem
           button
@@ -93,19 +92,17 @@ const GradedActivityList = ({ currentGradeType }) => {
           style={{ borderBottom: '1px solid rgb(224, 224, 224)' }}
           onClick={() => {
             handleListItemClick(grade);
-          }}
-        >
+          }}>
           <ListItemText>
             {grade.activityTitle}
             <Typography
-              color="textSecondary"
-              style={{ float: 'right', marginRight: '10px' }}
-            >
+              color='textSecondary'
+              style={{ float: 'right', marginRight: '10px' }}>
               {`${grade.activityMarks} marks`}
             </Typography>
           </ListItemText>
           <ListItemSecondaryAction>
-            <IconButton edge="end">
+            <IconButton edge='end'>
               <MoreVertIcon />
             </IconButton>
           </ListItemSecondaryAction>

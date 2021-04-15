@@ -15,54 +15,68 @@ code {
 
 /* Generic styling */
 .paper_padding--sm {
-  padding: 30px;
+  padding: 30px !important;
 }
 .u_mt_huge {
-  margin-top: 50px;
+  margin-top: 50px !important;
 }
 .u_mt_large {
-  margin-top: 40px;
+  margin-top: 40px !important;
 }
 .u_mt_medium {
-  margin-top: 30px;
+  margin-top: 30px !important;
 }
 .u_mt_small {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 .u_mt_tiny {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 
 .u_mb_huge {
-  margin-bottom: 50px;
+  margin-bottom: 50px !important;
 }
 .u_mb_large {
-  margin-bottom: 40px;
+  margin-bottom: 40px !important;
 }
 .u_mb_medium {
-  margin-bottom: 30px;
+  margin-bottom: 30px !important;
 }
 .u_mb_small {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 .u_mb_tiny {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
-
+.u_mtb_huge {
+  margin: 50px 0 !important;
+}
+.u_mtb_large {
+  margin: 40px 0 !important;
+}
+.u_mtb_medium {
+  margin: 30px 0 !important;
+}
+.u_mtb_small {
+  margin: 20px 0 !important;
+}
+.u_mtb_tiny {
+  margin: 10px 0 !important;
+}
 .u_p_huge {
-  padding: 50px;
+  padding: 50px !important;
 }
 .u_p_large {
-  padding: 40px;
+  padding: 40px !important;
 }
 .u_p_medium {
-  padding: 30px;
+  padding: 30px !important;
 }
 .u_p_small {
-  padding: 20px;
+  padding: 20px !important;
 }
 .u_p_tiny {
-  padding: 10px;
+  padding: 10px !important;
 }
 
 .flex-end {
@@ -96,4 +110,48 @@ main {
 
 input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
   text-align: right;
+}
+
+.action-button {
+  position: fixed;
+  z-index: 100;
+  bottom: 20px;
+  right: 20px;
+}
+
+.admin-dasboard-rounded-icon {
+  font-size: 50px;
+  border-radius: 50%;
+  height: 85px;
+  width: 85px;
+}
+
+.admin-dasboard-rounded-icon svg.MuiSvgIcon-root.MuiSvgIcon-fontSizeInherit {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.icon-green {
+  color: #3cb878;
+  background-color: #d1f3e0;
+}
+
+.icon-blue {
+  color: #3f7afc;
+  background-color: #e1f1ff;
+}
+
+.icon-orange {
+  color: #ffa539;
+  background-color: #fff2d8;
+}
+
+.icon-red {
+  color: #ff0000;
+  background-color: #ffeaea;
+}
+
+.teacher-admin-options {
+  font-size: 50px;
 }

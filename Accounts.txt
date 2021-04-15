@@ -1,3 +1,8 @@
 Parent Account:
 username: 1234
 password: Password@1235
+
+
+TEACHER ACCOUNT:
+username: nadeem.abbass
+password: Password@123

@@ -7,7 +7,6 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
   Button,
@@ -22,14 +21,15 @@ class TimeTable extends Component {
     const { selectedStudent, classId, sessionId } = this.props;
     return (
       <div>
-        <Grid container justify='flex-end'>
+        <Grid container justify="flex-end">
           <ReactToPrint
             trigger={() => {
               return (
                 <Button
-                  color='primary'
-                  variant='contained'
-                  style={{ marginBottom: '20px' }}>
+                  color="primary"
+                  variant="contained"
+                  style={{ marginBottom: '20px' }}
+                >
                   Download as pdf
                 </Button>
               );
@@ -81,7 +81,6 @@ class TimeTableBody extends Component {
     const url = `/timetable?classId=${classId}&sessionId=${sessionId}`;
     try {
       const { data } = await http.get(url);
-      console.log(data);
       const { timeTableInfo: timeTable } = data.timeTable;
       this.setState({ timeTable });
     } catch (error) {}
@@ -93,11 +92,11 @@ const Schedule = ({ classInfo, timeTable }) => {
   return (
     <React.Fragment>
       <Paper className={classes.root} elevation={3}>
-        <Typography variant='h5' className={classes.heading}>
+        <Typography variant="h5" className={classes.heading}>
           Time Table - {`${classInfo.className} (${classInfo.section})`}
         </Typography>
 
-        <Paper variant='outlined'>
+        <Paper variant="outlined">
           <TableContainer>
             <Grid item xs={12}>
               <Table>
@@ -116,14 +115,14 @@ const Schedule = ({ classInfo, timeTable }) => {
                       return (
                         <TableRow key={index}>
                           <TableCell>{day.dayName.toUpperCase()}</TableCell>
-                          {day.schedule.map((s, index) => {
+                          {day.schedule.map((s, i) => {
                             return (
-                              <TableCell key={index} align='center'>
-                                <Chip label={s.timeSlot} size='small' />
+                              <TableCell key={i} align="center">
+                                <Chip label={s.timeSlot} size="small" />
                                 <Typography className={classes.subjectName}>
                                   {s.subjectName}
                                 </Typography>
-                                <Typography color='textSecondary'>
+                                <Typography color="textSecondary">
                                   {s.teacherName && `(${s.teacherName})`}
                                 </Typography>
                               </TableCell>
@@ -132,6 +131,7 @@ const Schedule = ({ classInfo, timeTable }) => {
                         </TableRow>
                       );
                     }
+                    return null;
                   })}
                 </TableBody>
               </Table>

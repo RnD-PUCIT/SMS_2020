@@ -5,9 +5,9 @@ import { Doughnut } from 'react-chartjs-2';
 const DoughnutGraph = ({ statusArray }) => {
   const total = statusArray.length;
   const countOccurrences = (arr, val) =>
-    arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
-  let completed = countOccurrences(statusArray, 1) / total;
-  let notCompleted = countOccurrences(statusArray, 0) / total;
+    arr.reduce((a, v) => (v === val ? a + 1 : a), false);
+  let completed = countOccurrences(statusArray, true) / total;
+  let notCompleted = countOccurrences(statusArray, false) / total;
   const status = [];
   status.push(completed);
   status.push(notCompleted);
@@ -26,7 +26,7 @@ const DoughnutGraph = ({ statusArray }) => {
 
   return (
     <div>
-      <Typography variant='button' display='block' gutterBottom>
+      <Typography variant='button' gutterBottom>
         Completion Weightage
       </Typography>
       <Doughnut data={data} />

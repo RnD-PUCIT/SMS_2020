@@ -4,7 +4,6 @@ import GradeTypeList from './GradeTypeList';
 
 const Gradebook = () => {
   const [gradeTypeList, setGradeTypeList] = useState([]);
-
   useEffect(() => {
     const gradeTypes = gradeTypeListConst;
     setGradeTypeList(gradeTypes);
@@ -18,7 +17,7 @@ const Gradebook = () => {
         button={{ text: 'Create', variant: 'contained', color: 'primary' }}
       />
 
-      {/* Grade Type list compnent */}
+      {/* Grade Type list component */}
       <GradeTypeList
         gradeTypeList={gradeTypeList}
         setGradeTypeList={setGradeTypeList}
