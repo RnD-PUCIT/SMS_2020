@@ -18,7 +18,7 @@ export default AppButton;
 
 const styles = StyleSheet.create({
   button: {
-    borderRadius: 25,
+    borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
     padding: 15,

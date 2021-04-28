@@ -27,8 +27,8 @@ function AppTextInput({ icon, width = "100%", ...otherProps }) {
 const styles = StyleSheet.create({
   contaier: {
     backgroundColor: defaultStyles.colors.light,
-    borderRadius: 25,
-    padding: 15,
+    borderRadius: 5,
+    padding: 10,
     flexDirection: "row",
     marginVertical: 10,
     alignItems: "center",
