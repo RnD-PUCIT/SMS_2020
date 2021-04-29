@@ -11,10 +11,24 @@ function StudentPicker({ imageSrc }) {
       <View style={styles.container}>
         {!imageSrc && (
           <View style={styles.iconContainer}>
-            <MaterialCommunityIcons name="account" />
+            <MaterialCommunityIcons
+              name="account"
+              size={30}
+              color={colors.primary}
+            />
           </View>
         )}
-        <AppText>Sohaib Salman</AppText>
+        <View style={styles.textContainer}>
+          <AppText>Sohaib Salman</AppText>
+          <AppText style={styles.subText}>Class - Section</AppText>
+        </View>
+        <View style={styles.dropDownIcon}>
+          <MaterialCommunityIcons
+            name="chevron-down"
+            size={20}
+            color={colors.medium}
+          />
+        </View>
       </View>
     </React.Fragment>
   );
@@ -22,13 +36,30 @@ function StudentPicker({ imageSrc }) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.light,
+    borderRadius: 10,
     flexDirection: "row",
+    padding: 10,
+  },
+  dropDownIcon: {
+    alignSelf: "center",
   },
   iconContainer: {
     alignItems: "center",
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
+    borderRadius: 30,
+    height: 60,
     justifyContent: "center",
+    width: 60,
+  },
+  subText: {
+    fontSize: 14,
+    color: colors.medium,
+  },
+  textContainer: {
+    alignSelf: "center",
+    flex: 1,
+    marginLeft: 10,
   },
 });
 
