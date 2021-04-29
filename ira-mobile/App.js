@@ -1,6 +1,6 @@
 import React from "react";
-import ParentDashboard from "./app/screens/ParentDashboard";
+import SubjectListScreen from "./app/screens/SubjectListScreen";
 
 export default function App() {
-  return <ParentDashboard />;
+  return <SubjectListScreen />;
 }
