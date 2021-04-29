@@ -13,15 +13,16 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Screen from "./Screen";
+import ListItemSeperator from "./ListItemSeperator";
 
-function StudentPicker({ items, selectedItem }) {
+function StudentPicker({ items, onSelectItem, selectedStudent }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <React.Fragment>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
         <View style={styles.container}>
-          {!selectedItem.profilePic && (
+          {!selectedStudent.profilePic && (
             <View style={styles.iconContainer}>
               <MaterialCommunityIcons
                 name="account"
@@ -31,10 +32,10 @@ function StudentPicker({ items, selectedItem }) {
             </View>
           )}
           <View style={styles.textContainer}>
-            <AppText>{`${selectedItem.firstName} ${selectedItem.lastName}`}</AppText>
+            <AppText>{`${selectedStudent.firstName} ${selectedStudent.lastName}`}</AppText>
             <AppText
               style={styles.subText}
-            >{`${selectedItem.className} - ${selectedItem.section}`}</AppText>
+            >{`${selectedStudent.className} - ${selectedStudent.section}`}</AppText>
           </View>
           <View style={styles.dropDownIcon}>
             <MaterialCommunityIcons
@@ -47,11 +48,39 @@ function StudentPicker({ items, selectedItem }) {
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType="slide">
         <Screen>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
+          <View style={styles.closeButton}>
+            <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+              <View
+                style={{
+                  backgroundColor: colors.light,
+                  width: 30,
+                  height: 30,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 15,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="close"
+                  size={20}
+                  color={colors.medium}
+                />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
           <FlatList
             data={items}
+            ItemSeparatorComponent={ListItemSeperator}
             keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => <StudenItem item={item} />}
+            renderItem={({ item }) => (
+              <StudenItem
+                item={item}
+                onPress={() => {
+                  setModalVisible(false);
+                  onSelectItem(item);
+                }}
+              />
+            )}
           />
         </Screen>
       </Modal>
@@ -89,6 +118,10 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
     padding: 10,
+  },
+  closeButton: {
+    alignItems: "flex-end",
+    marginRight: 15,
   },
   dropDownIcon: {
     alignSelf: "center",

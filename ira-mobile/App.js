@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Screen from "./app/components/Screen";
 import StudentPicker from "./app/components/StudentPicker";
@@ -47,9 +47,14 @@ const students = [
 ];
 
 export default function App() {
+  const [selectedStudent, setSelectedStudent] = useState(null);
   return (
     <Screen>
-      <StudentPicker items={students} selectedItem={students[0]} />
+      <StudentPicker
+        items={students}
+        onSelectItem={(item) => setSelectedStudent(item)}
+        selectedStudent={selectedStudent ? selectedStudent : students[0]}
+      />
     </Screen>
   );
 }
