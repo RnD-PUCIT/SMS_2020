@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: "row",
     padding: 10,
+    marginVertical: 10,
   },
   closeButton: {
     alignItems: "flex-end",
