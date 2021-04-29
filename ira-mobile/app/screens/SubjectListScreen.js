@@ -8,7 +8,7 @@ const handleSubjectSelection = (subject) => {
   console.log(subject);
 };
 
-function SubjectListScreen(props) {
+function SubjectListScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <ScrollView>
@@ -17,7 +17,9 @@ function SubjectListScreen(props) {
             key={index}
             title={subject.subjectName}
             subTitle={subject.teacherName}
-            onPress={() => handleSubjectSelection(subject)}
+            onPress={(subject) =>
+              navigation.navigate("SubjectDashboard", subject)
+            }
           />
         ))}
       </ScrollView>
