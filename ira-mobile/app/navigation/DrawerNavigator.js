@@ -1,16 +1,20 @@
 import React from "react";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
-import ParentDashboard from "../screens/ParentDashboard";
 import SubjectListScreen from "../screens/SubjectListScreen";
+import DashboardNavigator from "./DashboardNavigator";
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = () => {
   return (
     <Drawer.Navigator>
-      <Drawer.Screen name="Dashboard" component={ParentDashboard} />
-      <Drawer.Screen name="SubjectList" component={SubjectListScreen} />
+      <Drawer.Screen name="Dashboard" component={DashboardNavigator} />
+      <Drawer.Screen
+        name="SubjectList"
+        component={SubjectListScreen}
+        options={{ title: "Subjects" }}
+      />
     </Drawer.Navigator>
   );
 };

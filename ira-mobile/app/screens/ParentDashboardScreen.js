@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
-import AppText from "../components/AppText";
 import GridLinkItem from "../components/GridLinkItem";
 
 import Screen from "../components/Screen";
 import StudentPicker from "../components/StudentPicker";
 
-function ParentDashboard(props) {
+function ParentDashboard({ navigation }) {
   const [selectedStudent, setSelectedStudent] = useState(null);
   return (
     <ScrollView>
@@ -21,7 +20,12 @@ function ParentDashboard(props) {
             data={dashboardList}
             numColumns={3}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <GridLinkItem item={item} />}
+            renderItem={({ item }) => (
+              <GridLinkItem
+                item={item}
+                onPress={() => navigation.navigate("SubjectList")}
+              />
+            )}
           />
         </View>
       </Screen>
@@ -32,7 +36,6 @@ function ParentDashboard(props) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
-    paddingVertical: 20,
   },
   dashboard: {
     flexDirection: "row",
