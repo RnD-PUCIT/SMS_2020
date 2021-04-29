@@ -1,6 +1,13 @@
 import React from "react";
-import SubjectListScreen from "./app/screens/SubjectListScreen";
+import { NavigationContainer } from "@react-navigation/native";
+
+import DrawerNavigator from "./app/navigation/DrawerNavigator";
+import appTheme from "./app/navigation/navigationTheme";
 
 export default function App() {
-  return <SubjectListScreen />;
+  return (
+    <NavigationContainer theme={appTheme}>
+      <DrawerNavigator />
+    </NavigationContainer>
+  );
 }

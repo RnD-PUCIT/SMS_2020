@@ -4,10 +4,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "./AppText";
 
-function GridLinkItem({ item }) {
+function GridLinkItem({ item, onPress }) {
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={{ width: "100%" }}>
+      <TouchableOpacity style={{ width: "100%" }} onPress={onPress}>
         <View
           style={[
             styles.iconContainer,
