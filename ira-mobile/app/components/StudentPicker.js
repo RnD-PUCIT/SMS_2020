@@ -1,35 +1,51 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Button,
+  Modal,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import AppText from "../components/AppText";
 import colors from "../config/colors";
+import Screen from "./Screen";
 
-function StudentPicker({ imageSrc }) {
+function StudentPicker({ imageSrc, items, selectedItem }) {
+  const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <React.Fragment>
-      <View style={styles.container}>
-        {!imageSrc && (
-          <View style={styles.iconContainer}>
+      <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
+        <View style={styles.container}>
+          {!imageSrc && (
+            <View style={styles.iconContainer}>
+              <MaterialCommunityIcons
+                name="account"
+                size={30}
+                color={colors.primary}
+              />
+            </View>
+          )}
+          <View style={styles.textContainer}>
+            <AppText>Sohaib Salman</AppText>
+            <AppText style={styles.subText}>Class - Section</AppText>
+          </View>
+          <View style={styles.dropDownIcon}>
             <MaterialCommunityIcons
-              name="account"
-              size={30}
-              color={colors.primary}
+              name="chevron-down"
+              size={20}
+              color={colors.medium}
             />
           </View>
-        )}
-        <View style={styles.textContainer}>
-          <AppText>Sohaib Salman</AppText>
-          <AppText style={styles.subText}>Class - Section</AppText>
         </View>
-        <View style={styles.dropDownIcon}>
-          <MaterialCommunityIcons
-            name="chevron-down"
-            size={20}
-            color={colors.medium}
-          />
-        </View>
-      </View>
+      </TouchableWithoutFeedback>
+      <Modal visible={modalVisible} animationType="slide">
+        <Screen>
+          <Button title="Close" onPress={() => setModalVisible(false)} />
+        </Screen>
+      </Modal>
     </React.Fragment>
   );
 }
