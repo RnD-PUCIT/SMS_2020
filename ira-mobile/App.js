@@ -1,7 +1,12 @@
 import React from "react";
 
-import LoginScreen from "./app/screens/LoginScreen";
+import Screen from "./app/components/Screen";
+import StudentPicker from "./app/components/StudentPicker";
 
 export default function App() {
-  return <LoginScreen />;
+  return (
+    <Screen>
+      <StudentPicker />
+    </Screen>
+  );
 }
