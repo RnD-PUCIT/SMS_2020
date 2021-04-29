@@ -1,11 +1,17 @@
 import React from "react";
-import { ImageBackground, StyleSheet, View } from "react-native";
-import colors from "../../config/colors";
+import {
+  ImageBackground,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from "react-native";
 
 import AppText from "../AppText";
+import colors from "../../config/colors";
 
 function BgCard({
   imgSrc = "https://www.gstatic.com/classroom/themes/img_bookclub.jpg",
+  onPress,
   title,
   subTitle,
 }) {
@@ -16,10 +22,12 @@ function BgCard({
       }}
       style={styles.container}
     >
-      <View style={styles.textContainer}>
-        <AppText style={styles.title}>{title}</AppText>
-        <AppText style={styles.subTitle}>{subTitle}</AppText>
-      </View>
+      <TouchableHighlight onPress={onPress} style={{ height: "100%" }}>
+        <View style={styles.textContainer}>
+          <AppText style={styles.title}>{title}</AppText>
+          <AppText style={styles.subTitle}>{subTitle}</AppText>
+        </View>
+      </TouchableHighlight>
     </ImageBackground>
   );
 }
@@ -27,7 +35,7 @@ function BgCard({
 const styles = StyleSheet.create({
   container: {
     borderRadius: 10,
-    elevation: 3,
+    elevation: 2,
     height: 150,
     marginVertical: 8,
     overflow: "hidden",

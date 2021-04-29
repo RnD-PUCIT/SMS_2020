@@ -4,6 +4,10 @@ import BgCard from "../components/cards/BgCard";
 
 import Screen from "../components/Screen";
 
+const handleSubjectSelection = (subject) => {
+  console.log(subject);
+};
+
 function SubjectListScreen(props) {
   return (
     <Screen style={styles.container}>
@@ -13,6 +17,7 @@ function SubjectListScreen(props) {
             key={index}
             title={subject.subjectName}
             subTitle={subject.teacherName}
+            onPress={() => handleSubjectSelection(subject)}
           />
         ))}
       </ScrollView>
