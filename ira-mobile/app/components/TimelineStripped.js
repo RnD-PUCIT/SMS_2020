@@ -5,7 +5,7 @@ import colors from "../config/colors";
 import AppText from "./AppText";
 import ListItemSeperator from "./ListItemSeperator";
 
-function TimelineColored({ title, subtitle, footer }) {
+function TimelineStripped({ title, subtitle, footer }) {
   return (
     <View style={styles.container}>
       <View style={styles.strip} />
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TimelineColored;
+export default TimelineStripped;

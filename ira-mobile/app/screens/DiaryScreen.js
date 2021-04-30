@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import AppHeading from "../components/AppHeading";
 
 import Screen from "../components/Screen";
-import TimelineColored from "../components/TimelineColored";
+import TimelineStripped from "../components/TimelineStripped";
 
 function DiaryScreen(props) {
   return (
@@ -11,7 +11,7 @@ function DiaryScreen(props) {
       <ScrollView>
         <AppHeading title="Diary" />
         {diaryList.map((diary, index) => (
-          <TimelineColored
+          <TimelineStripped
             key={index}
             title={diary.diaryTitle}
             subtitle={diary.diaryContent}
