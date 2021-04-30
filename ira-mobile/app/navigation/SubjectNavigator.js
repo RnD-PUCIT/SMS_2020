@@ -1,20 +1,62 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import SubjectDashboardScreen from "../screens/SubjectDashboardScreen";
-import SubjectListScreen from "../screens/SubjectListScreen";
+import Gradebook from "../screens/GradebookScreen";
+import DiaryScreen from "../screens/DiaryScreen";
+import CourseOutlineScreen from "../screens/CourseOutlineScreen";
 
-const Stack = createStackNavigator();
+const Tabs = createBottomTabNavigator();
 
 const SubjectNavigator = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="SubjectList" component={SubjectListScreen} />
-      <Stack.Screen
-        name="SubjectDashboard"
-        component={SubjectDashboardScreen}
+    <Tabs.Navigator
+      tabBarOptions={{
+        style: { height: 55 },
+        labelStyle: { paddingBottom: 5 },
+      }}
+    >
+      <Tabs.Screen
+        name="Gradebook"
+        component={Gradebook}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="clipboard-check-multiple"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
       />
-    </Stack.Navigator>
+      <Tabs.Screen
+        name="Diary"
+        component={DiaryScreen}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="clipboard-list"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="CourseOutline"
+        component={CourseOutlineScreen}
+        options={{
+          title: "Course Outline",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="format-list-text"
+              color={color}
+              size={size}
+            />
+          ),
+        }}
+      />
+    </Tabs.Navigator>
   );
 };
 

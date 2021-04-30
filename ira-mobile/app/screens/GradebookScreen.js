@@ -2,10 +2,10 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import AppText from "../components/AppText";
 
-function SubjectDashboardScreen({ route }) {
+function GradebookScreen(props) {
   return (
     <View style={styles.container}>
-      <AppText>Subject Dashboard</AppText>
+      <AppText>Gradebook</AppText>
     </View>
   );
 }
@@ -14,4 +14,4 @@ const styles = StyleSheet.create({
   container: {},
 });
 
-export default SubjectDashboardScreen;
+export default GradebookScreen;
