@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import AppText from "../components/AppText";
 
+import AppHeading from "../components/AppHeading";
 import ColorCard from "../components/cards/ColorCard";
 import Screen from "../components/Screen";
 
@@ -9,7 +9,7 @@ function GradebookScreen(props) {
   return (
     <Screen style={styles.container}>
       <View>
-        <AppText>Gradebook</AppText>
+        <AppHeading title="Gradebook" />
       </View>
       <View>
         {gradeTypeList.map((gradeType, index) => (
@@ -35,7 +35,7 @@ export default GradebookScreen;
 const gradeTypeList = [
   {
     id: 1,
-    gradeTypeName: "Assignment",
+    gradeTypeName: "Assignments",
   },
   {
     id: 2,
