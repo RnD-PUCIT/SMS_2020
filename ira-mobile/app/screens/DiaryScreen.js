@@ -2,7 +2,6 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AppHeading from "../components/AppHeading";
 
-import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import TimelineColored from "../components/TimelineColored";
 
@@ -26,7 +25,7 @@ function DiaryScreen(props) {
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
+    paddingBottom: 15,
     paddingHorizontal: 5,
   },
 });
