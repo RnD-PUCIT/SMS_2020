@@ -23,7 +23,7 @@ function ParentDashboard({ navigation }) {
             renderItem={({ item }) => (
               <GridLinkItem
                 item={item}
-                onPress={() => navigation.navigate("SubjectList")}
+                onPress={() => navigation.navigate(item.link)}
               />
             )}
           />
@@ -50,6 +50,7 @@ const dashboardList = [
     title: "Subjects",
     backgroundColor: "#fc5c65",
     icon: "book-open-outline",
+    link: "SubjectList",
   },
   {
     id: 2,
