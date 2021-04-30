@@ -17,9 +17,9 @@ function SubjectListScreen({ navigation }) {
             key={index}
             title={subject.subjectName}
             subTitle={subject.teacherName}
-            onPress={(subject) =>
-              navigation.navigate("SubjectDashboard", subject)
-            }
+            onPress={() => {
+              navigation.navigate("SubjectDashboard", subject);
+            }}
           />
         ))}
       </ScrollView>
