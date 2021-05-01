@@ -23,9 +23,11 @@ function Accordion({
     <View style={styles.container}>
       <TouchableOpacity onPress={handleExpandToggle}>
         <View style={[styles.header, { backgroundColor: headerBg }]}>
-          <AppText style={styles.headerText}>{title}</AppText>
+          <AppText style={[styles.headerText, { color: headerColor }]}>
+            {title}
+          </AppText>
           <MaterialCommunityIcons
-            color={colors.medium}
+            color={headerColor !== colors.white ? colors.medium : headerColor}
             name={expanded ? "chevron-up" : "chevron-down"}
             size={20}
           />
