@@ -8,7 +8,6 @@ import colors from "../config/colors";
 function Accordion({
   bodyBg = colors.white,
   BodyComponent,
-  bodyColor = colors.medium,
   headerBg = colors.light,
   headerColor = colors.white,
   title,
