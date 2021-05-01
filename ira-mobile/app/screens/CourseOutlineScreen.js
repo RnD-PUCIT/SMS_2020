@@ -1,17 +1,25 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import AppText from "../components/AppText";
+
+import Accordion from "../components/Accordion";
+
+import AppHeading from "../components/AppHeading";
+import Screen from "../components/Screen";
 
 function CourseOutlineScreen(props) {
   return (
-    <View style={styles.container}>
-      <AppText>Course Outline</AppText>
-    </View>
+    <Screen style={styles.container}>
+      <AppHeading title="Course Outline" />
+
+      <Accordion />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    paddingHorizontal: 5,
+  },
 });
 
 export default CourseOutlineScreen;
