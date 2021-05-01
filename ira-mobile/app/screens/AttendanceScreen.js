@@ -17,7 +17,7 @@ function AttendanceScreen() {
           [new Date(v.attendanceDate).toISOString().split("T")[0]]: {
             customStyles: {
               container: {
-                backgroundColor: "green",
+                backgroundColor: markColors[v.status],
               },
               text: {
                 color: "white",
@@ -53,6 +53,12 @@ const styles = StyleSheet.create({
 });
 
 export default AttendanceScreen;
+
+const markColors = {
+  P: "#40ce57",
+  L: "gold",
+  A: "tomato",
+};
 
 const students = [
   {
@@ -185,7 +191,7 @@ const attendance = [
   },
   {
     id: "3bed1351-660c-47b4-9fb7-27848634da55",
-    attendanceDate: "05/7/2021",
+    attendanceDate: "05/07/2021",
     status: "L",
   },
 ];
