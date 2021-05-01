@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 
 import Accordion from "../components/Accordion";
 
@@ -10,8 +10,11 @@ function CourseOutlineScreen(props) {
   return (
     <Screen style={styles.container}>
       <AppHeading title="Course Outline" />
-
-      <Accordion />
+      <ScrollView>
+        <Accordion title="First Term" />
+        <Accordion title="Second Term" />
+        <Accordion title="Third Term" />
+      </ScrollView>
     </Screen>
   );
 }
