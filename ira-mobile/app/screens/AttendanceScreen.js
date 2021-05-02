@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 
 import AppHeading from "../components/AppHeading";
 import AppText from "../components/AppText";
+import LinkButton from "../components/buttons/LinkButton";
 import Screen from "../components/Screen";
 import StudentPicker from "../components/StudentPicker";
 import colors from "../config/colors";
@@ -56,7 +57,12 @@ function AttendanceScreen() {
             selectedStudent={selectedStudent ? selectedStudent : students[0]}
           />
           <Calendar markingType={"custom"} markedDates={marked} />
-          <Button title="See Stats" onPress={() => setVisible(true)} />
+          <LinkButton
+            title="See Attendance Stats"
+            onPress={() => setVisible(true)}
+            icon="chevron-right"
+            style={styles.button}
+          />
         </ScrollView>
       </Screen>
       <Modal
@@ -96,6 +102,9 @@ function AttendanceScreen() {
 }
 
 const styles = StyleSheet.create({
+  button: {
+    marginTop: 10,
+  },
   container: {
     paddingHorizontal: 5,
   },
