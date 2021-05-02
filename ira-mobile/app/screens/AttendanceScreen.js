@@ -107,6 +107,7 @@ const styles = StyleSheet.create({
   },
   container: {
     paddingHorizontal: 5,
+    paddingTop: 20,
   },
   stats: {
     flexDirection: "row",
