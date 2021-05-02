@@ -57,6 +57,7 @@ const dashboardList = [
     title: "Attendance",
     backgroundColor: "#fd9644",
     icon: "calendar-check-outline",
+    link: "Attendance",
   },
   {
     id: 3,
