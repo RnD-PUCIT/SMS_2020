@@ -14,6 +14,11 @@ function AttendanceScreen() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [marked, setMarked] = useState();
   const [visible, setVisible] = useState(false);
+  const [attendanceStats, setAttendanceStats] = useState({
+    P: 0,
+    A: 0,
+    L: 0,
+  });
 
   useEffect(() => {
     const dates = attendance.reduce(
@@ -32,7 +37,12 @@ function AttendanceScreen() {
         }),
       {}
     );
+    const stats = { P: 0, A: 0, L: 0 };
+    attendance.forEach((element) => {
+      stats[element.status]++;
+    });
     setMarked(dates);
+    setAttendanceStats(stats);
   }, []);
 
   return (
@@ -51,27 +61,31 @@ function AttendanceScreen() {
       </Screen>
       <Modal
         isVisible={visible}
-        swipeDirection={["down"]}
+        swipeDirection={["up", "down", "left", "right"]}
         onSwipeComplete={() => setVisible(false)}
       >
         <View style={styles.modalContainer}>
           <AppText style={styles.modalTitle}>Attendance Stats</AppText>
           <View style={styles.stats}>
             <View style={styles.status}>
-              <View style={[styles.statusType, { backgroundColor: "green" }]} />
-              <AppText style={styles.statusCount}>20</AppText>
+              <View
+                style={[styles.statusType, { backgroundColor: markColors.P }]}
+              />
+              <AppText style={styles.statusCount}>{attendanceStats.P}</AppText>
               <AppText style={styles.statusName}>Presents</AppText>
             </View>
             <View style={styles.status}>
               <View
-                style={[styles.statusType, { backgroundColor: "tomato" }]}
+                style={[styles.statusType, { backgroundColor: markColors.A }]}
               />
-              <AppText style={styles.statusCount}>20</AppText>
+              <AppText style={styles.statusCount}>{attendanceStats.A}</AppText>
               <AppText style={styles.statusName}>Absents</AppText>
             </View>
             <View style={styles.status}>
-              <View style={[styles.statusType, { backgroundColor: "gold" }]} />
-              <AppText style={styles.statusCount}>20</AppText>
+              <View
+                style={[styles.statusType, { backgroundColor: markColors.L }]}
+              />
+              <AppText style={styles.statusCount}>{attendanceStats.L}</AppText>
               <AppText style={styles.statusName}>Leaves</AppText>
             </View>
           </View>
