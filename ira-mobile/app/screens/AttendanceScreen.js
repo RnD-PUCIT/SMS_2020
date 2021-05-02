@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { Button, ScrollView, StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
+import Modal from "react-native-modal";
 
 import AppHeading from "../components/AppHeading";
+import AppText from "../components/AppText";
 import Screen from "../components/Screen";
 import StudentPicker from "../components/StudentPicker";
+import colors from "../config/colors";
 
 function AttendanceScreen() {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [marked, setMarked] = useState();
+  const [visible, setVisible] = useState(false);
+
   useEffect(() => {
     const dates = attendance.reduce(
       (c, v) =>
@@ -27,28 +32,91 @@ function AttendanceScreen() {
         }),
       {}
     );
-    console.log(dates);
     setMarked(dates);
   }, []);
 
   return (
-    <Screen style={styles.container}>
-      <AppHeading title="Attendance" />
-      <ScrollView>
-        <StudentPicker
-          items={students}
-          onSelectItem={(item) => setSelectedStudent(item)}
-          selectedStudent={selectedStudent ? selectedStudent : students[0]}
-        />
-        <Calendar markingType={"custom"} markedDates={marked} />
-      </ScrollView>
-    </Screen>
+    <React.Fragment>
+      <Screen style={styles.container}>
+        <AppHeading title="Attendance" />
+        <ScrollView>
+          <StudentPicker
+            items={students}
+            onSelectItem={(item) => setSelectedStudent(item)}
+            selectedStudent={selectedStudent ? selectedStudent : students[0]}
+          />
+          <Calendar markingType={"custom"} markedDates={marked} />
+          <Button title="See Stats" onPress={() => setVisible(true)} />
+        </ScrollView>
+      </Screen>
+      <Modal
+        isVisible={visible}
+        swipeDirection={["down"]}
+        onSwipeComplete={() => setVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <AppText style={styles.modalTitle}>Attendance Stats</AppText>
+          <View style={styles.stats}>
+            <View style={styles.status}>
+              <View style={[styles.statusType, { backgroundColor: "green" }]} />
+              <AppText style={styles.statusCount}>20</AppText>
+              <AppText style={styles.statusName}>Presents</AppText>
+            </View>
+            <View style={styles.status}>
+              <View
+                style={[styles.statusType, { backgroundColor: "tomato" }]}
+              />
+              <AppText style={styles.statusCount}>20</AppText>
+              <AppText style={styles.statusName}>Absents</AppText>
+            </View>
+            <View style={styles.status}>
+              <View style={[styles.statusType, { backgroundColor: "gold" }]} />
+              <AppText style={styles.statusCount}>20</AppText>
+              <AppText style={styles.statusName}>Leaves</AppText>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    </React.Fragment>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
+  },
+  stats: {
+    flexDirection: "row",
+  },
+  modalContainer: {
+    backgroundColor: colors.white,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    paddingVertical: 20,
+  },
+  status: {
+    alignItems: "center",
+    width: "33.3%",
+  },
+  statusCount: {
+    fontSize: 40,
+    color: colors.dark,
+  },
+  statusName: {
+    fontSize: 14,
+  },
+  statusType: {
+    backgroundColor: "black",
+    borderRadius: 15,
+    height: 30,
+    marginTop: 15,
+    marginBottom: 5,
+    width: 30,
+  },
+  modalTitle: {
+    fontSize: 22,
+    textAlign: "center",
+    color: colors.primary,
   },
 });
 
