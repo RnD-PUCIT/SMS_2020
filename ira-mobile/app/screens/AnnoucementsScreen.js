@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { Button, FlatList, StyleSheet, View } from "react-native";
+import Modal from "react-native-modal";
 
 import Screen from "../components/Screen";
 import AppHeading from "../components/AppHeading";
@@ -9,9 +10,15 @@ import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import calendar from "../constants/calendar";
 import TextIcon from "../components/TextIcon";
 import FilterButton from "../components/buttons/FilterButton";
+import AppText from "../components/AppText";
+import colors from "../config/colors";
+import ItemIcons from "../components/ItemIcons";
 
 function AnnoucementsScreen() {
   const [allAnnoucements, setAllAnnouncements] = useState([]);
+  const [filterType, setFilterType] = useState("");
+  const [filteredAnnouncement, setFilteredAnnouncements] = useState(null);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const all = [
@@ -23,55 +30,145 @@ function AnnoucementsScreen() {
   }, []);
 
   return (
-    <Screen style={styles.container}>
-      <AppHeading title="Annoucnements" />
-      <View style={styles.buttonContainer}>
-        <FilterButton />
-      </View>
-      <FlatList
-        data={allAnnoucements}
-        keyExtractor={(item) => item.guid}
-        renderItem={({ item }) => {
-          const date = new Date();
-          return (
-            <SwipeableListItem
-              date={`${date.getDate()} ${
-                calendar.monthLetters[date.getMonth()]
-              }`}
-              IconComponent={<TextIcon character={item.title.charAt(0)} />}
-              renderRightActions={() => (
-                <ListItemDeleteAction onPress={() => alert("Deleted")} />
-              )}
-              subTitle={item.announcment}
-              title={item.title}
-            />
-          );
+    <React.Fragment>
+      <Screen style={styles.container}>
+        <AppHeading title="Annoucnements" />
+        <View style={styles.buttonContainer}>
+          <FilterButton
+            onPress={() => setVisible(true)}
+            title={filterType ? filterType : "Filter"}
+          />
+        </View>
+        <FlatList
+          data={filteredAnnouncement ? filteredAnnouncement : allAnnoucements}
+          keyExtractor={(item) => item.guid}
+          renderItem={({ item }) => {
+            const date = new Date(item.date);
+            return (
+              <SwipeableListItem
+                date={`${date.getDate()} ${
+                  calendar.monthLetters[date.getMonth()]
+                }`}
+                IconComponent={<TextIcon character={item.title.charAt(0)} />}
+                renderRightActions={() => (
+                  <ListItemDeleteAction onPress={() => alert("Deleted")} />
+                )}
+                subTitle={item.announcment}
+                title={item.title}
+              />
+            );
+          }}
+          ItemSeparatorComponent={ListItemSeperator}
+        />
+      </Screen>
+      <Modal
+        isVisible={visible}
+        swipeDirection="down"
+        onSwipeComplete={() => setVisible(false)}
+        style={{
+          justifyContent: "flex-end",
+          margin: 0,
         }}
-        ItemSeparatorComponent={ListItemSeperator}
-      />
-    </Screen>
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.line} />
+          <AppText style={styles.modalTitle}>
+            Select Announcement to filter
+          </AppText>
+          <FlatList
+            data={filterList}
+            keyExtractor={(item) => item.title}
+            renderItem={({ item }) => (
+              <ItemIcons
+                backgroundColor={item.backgroundColor}
+                icon={item.icon}
+                title={item.title}
+                onPress={() => {
+                  setVisible(false);
+                  setFilterType(item.title);
+                  setFilteredAnnouncements(announcementsConst[item.name]);
+                }}
+              />
+            )}
+            numColumns={3}
+          />
+          <Button
+            title="Clear Filters"
+            onPress={() => {
+              setVisible(false);
+              setFilterType("");
+              setFilteredAnnouncements(null);
+            }}
+          />
+        </View>
+      </Modal>
+    </React.Fragment>
   );
 }
 
 const styles = StyleSheet.create({
   buttonContainer: {
     alignItems: "flex-end",
-    marginBottom: 10,
+    marginVertical: 10,
   },
   container: {
     paddingHorizontal: 5,
     paddingVertical: 20,
   },
+
   rightActionContainer: {
     marginLeft: 10,
     alignItems: "center",
-    backgroundColor: "red",
     justifyContent: "center",
     width: 60,
+  },
+  line: {
+    alignSelf: "center",
+    backgroundColor: colors.primary,
+    borderRadius: 10,
+    height: 5,
+    marginBottom: 15,
+    width: "40%",
+  },
+  modalContainer: {
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    paddingTop: 10,
+    paddingHorizontal: 20,
+    paddingBottom: 30,
+    height: "70%",
+  },
+  modalTitle: {
+    alignSelf: "center",
+    color: colors.medium,
+    fontSize: 16,
+    marginBottom: 15,
   },
 });
 
 export default AnnoucementsScreen;
+
+const filterList = [
+  {
+    title: "Institute Level",
+    icon: "school",
+    backgroundColor: "#4b7bec",
+    name: "ins",
+  },
+  {
+    title: "Class Level",
+    icon: "google-classroom",
+    backgroundColor: "#2bcbba",
+    name: "classs",
+  },
+  {
+    title: "Student Level",
+    icon: "account",
+    backgroundColor: "#a55eea",
+    name: "stdnt",
+  },
+];
 
 const announcementsConst = {
   ins: [

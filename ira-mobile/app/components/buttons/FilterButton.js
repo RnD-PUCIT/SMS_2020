@@ -5,12 +5,12 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../../config/colors";
 import AppText from "../AppText";
 
-function FilterButton({ color = colors.primary }) {
+function FilterButton({ color = colors.primary, onPress, title }) {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <View style={[styles.container, { borderColor: color }]}>
         <MaterialCommunityIcons name="filter-outline" color={color} size={18} />
-        <AppText style={[styles.text, { color: color }]}>Filter</AppText>
+        <AppText style={[styles.text, { color: color }]}>{title}</AppText>
       </View>
     </TouchableOpacity>
   );
