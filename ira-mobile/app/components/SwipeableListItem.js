@@ -1,12 +1,17 @@
 import React from "react";
 import { StyleSheet, TouchableHighlight, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Swipeable } from "react-native-gesture-handler";
 
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-function SwipeableListItem({ date, renderRightActions, subTitle, title }) {
+function SwipeableListItem({
+  date,
+  IconComponent,
+  renderRightActions,
+  subTitle,
+  title,
+}) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <TouchableHighlight
@@ -14,9 +19,7 @@ function SwipeableListItem({ date, renderRightActions, subTitle, title }) {
         onPress={() => alert("presed")}
       >
         <View style={styles.container}>
-          <View>
-            <MaterialCommunityIcons name="home" size={40} />
-          </View>
+          {IconComponent}
           <View style={styles.detailsContainer}>
             <View style={styles.titleContainer}>
               <AppText style={styles.title}>{title}</AppText>

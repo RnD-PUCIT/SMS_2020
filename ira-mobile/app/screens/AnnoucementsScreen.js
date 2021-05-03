@@ -7,6 +7,9 @@ import SwipeableListItem from "../components/SwipeableListItem";
 import ListItemSeperator from "../components/ListItemSeperator";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import calendar from "../constants/calendar";
+import colors from "../config/colors";
+import AppText from "../components/AppText";
+import colorPalette from "../constants/colorPalette";
 
 function AnnoucementsScreen() {
   const [allAnnoucements, setAllAnnouncements] = useState([]);
@@ -18,13 +21,11 @@ function AnnoucementsScreen() {
       ...announcementsConst.stdnt,
     ];
     setAllAnnouncements(all);
-    console.log(all);
   }, []);
 
   return (
     <Screen style={styles.container}>
       <AppHeading title="Annoucnements" />
-
       <FlatList
         data={allAnnoucements}
         keyExtractor={(item) => item.guid}
@@ -35,7 +36,23 @@ function AnnoucementsScreen() {
               date={`${date.getDate()} ${
                 calendar.monthLetters[date.getMonth()]
               }`}
-              IconComponent
+              IconComponent={
+                <View
+                  style={[
+                    styles.itemIcon,
+                    {
+                      backgroundColor:
+                        colorPalette[
+                          Math.floor(Math.random() * colorPalette.length)
+                        ],
+                    },
+                  ]}
+                >
+                  <AppText style={styles.textIcon}>
+                    {item.title.charAt(0)}
+                  </AppText>
+                </View>
+              }
               renderRightActions={() => (
                 <ListItemDeleteAction onPress={() => alert("Deleted")} />
               )}
@@ -61,6 +78,18 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     width: 60,
+  },
+  itemIcon: {
+    alignItems: "center",
+    backgroundColor: "red",
+    borderRadius: 25,
+    justifyContent: "center",
+    height: 50,
+    width: 50,
+  },
+  textIcon: {
+    color: colors.white,
+    fontSize: 20,
   },
 });
 
