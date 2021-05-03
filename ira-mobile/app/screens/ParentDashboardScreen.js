@@ -64,6 +64,7 @@ const dashboardList = [
     title: "Announcements",
     backgroundColor: "#fed330",
     icon: "bell-outline",
+    link: "Announcements",
   },
   {
     id: 4,
