@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Screen from "../components/Screen";
 import AppHeading from "../components/AppHeading";
-import ListItem from "../components/ListItem";
+import SwipeableListItem from "../components/SwipeableListItem";
 import ListItemSeperator from "../components/ListItemSeperator";
+import colors from "../config/colors";
 
 function AnnoucementsScreen() {
   const [allAnnoucements, setAllAnnouncements] = useState([]);
@@ -26,7 +28,23 @@ function AnnoucementsScreen() {
       <FlatList
         data={allAnnoucements}
         keyExtractor={(item) => item.guid}
-        renderItem={({ item }) => <ListItem />}
+        renderItem={({ item }) => (
+          <SwipeableListItem
+            date={`${new Date(item.date).toISOString().split("T")[0]}`}
+            IconComponent
+            renderRightActions={() => (
+              <View style={styles.rightActionContainer}>
+                <MaterialCommunityIcons
+                  name="delete"
+                  size={25}
+                  color={colors.white}
+                />
+              </View>
+            )}
+            subTitle={item.announcment}
+            title={item.title}
+          />
+        )}
         ItemSeparatorComponent={ListItemSeperator}
       />
     </Screen>
@@ -37,6 +55,13 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
     paddingVertical: 20,
+  },
+  rightActionContainer: {
+    marginLeft: 10,
+    alignItems: "center",
+    backgroundColor: "red",
+    justifyContent: "center",
+    width: 60,
   },
 });
 
