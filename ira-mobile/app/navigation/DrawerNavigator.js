@@ -4,6 +4,7 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import AppNavigator from "./AppNavigator";
 import SubjectListScreen from "../screens/SubjectListScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
+import AnnoucementsScreen from "../screens/AnnoucementsScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -17,6 +18,7 @@ const DrawerNavigator = () => {
         options={{ title: "Subjects" }}
       />
       <Drawer.Screen name="Attendance" component={AttendanceScreen} />
+      <Drawer.Screen name="Announcements" component={AnnoucementsScreen} />
     </Drawer.Navigator>
   );
 };
