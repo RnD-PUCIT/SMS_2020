@@ -7,9 +7,8 @@ import SwipeableListItem from "../components/SwipeableListItem";
 import ListItemSeperator from "../components/ListItemSeperator";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
 import calendar from "../constants/calendar";
-import colors from "../config/colors";
-import AppText from "../components/AppText";
-import colorPalette from "../constants/colorPalette";
+import TextIcon from "../components/TextIcon";
+import FilterButton from "../components/buttons/FilterButton";
 
 function AnnoucementsScreen() {
   const [allAnnoucements, setAllAnnouncements] = useState([]);
@@ -26,6 +25,9 @@ function AnnoucementsScreen() {
   return (
     <Screen style={styles.container}>
       <AppHeading title="Annoucnements" />
+      <View style={styles.buttonContainer}>
+        <FilterButton />
+      </View>
       <FlatList
         data={allAnnoucements}
         keyExtractor={(item) => item.guid}
@@ -36,23 +38,7 @@ function AnnoucementsScreen() {
               date={`${date.getDate()} ${
                 calendar.monthLetters[date.getMonth()]
               }`}
-              IconComponent={
-                <View
-                  style={[
-                    styles.itemIcon,
-                    {
-                      backgroundColor:
-                        colorPalette[
-                          Math.floor(Math.random() * colorPalette.length)
-                        ],
-                    },
-                  ]}
-                >
-                  <AppText style={styles.textIcon}>
-                    {item.title.charAt(0)}
-                  </AppText>
-                </View>
-              }
+              IconComponent={<TextIcon character={item.title.charAt(0)} />}
               renderRightActions={() => (
                 <ListItemDeleteAction onPress={() => alert("Deleted")} />
               )}
@@ -68,6 +54,10 @@ function AnnoucementsScreen() {
 }
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    alignItems: "flex-end",
+    marginBottom: 10,
+  },
   container: {
     paddingHorizontal: 5,
     paddingVertical: 20,
@@ -78,18 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     width: 60,
-  },
-  itemIcon: {
-    alignItems: "center",
-    backgroundColor: "red",
-    borderRadius: 25,
-    justifyContent: "center",
-    height: 50,
-    width: 50,
-  },
-  textIcon: {
-    color: colors.white,
-    fontSize: 20,
   },
 });
 

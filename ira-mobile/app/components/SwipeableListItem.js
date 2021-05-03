@@ -22,7 +22,9 @@ function SwipeableListItem({
           {IconComponent}
           <View style={styles.detailsContainer}>
             <View style={styles.titleContainer}>
-              <AppText style={styles.title}>{title}</AppText>
+              <AppText numberOfLines={1} style={styles.title}>
+                {title}
+              </AppText>
               <AppText style={styles.date}>{date}</AppText>
             </View>
             <AppText numberOfLines={1} style={styles.subTitle}>

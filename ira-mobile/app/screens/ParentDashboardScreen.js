@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import GridLinkItem from "../components/GridLinkItem";
 
 import Screen from "../components/Screen";
@@ -8,28 +8,26 @@ import StudentPicker from "../components/StudentPicker";
 function ParentDashboard({ navigation }) {
   const [selectedStudent, setSelectedStudent] = useState(null);
   return (
-    <ScrollView>
-      <Screen style={styles.container}>
-        <StudentPicker
-          items={students}
-          onSelectItem={(item) => setSelectedStudent(item)}
-          selectedStudent={selectedStudent ? selectedStudent : students[0]}
+    <Screen style={styles.container}>
+      <StudentPicker
+        items={students}
+        onSelectItem={(item) => setSelectedStudent(item)}
+        selectedStudent={selectedStudent ? selectedStudent : students[0]}
+      />
+      <View style={styles.dashboard}>
+        <FlatList
+          data={dashboardList}
+          numColumns={3}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <GridLinkItem
+              item={item}
+              onPress={() => navigation.navigate(item.link)}
+            />
+          )}
         />
-        <View style={styles.dashboard}>
-          <FlatList
-            data={dashboardList}
-            numColumns={3}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => (
-              <GridLinkItem
-                item={item}
-                onPress={() => navigation.navigate(item.link)}
-              />
-            )}
-          />
-        </View>
-      </Screen>
-    </ScrollView>
+      </View>
+    </Screen>
   );
 }
 
