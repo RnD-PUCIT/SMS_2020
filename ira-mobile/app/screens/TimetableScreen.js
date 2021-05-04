@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import { useState } from "react/cjs/react.development";
 
 import AppHeading from "../components/AppHeading";
 import AppText from "../components/AppText";
