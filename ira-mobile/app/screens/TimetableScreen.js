@@ -9,7 +9,7 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function TimetableScreen() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(new Date().getDay() - 1);
   const width = Dimensions.get("window").width;
 
   return (
@@ -17,10 +17,11 @@ function TimetableScreen() {
       <AppHeading title="Time Table" />
       <View style={styles.carouselContainer}>
         <Carousel
-          layout="default"
           data={timetable.timeTableInfo}
-          sliderWidth={width}
+          firstItem={activeIndex}
           itemWidth={width - 80}
+          layout="default"
+          sliderWidth={width}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => {
             return (
