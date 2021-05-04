@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
 
 import AppHeading from "../components/AppHeading";
@@ -10,6 +10,7 @@ import colors from "../config/colors";
 
 function TimetableScreen() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const width = Dimensions.get("window").width;
 
   return (
     <Screen style={styles.container}>
@@ -18,8 +19,8 @@ function TimetableScreen() {
         <Carousel
           layout="default"
           data={timetable.timeTableInfo}
-          sliderWidth={350}
-          itemWidth={300}
+          sliderWidth={width}
+          itemWidth={width - 80}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => {
             return (
