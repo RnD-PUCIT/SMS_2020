@@ -1,10 +1,11 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import { useState } from "react/cjs/react.development";
 
 import AppHeading from "../components/AppHeading";
 import AppText from "../components/AppText";
+import ListItemSeperator from "../components/ListItemSeperator";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
@@ -22,7 +23,12 @@ function TimetableScreen() {
           itemWidth={300}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => {
-            return <Table data={item} />;
+            return (
+              <Table
+                data={item}
+                classInfo={`${timetable.classInfo.name} - ${timetable.classInfo.section}`}
+              />
+            );
           }}
         />
       </View>
@@ -30,10 +36,25 @@ function TimetableScreen() {
   );
 }
 
-const Table = ({ data }) => {
+const Table = ({ classInfo, data }) => {
   return (
     <View style={styles.tableContainer}>
+      <AppText style={styles.classInfo}>{classInfo}</AppText>
       <AppText style={styles.dayTitle}>{data.dayName}</AppText>
+      <FlatList
+        style={{ width: "100%" }}
+        data={data.schedule}
+        keyExtractor={(item) => item.timeSlot}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <AppText style={styles.itemSubTitle}>{item.timeSlot}</AppText>
+            <AppText style={styles.itemTite}>
+              {item.subjectName + " Lecture"}
+            </AppText>
+          </View>
+        )}
+        ItemSeparatorComponent={ListItemSeperator}
+      />
     </View>
   );
 };
@@ -42,32 +63,51 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
   },
+  classInfo: {
+    color: colors.white,
+    fontSize: 20,
+    marginBottom: 10,
+    marginLeft: 20,
+    marginTop: 5,
+    width: "100%",
+  },
+  dayTitle: {
+    borderRadius: 5,
+    color: colors.medium,
+    marginBottom: 10,
+    backgroundColor: "#ecedff",
+    padding: 10,
+    width: "100%",
+    textAlign: "center",
+  },
+  itemContainer: {
+    paddingVertical: 10,
+    width: "100%",
+  },
+  itemSubTitle: {
+    alignSelf: "center",
+    borderRadius: 10,
+    color: colors.light,
+    fontSize: 12,
+    paddingHorizontal: 10,
+    textAlign: "center",
+  },
+  itemTite: {
+    color: colors.white,
+    textAlign: "center",
+  },
   tableContainer: {
     alignItems: "center",
-    backgroundColor: colors.light,
+    backgroundColor: colors.primary,
     borderRadius: 20,
     elevation: 5,
     height: "92%",
+    padding: 10,
     marginTop: 5,
-  },
-  dayTitle: {
-    color: colors.white,
   },
 });
 
 export default TimetableScreen;
-
-const test = [
-  {
-    title: "asd",
-  },
-  {
-    title: "123",
-  },
-  {
-    title: "xyz",
-  },
-];
 
 const timetable = {
   classInfo: { name: "8th", section: "Blue" },
