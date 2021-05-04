@@ -1,7 +1,6 @@
-import React from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { Dimensions, FlatList, StyleSheet, View } from "react-native";
 import Carousel from "react-native-snap-carousel";
-import { useState } from "react/cjs/react.development";
 
 import AppHeading from "../components/AppHeading";
 import AppText from "../components/AppText";
@@ -10,17 +9,19 @@ import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function TimetableScreen() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(new Date().getDay() - 1);
+  const width = Dimensions.get("window").width;
 
   return (
     <Screen style={styles.container}>
       <AppHeading title="Time Table" />
       <View style={styles.carouselContainer}>
         <Carousel
-          layout="default"
           data={timetable.timeTableInfo}
-          sliderWidth={350}
-          itemWidth={300}
+          firstItem={activeIndex}
+          itemWidth={width - 80}
+          layout="default"
+          sliderWidth={width}
           onSnapToItem={(index) => setActiveIndex(index)}
           renderItem={({ item }) => {
             return (
