@@ -5,6 +5,7 @@ import AppNavigator from "./AppNavigator";
 import SubjectListScreen from "../screens/SubjectListScreen";
 import AttendanceScreen from "../screens/AttendanceScreen";
 import AnnoucementsScreen from "../screens/AnnoucementsScreen";
+import TimetableScreen from "../screens/TimetableScreen";
 
 const Drawer = createDrawerNavigator();
 
@@ -19,6 +20,11 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen name="Attendance" component={AttendanceScreen} />
       <Drawer.Screen name="Announcements" component={AnnoucementsScreen} />
+      <Drawer.Screen
+        name="Timetable"
+        component={TimetableScreen}
+        options={{ title: "Time Table" }}
+      />
     </Drawer.Navigator>
   );
 };

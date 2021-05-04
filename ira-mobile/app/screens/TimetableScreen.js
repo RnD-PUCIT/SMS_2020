@@ -62,6 +62,7 @@ const Table = ({ classInfo, data }) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 5,
+    paddingVertical: 20,
   },
   classInfo: {
     color: colors.white,
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
     borderRadius: 20,
     elevation: 5,
-    height: "92%",
+    height: "93%",
     padding: 10,
     marginTop: 5,
   },

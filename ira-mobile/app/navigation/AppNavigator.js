@@ -5,6 +5,7 @@ import ParentDashboard from "../screens/ParentDashboardScreen";
 import SubjectListScreen from "../screens/SubjectListScreen";
 import SubjectNavigator from "./SubjectNavigator";
 import AttendanceScreen from "../screens/AttendanceScreen";
+import TimetableScreen from "../screens/TimetableScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,11 @@ const DashboardNavigator = () => {
       <Stack.Screen
         name="Attendance"
         component={AttendanceScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Timetable"
+        component={TimetableScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

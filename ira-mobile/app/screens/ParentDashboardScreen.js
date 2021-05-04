@@ -69,9 +69,10 @@ const dashboardList = [
     title: "Time Table",
     backgroundColor: "#2bcbba",
     icon: "table-clock",
+    link: "Timetable",
   },
   {
-    id: 4,
+    id: 5,
     title: "Fee Challan",
     backgroundColor: "#26de81",
     icon: "cash-usd-outline",
