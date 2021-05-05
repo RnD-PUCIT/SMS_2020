@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
-import { CssBaseline, Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -16,9 +15,11 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import LockIcon from "@material-ui/icons/Lock";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { IoSchoolOutline } from "react-icons/io5";
 
 import AlertSimple from "../../common/alerts/alertSimple";
 import http from "../../../services/httpService";
+import colors from "../../../colors";
 
 const useStyles = makeStyles((theme) => ({
   outerContainer: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     background: "white",
+    padding: "40px 30px",
   },
   container: {
     display: "flex",
@@ -37,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(2, 1, 1, 1),
-    backgroundColor: theme.palette.common.black,
   },
   form: {
-    margin: theme.spacing(5),
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(4),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
@@ -64,6 +66,11 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     marginTop: 20,
     fontWeight: "300",
+  },
+  formHeading: {
+    alignSelf: "flex-start",
+    color: colors.primary,
+    marginTop: theme.spacing(5),
   },
 }));
 
@@ -131,12 +138,8 @@ const Login = () => {
           </Grid>
           <Grid item xs={5}>
             <div className={classes.root}>
-              <Avatar className={classes.avatar}>
-                <LockOutlinedIcon />
-              </Avatar>
-              <Typography component="h1" variant="h5">
-                Sign in
-              </Typography>
+              <IoSchoolOutline color={colors.primary} size={50} />
+              <h5 className={classes.formHeading}>Welcome back! Sign in...</h5>
               <Formik
                 initialValues={{
                   username: "",
