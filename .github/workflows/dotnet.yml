@@ -5,6 +5,8 @@ on:
     branches: [develop]
   pull_request:
     branches: [develop]
+env:
+  AZURE_WEBAPP_NAME: ira-api
 
 jobs:
   dotnetapi:
@@ -22,6 +24,15 @@ jobs:
         run: cd IRAAPI &&  dotnet build --no-restore
       - name: Test
         run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
+      - name: dotnet publish
+        run: |
+        dotnet publish -c Release -o dotnetcorewebapp
+      - name: 'Deploy to Azure WebApp'
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: <publishData><publishProfile profileName="ira-api - Web Deploy" publishMethod="MSDeploy" publishUrl="ira-api.scm.azurewebsites.net:443" msdeploySite="ira-api" userName="$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-cbr20-003.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="ira-api\$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - Zip Deploy" publishMethod="ZipDeploy" publishUrl="ira-api.scm.azurewebsites.net:443" userName="$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - ReadOnly - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-cbr20-003dr.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="ira-api\$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile></publishData>
+          package: './dotnetcorewebapp'
 
   reactapp:
     runs-on: ubuntu-latest
