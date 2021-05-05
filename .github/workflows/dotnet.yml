@@ -2,39 +2,51 @@ name: .NET
 
 on:
   push:
-    branches: [ develop ]
+    branches: [develop]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
+  env:
+    PUBLISH_PATH: "."
+    AZURE_WEB_APP: "ira-api"
 
 jobs:
   dotnetapi:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Restore dependencies    
-      run: cd IRAAPI && dotnet restore
-    - name: Build
-      run: cd IRAAPI &&  dotnet build --no-restore
-    - name: Test
-      run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
-      
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
+      - name: Restore dependencies
+        run: cd IRAAPI && dotnet restore
+      - name: Build
+        run: cd IRAAPI &&  dotnet build --no-restore
+      - name: Test
+        run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
+      - name: Publish
+        run: dotnet publish --configuration Release -o '${{env.PUBLISH_PATH}}/publish'
+
+      - name: Azure WebApp
+        uses: Azure/webapps-deploy@v2
+        with:
+          # Name of the Azure Web App
+          app-name: "${{env.AZURE_WEB_APP}}"
+          # Applies to Web Apps(Windows and Linux) and Web App Containers(linux). Multi container scenario not supported. Publish profile (*.publishsettings) file contents with Web Deploy secrets
+          publish-profile: <publishData><publishProfile profileName="ira-api - Web Deploy" publishMethod="MSDeploy" publishUrl="ira-api.scm.azurewebsites.net:443" msdeploySite="ira-api" userName="$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-cbr20-003.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="ira-api\$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - Zip Deploy" publishMethod="ZipDeploy" publishUrl="ira-api.scm.azurewebsites.net:443" userName="$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile><publishProfile profileName="ira-api - ReadOnly - FTP" publishMethod="FTP" publishUrl="ftp://waws-prod-cbr20-003dr.ftp.azurewebsites.windows.net/site/wwwroot" ftpPassiveMode="True" userName="ira-api\$ira-api" userPWD="5yfAadBupmuxzetwAsRy2knoffbHnH03uwj3swa4QDtqoJmT1RazJgBswye9" destinationAppUrl="http://ira-api.azurewebsites.net" SQLServerDBConnectionString="" mySQLDBConnectionString="" hostingProviderForumLink="" controlPanelLink="http://windows.azure.com" webSystem="WebSites"><databases /></publishProfile></publishData>
+          package: "${{env.PUBLISH_PATH}}/publish"
+
   reactapp:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: setup node env
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12.x
-    - name: Restore dependencies    
-      run: cd intelligent_remote_academia-frontend && npm install
-    - name: Build
-      run: cd intelligent_remote_academia-frontend && npm build
+      - uses: actions/checkout@v2
+      - name: setup node env
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Restore dependencies
+        run: cd intelligent_remote_academia-frontend && npm install
+      - name: Build
+        run: cd intelligent_remote_academia-frontend && npm build
