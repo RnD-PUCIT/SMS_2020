@@ -82,6 +82,8 @@ const Login = () => {
   const classes = useStyles();
 
   const handleLogin = async (values) => {
+    if (values.username.length === 0 || values.password.length === 0) return;
+
     const url = "/account/login";
 
     try {
@@ -97,9 +99,8 @@ const Login = () => {
       // Redirect the user to dashboard
       window.location = "/";
     } catch (ex) {
-      if (ex.response && ex.response.status === 400) {
-        const err = ex.response.data;
-        setError(err);
+      if (ex.response && ex.response.status === 401) {
+        setError("Invalid username or password.");
       } else if (ex.response && ex.response.status === 404) {
         window.location = "/notFound";
       }
