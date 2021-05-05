@@ -72,6 +72,9 @@ const useStyles = makeStyles((theme) => ({
     color: colors.primary,
     marginTop: theme.spacing(5),
   },
+  gridContainer: {
+    boxShadow: "0 0 10px #212529",
+  },
 }));
 
 const formSchema = Yup.object().shape({
@@ -121,7 +124,7 @@ const Login = () => {
   return (
     <div className={classes.outerContainer}>
       <Container className={classes.container} maxWidth="md" component="main">
-        <Grid container>
+        <Grid container className={classes.gridContainer}>
           <Grid item xs={7}>
             <div className="login-bg">
               <div className="login-bg--overlay">
