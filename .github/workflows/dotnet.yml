@@ -25,7 +25,7 @@ jobs:
       - name: Test
         run: cd IRAAPI &&  dotnet test --no-build --verbosity normal
       - name: dotnet publish
-        run: dotnet publish -c Release -o dotnetcorewebapp
+        run: cd IRAAPI && dotnet publish -c Release -o dotnetcorewebapp
       - name: 'Deploy to Azure WebApp'
         uses: azure/webapps-deploy@v2
         with:
