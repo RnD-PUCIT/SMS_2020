@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [develop]
 env:
-  PUBLISH_PATH: "./IRAAPI/IRAAPI"
+  PUBLISH_PATH: "./IRAAPI"
   AZURE_WEB_APP: "ira-api"
 
 jobs:
@@ -50,3 +50,5 @@ jobs:
         run: cd intelligent_remote_academia-frontend && npm install
       - name: Build
         run: cd intelligent_remote_academia-frontend && npm build
+
+- task: PublishBuildArtifacts@1
