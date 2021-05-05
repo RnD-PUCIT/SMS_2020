@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [develop]
 env:
-  PUBLISH_PATH: "."
+  PUBLISH_PATH: "./IRAAPI/IRAAPI"
   AZURE_WEB_APP: "ira-api"
 
 jobs:
