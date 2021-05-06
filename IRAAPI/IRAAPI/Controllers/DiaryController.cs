@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace IRAAPI.Controllers
 {
-    [Route("diary")] 
+    [Route("diary")]
     [ApiController]
     public class DiaryController : ControllerBase
     {
@@ -55,30 +55,28 @@ namespace IRAAPI.Controllers
 
         [Authorize(Roles = "Teacher")]
         [HttpGet]
-        public async Task<Object> GetDiaries(Guid ClassId, Guid SubjectId, Guid SessionId)
+        public async Task<Object> GetDiaries(Guid classId, Guid subjectId)
         {
             try
             {
-                if (ClassId != null && SubjectId != null && SessionId != null)
+                if (classId != null && subjectId != null)
                 {
-                    int classNumericId = context.Classes.Where(c => c.Guid == ClassId)
+                    int classNumericId = context.Classes.Where(c => c.Guid == classId)
                         .Select(c => c.Id)
                         .SingleOrDefault();
-                    int subjectNumericId = context.Subjects.Where(c => c.Guid == SubjectId)
+                    int subjectNumericId = context.Subjects.Where(c => c.Guid == subjectId)
                         .Select(c => c.Id)
-                        .SingleOrDefault();
-                    int sessionNumericId = context.Sessions.Where(s => s.Guid == SessionId)
-                        .Select(s => s.Id)
                         .SingleOrDefault();
 
-                    if (sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
+                    if (classNumericId != 0 && subjectNumericId != 0)
                     {
                         var diaries = await context.Diaries
-                            .Where(d=>d.ClassId == classNumericId && d.SubjectId == subjectNumericId && d.SessionId == sessionNumericId)
+                            .Where(d => d.ClassId == classNumericId && d.SubjectId == subjectNumericId)
                             .Select(x => new
                             {
                                 Id = x.Guid,
                                 DiaryTitle = x.DiaryTitle,
+                                DiaryDate = x.DiaryDate,
                                 DiaryContent = x.DiaryContent
                             }).ToListAsync();
                         return new { diary = diaries };
@@ -114,7 +112,7 @@ namespace IRAAPI.Controllers
                         .Select(s => s.Id)
                         .SingleOrDefault();
 
-                    if(sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
+                    if (sessionNumericId != 0 && classNumericId != 0 && subjectNumericId != 0)
                     {
                         DiaryDTO.DiaryDate = DateTime.Now;
 
@@ -146,7 +144,7 @@ namespace IRAAPI.Controllers
                 if (DiaryDTO != null)
                 {
                     Diary diary = context.Diaries.FirstOrDefault(b => b.Guid == DiaryDTO.Id);
-                    if(diary!=null)
+                    if (diary != null)
                     {
                         diary.DiaryTitle = DiaryDTO.DiaryTitle;
                         diary.DiaryContent = DiaryDTO.DiaryContent;
@@ -197,7 +195,7 @@ namespace IRAAPI.Controllers
         }
 
         public class DiaryDTO
-        {   
+        {
             public Guid Id { get; set; }
             public Guid ClassId { get; set; }
             public Guid SubjectId { get; set; }
