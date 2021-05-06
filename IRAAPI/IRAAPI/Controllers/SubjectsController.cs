@@ -8,6 +8,7 @@ using AutoMapper;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using IRAAPI.Dtos;
 
 namespace IRAAPI.Controllers
 {
@@ -244,7 +245,7 @@ namespace IRAAPI.Controllers
             }
 
         }
-        
+
         [HttpPost]
         [Route("createSubject")]
         public async Task<ActionResult> CreateSubject(SubjectDTO model)
@@ -270,6 +271,26 @@ namespace IRAAPI.Controllers
         public async Task<ActionResult<List<Subject>>> GetSubjectsList()
         {
             return await context.Subjects.ToListAsync();
+        }
+
+        [HttpGet]
+        [Route("getClassSubjects")]
+        public async Task<ActionResult<List<SubjectDto>>> GetClassSubjects(Guid classId)
+        {
+            int id = await context.Classes.
+                        Where(c => c.Guid == classId).
+                        Select(c => c.Id).
+                        SingleOrDefaultAsync();
+
+            if (id == 0)
+                return NotFound();
+
+            List<Subject> subjects = await context.ClassSubjectAllocs
+                                    .Where(c => c.ClassId == id)
+                                    .Select(c => c.Subject)
+                                    .ToListAsync();
+
+            return _mapper.Map<List<Subject>, List<SubjectDto>>(subjects);
         }
     }
 
