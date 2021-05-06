@@ -1,8 +1,11 @@
-﻿using IRAAPI.Dtos;
+﻿using AutoMapper;
+using IRAAPI.Dtos;
 using IRAAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +17,12 @@ namespace IRAAPI.Controllers
     public class ClassesController : ControllerBase
     {
         private readonly IRAAPIContext _context;
+        private readonly IMapper _mapper;
 
-        public ClassesController(IRAAPIContext context)
+        public ClassesController(IRAAPIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -82,6 +87,41 @@ namespace IRAAPI.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("getTeacherClasses")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult<List<ClassDto>>> GetTeacherClasses()
+        {
+            var claims = User.Claims;
+            var userId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
+
+            if (userId == null)
+                return NotFound();
+
+            Guid teacherGuid = Guid.Parse(userId);
+            List<ClassDto> classes = null;
+
+            try
+            {
+                // Get numeric teacher id
+                int id = await _context.Teachers.Where(t => t.UserId == teacherGuid)
+                .Select(t => t.Id)
+                .SingleOrDefaultAsync();
+
+                List<Class> list = await _context.TeacherSubjectAllocs.Include(t => t.Class)
+                .Where(t => t.TeacherId == id).Select(t => t.Class).ToListAsync();
+
+                classes = _mapper.Map<List<Class>, List<ClassDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                Console.Write(ex);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return classes;
         }
     }
 }
