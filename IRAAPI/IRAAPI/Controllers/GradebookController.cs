@@ -6,6 +6,7 @@ using AutoMapper;
 using IRAAPI.Dtos;
 using IRAAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -65,13 +66,35 @@ namespace IRAAPI.Controllers
                     new GradebookDto
                     {
                         Id = gradeType.Guid,
-                        TestType = gradeType.GradeType1,
+                        GradeType = gradeType.GradeType1,
                         Activities = _mapper.Map<List<GradeActivity>, List<GradeActivityDto>>(activities)
                     }
                 );
             }
 
             return gradebook;
+        }
+
+        [HttpPost]
+        [Route("createGradeType")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult> CreateGradeType(GradeTypeDto model)
+        {
+            GradeType gradeType = new GradeType
+            {
+                GradeType1 = model.GradeType,
+                GradeTypeSlug = model.GradeTypeSlug,
+                ClassId = model.ClassId,
+                SubjectId = model.SubjectId
+            };
+
+            _context.Add(gradeType);
+            var success = await _context.SaveChangesAsync() > 0;
+
+            if (!success)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok();
         }
     }
 }
