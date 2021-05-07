@@ -14,21 +14,20 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const UserInfo = (props) => {
+const UserInfo = ({ userInfo }) => {
   const classes = useStyles();
-  const { parentInfo } = props;
 
-  if (parentInfo) {
+  if (userInfo) {
     return (
       <center className={classes.root}>
         <ImageAvatar className={classes.avatar} />
         <Typography variant="h6" style={{ textTransform: "capitalize" }}>
-          {`${parentInfo.firstName} ${parentInfo.lastName}`}
+          {`${userInfo.firstName} ${userInfo.lastName}`}
         </Typography>
       </center>
     );
   }
-  return <div></div>;
+  return null;
 };
 
 export default UserInfo;
