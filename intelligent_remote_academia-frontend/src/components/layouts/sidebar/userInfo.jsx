@@ -4,27 +4,46 @@ import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles(() => ({
   root: {
-    padding: "20px 0",
+    alignItems: "center",
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    backgroundColor: "#1e2a38",
+    height: 64,
   },
   avatar: {
-    width: "85px",
-    height: "85px",
-    margin: "20px 0",
-    boxShadow: "0 5px 15px rgb(0,0,0, .25)",
+    width: 50,
+    height: 50,
+  },
+  title: {
+    textTransform: "capitalize",
+    fontWeight: "300",
+    marginLeft: 20,
+    color: "white",
+  },
+  subTitle: {
+    color: "white",
+    fontWeight: "100",
+    textTransform: "capitalize",
   },
 }));
 
-const UserInfo = ({ userInfo }) => {
+const UserInfo = ({ userInfo, role }) => {
   const classes = useStyles();
 
   if (userInfo) {
     return (
-      <center className={classes.root}>
+      <div className={classes.root}>
         <ImageAvatar className={classes.avatar} />
-        <Typography variant="h6" style={{ textTransform: "capitalize" }}>
-          {`${userInfo.firstName} ${userInfo.lastName}`}
-        </Typography>
-      </center>
+        <div>
+          <Typography variant="h6" className={classes.title}>
+            {`${userInfo.firstName} ${userInfo.lastName}`}
+          </Typography>
+          <Typography variant="subtitle1" className={classes.subTitle}>
+            {role}
+          </Typography>
+        </div>
+      </div>
     );
   }
   return null;

@@ -32,7 +32,7 @@ function Sidebar(props) {
   const drawer = (
     <div>
       {/* Display logged in user information */}
-      <UserInfo userInfo={userInfo} />
+      <UserInfo userInfo={userInfo} role={role} />
 
       {/* Sidebar Links */}
       <List>
