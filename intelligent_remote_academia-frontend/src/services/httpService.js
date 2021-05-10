@@ -6,6 +6,8 @@ import auth from "./authService";
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
+console.log("url", apiUrl);
+
 axios.interceptors.response.use(null, (error) => {
   const expectedErrors =
     error.response &&
