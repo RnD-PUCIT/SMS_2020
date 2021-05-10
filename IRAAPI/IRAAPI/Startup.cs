@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,7 +48,7 @@ namespace IRAAPI
 
             services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(option=>
+            services.AddIdentity<ApplicationUser, IdentityRole>(option =>
             {
                 option.Password.RequireDigit = false;
                 option.Password.RequiredUniqueChars = 0;
@@ -93,6 +93,8 @@ namespace IRAAPI
             }
 
             app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -105,6 +107,8 @@ namespace IRAAPI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
+
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
     }
