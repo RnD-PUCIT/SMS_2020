@@ -4,7 +4,7 @@ const colors = {
   tertiary: "#233044",
   tertiaryDark: "#1e2a38",
   medium: "#6e6969",
-  light: "#f8f4f4",
+  light: "#eeeeee",
   dark: "#0c0c0c",
 };
 

@@ -186,3 +186,9 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
 .makeStyles-active-8 svg {
   color: #4364f7 !important;
 }
+
+.shadow {
+  box-shadow: 0 2px 0 rgb(90 97 105 / 11%), 0 4px 8px rgb(90 97 105 / 12%),
+    0 10px 10px rgb(90 97 105 / 6%), 0 7px 70px rgb(90 97 105 / 10%);
+  border-radius: 10px !important;
+}

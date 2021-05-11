@@ -67,7 +67,7 @@ function Sidebar(props) {
     <div className={classes.root}>
       <CssBaseline />
 
-      <Navbar onMenuClick={handleDrawerToggle} />
+      <Navbar onMenuClick={handleDrawerToggle} userInfo={userInfo} />
 
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden smUp implementation="css">

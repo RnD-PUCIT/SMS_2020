@@ -8,7 +8,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { useStyles } from "../../constants/layoutConsts";
 import ProfileAvatar from "./profileAvatar";
 
-export default function Navbar(props) {
+export default function Navbar({ onMenuClick, userInfo }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -39,7 +39,7 @@ export default function Navbar(props) {
           <IconButton
             color="inherit"
             edge="start"
-            onClick={props.onMenuClick}
+            onClick={onMenuClick}
             className={classes.menuButton}
           >
             <MenuIcon />
@@ -51,6 +51,7 @@ export default function Navbar(props) {
 
           <span className={classes.title} />
           <ProfileAvatar
+            user={userInfo}
             onMenuOpen={handleMenu}
             onMenuClose={handleClose}
             onMenuItemClick={handleMenuLinkClick}
