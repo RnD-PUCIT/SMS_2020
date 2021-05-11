@@ -36,6 +36,7 @@ function Sidebar(props) {
 
       {/* Sidebar Links */}
       <List>
+        <ListItem className={classes.linksHeading}>Dashboard</ListItem>
         {links.map((item) => {
           return (
             <ListItem
@@ -50,9 +51,10 @@ function Sidebar(props) {
                 <FontAwesomeIcon
                   icon={item.icon}
                   style={{ fontSize: "23px" }}
+                  color="#757d89"
                 />
               </ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText className={classes.linkText} primary={item.text} />
             </ListItem>
           );
         })}

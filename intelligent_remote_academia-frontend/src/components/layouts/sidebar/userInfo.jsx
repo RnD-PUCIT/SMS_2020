@@ -1,6 +1,7 @@
 import React from "react";
 import ImageAvatar from "@material-ui/core/Avatar";
 import { makeStyles, Typography } from "@material-ui/core";
+import colors from "../../../colors";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -12,19 +13,25 @@ const useStyles = makeStyles(() => ({
     height: 64,
   },
   avatar: {
-    width: 50,
-    height: 50,
+    width: 45,
+    height: 45,
   },
   title: {
     textTransform: "capitalize",
     fontWeight: "300",
-    marginLeft: 20,
     color: "white",
   },
   subTitle: {
-    color: "white",
+    color: colors.light,
     fontWeight: "100",
+    fontSize: 14,
     textTransform: "capitalize",
+    marginTop: -5,
+  },
+  dataContainer: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: 15,
   },
 }));
 
@@ -35,7 +42,7 @@ const UserInfo = ({ userInfo, role }) => {
     return (
       <div className={classes.root}>
         <ImageAvatar className={classes.avatar} />
-        <div>
+        <div className={classes.dataContainer}>
           <Typography variant="h6" className={classes.title}>
             {`${userInfo.firstName} ${userInfo.lastName}`}
           </Typography>

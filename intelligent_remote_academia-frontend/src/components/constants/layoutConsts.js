@@ -1,4 +1,5 @@
 import { makeStyles } from "@material-ui/core/styles";
+import colors from "../../colors";
 
 const drawerWidth = 260;
 
@@ -17,8 +18,7 @@ const useStyles = makeStyles((theme) => ({
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
-    background:
-      "linear-gradient(135deg, rgb(24, 42, 115) 0%, rgb(33, 138, 174) 69%, rgb(32, 167, 172) 89%)",
+    background: "white",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -39,18 +39,23 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100vh",
   },
   active: {
-    background:
-      "linear-gradient(to right, rgb(33, 138, 174), rgb(32, 167, 172))",
     color: "white",
-    boxShadow: "0 2px 5px rgb(0, 0, 0, .3)",
-    borderTopRightRadius: "20px",
-    borderBottomRightRadius: "20px",
+    backgroundColor: colors.tertiaryDark,
+    borderLeft: `3px solid ${colors.secondary}`,
     "&:hover": {
       color: "white",
     },
   },
   title: {
     flexGrow: 1,
+  },
+  linkText: {
+    color: colors.light,
+    fontSize: 14,
+    borderLeft: "3px solid transparent",
+  },
+  linksHeading: {
+    color: "white",
   },
 }));
 
