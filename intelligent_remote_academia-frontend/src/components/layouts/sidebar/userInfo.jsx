@@ -8,17 +8,16 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
     display: "flex",
     flexWrap: "wrap",
-    justifyContent: "center",
-    backgroundColor: "#1e2a38",
-    height: 64,
+    height: 80,
+    padding: "0 20px",
   },
   avatar: {
-    width: 45,
-    height: 45,
+    width: 50,
+    height: 50,
   },
   title: {
     textTransform: "capitalize",
-    fontWeight: "300",
+    fontWeight: "400",
     color: "white",
   },
   subTitle: {

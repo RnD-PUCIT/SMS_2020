@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: drawerWidth,
     },
     background: "white",
+    boxShadow: "0 0.125rem 0.625rem rgba(90,97,105,0.12)",
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -34,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    background: "#F8F8F8", // Github's backround
-    // background: '#EDF0F2',
+    background: "#f5f6f8", // Github's backround
+    // background: "#EDF0F2",
     minHeight: "100vh",
   },
   active: {
@@ -52,10 +53,13 @@ const useStyles = makeStyles((theme) => ({
   linkText: {
     color: colors.light,
     fontSize: 14,
-    borderLeft: "3px solid transparent",
   },
   linksHeading: {
     color: "white",
+    fontSize: 16,
+  },
+  linkIcon: {
+    justifyContent: "center",
   },
 }));
 

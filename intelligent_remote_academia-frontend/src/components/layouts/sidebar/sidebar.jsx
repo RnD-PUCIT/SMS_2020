@@ -6,14 +6,15 @@ import Hidden from "@material-ui/core/Hidden";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import { ListItemIcon } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Navbar from "../navbar/navbar";
 import UserInfo from "./userInfo";
-
 import { sideBarLinks } from "../../constants/sidebarConsts";
 import { useStyles } from "../../constants/layoutConsts";
-import { ListItemIcon } from "@material-ui/core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FeatherIcon from "../../common/icons/FeatherIcon";
+import colors from "../../../colors";
 
 function Sidebar(props) {
   const { window, userInfo, role } = props;
@@ -30,7 +31,7 @@ function Sidebar(props) {
   };
 
   const drawer = (
-    <div>
+    <React.Fragment>
       {/* Display logged in user information */}
       <UserInfo userInfo={userInfo} role={role} />
 
@@ -45,21 +46,18 @@ function Sidebar(props) {
               component={NavLink}
               to={item.url}
               activeClassName={classes.active}
+              className={classes.linkItem}
               style={{ padding: "8px 20px" }}
             >
-              <ListItemIcon>
-                <FontAwesomeIcon
-                  icon={item.icon}
-                  style={{ fontSize: "23px" }}
-                  color="#757d89"
-                />
+              <ListItemIcon className={classes.linkIcon}>
+                {<FeatherIcon iconName={item.icon} size={25} color="#757d89" />}
               </ListItemIcon>
               <ListItemText className={classes.linkText} primary={item.text} />
             </ListItem>
           );
         })}
       </List>
-    </div>
+    </React.Fragment>
   );
 
   const container =

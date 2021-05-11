@@ -182,3 +182,7 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   flex-basis: 100%;
   height: 0;
 }
+
+.makeStyles-active-8 svg {
+  color: #4364f7 !important;
+}
