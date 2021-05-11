@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import React, { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Hidden from "@material-ui/core/Hidden";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import { ListItemIcon } from "@material-ui/core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Navbar from '../navbar/navbar';
-import UserInfo from './userInfo';
-
-import { sideBarLinks } from '../../constants/sidebarConsts';
-import { useStyles } from '../../constants/layoutConsts';
-import { ListItemIcon } from '@material-ui/core';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Navbar from "../navbar/navbar";
+import UserInfo from "./userInfo";
+import { sideBarLinks } from "../../constants/sidebarConsts";
+import { useStyles } from "../../constants/layoutConsts";
+import FeatherIcon from "../../common/icons/FeatherIcon";
+import colors from "../../../colors";
 
 function Sidebar(props) {
   const { window, userInfo, role } = props;
@@ -30,12 +31,13 @@ function Sidebar(props) {
   };
 
   const drawer = (
-    <div>
+    <React.Fragment>
       {/* Display logged in user information */}
-      <UserInfo parentInfo={userInfo} />
+      <UserInfo userInfo={userInfo} role={role} />
 
       {/* Sidebar Links */}
       <List>
+        <ListItem className={classes.linksHeading}>Dashboard</ListItem>
         {links.map((item) => {
           return (
             <ListItem
@@ -44,20 +46,18 @@ function Sidebar(props) {
               component={NavLink}
               to={item.url}
               activeClassName={classes.active}
-              style={{ padding: '8px 20px' }}
+              className={classes.linkItem}
+              style={{ padding: "8px 20px" }}
             >
-              <ListItemIcon>
-                <FontAwesomeIcon
-                  icon={item.icon}
-                  style={{ fontSize: '23px' }}
-                />
+              <ListItemIcon className={classes.linkIcon}>
+                {<FeatherIcon iconName={item.icon} size={25} color="#757d89" />}
               </ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText className={classes.linkText} primary={item.text} />
             </ListItem>
           );
         })}
       </List>
-    </div>
+    </React.Fragment>
   );
 
   const container =
@@ -67,7 +67,7 @@ function Sidebar(props) {
     <div className={classes.root}>
       <CssBaseline />
 
-      <Navbar onMenuClick={handleDrawerToggle} />
+      <Navbar onMenuClick={handleDrawerToggle} userInfo={userInfo} />
 
       <nav className={classes.drawer} aria-label="mailbox folders">
         <Hidden smUp implementation="css">
