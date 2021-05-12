@@ -99,7 +99,7 @@ const Chat = () => {
                         {index === chats.length - 1 ? (
                           <React.Fragment />
                         ) : (
-                          <Divider variant="inset" component="li" />
+                          <Divider style={{ margin: "0 15px" }} />
                         )}
                       </React.Fragment>
                     ))}
