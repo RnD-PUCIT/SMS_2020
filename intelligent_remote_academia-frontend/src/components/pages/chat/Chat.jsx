@@ -12,7 +12,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+
 import colors from "../../../colors";
+import ChatMessagesBoard from "./ChatMessagesBoard";
+import ChatWelcomeBoard from "./ChatWelcomeBoard";
 
 const useStyles = makeStyles({
   divider: {
@@ -20,6 +23,7 @@ const useStyles = makeStyles({
   },
   chat: {
     padding: 20,
+    height: "100%",
   },
 
   chatListContainer: {
@@ -31,8 +35,8 @@ const useStyles = makeStyles({
   },
   chatList: {
     margin: "10px 0",
-    height: "72vh",
-    overflow: "scroll",
+    height: "calc(72vh - 100px)",
+    overflow: "auto",
   },
   messageOutline: {
     display: "block",
@@ -45,7 +49,7 @@ const useStyles = makeStyles({
 
 const Chat = () => {
   const classes = useStyles();
-  const [selectedChat, setSelectedChat] = useState();
+  const [selectedChat, setSelectedChat] = useState(null);
   return (
     <React.Fragment>
       <Typography variant="h6">Messages</Typography>
@@ -108,7 +112,13 @@ const Chat = () => {
               </div>
             </Grid>
             <Grid item sm={8}>
-              <div className={classes.chat}></div>
+              <div className={classes.chat}>
+                {selectedChat !== null ? (
+                  <ChatMessagesBoard />
+                ) : (
+                  <ChatWelcomeBoard />
+                )}
+              </div>
             </Grid>
           </Grid>
         </div>

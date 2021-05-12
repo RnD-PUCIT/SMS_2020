@@ -202,14 +202,9 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   width: 5px;
 }
 
-/* Track */
-.chatList::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
 /* Handle */
 .chatList::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #4364f7;
   border-radius: 50px;
 }
 
