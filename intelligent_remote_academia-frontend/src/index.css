@@ -196,3 +196,24 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
     0 10px 10px rgb(90 97 105 / 6%), 0 7px 70px rgb(90 97 105 / 10%);
   border-radius: 10px !important;
 }
+
+/* width */
+.chatList::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.chatList::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.chatList::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatList::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

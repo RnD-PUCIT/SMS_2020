@@ -63,12 +63,11 @@ const Chat = () => {
                   />
                 </div>
                 <Divider />
-                <div className={classes.chatList}>
+                <div className={classes.chatList + " " + "chatList"}>
                   <List className={classes.root}>
                     {chats.map((item, index) => (
-                      <React.Fragment>
+                      <React.Fragment key={index}>
                         <ListItem
-                          key={index}
                           alignItems="flex-start"
                           button
                           selected={selectedChat === index}
