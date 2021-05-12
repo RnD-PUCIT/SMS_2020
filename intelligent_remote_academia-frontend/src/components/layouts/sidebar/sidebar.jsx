@@ -46,6 +46,7 @@ function Sidebar(props) {
               activeClassName={classes.active}
               className={classes.linkItem}
               style={{ padding: "8px 20px" }}
+              onClick={() => setMobileOpen(false)}
             >
               <ListItemIcon className={classes.linkIcon}>
                 {<FeatherIcon iconName={item.icon} size={25} color="#757d89" />}

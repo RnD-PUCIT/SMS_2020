@@ -21,6 +21,7 @@ const useStyles = makeStyles({
   chat: {
     padding: 20,
   },
+
   chatListContainer: {
     borderRight: `1px solid ${colors.gray}`,
     height: "100%",
@@ -30,9 +31,15 @@ const useStyles = makeStyles({
   },
   chatList: {
     margin: "10px 0",
+    height: "72vh",
+    overflow: "scroll",
   },
   messageOutline: {
     display: "block",
+  },
+  chatContainer: {
+    height: "72vh",
+    overflow: "hidden",
   },
 });
 
@@ -43,61 +50,67 @@ const Chat = () => {
       <Typography variant="h6">Messages</Typography>
       <Divider className={classes.divider} />
       <Paper className="shadow">
-        <Grid container>
-          <Grid item sm={4}>
-            <div className={classes.chatListContainer}>
-              <div className={classes.contactSearchContainer}>
-                <TextField fullWidth label="Search chats" variant="outlined" />
-              </div>
-              <Divider />
-              <div className={classes.chatList}>
-                <List className={classes.root}>
-                  {chats.map((item, index) => (
-                    <React.Fragment>
-                      <ListItem
-                        key={index}
-                        alignItems="flex-start"
-                        button
-                        onClick={() => alert(item.name)}
-                      >
-                        <ListItemAvatar>
-                          <Avatar
-                            alt={item.name}
-                            src="/static/images/avatar/1.jpg"
+        <div className={classes.chatContainer}>
+          <Grid container>
+            <Grid item sm={4}>
+              <div className={classes.chatListContainer}>
+                <div className={classes.contactSearchContainer}>
+                  <TextField
+                    fullWidth
+                    label="Search chats"
+                    variant="outlined"
+                  />
+                </div>
+                <Divider />
+                <div className={classes.chatList}>
+                  <List className={classes.root}>
+                    {chats.map((item, index) => (
+                      <React.Fragment>
+                        <ListItem
+                          key={index}
+                          alignItems="flex-start"
+                          button
+                          onClick={() => alert(item.name)}
+                        >
+                          <ListItemAvatar>
+                            <Avatar
+                              alt={item.name}
+                              src="/static/images/avatar/1.jpg"
+                            />
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={item.name}
+                            secondary={
+                              <React.Fragment>
+                                <Typography
+                                  component="span"
+                                  variant="body2"
+                                  className={classes.messageOutline}
+                                  color="textPrimary"
+                                  noWrap
+                                >
+                                  {item.messageOutline}
+                                </Typography>
+                              </React.Fragment>
+                            }
                           />
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={item.name}
-                          secondary={
-                            <React.Fragment>
-                              <Typography
-                                component="span"
-                                variant="body2"
-                                className={classes.messageOutline}
-                                color="textPrimary"
-                                noWrap
-                              >
-                                {item.messageOutline}
-                              </Typography>
-                            </React.Fragment>
-                          }
-                        />
-                      </ListItem>
-                      {index === chats.length - 1 ? (
-                        <React.Fragment />
-                      ) : (
-                        <Divider variant="inset" component="li" />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </List>
+                        </ListItem>
+                        {index === chats.length - 1 ? (
+                          <React.Fragment />
+                        ) : (
+                          <Divider variant="inset" component="li" />
+                        )}
+                      </React.Fragment>
+                    ))}
+                  </List>
+                </div>
               </div>
-            </div>
+            </Grid>
+            <Grid item sm={8}>
+              <div className={classes.chat}></div>
+            </Grid>
           </Grid>
-          <Grid item sm={8}>
-            <div className={classes.chat}></div>
-          </Grid>
-        </Grid>
+        </div>
       </Paper>
     </React.Fragment>
   );
