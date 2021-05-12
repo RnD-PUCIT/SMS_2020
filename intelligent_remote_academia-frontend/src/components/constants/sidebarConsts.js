@@ -36,6 +36,11 @@ const sideBarLinks = {
       url: "/applications",
       icon: "FiClipboard",
     },
+    {
+      text: "Messages",
+      url: "/messages",
+      icon: "FiMessageSquare",
+    },
   ],
   teacher: [
     {

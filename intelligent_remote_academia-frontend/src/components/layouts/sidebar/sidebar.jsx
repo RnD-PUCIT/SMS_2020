@@ -7,14 +7,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { ListItemIcon } from "@material-ui/core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Navbar from "../navbar/navbar";
 import UserInfo from "./userInfo";
 import { sideBarLinks } from "../../constants/sidebarConsts";
 import { useStyles } from "../../constants/layoutConsts";
 import FeatherIcon from "../../common/icons/FeatherIcon";
-import colors from "../../../colors";
 
 function Sidebar(props) {
   const { window, userInfo, role } = props;
