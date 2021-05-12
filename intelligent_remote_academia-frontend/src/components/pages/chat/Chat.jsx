@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Divider,
@@ -45,6 +45,7 @@ const useStyles = makeStyles({
 
 const Chat = () => {
   const classes = useStyles();
+  const [selectedChat, setSelectedChat] = useState();
   return (
     <React.Fragment>
       <Typography variant="h6">Messages</Typography>
@@ -70,7 +71,8 @@ const Chat = () => {
                           key={index}
                           alignItems="flex-start"
                           button
-                          onClick={() => alert(item.name)}
+                          selected={selectedChat === index}
+                          onClick={() => setSelectedChat(index)}
                         >
                           <ListItemAvatar>
                             <Avatar
@@ -86,7 +88,7 @@ const Chat = () => {
                                   component="span"
                                   variant="body2"
                                   className={classes.messageOutline}
-                                  color="textPrimary"
+                                  color="textSecondary"
                                   noWrap
                                 >
                                   {item.messageOutline}
