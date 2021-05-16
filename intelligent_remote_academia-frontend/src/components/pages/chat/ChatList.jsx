@@ -10,9 +10,9 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import firestore from "../../../firebase/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
+import firestore from "../../../firebase/firebase";
 import colors from "../../../colors";
 
 const ChatList = ({ selectedChat, onChatChange, userId }) => {
