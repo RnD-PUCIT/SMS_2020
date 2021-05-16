@@ -13,8 +13,16 @@ import ChatList from "./ChatList";
 
 const Chat = () => {
   const classes = useStyles();
-  const userId = window.localStorage.getItem("userId");
+
   const [selectedChat, setSelectedChat] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState();
+
+  const userId = window.localStorage.getItem("userId");
+
+  const handleChatChange = (index, chatId) => {
+    setSelectedChat(index);
+    setSelectedChatId(chatId);
+  };
 
   return (
     <React.Fragment>
@@ -27,13 +35,13 @@ const Chat = () => {
               <ChatList
                 userId={userId}
                 selectedChat={selectedChat}
-                setSelectedChat={setSelectedChat}
+                onChatChange={handleChatChange}
               />
             </Grid>
             <Grid item sm={8}>
               <div className={classes.chat}>
                 {selectedChat !== null ? (
-                  <ChatMessagesBoard />
+                  <ChatMessagesBoard chatId={selectedChatId} />
                 ) : (
                   <ChatWelcomeBoard />
                 )}

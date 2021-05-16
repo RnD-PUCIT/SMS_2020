@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Avatar,
   Divider,
@@ -27,7 +27,7 @@ firebase.initializeApp({
 
 const firestore = firebase.firestore();
 
-const ChatList = ({ selectedChat, setSelectedChat, userId }) => {
+const ChatList = ({ selectedChat, onChatChange, userId }) => {
   const classes = useStyles();
 
   const chatsRef = firestore.collection("chats");
@@ -35,19 +35,10 @@ const ChatList = ({ selectedChat, setSelectedChat, userId }) => {
 
   const [chats] = useCollectionData(query);
 
-  const getChatList = () => {
-    const chatList = [];
-    chats.map((x) => {
-      const user = x.userDetails.filter((u) => u.id !== userId);
-      chatList.push(user);
-    });
-  };
-
   if (!chats) return null;
 
   return (
     <React.Fragment>
-      {getChatList()}
       <div className={classes.chatListContainer}>
         <div className={classes.contactSearchContainer}>
           <TextField fullWidth label="Search chats" variant="outlined" />
@@ -57,14 +48,16 @@ const ChatList = ({ selectedChat, setSelectedChat, userId }) => {
           <List className={classes.root}>
             {chats.map((item, index) => {
               const user = item.userDetails.filter((u) => u.id !== userId)[0];
-              console.log(user);
               return (
                 <React.Fragment key={index}>
                   <ListItem
                     alignItems="flex-start"
                     button
                     selected={selectedChat === index}
-                    onClick={() => setSelectedChat(index)}
+                    onClick={() => {
+                      const chatId = item.chatId;
+                      onChatChange(index, chatId);
+                    }}
                   >
                     <ListItemAvatar>
                       <Avatar alt={user.name} src="" />
@@ -121,42 +114,3 @@ const useStyles = makeStyles({
 });
 
 export default ChatList;
-
-const chats = [
-  {
-    name: "Sohaib Salman",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Arslan Yousaf",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Daniyal Ahmad",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Sohaib Salman",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Arslan Yousaf",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Daniyal Ahmad",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Sohaib Salman",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Arslan Yousaf",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-  {
-    name: "Daniyal Ahmad",
-    messageOutline: "lorem ipsum dummy text for message outline",
-  },
-];
