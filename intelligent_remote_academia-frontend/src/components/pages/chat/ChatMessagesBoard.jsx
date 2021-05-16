@@ -3,6 +3,7 @@ import { Typography } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import firestore from "../../../firebase/firebase";
+import ChatMessage from "./ChatMessage";
 
 const ChatMessagesBoard = ({ chatId }) => {
   const messagesRef = firestore.collection(`/chats/${chatId}/messages`);
@@ -14,13 +15,9 @@ const ChatMessagesBoard = ({ chatId }) => {
 
   return (
     <div>
-      <Typography>Messages Board</Typography>
-      <Typography>{chatId}</Typography>
-      <ul>
-        {messages.map((message, index) => {
-          return <li>{message.text}</li>;
-        })}
-      </ul>
+      {messages.map((message, index) => {
+        return <ChatMessage message={message.text} uid={message.senderId} />;
+      })}
     </div>
   );
 };
