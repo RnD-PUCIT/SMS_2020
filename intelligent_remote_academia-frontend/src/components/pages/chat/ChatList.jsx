@@ -29,65 +29,76 @@ const firestore = firebase.firestore();
 
 const ChatList = ({ selectedChat, setSelectedChat, userId }) => {
   const classes = useStyles();
-  //   const [chats, setChats] = useState([]);
 
   const chatsRef = firestore.collection("chats");
   const query = chatsRef.where("users", "array-contains", userId);
 
-  const [chatsCollection] = useCollectionData(query);
+  const [chats] = useCollectionData(query);
 
-  console.log("====================================");
-  console.log(chatsCollection);
-  console.log("====================================");
+  const getChatList = () => {
+    const chatList = [];
+    chats.map((x) => {
+      const user = x.userDetails.filter((u) => u.id !== userId);
+      chatList.push(user);
+    });
+  };
 
-  if (!chatsCollection) return null;
+  if (!chats) return null;
 
   return (
-    <div className={classes.chatListContainer}>
-      <div className={classes.contactSearchContainer}>
-        <TextField fullWidth label="Search chats" variant="outlined" />
+    <React.Fragment>
+      {getChatList()}
+      <div className={classes.chatListContainer}>
+        <div className={classes.contactSearchContainer}>
+          <TextField fullWidth label="Search chats" variant="outlined" />
+        </div>
+        <Divider />
+        <div className={classes.chatList + " " + "chatList"}>
+          <List className={classes.root}>
+            {chats.map((item, index) => {
+              const user = item.userDetails.filter((u) => u.id !== userId)[0];
+              console.log(user);
+              return (
+                <React.Fragment key={index}>
+                  <ListItem
+                    alignItems="flex-start"
+                    button
+                    selected={selectedChat === index}
+                    onClick={() => setSelectedChat(index)}
+                  >
+                    <ListItemAvatar>
+                      <Avatar alt={user.name} src="" />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={user.name}
+                      style={{ justifyContent: "center" }}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.messageOutline}
+                            color="textSecondary"
+                            noWrap
+                          >
+                            {user.messageOutline ? user.messageOutline : "..."}
+                          </Typography>
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                  {index === chats.length - 1 ? (
+                    <React.Fragment />
+                  ) : (
+                    <Divider style={{ margin: "0 15px" }} />
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </List>
+        </div>
       </div>
-      <Divider />
-      <div className={classes.chatList + " " + "chatList"}>
-        <List className={classes.root}>
-          {chats.map((item, index) => (
-            <React.Fragment key={index}>
-              <ListItem
-                alignItems="flex-start"
-                button
-                selected={selectedChat === index}
-                onClick={() => setSelectedChat(index)}
-              >
-                <ListItemAvatar>
-                  <Avatar alt={item.name} src="" />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={item.name}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.messageOutline}
-                        color="textSecondary"
-                        noWrap
-                      >
-                        {item.messageOutline}
-                      </Typography>
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-              {index === chats.length - 1 ? (
-                <React.Fragment />
-              ) : (
-                <Divider style={{ margin: "0 15px" }} />
-              )}
-            </React.Fragment>
-          ))}
-        </List>
-      </div>
-    </div>
+    </React.Fragment>
   );
 };
 
