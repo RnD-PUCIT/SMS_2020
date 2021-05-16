@@ -12,44 +12,42 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
+import firebase from "firebase/app";
+import "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import colors from "../../../colors";
 import ChatMessagesBoard from "./ChatMessagesBoard";
 import ChatWelcomeBoard from "./ChatWelcomeBoard";
 
-const useStyles = makeStyles({
-  divider: {
-    margin: "15px 0",
-  },
-  chat: {
-    padding: 20,
-    height: "100%",
-  },
-
-  chatListContainer: {
-    borderRight: `1px solid ${colors.gray}`,
-    height: "100%",
-  },
-  contactSearchContainer: {
-    padding: 10,
-  },
-  chatList: {
-    margin: "10px 0",
-    height: "calc(72vh - 100px)",
-    overflow: "auto",
-  },
-  messageOutline: {
-    display: "block",
-  },
-  chatContainer: {
-    height: "72vh",
-    overflow: "hidden",
-  },
+firebase.initializeApp({
+  apiKey: "AIzaSyBN_ZU090HSX36yzzei8ME00TA_EyV7c2o",
+  authDomain: "ira-chat.firebaseapp.com",
+  projectId: "ira-chat",
+  storageBucket: "ira-chat.appspot.com",
+  messagingSenderId: "667253532102",
+  appId: "1:667253532102:web:b3e10cb498046f03bfbec7",
 });
+
+const firestore = firebase.firestore();
 
 const Chat = () => {
   const classes = useStyles();
   const [selectedChat, setSelectedChat] = useState(null);
+
+  const chatsRef = firestore.collection("chats");
+  const query = chatsRef.where(
+    "users",
+    "array-contains",
+    "250101a3-24a6-496d-bfc5-da9ea0cbd211"
+  );
+
+  const [chatsCollection] = useCollectionData(query);
+
+  console.log("====================================");
+  console.log(chatsCollection);
+  console.log("====================================");
+
   return (
     <React.Fragment>
       <Typography variant="h6">Messages</Typography>
@@ -128,6 +126,36 @@ const Chat = () => {
 };
 
 export default Chat;
+
+const useStyles = makeStyles({
+  divider: {
+    margin: "15px 0",
+  },
+  chat: {
+    padding: 20,
+    height: "100%",
+  },
+
+  chatListContainer: {
+    borderRight: `1px solid ${colors.gray}`,
+    height: "100%",
+  },
+  contactSearchContainer: {
+    padding: 10,
+  },
+  chatList: {
+    margin: "10px 0",
+    height: "calc(72vh - 100px)",
+    overflow: "auto",
+  },
+  messageOutline: {
+    display: "block",
+  },
+  chatContainer: {
+    height: "72vh",
+    overflow: "hidden",
+  },
+});
 
 const chats = [
   {

@@ -24,7 +24,7 @@ export default function Navbar({ onMenuClick, userInfo }) {
   const handleMenuLinkClick = (text) => {
     // Check which link is clicked
     if (text.toLowerCase() === "logout") {
-      window.localStorage.removeItem("token");
+      window.localStorage.clear();
       window.location = "/login";
     }
 
