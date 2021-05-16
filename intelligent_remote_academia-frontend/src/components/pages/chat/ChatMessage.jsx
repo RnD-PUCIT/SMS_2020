@@ -28,8 +28,8 @@ const useStyles = makeStyles({
     margin: "15px 0",
   },
   image: {
-    width: 30,
-    height: 30,
+    width: 35,
+    height: 35,
     margin: "0 10px",
   },
   sent: {

@@ -41,18 +41,23 @@ const ChatList = ({ selectedChat, onChatChange, userId }) => {
                   <ListItem
                     alignItems="flex-start"
                     button
+                    style={{ alignItems: "center" }}
                     selected={selectedChat === index}
                     onClick={() => {
                       const chatId = item.chatId;
                       onChatChange(index, chatId);
                     }}
                   >
-                    <ListItemAvatar>
-                      <Avatar alt={user.name} src="" />
+                    <ListItemAvatar style={{ margin: 0 }}>
+                      <Avatar
+                        alt={user.name}
+                        src=""
+                        className={classes.image}
+                      />
                     </ListItemAvatar>
                     <ListItemText
                       primary={user.name}
-                      style={{ justifyContent: "center" }}
+                      style={{ margin: 0 }}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -98,6 +103,14 @@ const useStyles = makeStyles({
   },
   messageOutline: {
     display: "block",
+  },
+  image: {
+    height: 50,
+    width: 50,
+    marginRight: 15,
+  },
+  root: {
+    alignItems: "center",
   },
 });
 

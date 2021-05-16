@@ -61,7 +61,6 @@ const useStyles = makeStyles({
     margin: "15px 0",
   },
   chat: {
-    padding: 20,
     height: "100%",
   },
 
