@@ -10,22 +10,10 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import firebase from "firebase/app";
-import "firebase/firestore";
+import firestore from "../../../firebase/firebase";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import colors from "../../../colors";
-
-firebase.initializeApp({
-  apiKey: "AIzaSyBN_ZU090HSX36yzzei8ME00TA_EyV7c2o",
-  authDomain: "ira-chat.firebaseapp.com",
-  projectId: "ira-chat",
-  storageBucket: "ira-chat.appspot.com",
-  messagingSenderId: "667253532102",
-  appId: "1:667253532102:web:b3e10cb498046f03bfbec7",
-});
-
-const firestore = firebase.firestore();
 
 const ChatList = ({ selectedChat, onChatChange, userId }) => {
   const classes = useStyles();
