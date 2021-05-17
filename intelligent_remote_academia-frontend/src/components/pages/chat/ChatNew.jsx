@@ -16,7 +16,6 @@ import Alert from "@material-ui/lab/Alert";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatIcon from "@material-ui/icons/Chat";
 import { AlertTitle } from "@material-ui/lab";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 
 import firestore from "../../../firebase/firebase";
 import http from "../../../services/httpService";
@@ -37,6 +36,11 @@ export default function ChatNew({ open, onClose }) {
   const [error, setError] = useState("");
 
   const handleSearch = async () => {
+    if (!searchValue.trim()) {
+      setError("Please enter username");
+      return;
+    }
+
     const url = `/chat?text=${searchValue}`;
 
     try {
@@ -46,6 +50,7 @@ export default function ChatNew({ open, onClose }) {
     } catch (error) {
       if (error.response && error.response.status === 404) {
         setError("No user found");
+        setContact(null);
       }
     }
   };
@@ -62,6 +67,8 @@ export default function ChatNew({ open, onClose }) {
       ],
       users: [userId, contact.id],
     });
+
+    onClose();
   };
 
   return (
@@ -70,7 +77,12 @@ export default function ChatNew({ open, onClose }) {
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={onClose}
+        onClose={() => {
+          setError("");
+          setContact(null);
+          setSearchValue("");
+          onClose();
+        }}
         fullWidth
       >
         <DialogTitle>Select new contact</DialogTitle>
@@ -82,6 +94,7 @@ export default function ChatNew({ open, onClose }) {
               fullWidth
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
+              className={classes.searchFeild}
             />
             <IconButton color="primary" onClick={handleSearch}>
               <SearchIcon />
@@ -151,5 +164,8 @@ const useStyles = makeStyles({
   },
   title: {
     marginTop: 10,
+  },
+  searchFeild: {
+    marginRight: 10,
   },
 });
