@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "./sidebar/sidebar";
 
 import jwt_decode from "jwt-decode";
 import http from "../../services/httpService";
 import Content from "./mainContent/Content";
+import AccountStore from "../store/account/AccountStore";
 
 const Layout = () => {
   // State variables
   const [userInfo, setUserInfo] = useState(null);
   const [role, setRole] = useState("");
+
+  const accountStore = useContext(AccountStore);
 
   // Init state data from api
   useEffect(() => {
@@ -23,6 +26,8 @@ const Layout = () => {
 
         setRole(userRole.trim().toLowerCase());
         window.localStorage.setItem("userId", userId);
+
+        accountStore.setUserId(userId);
       } catch (error) {
         window.location = "/login";
       }
@@ -31,6 +36,8 @@ const Layout = () => {
       try {
         const { data } = await http.get("/layout");
         setUserInfo(data);
+
+        accountStore.setFullName(data.firstName + " " + data.lastName);
       } catch (error) {
         if (error.response && error.response.status === 401) {
           window.location = "/login";

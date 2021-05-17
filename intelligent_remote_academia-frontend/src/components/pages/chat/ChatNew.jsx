@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -15,9 +15,12 @@ import {
 import Alert from "@material-ui/lab/Alert";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatIcon from "@material-ui/icons/Chat";
-
-import http from "../../../services/httpService";
 import { AlertTitle } from "@material-ui/lab";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import firestore from "../../../firebase/firebase";
+import http from "../../../services/httpService";
+import AccountStore from "../../store/account/AccountStore";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -25,6 +28,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function ChatNew({ open, onClose }) {
   const classes = useStyles();
+
+  const chatsRef = firestore.collection("chats");
+  const accountStore = useContext(AccountStore);
 
   const [searchValue, setSearchValue] = useState("");
   const [contact, setContact] = useState(null);
@@ -42,6 +48,20 @@ export default function ChatNew({ open, onClose }) {
         setError("No user found");
       }
     }
+  };
+
+  const handleCreateChat = async () => {
+    const { userId, fullName } = accountStore;
+    const chatId = `${userId}_${contact.id}`;
+
+    chatsRef.doc(chatId).set({
+      chatId,
+      userDetails: [
+        { id: userId, name: fullName },
+        { id: contact.id, name: `${contact.firstName} ${contact.lastName}` },
+      ],
+      users: [userId, contact.id],
+    });
   };
 
   return (
@@ -85,6 +105,7 @@ export default function ChatNew({ open, onClose }) {
                   className={classes.chatButton}
                   variant="contained"
                   startIcon={<ChatIcon />}
+                  onClick={handleCreateChat}
                 >
                   Start Chat
                 </Button>
