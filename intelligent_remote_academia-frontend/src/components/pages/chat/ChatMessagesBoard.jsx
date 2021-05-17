@@ -36,7 +36,11 @@ const ChatMessagesBoard = ({ chatId }) => {
 
   return (
     <React.Fragment>
-      <div className={classes.chatMessagesContainer}>
+      <div
+        className={
+          classes.chatMessagesContainer + " " + "chatMessagesContainer"
+        }
+      >
         {messages.map((message, index) => {
           return <ChatMessage message={message.text} uid={message.senderId} />;
         })}
@@ -49,7 +53,7 @@ const ChatMessagesBoard = ({ chatId }) => {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
         />
-        <IconButton type="submit">
+        <IconButton type="submit" disabled={inputMessage.trim() ? false : true}>
           <SendIcon />
         </IconButton>
       </form>

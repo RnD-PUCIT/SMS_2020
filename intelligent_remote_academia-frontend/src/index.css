@@ -210,5 +210,26 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
 
 /* Handle on hover */
 .chatList::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #3149b3;
+}
+
+.chatMessagesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+/* Handle */
+.chatMessagesContainer::-webkit-scrollbar-thumb {
+  background: #4364f765;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatMessagesContainer::-webkit-scrollbar-thumb:hover {
+  background: #3149b3;
 }
