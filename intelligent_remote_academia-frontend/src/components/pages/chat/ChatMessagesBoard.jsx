@@ -60,7 +60,8 @@ const ChatMessagesBoard = ({ chatId }) => {
 const useStyles = makeStyles({
   chatMessagesContainer: {
     padding: 20,
-    height: "62vh",
+    height: "calc(90vh - 185px)",
+    overflow: "auto",
   },
   form: {
     backgroundColor: colors.light,
@@ -68,6 +69,7 @@ const useStyles = makeStyles({
     alignItems: "center",
     minHeight: "10vh",
     padding: "0 20px",
+    borderBottomRightRadius: 10,
   },
   input: {
     width: "100%",

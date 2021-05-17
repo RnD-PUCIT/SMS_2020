@@ -65,7 +65,7 @@ const useStyles = makeStyles({
   },
 
   chatContainer: {
-    height: "72vh",
+    height: "calc(100vh - 185px)",
     overflow: "hidden",
   },
 });

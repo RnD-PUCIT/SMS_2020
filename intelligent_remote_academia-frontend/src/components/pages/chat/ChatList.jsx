@@ -98,7 +98,7 @@ const useStyles = makeStyles({
   },
   chatList: {
     margin: "10px 0",
-    height: "calc(72vh - 100px)",
+    height: "calc(100vh - 185px - 76px)",
     overflow: "auto",
   },
   messageOutline: {
