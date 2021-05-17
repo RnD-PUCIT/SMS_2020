@@ -55,6 +55,11 @@ const sideBarLinks = {
       text: "Attendance",
       url: "/attendance",
     },
+    {
+      text: "Messages",
+      url: "/messages",
+      icon: "FiMessageSquare",
+    },
   ],
   admin: [
     {

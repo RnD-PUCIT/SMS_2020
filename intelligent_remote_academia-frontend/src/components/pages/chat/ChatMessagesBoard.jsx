@@ -1,7 +1,8 @@
-import React from "react";
-import { IconButton, makeStyles, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import { IconButton, makeStyles } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import SendIcon from "@material-ui/icons/Send";
+import firebase from "firebase/app";
 
 import firestore from "../../../firebase/firebase";
 import ChatMessage from "./ChatMessage";
@@ -10,10 +11,26 @@ import colors from "../../../colors";
 const ChatMessagesBoard = ({ chatId }) => {
   const classes = useStyles();
 
+  const [inputMessage, setInputMessage] = useState("");
+
   const messagesRef = firestore.collection(`/chats/${chatId}/messages`);
   const query = messagesRef.orderBy("createdAt");
 
   const [messages] = useCollectionData(query);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+
+    const senderId = window.localStorage.getItem("userId");
+
+    await messagesRef.add({
+      text: inputMessage,
+      senderId,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+
+    setInputMessage("");
+  };
 
   if (!messages) return null;
 
@@ -24,13 +41,15 @@ const ChatMessagesBoard = ({ chatId }) => {
           return <ChatMessage message={message.text} uid={message.senderId} />;
         })}
       </div>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={sendMessage}>
         <textarea
           className={classes.input}
           placeholder="Type your message"
           rows="1"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
         />
-        <IconButton>
+        <IconButton type="submit">
           <SendIcon />
         </IconButton>
       </form>
