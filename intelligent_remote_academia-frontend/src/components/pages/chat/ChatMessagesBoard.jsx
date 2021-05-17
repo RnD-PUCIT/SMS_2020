@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { IconButton, makeStyles } from "@material-ui/core";
+import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import SendIcon from "@material-ui/icons/Send";
 import firebase from "firebase/app";
@@ -44,6 +44,11 @@ const ChatMessagesBoard = ({ chatId }) => {
           classes.chatMessagesContainer + " " + "chatMessagesContainer"
         }
       >
+        {messages.length === 0 && (
+          <div className={classes.newChat}>
+            <Typography color="textSecondary">Say hi</Typography>
+          </div>
+        )}
         {messages.map((message, index) => {
           return (
             <ChatMessage
@@ -97,6 +102,12 @@ const useStyles = makeStyles({
     },
     marginRight: 10,
     resize: "none",
+  },
+  newChat: {
+    display: "flex",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
