@@ -20,7 +20,7 @@ export default function ChatNew({ open, onClose }) {
         keepMounted
         onClose={onClose}
       >
-        <DialogTitle>Select contact to create new chat</DialogTitle>
+        <DialogTitle>Select new contact</DialogTitle>
         <DialogContent>
           <DialogContentText>
             Let Google help apps determine location. This means sending
@@ -29,10 +29,10 @@ export default function ChatNew({ open, onClose }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="primary">
-            Disagree
+            Create
           </Button>
           <Button onClick={onClose} color="primary">
-            Agree
+            Close
           </Button>
         </DialogActions>
       </Dialog>
