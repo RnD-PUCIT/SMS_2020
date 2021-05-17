@@ -26,9 +26,14 @@ namespace IRAAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<ContactDto>> SearchContact(string text)
         {
+            var claims = User.Claims;
+            var userId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
+
             var user = await _userManager.FindByNameAsync(text);
 
             if (user == null)
+                return NotFound();
+            else if (userId == user.Id)
                 return NotFound();
 
             var role = await _userManager.GetRolesAsync(user);
