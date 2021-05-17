@@ -10,18 +10,28 @@ import {
 import ChatMessagesBoard from "./ChatMessagesBoard";
 import ChatWelcomeBoard from "./ChatWelcomeBoard";
 import ChatList from "./ChatList";
+import ChatNew from "./ChatNew";
 
 const Chat = () => {
   const classes = useStyles();
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [selectedChatId, setSelectedChatId] = useState();
+  const [openNewChat, setOpenNewChat] = useState(false);
 
   const userId = window.localStorage.getItem("userId");
 
   const handleChatChange = (index, chatId) => {
     setSelectedChat(index);
     setSelectedChatId(chatId);
+  };
+
+  const handleNewChatOpen = () => {
+    setOpenNewChat(true);
+  };
+
+  const handleNewChatClose = () => {
+    setOpenNewChat(false);
   };
 
   return (
@@ -36,6 +46,7 @@ const Chat = () => {
                 userId={userId}
                 selectedChat={selectedChat}
                 onChatChange={handleChatChange}
+                onNewChat={handleNewChatOpen}
               />
             </Grid>
             <Grid item sm={8}>
@@ -50,6 +61,7 @@ const Chat = () => {
           </Grid>
         </div>
       </Paper>
+      <ChatNew open={openNewChat} onClose={handleNewChatClose} />
     </React.Fragment>
   );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import {
   Avatar,
   Divider,
+  Fab,
   List,
   ListItem,
   ListItemAvatar,
@@ -11,11 +12,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import AddIcon from "@material-ui/icons/Add";
 
 import firestore from "../../../firebase/firebase";
 import colors from "../../../colors";
 
-const ChatList = ({ selectedChat, onChatChange, userId }) => {
+const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
   const classes = useStyles();
 
   const chatsRef = firestore.collection("chats");
@@ -83,6 +85,9 @@ const ChatList = ({ selectedChat, onChatChange, userId }) => {
             })}
           </List>
         </div>
+        <Fab color="primary" className={classes.addButton} onClick={onNewChat}>
+          <AddIcon />
+        </Fab>
       </div>
     </React.Fragment>
   );
@@ -92,6 +97,7 @@ const useStyles = makeStyles({
   chatListContainer: {
     borderRight: `1px solid ${colors.gray}`,
     height: "100%",
+    position: "relative",
   },
   contactSearchContainer: {
     padding: 10,
@@ -111,6 +117,12 @@ const useStyles = makeStyles({
   },
   root: {
     alignItems: "center",
+  },
+  addButton: {
+    position: "sticky",
+    float: "right",
+    marginRight: 10,
+    bottom: 20,
   },
 });
 
