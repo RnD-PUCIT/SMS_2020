@@ -21,15 +21,18 @@ const ChatMessagesBoard = ({ chatId }) => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
+    if (!inputMessage.trim()) return;
+
+    const message = inputMessage;
+    setInputMessage("");
+
     const senderId = window.localStorage.getItem("userId");
 
     await messagesRef.add({
-      text: inputMessage,
+      text: message,
       senderId,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
     });
-
-    setInputMessage("");
   };
 
   if (!messages) return null;
@@ -42,7 +45,13 @@ const ChatMessagesBoard = ({ chatId }) => {
         }
       >
         {messages.map((message, index) => {
-          return <ChatMessage message={message.text} uid={message.senderId} />;
+          return (
+            <ChatMessage
+              key={index}
+              message={message.text}
+              uid={message.senderId}
+            />
+          );
         })}
       </div>
       <form className={classes.form} onSubmit={sendMessage}>
@@ -52,6 +61,9 @@ const ChatMessagesBoard = ({ chatId }) => {
           rows="1"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
+          onKeyUp={(e) => {
+            if (e.which === 13 && !e.shiftKey) sendMessage(e);
+          }}
         />
         <IconButton type="submit" disabled={inputMessage.trim() ? false : true}>
           <SendIcon />
