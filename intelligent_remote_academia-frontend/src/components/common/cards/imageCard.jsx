@@ -33,7 +33,7 @@ const Cards = ({ subject, studentId, classId, sessionId }) => {
             sessionId,
         }}
       >
-        <Card className={[classes.root, "shadow"]}>
+        <Card className="shadow">
           <CardActionArea>
             <CardMedia className={classes.media} image={SubImg} />
             <CardContent>

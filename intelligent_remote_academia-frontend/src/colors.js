@@ -6,6 +6,7 @@ const colors = {
   medium: "#6e6969",
   light: "#eeeeee",
   dark: "#0c0c0c",
+  gray: "rgba(0, 0, 0, 0.12)",
 };
 
 export default colors;

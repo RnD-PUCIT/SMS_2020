@@ -178,6 +178,10 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   background: #233044;
 }
 
+.MuiPaper-root.MuiDrawer-paper.makeStyles-drawerPaper-6.MuiDrawer-paperAnchorLeft.MuiPaper-elevation16 {
+  background: #233044;
+}
+
 .break {
   flex-basis: 100%;
   height: 0;
@@ -191,4 +195,46 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   box-shadow: 0 2px 0 rgb(90 97 105 / 11%), 0 4px 8px rgb(90 97 105 / 12%),
     0 10px 10px rgb(90 97 105 / 6%), 0 7px 70px rgb(90 97 105 / 10%);
   border-radius: 10px !important;
+}
+
+/* width */
+.chatList::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Handle */
+.chatList::-webkit-scrollbar-thumb {
+  background: #4364f7;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatList::-webkit-scrollbar-thumb:hover {
+  background: #3149b3;
+}
+
+.chatMessagesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+/* Handle */
+.chatMessagesContainer::-webkit-scrollbar-thumb {
+  background: #4364f765;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatMessagesContainer::-webkit-scrollbar-thumb:hover {
+  background: #3149b3;
+}
+
+*:focus-visible,
+button:focus {
+  outline: none !important;
 }

@@ -36,6 +36,11 @@ const sideBarLinks = {
       url: "/applications",
       icon: "FiClipboard",
     },
+    {
+      text: "Messages",
+      url: "/messages",
+      icon: "FiMessageSquare",
+    },
   ],
   teacher: [
     {
@@ -49,6 +54,11 @@ const sideBarLinks = {
     {
       text: "Attendance",
       url: "/attendance",
+    },
+    {
+      text: "Messages",
+      url: "/messages",
+      icon: "FiMessageSquare",
     },
   ],
   admin: [
