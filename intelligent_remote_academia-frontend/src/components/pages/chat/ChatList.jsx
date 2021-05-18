@@ -38,6 +38,7 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
           <List className={classes.root}>
             {chats.map((item, index) => {
               const user = item.userDetails.filter((u) => u.id !== userId)[0];
+
               return (
                 <React.Fragment key={index}>
                   <ListItem
