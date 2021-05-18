@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Divider,
@@ -8,7 +8,6 @@ import {
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -31,7 +30,10 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
     <React.Fragment>
       <div className={classes.chatListContainer}>
         <div className={classes.contactSearchContainer}>
-          <TextField fullWidth label="Search chats" variant="outlined" />
+          <input
+            className={classes.searchField}
+            placeholder="Search contacts"
+          />
         </div>
         <Divider />
         <div className={classes.chatList + " " + "chatList"}>
@@ -138,6 +140,12 @@ const useStyles = makeStyles({
     color: colors.primary,
     fontSize: 16,
     fontWeight: "500",
+  },
+  searchField: {
+    width: "100%",
+    padding: "10px 15px",
+    border: `1px solid ${colors.gray}`,
+    borderRadius: 50,
   },
 });
 
