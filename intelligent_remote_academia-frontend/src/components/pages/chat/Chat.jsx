@@ -15,14 +15,12 @@ import ChatNew from "./ChatNew";
 const Chat = () => {
   const classes = useStyles();
 
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [selectedChatId, setSelectedChatId] = useState();
+  const [selectedChatId, setSelectedChatId] = useState(null);
   const [openNewChat, setOpenNewChat] = useState(false);
 
   const userId = window.localStorage.getItem("userId");
 
-  const handleChatChange = (index, chatId) => {
-    setSelectedChat(index);
+  const handleChatChange = (chatId) => {
     setSelectedChatId(chatId);
   };
 
@@ -44,14 +42,14 @@ const Chat = () => {
             <Grid item sm={4} style={{ height: "100%" }}>
               <ChatList
                 userId={userId}
-                selectedChat={selectedChat}
+                selectedChatId={selectedChatId}
                 onChatChange={handleChatChange}
                 onNewChat={handleNewChatOpen}
               />
             </Grid>
             <Grid item sm={8} style={{ height: "100%" }}>
               <div className={classes.chat}>
-                {selectedChat !== null ? (
+                {selectedChatId !== null ? (
                   <ChatMessagesBoard chatId={selectedChatId} />
                 ) : (
                   <ChatWelcomeBoard />
