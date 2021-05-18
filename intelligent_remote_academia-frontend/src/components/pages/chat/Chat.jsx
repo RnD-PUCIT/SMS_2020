@@ -38,10 +38,10 @@ const Chat = () => {
     <React.Fragment>
       <Typography variant="h6">Messages</Typography>
       <Divider className={classes.divider} />
-      <Paper className="shadow">
+      <Paper className="shadow" style={{ overflow: "hidden" }}>
         <div className={classes.chatContainer}>
-          <Grid container>
-            <Grid item sm={4}>
+          <Grid container style={{ height: "100%" }}>
+            <Grid item sm={4} style={{ height: "100%" }}>
               <ChatList
                 userId={userId}
                 selectedChat={selectedChat}
@@ -49,7 +49,7 @@ const Chat = () => {
                 onNewChat={handleNewChatOpen}
               />
             </Grid>
-            <Grid item sm={8}>
+            <Grid item sm={8} style={{ height: "100%" }}>
               <div className={classes.chat}>
                 {selectedChat !== null ? (
                   <ChatMessagesBoard chatId={selectedChatId} />

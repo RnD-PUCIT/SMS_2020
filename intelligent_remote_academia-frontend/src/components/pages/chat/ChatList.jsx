@@ -59,7 +59,13 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                     </ListItemAvatar>
                     <ListItemText
                       style={{ margin: 0 }}
-                      primary={user.name}
+                      primary={
+                        <React.Fragment>
+                          <Typography className={classes.userName}>
+                            {user.name}
+                          </Typography>
+                        </React.Fragment>
+                      }
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -100,6 +106,7 @@ const useStyles = makeStyles({
     borderRight: `1px solid ${colors.gray}`,
     height: "100%",
     position: "relative",
+    backgroundColor: "#f9f9f9",
   },
   contactSearchContainer: {
     padding: 10,
@@ -125,6 +132,11 @@ const useStyles = makeStyles({
     float: "right",
     marginRight: 10,
     bottom: 20,
+  },
+  userName: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: "500",
   },
 });
 
