@@ -16,6 +16,7 @@ import Alert from "@material-ui/lab/Alert";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatIcon from "@material-ui/icons/Chat";
 import { AlertTitle } from "@material-ui/lab";
+import firebase from "firebase/app";
 
 import firestore from "../../../firebase/firebase";
 import http from "../../../services/httpService";
@@ -66,6 +67,8 @@ export default function ChatNew({ open, onClose }) {
         { id: contact.id, name: `${contact.firstName} ${contact.lastName}` },
       ],
       users: [userId, contact.id],
+      messageOutline: "",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
 
     onClose();

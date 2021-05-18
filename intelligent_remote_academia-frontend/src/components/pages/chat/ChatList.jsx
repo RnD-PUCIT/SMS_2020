@@ -16,11 +16,15 @@ import AddIcon from "@material-ui/icons/Add";
 import firestore from "../../../firebase/firebase";
 import colors from "../../../colors";
 
-const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
+const ChatList = ({ onNewChat, selectedChatId, onChatChange, userId }) => {
   const classes = useStyles();
 
+  const [selectedChat, setSelectedChat] = useState(null);
+
   const chatsRef = firestore.collection("chats");
-  const query = chatsRef.where("users", "array-contains", userId);
+  const query = chatsRef
+    .orderBy("timestamp", "desc")
+    .where("users", "array-contains", userId);
 
   const [chats] = useCollectionData(query);
 
@@ -47,10 +51,9 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                     alignItems="flex-start"
                     button
                     style={{ alignItems: "center" }}
-                    selected={selectedChat === index}
+                    selected={selectedChatId === item.chatId}
                     onClick={() => {
-                      const chatId = item.chatId;
-                      onChatChange(index, chatId);
+                      onChatChange(item.chatId);
                     }}
                   >
                     <ListItemAvatar style={{ margin: 0 }}>
