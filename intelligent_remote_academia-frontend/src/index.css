@@ -238,3 +238,8 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
 button:focus {
   outline: none !important;
 }
+
+.chatList
+  .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button.MuiListItem-alignItemsFlexStart.Mui-selected {
+  background: #dbe9ff;
+}

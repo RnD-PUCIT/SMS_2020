@@ -85,7 +85,7 @@ export default function ChatNew({ open, onClose }) {
         }}
         fullWidth
       >
-        <DialogTitle>Select new contact</DialogTitle>
+        <DialogTitle>Create new contact</DialogTitle>
         <DialogContent className={classes.content}>
           <div className={classes.searchContainer}>
             <TextField

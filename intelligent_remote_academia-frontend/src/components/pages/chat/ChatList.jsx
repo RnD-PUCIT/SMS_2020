@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Avatar,
   Divider,
@@ -8,7 +8,6 @@ import {
   ListItemAvatar,
   ListItemText,
   makeStyles,
-  TextField,
   Typography,
 } from "@material-ui/core";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -31,13 +30,17 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
     <React.Fragment>
       <div className={classes.chatListContainer}>
         <div className={classes.contactSearchContainer}>
-          <TextField fullWidth label="Search chats" variant="outlined" />
+          <input
+            className={classes.searchField}
+            placeholder="Search contacts"
+          />
         </div>
         <Divider />
         <div className={classes.chatList + " " + "chatList"}>
           <List className={classes.root}>
             {chats.map((item, index) => {
               const user = item.userDetails.filter((u) => u.id !== userId)[0];
+
               return (
                 <React.Fragment key={index}>
                   <ListItem
@@ -58,8 +61,14 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={user.name}
                       style={{ margin: 0 }}
+                      primary={
+                        <React.Fragment>
+                          <Typography className={classes.userName}>
+                            {user.name}
+                          </Typography>
+                        </React.Fragment>
+                      }
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -69,7 +78,9 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                             color="textSecondary"
                             noWrap
                           >
-                            {user.messageOutline ? user.messageOutline : "..."}
+                            {item.messageOutline
+                              ? item.messageOutline
+                              : "Say hi..."}
                           </Typography>
                         </React.Fragment>
                       }
@@ -98,6 +109,7 @@ const useStyles = makeStyles({
     borderRight: `1px solid ${colors.gray}`,
     height: "100%",
     position: "relative",
+    backgroundColor: "#f9f9f9",
   },
   contactSearchContainer: {
     padding: 10,
@@ -123,6 +135,17 @@ const useStyles = makeStyles({
     float: "right",
     marginRight: 10,
     bottom: 20,
+  },
+  userName: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: "500",
+  },
+  searchField: {
+    width: "100%",
+    padding: "10px 15px",
+    border: `1px solid ${colors.gray}`,
+    borderRadius: 50,
   },
 });
 
