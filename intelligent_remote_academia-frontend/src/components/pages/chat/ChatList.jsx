@@ -58,8 +58,8 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                       />
                     </ListItemAvatar>
                     <ListItemText
-                      primary={user.name}
                       style={{ margin: 0 }}
+                      primary={user.name}
                       secondary={
                         <React.Fragment>
                           <Typography
@@ -69,7 +69,9 @@ const ChatList = ({ selectedChat, onChatChange, onNewChat, userId }) => {
                             color="textSecondary"
                             noWrap
                           >
-                            {user.messageOutline ? user.messageOutline : "..."}
+                            {item.messageOutline
+                              ? item.messageOutline
+                              : "Say hi..."}
                           </Typography>
                         </React.Fragment>
                       }

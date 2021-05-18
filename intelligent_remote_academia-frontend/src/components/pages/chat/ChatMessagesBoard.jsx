@@ -14,6 +14,7 @@ const ChatMessagesBoard = ({ chatId }) => {
   const [inputMessage, setInputMessage] = useState("");
 
   const messagesRef = firestore.collection(`/chats/${chatId}/messages`);
+  const chatsRef = firestore.collection("chats");
   const query = messagesRef.orderBy("createdAt");
 
   const [messages] = useCollectionData(query);
@@ -27,11 +28,17 @@ const ChatMessagesBoard = ({ chatId }) => {
     setInputMessage("");
 
     const senderId = window.localStorage.getItem("userId");
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
     await messagesRef.add({
       text: message,
       senderId,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      createdAt: timestamp,
+    });
+
+    await chatsRef.doc(chatId).update({
+      timestamp,
+      messageOutline: message,
     });
   };
 
