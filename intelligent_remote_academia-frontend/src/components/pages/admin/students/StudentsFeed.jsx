@@ -1,9 +1,9 @@
-import { Button, Divider, Paper, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react';
-import React, { useContext, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
-import { useHistory } from 'react-router-dom';
-import AdminStore from '../../../store/admin/AdminStore';
+import { Button, Divider, Paper, Typography } from "@material-ui/core";
+import { observer } from "mobx-react";
+import React, { useContext, useEffect } from "react";
+import DataTable from "react-data-table-component";
+import { useHistory } from "react-router-dom";
+import AdminStore from "../../../store/admin/AdminStore";
 
 const StudentsFeed = () => {
   const adminStore = useContext(AdminStore);
@@ -13,7 +13,7 @@ const StudentsFeed = () => {
 
   useEffect(() => {
     adminStore.loadStudents();
-  }, []);
+  }, [adminStore]);
   return (
     <React.Fragment>
       <Typography variant="h6">Students Feed</Typography>
@@ -25,7 +25,7 @@ const StudentsFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/students/add');
+            history.push("/students/add");
           }}
         >
           Add Student
@@ -53,23 +53,23 @@ export default observer(StudentsFeed);
 
 const columns = [
   {
-    name: 'First Name',
-    selector: 'firstName',
+    name: "First Name",
+    selector: "firstName",
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: 'lastName',
+    name: "Last Name",
+    selector: "lastName",
     sortable: true,
   },
   {
-    name: 'Date of Birth',
-    selector: 'dob',
+    name: "Date of Birth",
+    selector: "dob",
     sortable: true,
   },
   {
-    name: 'Enrollment Date',
-    selector: 'enrollmentDate',
+    name: "Enrollment Date",
+    selector: "enrollmentDate",
     sortable: true,
   },
 ];

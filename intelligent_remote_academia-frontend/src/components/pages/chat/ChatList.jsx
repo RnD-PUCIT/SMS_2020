@@ -64,7 +64,7 @@ const ChatList = ({ onNewChat, selectedChatId, onChatChange, userId }) => {
           />
         </div>
         <Divider />
-        <div className={classes.chatList + " " + "chatList"}>
+        <div className={`${classes.chatList} chatList`}>
           <List className={classes.root}>
             {chats &&
               chats.map((item, index) => {

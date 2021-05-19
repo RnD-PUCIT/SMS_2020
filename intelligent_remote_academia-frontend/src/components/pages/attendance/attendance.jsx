@@ -4,7 +4,6 @@ import { Grid, Paper } from "@material-ui/core";
 import { Doughnut, Pie } from "react-chartjs-2";
 
 import http from "../../../services/httpService";
-import { getMonths } from "../../constants/calendarConsts";
 
 import "react-calendar/dist/Calendar.css";
 import "./attendance.css";
@@ -140,7 +139,7 @@ class Attendance extends Component {
       noOfLeaves = 0;
 
     if (attendance) {
-      attendance.map((a) => {
+      attendance.forEach((a) => {
         if (a.status === "A") noOfAbsents++;
         else if (a.status === "P") noOfPresents++;
         else if (a.status === "L") noOfLeaves++;
@@ -207,7 +206,6 @@ class Attendance extends Component {
           this.globalMonthsStats.leaves / 2
         );
         this.globalMonthsStats.assigned = true;
-        const selectedMonth = getMonths();
 
         this.setState({ monthStats: this.globalMonthsStats });
       }

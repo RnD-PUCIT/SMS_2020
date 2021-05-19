@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Chip,
   Grid,
@@ -10,11 +10,11 @@ import {
   TableRow,
   Typography,
   Button,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
-import useStyles from '../../../styles/timeTableStyles';
-import ReactToPrint from 'react-to-print';
-import http from '../../../services/httpService';
+import useStyles from "../../../styles/timeTableStyles";
+import ReactToPrint from "react-to-print";
+import http from "../../../services/httpService";
 
 class TimeTable extends Component {
   render() {
@@ -28,7 +28,7 @@ class TimeTable extends Component {
                 <Button
                   color="primary"
                   variant="contained"
-                  style={{ marginBottom: '20px' }}
+                  style={{ marginBottom: "20px" }}
                 >
                   Download as pdf
                 </Button>
@@ -141,113 +141,4 @@ const Schedule = ({ classInfo, timeTable }) => {
       </Paper>
     </React.Fragment>
   );
-};
-
-const timeTableConst = {
-  classInfo: {
-    name: '8th',
-    section: 'Blue',
-  },
-  timeTable: [
-    {
-      dayName: 'Monday',
-      schedule: [
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
-        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
-        {
-          subjectName: 'Chemistry',
-          teacherName: 'ABC',
-          timeSlot: '10:15-11:00',
-        },
-        {
-          subjectName: 'Computer',
-          teacherName: 'ABC',
-          timeSlot: '11:00-11:45',
-        },
-        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
-        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
-      ],
-    },
-    {
-      dayName: 'Tuesday',
-      schedule: [
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
-        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
-        {
-          subjectName: 'Chemistry',
-          teacherName: 'ABC',
-          timeSlot: '10:15-11:00',
-        },
-        {
-          subjectName: 'Computer',
-          teacherName: 'ABC',
-          timeSlot: '11:00-11:45',
-        },
-        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
-        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
-      ],
-    },
-    {
-      dayName: 'Wednesday',
-      schedule: [
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
-        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
-        {
-          subjectName: 'Chemistry',
-          teacherName: 'ABC',
-          timeSlot: '10:15-11:00',
-        },
-        {
-          subjectName: 'Computer',
-          teacherName: 'ABC',
-          timeSlot: '11:00-11:45',
-        },
-        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
-        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
-      ],
-    },
-    {
-      dayName: 'Thursday',
-      schedule: [
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
-        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
-        {
-          subjectName: 'Chemistry',
-          teacherName: 'ABC',
-          timeSlot: '10:15-11:00',
-        },
-        {
-          subjectName: 'Computer',
-          teacherName: 'ABC',
-          timeSlot: '11:00-11:45',
-        },
-        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
-        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
-      ],
-    },
-    {
-      dayName: 'Friday',
-      schedule: [
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:00-08:45' },
-        { subjectName: 'Maths', teacherName: 'ABC', timeSlot: '08:45-09:30' },
-        { subjectName: 'Physics', teacherName: 'ABC', timeSlot: '09:30-10:15' },
-        {
-          subjectName: 'Chemistry',
-          teacherName: 'ABC',
-          timeSlot: '10:15-11:00',
-        },
-        {
-          subjectName: 'Computer',
-          teacherName: 'ABC',
-          timeSlot: '11:00-11:45',
-        },
-        { subjectName: 'Break', teacherName: '', timeSlot: '11:45-12:15' },
-        { subjectName: 'Urdu', teacherName: 'ABC', timeSlot: '12:15-01:00' },
-      ],
-    },
-  ],
 };

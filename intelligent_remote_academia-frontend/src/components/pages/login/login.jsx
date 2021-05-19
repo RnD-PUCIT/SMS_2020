@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Container from "@material-ui/core/Container";
 import { Grid, makeStyles } from "@material-ui/core";
-import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -61,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     position: "absolute",
     top: "50%",
     transform: "translateY(-50%)",
+    padding: "0 40px",
   },
   subHeading: {
     color: "white",
@@ -71,6 +70,8 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     color: colors.primary,
     marginTop: theme.spacing(5),
+    fontSize: 20,
+    fontWeight: "500",
   },
   gridContainer: {
     boxShadow: "0 0 10px #212529",
