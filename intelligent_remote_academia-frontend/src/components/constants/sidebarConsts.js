@@ -65,6 +65,11 @@ const sideBarLinks = {
       url: "/meetings",
       icon: "FiVideo",
     },
+    {
+      text: "Meet",
+      url: "/meet",
+      icon: "FiVideo",
+    },
   ],
   admin: [
     {

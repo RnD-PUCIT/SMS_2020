@@ -243,3 +243,15 @@ button:focus {
   .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button.MuiListItem-alignItemsFlexStart.Mui-selected {
   background: #dbe9ff;
 }
+
+#jitsi-container {
+  position: relative;
+}
+
+#jitsi-container iframe {
+  position: fixed;
+  height: 100vh !important;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+}
