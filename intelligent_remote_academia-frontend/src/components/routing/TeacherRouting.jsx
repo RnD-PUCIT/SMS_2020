@@ -10,7 +10,7 @@ import DiaryDetails from "../pages/teacher/diary/DiaryDetails";
 import CourseDetails from "../pages/teacher/courseUpload/courseDetail";
 
 import Chat from "../pages/chat/Chat";
-import TeacherMeeting from "../pages/teacher/meeting/TeacherMeeting";
+import TeacherMeeting from "../pages/meeting/TeacherMeeting";
 
 const TeacherRouting = () => {
   return (
