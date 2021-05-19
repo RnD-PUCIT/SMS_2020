@@ -1,9 +1,9 @@
-import { Button, Divider, Grid, Paper, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react';
-import React, { useContext, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
-import { useHistory } from 'react-router-dom';
-import AdminStore from '../../../store/admin/AdminStore';
+import { Button, Divider, Grid, Paper, Typography } from "@material-ui/core";
+import { observer } from "mobx-react";
+import React, { useContext, useEffect } from "react";
+import DataTable from "react-data-table-component";
+import { useHistory } from "react-router-dom";
+import AdminStore from "../../../store/admin/AdminStore";
 
 const TeachersFeed = () => {
   const adminStore = useContext(AdminStore);
@@ -13,7 +13,7 @@ const TeachersFeed = () => {
 
   useEffect(() => {
     adminStore.loadTeachers();
-  }, []);
+  }, [adminStore]);
 
   return (
     <React.Fragment>
@@ -26,7 +26,7 @@ const TeachersFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/teachers/add');
+            history.push("/teachers/add");
           }}
         >
           Add Teacher
@@ -35,7 +35,7 @@ const TeachersFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/teachers/class-allocate');
+            history.push("/teachers/class-allocate");
           }}
         >
           Allocate Class
@@ -68,33 +68,33 @@ export default observer(TeachersFeed);
 
 const columns = [
   {
-    name: 'First Name',
-    selector: 'firstName',
+    name: "First Name",
+    selector: "firstName",
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: 'lastName',
+    name: "Last Name",
+    selector: "lastName",
     sortable: true,
   },
   {
-    name: 'CNIC',
-    selector: 'cnic',
+    name: "CNIC",
+    selector: "cnic",
     sortable: true,
   },
   {
-    name: 'Email',
-    selector: 'email',
+    name: "Email",
+    selector: "email",
     sortable: true,
   },
   {
-    name: 'Contact #',
-    selector: 'contactPrimary',
+    name: "Contact #",
+    selector: "contactPrimary",
     sortable: true,
   },
   {
-    name: 'Specialization',
-    selector: 'specialization',
+    name: "Specialization",
+    selector: "specialization",
     sortable: true,
   },
 ];

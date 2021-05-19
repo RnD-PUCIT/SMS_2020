@@ -1,9 +1,9 @@
-import { Button, Divider, Paper, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react';
-import React, { useContext, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
-import { useHistory } from 'react-router-dom';
-import AdminStore from '../../../store/admin/AdminStore';
+import { Button, Divider, Paper, Typography } from "@material-ui/core";
+import { observer } from "mobx-react";
+import React, { useContext, useEffect } from "react";
+import DataTable from "react-data-table-component";
+import { useHistory } from "react-router-dom";
+import AdminStore from "../../../store/admin/AdminStore";
 
 const ParentsFeed = () => {
   const adminStore = useContext(AdminStore);
@@ -13,7 +13,7 @@ const ParentsFeed = () => {
 
   useEffect(() => {
     adminStore.loadParents();
-  }, []);
+  }, [adminStore]);
   return (
     <React.Fragment>
       <Typography variant="h6">Parents Feed</Typography>
@@ -25,7 +25,7 @@ const ParentsFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/parents/add');
+            history.push("/parents/add");
           }}
         >
           Add Parent
@@ -53,33 +53,33 @@ export default observer(ParentsFeed);
 
 const columns = [
   {
-    name: 'First Name',
-    selector: 'firstName',
+    name: "First Name",
+    selector: "firstName",
     sortable: true,
   },
   {
-    name: 'Last Name',
-    selector: 'lastName',
+    name: "Last Name",
+    selector: "lastName",
     sortable: true,
   },
   {
-    name: 'CNIC',
-    selector: 'cnic',
+    name: "CNIC",
+    selector: "cnic",
     sortable: true,
   },
   {
-    name: 'Email',
-    selector: 'email',
+    name: "Email",
+    selector: "email",
     sortable: true,
   },
   {
-    name: 'Contact #',
-    selector: 'contactPrimary',
+    name: "Contact #",
+    selector: "contactPrimary",
     sortable: true,
   },
   {
-    name: 'Occupation',
-    selector: 'occupation',
+    name: "Occupation",
+    selector: "occupation",
     sortable: true,
   },
 ];

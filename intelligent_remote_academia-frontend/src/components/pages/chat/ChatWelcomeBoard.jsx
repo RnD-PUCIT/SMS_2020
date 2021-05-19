@@ -12,6 +12,7 @@ const ChatWelcomeBoard = () => {
         <img
           className={classes.image}
           src={String(require("../../../assets/chat.jpg"))}
+          alt=""
         />
       </div>
       <Typography color="textSecondary">

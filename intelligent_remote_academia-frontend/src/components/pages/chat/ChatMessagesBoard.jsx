@@ -46,11 +46,7 @@ const ChatMessagesBoard = ({ chatId }) => {
 
   return (
     <React.Fragment>
-      <div
-        className={
-          classes.chatMessagesContainer + " " + "chatMessagesContainer"
-        }
-      >
+      <div className={`${classes.chatMessagesContainer} chatMessagesContainer`}>
         {messages.length === 0 && (
           <div className={classes.newChat}>
             <Typography color="textSecondary">Say hi</Typography>
