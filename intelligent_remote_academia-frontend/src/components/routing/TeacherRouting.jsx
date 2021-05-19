@@ -10,6 +10,7 @@ import DiaryDetails from "../pages/teacher/diary/DiaryDetails";
 import CourseDetails from "../pages/teacher/courseUpload/courseDetail";
 
 import Chat from "../pages/chat/Chat";
+import TeacherMeeting from "../pages/meeting/TeacherMeeting";
 
 const TeacherRouting = () => {
   return (
@@ -18,6 +19,7 @@ const TeacherRouting = () => {
       <Route path="/dashboard" component={TeacherDashboard} />
       <Route path="/attendance" component={AttendanceDashboard} />
       <Route path="/messages" component={Chat} />
+      <Route path="/meetings" component={TeacherMeeting} />
       <Route exact path="/classes" component={ClassList} />
       <Route
         path="/classes/:classSlug/:subjectSlug/gradebook/mark"
