@@ -1,11 +1,8 @@
 import React from "react";
 import { useJitsi } from "react-jutsu";
+import ProgressComponent from "@material-ui/core/CircularProgress";
 
-const Meeting = ({
-  roomName = "IRA JITSI MEET TEST",
-  displayName,
-  subject,
-}) => {
+const Meeting = ({ roomName, displayName, subject, onHangUp }) => {
   const jitsiConfig = {
     roomName,
     displayName,
@@ -17,23 +14,34 @@ const Meeting = ({
       startWithVideoMuted: true,
       liveStreamingEnabled: false,
       fileRecordingsEnabled: false,
-      enableClosePage: false,
+      enableClosePage: true,
       prejoinPageEnabled: false,
     },
-    interfaceConfig: {
+    interfaceConfigOverwrite: {
       SHOW_WATERMARK_FOR_GUESTS: false,
     },
   };
 
   const { loading, error, jitsi } = useJitsi(jitsiConfig);
 
-  console.log(jitsi);
+  if (jitsi) {
+    jitsi.addEventListeners({
+      readyToClose: function () {
+        onHangUp(true);
+      },
+    });
+  }
+
+  if (!roomName) return null;
   return (
     <React.Fragment>
-      <div>
-        {error && <p>{error}</p>}
-        <div id={jitsiConfig.parentNode} />
-      </div>
+      {error && <p>{error}</p>}
+      {loading && (
+        <div className="jitsi-loading">
+          <ProgressComponent />
+        </div>
+      )}
+      <div id={jitsiConfig.parentNode} />
     </React.Fragment>
   );
 };

@@ -255,3 +255,11 @@ button:focus {
   left: 0;
   top: 0;
 }
+
+.jitsi-loading {
+  position: fixed;
+  height: 100vh !important;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+}
