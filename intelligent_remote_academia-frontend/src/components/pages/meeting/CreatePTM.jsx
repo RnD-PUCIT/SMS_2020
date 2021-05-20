@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -9,7 +9,9 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Formik } from "formik";
-import { TextField } from "@material-ui/core";
+import { Avatar, Grid, TextField } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+import * as Yup from "yup";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -17,6 +19,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function CreatePTM({ open, onClose }) {
   const classes = useStyles();
+  const [classList, setClassList] = useState([]);
+  const [parentsList, setParentsList] = useState([]);
+
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -45,11 +51,111 @@ export default function CreatePTM({ open, onClose }) {
           </Toolbar>
         </AppBar>
         <div className={classes.body}>
-          <Formik>
-            {() => (
+          <Formik
+            initialValues={{
+              title: "",
+              classId: "",
+              parentsId: [],
+            }}
+          >
+            {({ values, errors, touched, handleBlur, handleChange }) => (
               <form>
-                <label className={classes.label}>Meeting Title:</label>
-                <TextField label="Title" variant="outlined" fullWidth />
+                <TextField
+                  placeholder="Add Title"
+                  fullWidth
+                  className={classes.titleField}
+                />
+                <div className="u_mt_huge">
+                  <Grid container spacing={3}>
+                    <Grid item sm={6} xs={12}>
+                      <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        className="u_mb_small"
+                      >
+                        Event Details
+                      </Typography>
+                    </Grid>
+                    <Grid item sm={6} xs={12}>
+                      <Typography
+                        variant="h6"
+                        color="textSecondary"
+                        className="u_mb_small"
+                      >
+                        Participant Details
+                      </Typography>
+                      <Autocomplete
+                        options={classList}
+                        onChange={(event, newValue) => {
+                          values.classId = newValue;
+                        }}
+                        getOptionLabel={(option) => option.className}
+                        renderOption={(option, { selected }) => (
+                          <React.Fragment>
+                            {`${option.className} (${option.section})`}
+                          </React.Fragment>
+                        )}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            className={classes.placeholderField}
+                            id="classId"
+                            variant="filled"
+                            size="small"
+                            placeholder="Select Class"
+                            value={values.classId}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            helperText={touched.classId ? errors.classId : ""}
+                            error={touched.classId && Boolean(errors.classId)}
+                          />
+                        )}
+                      />
+                      <Autocomplete
+                        multiple
+                        options={parentsList}
+                        getOptionLabel={(option) => option.title}
+                        renderOption={(option, { selected }) => (
+                          <React.Fragment>
+                            <Avatar style={{ marginRight: "10px" }}>
+                              {option.firstName.charAt(0)}
+                            </Avatar>
+                            {`${option.firstName} ${option.lastName} (${option.cnic})`}
+                          </React.Fragment>
+                        )}
+                        onChange={(event, value) => {
+                          values.parentsId = value;
+                        }}
+                        renderOption={(option, { selected }) => (
+                          <React.Fragment>{option.title}</React.Fragment>
+                        )}
+                        style={{ width: 500 }}
+                        renderInput={(params) => {
+                          return (
+                            <TextField
+                              {...params}
+                              fullWidth
+                              variant="filled"
+                              size="small"
+                              id="parentsId"
+                              placeholder="Add Parents"
+                              className={classes.placeholderField}
+                              value={values.parentsId}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              helperText={
+                                touched.parentsId ? errors.parentsId : ""
+                              }
+                              error={
+                                touched.parentsId && Boolean(errors.parentsId)
+                              }
+                            />
+                          );
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                </div>
               </form>
             )}
           </Formik>
@@ -72,5 +178,21 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     padding: "20px 50px",
+  },
+  titleField: {
+    "& input": {
+      fontSize: 25,
+    },
+  },
+  placeholderField: {
+    "& div": {
+      padding: "0 !important",
+    },
+    "& input": {
+      padding: "15px !important",
+    },
+  },
+  parentsContainer: {
+    display: "flex",
   },
 }));
