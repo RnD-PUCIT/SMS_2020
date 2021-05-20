@@ -84,75 +84,84 @@ export default function CreatePTM({ open, onClose }) {
                       >
                         Participant Details
                       </Typography>
-                      <Autocomplete
-                        options={classList}
-                        onChange={(event, newValue) => {
-                          values.classId = newValue;
-                        }}
-                        getOptionLabel={(option) => option.className}
-                        renderOption={(option, { selected }) => (
-                          <React.Fragment>
-                            {`${option.className} (${option.section})`}
-                          </React.Fragment>
-                        )}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            className={classes.placeholderField}
-                            id="classId"
-                            variant="filled"
-                            size="small"
-                            placeholder="Select Class"
-                            value={values.classId}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            helperText={touched.classId ? errors.classId : ""}
-                            error={touched.classId && Boolean(errors.classId)}
+                      <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                          <Autocomplete
+                            options={classList}
+                            onChange={(event, newValue) => {
+                              values.classId = newValue;
+                            }}
+                            getOptionLabel={(option) => option.className}
+                            renderOption={(option, { selected }) => (
+                              <React.Fragment>
+                                {`${option.className} (${option.section})`}
+                              </React.Fragment>
+                            )}
+                            renderInput={(params) => (
+                              <TextField
+                                {...params}
+                                className={classes.placeholderField}
+                                id="classId"
+                                variant="filled"
+                                size="small"
+                                placeholder="Select Class"
+                                value={values.classId}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                helperText={
+                                  touched.classId ? errors.classId : ""
+                                }
+                                error={
+                                  touched.classId && Boolean(errors.classId)
+                                }
+                              />
+                            )}
                           />
-                        )}
-                      />
-                      <Autocomplete
-                        multiple
-                        options={parentsList}
-                        getOptionLabel={(option) => option.title}
-                        renderOption={(option, { selected }) => (
-                          <React.Fragment>
-                            <Avatar style={{ marginRight: "10px" }}>
-                              {option.firstName.charAt(0)}
-                            </Avatar>
-                            {`${option.firstName} ${option.lastName} (${option.cnic})`}
-                          </React.Fragment>
-                        )}
-                        onChange={(event, value) => {
-                          values.parentsId = value;
-                        }}
-                        renderOption={(option, { selected }) => (
-                          <React.Fragment>{option.title}</React.Fragment>
-                        )}
-                        style={{ width: 500 }}
-                        renderInput={(params) => {
-                          return (
-                            <TextField
-                              {...params}
-                              fullWidth
-                              variant="filled"
-                              size="small"
-                              id="parentsId"
-                              placeholder="Add Parents"
-                              className={classes.placeholderField}
-                              value={values.parentsId}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              helperText={
-                                touched.parentsId ? errors.parentsId : ""
-                              }
-                              error={
-                                touched.parentsId && Boolean(errors.parentsId)
-                              }
-                            />
-                          );
-                        }}
-                      />
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Autocomplete
+                            multiple
+                            options={parentsList}
+                            getOptionLabel={(option) => option.title}
+                            renderOption={(option, { selected }) => (
+                              <React.Fragment>
+                                <Avatar style={{ marginRight: "10px" }}>
+                                  {option.firstName.charAt(0)}
+                                </Avatar>
+                                {`${option.firstName} ${option.lastName} (${option.cnic})`}
+                              </React.Fragment>
+                            )}
+                            onChange={(event, value) => {
+                              values.parentsId = value;
+                            }}
+                            renderOption={(option, { selected }) => (
+                              <React.Fragment>{option.title}</React.Fragment>
+                            )}
+                            renderInput={(params) => {
+                              return (
+                                <TextField
+                                  {...params}
+                                  variant="filled"
+                                  size="small"
+                                  id="parentsId"
+                                  placeholder="Add Parents"
+                                  className={classes.placeholderField}
+                                  value={values.parentsId}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  helperText={
+                                    touched.parentsId ? errors.parentsId : ""
+                                  }
+                                  error={
+                                    touched.parentsId &&
+                                    Boolean(errors.parentsId)
+                                  }
+                                />
+                              );
+                            }}
+                          />
+                        </Grid>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </div>
