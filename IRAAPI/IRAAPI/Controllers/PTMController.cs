@@ -52,7 +52,7 @@ namespace IRAAPI.Controllers
                 meeting.Title = model.Title;
                 meeting.TeacherId = teacherId;
                 meeting.ClassId = classId;
-                meeting.Guid = new Guid();
+                meeting.Guid = Guid.NewGuid();
 
                 foreach (var item in model.Participants)
                 {
@@ -66,7 +66,7 @@ namespace IRAAPI.Controllers
                             StartTime = item.StartTime,
                             Duration = item.Duration,
                             ParentId = parentId,
-                            Guid = new Guid()
+                            Guid = Guid.NewGuid()
                         }
                     );
                 }
@@ -75,7 +75,7 @@ namespace IRAAPI.Controllers
                 var result = await _context.SaveChangesAsync() > 0;
 
                 if (!result)
-                    return Ok();
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable);
             }
             catch (System.Exception ex)
             {
@@ -83,7 +83,7 @@ namespace IRAAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
-            return NotFound();
+            return Ok();
         }
     }
 }
