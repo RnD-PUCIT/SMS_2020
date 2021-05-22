@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20210522133703_AddTeacherIdInPTM")]
+    partial class AddTeacherIdInPTM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1889,7 +1891,7 @@ namespace IRAAPI.Migrations
             modelBuilder.Entity("IRAAPI.Models.PTMParticipants", b =>
                 {
                     b.HasOne("IRAAPI.Models.PTM", "PTM")
-                        .WithMany("PTMParticipants")
+                        .WithMany()
                         .HasForeignKey("PTMId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2131,11 +2133,6 @@ namespace IRAAPI.Migrations
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
                 {
                     b.Navigation("SubjectGradeTypeAllocs");
-                });
-
-            modelBuilder.Entity("IRAAPI.Models.PTM", b =>
-                {
-                    b.Navigation("PTMParticipants");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SecurityQuestion", b =>
