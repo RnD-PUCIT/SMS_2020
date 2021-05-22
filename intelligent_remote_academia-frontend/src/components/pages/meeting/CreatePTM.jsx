@@ -13,16 +13,45 @@ import { Avatar, Grid, TextField } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import * as Yup from "yup";
 
+import http from "../../../services/httpService";
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function CreatePTM({ open, onClose }) {
   const classes = useStyles();
+
   const [classList, setClassList] = useState([]);
   const [parentsList, setParentsList] = useState([]);
 
-  useEffect(() => {}, []);
+  const fetchData = async () => {
+    try {
+      const { data: classListData } = await http.get(
+        "/classes/getTeacherClasses"
+      );
+
+      setClassList(classListData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleClassChange = async (selectedClass) => {
+    const url = `parents/getParentsListForClass?classId=${selectedClass.id}`;
+    try {
+      const { data } = await http.get(url);
+
+      setParentsList(data);
+    } catch (error) {
+      console.log(error);
+      alert("Error fetching parents data");
+    }
+  };
 
   return (
     <div>
@@ -84,12 +113,13 @@ export default function CreatePTM({ open, onClose }) {
                       >
                         Participant Details
                       </Typography>
-                      <Grid container spacing={2}>
+                      <Grid container spacing={1}>
                         <Grid item xs={6}>
                           <Autocomplete
                             options={classList}
                             onChange={(event, newValue) => {
                               values.classId = newValue;
+                              handleClassChange(newValue);
                             }}
                             getOptionLabel={(option) => option.className}
                             renderOption={(option, { selected }) => (
@@ -122,21 +152,18 @@ export default function CreatePTM({ open, onClose }) {
                           <Autocomplete
                             multiple
                             options={parentsList}
-                            getOptionLabel={(option) => option.title}
+                            getOptionLabel={(option) => option.parentName}
                             renderOption={(option, { selected }) => (
                               <React.Fragment>
                                 <Avatar style={{ marginRight: "10px" }}>
-                                  {option.firstName.charAt(0)}
+                                  {option.parentName.charAt(0)}
                                 </Avatar>
-                                {`${option.firstName} ${option.lastName} (${option.cnic})`}
+                                {`${option.parentName} (${option.studentName})`}
                               </React.Fragment>
                             )}
                             onChange={(event, value) => {
                               values.parentsId = value;
                             }}
-                            renderOption={(option, { selected }) => (
-                              <React.Fragment>{option.title}</React.Fragment>
-                            )}
                             renderInput={(params) => {
                               return (
                                 <TextField
@@ -162,6 +189,8 @@ export default function CreatePTM({ open, onClose }) {
                           />
                         </Grid>
                       </Grid>
+
+                      <Button>schedule meeting for all</Button>
                     </Grid>
                   </Grid>
                 </div>

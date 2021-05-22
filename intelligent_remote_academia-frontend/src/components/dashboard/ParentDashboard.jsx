@@ -43,7 +43,6 @@ const ParentDashboard = () => {
 
   const handleClick = (value) => {
     if (value) {
-      console.log(value);
       const seletedID = value.id;
 
       const studentsList = [...studentList];
