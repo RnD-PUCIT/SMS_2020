@@ -251,6 +251,7 @@ export default function CreatePTM({ open, onClose }) {
                         <Button
                           disabled={selectedClass ? false : true}
                           variant="contained"
+                          onClick={() => setSelectedParticipants(parentsList)}
                         >
                           schedule meeting for all
                         </Button>
