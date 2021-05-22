@@ -9,7 +9,18 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Formik } from "formik";
-import { Avatar, Grid, TextField } from "@material-ui/core";
+import {
+  Avatar,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText,
+  Paper,
+  TextField,
+} from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import * as Yup from "yup";
 
@@ -24,6 +35,8 @@ export default function CreatePTM({ open, onClose }) {
 
   const [classList, setClassList] = useState([]);
   const [parentsList, setParentsList] = useState([]);
+  const [selectedClass, setSelectedClass] = useState("");
+  const [selectedParticipants, setSelectedParticipants] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -42,6 +55,12 @@ export default function CreatePTM({ open, onClose }) {
   }, []);
 
   const handleClassChange = async (selectedClass) => {
+    if (!selectedClass) {
+      setSelectedClass("");
+      return;
+    }
+
+    setSelectedClass(selectedClass.id);
     const url = `parents/getParentsListForClass?classId=${selectedClass.id}`;
     try {
       const { data } = await http.get(url);
@@ -163,6 +182,7 @@ export default function CreatePTM({ open, onClose }) {
                             )}
                             onChange={(event, value) => {
                               values.parentsId = value;
+                              setSelectedParticipants(value);
                             }}
                             renderInput={(params) => {
                               return (
@@ -172,7 +192,7 @@ export default function CreatePTM({ open, onClose }) {
                                   size="small"
                                   id="parentsId"
                                   placeholder="Add Parents"
-                                  className={classes.placeholderField}
+                                  className={`${classes.placeholderField} no-input-field-chips`}
                                   value={values.parentsId}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -190,7 +210,42 @@ export default function CreatePTM({ open, onClose }) {
                         </Grid>
                       </Grid>
 
-                      <Button>schedule meeting for all</Button>
+                      <Button disabled={selectedClass ? false : true}>
+                        schedule meeting for all
+                      </Button>
+
+                      <Paper
+                        className={`shadow ${classes.participantsListContainer}`}
+                      >
+                        <Typography variant="h6" color="primary">
+                          Added Participants
+                        </Typography>
+                        <Divider className="u_mt_tiny u_mb_small" />
+                        {!selectedParticipants.length && (
+                          <div className={classes.notAdded}>
+                            <Typography color="textSecondary">
+                              No participant added yet.
+                            </Typography>
+                          </div>
+                        )}
+                        <List>
+                          {selectedParticipants.map((participant, index) => (
+                            <ListItem key={index}>
+                              <ListItemAvatar>
+                                <Avatar>
+                                  {participant.parentName.charAt(0)}
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText primary={participant.parentName} />
+                              <ListItemSecondaryAction>
+                                <IconButton edge="end">
+                                  <CloseIcon />
+                                </IconButton>
+                              </ListItemSecondaryAction>
+                            </ListItem>
+                          ))}
+                        </List>
+                      </Paper>
                     </Grid>
                   </Grid>
                 </div>
@@ -232,5 +287,14 @@ const useStyles = makeStyles((theme) => ({
   },
   parentsContainer: {
     display: "flex",
+  },
+  participantsListContainer: {
+    padding: "20px 40px",
+  },
+  notAdded: {
+    display: "flex",
+    alignContent: "center",
+    justifyContent: "center",
+    height: "100%",
   },
 }));

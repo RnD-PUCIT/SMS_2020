@@ -263,3 +263,7 @@ button:focus {
   left: 0;
   top: 0;
 }
+
+.no-input-field-chips .MuiAutocomplete-tag {
+  display: none;
+}
