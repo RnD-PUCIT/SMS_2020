@@ -23,6 +23,12 @@ import {
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import * as Yup from "yup";
+import {
+  DatePicker,
+  TimePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 import http from "../../../services/httpService";
 
@@ -37,6 +43,7 @@ export default function CreatePTM({ open, onClose }) {
   const [parentsList, setParentsList] = useState([]);
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedParticipants, setSelectedParticipants] = useState([]);
+  const [selectedDate, handleDateChange] = useState(new Date());
 
   const fetchData = async () => {
     try {
@@ -57,6 +64,7 @@ export default function CreatePTM({ open, onClose }) {
   const handleClassChange = async (selectedClass) => {
     if (!selectedClass) {
       setSelectedClass("");
+      setSelectedParticipants([]);
       return;
     }
 
@@ -123,6 +131,22 @@ export default function CreatePTM({ open, onClose }) {
                       >
                         Event Details
                       </Typography>
+                      <div className={classes.eventTimeContainer}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <DatePicker
+                            variant="inline"
+                            label="Meeting Date"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                          />
+                          <TimePicker
+                            variant="inline"
+                            label="Start Time"
+                            value={selectedDate}
+                            onChange={handleDateChange}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </div>
                     </Grid>
                     <Grid item sm={6} xs={12}>
                       <Typography
@@ -236,7 +260,10 @@ export default function CreatePTM({ open, onClose }) {
                                   {participant.parentName.charAt(0)}
                                 </Avatar>
                               </ListItemAvatar>
-                              <ListItemText primary={participant.parentName} />
+                              <ListItemText
+                                primary={participant.parentName}
+                                secondary={`Student: ${participant.studentName}`}
+                              />
                               <ListItemSecondaryAction>
                                 <IconButton edge="end">
                                   <CloseIcon />
@@ -296,5 +323,10 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
     justifyContent: "center",
     height: "100%",
+  },
+  eventTimeContainer: {
+    "& *": {
+      margin: 5,
+    },
   },
 }));
