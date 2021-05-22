@@ -111,7 +111,7 @@ namespace IRAAPI.Controllers
                 .SingleOrDefaultAsync();
 
                 List<Class> list = await _context.TeacherSubjectAllocs.Include(t => t.Class)
-                .Where(t => t.TeacherId == id).Select(t => t.Class).ToListAsync();
+                .Where(t => t.TeacherId == id).Select(t => t.Class).Distinct().ToListAsync();
 
                 classes = _mapper.Map<List<Class>, List<ClassDto>>(list);
             }
