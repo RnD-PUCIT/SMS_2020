@@ -12,13 +12,17 @@ import { Formik } from "formik";
 import {
   Avatar,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemAvatar,
   ListItemSecondaryAction,
   ListItemText,
+  MenuItem,
   Paper,
+  Select,
   TextField,
 } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
@@ -44,6 +48,7 @@ export default function CreatePTM({ open, onClose }) {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [selectedDate, handleDateChange] = useState(new Date());
+  const [duration, setDuration] = useState(meetingDurations[1].value);
 
   const fetchData = async () => {
     try {
@@ -78,6 +83,10 @@ export default function CreatePTM({ open, onClose }) {
       console.log(error);
       alert("Error fetching parents data");
     }
+  };
+
+  const handleDurationChange = (event) => {
+    setDuration(event.target.value);
   };
 
   return (
@@ -146,6 +155,21 @@ export default function CreatePTM({ open, onClose }) {
                             onChange={handleDateChange}
                           />
                         </MuiPickersUtilsProvider>
+                        <FormControl className={classes.formControl}>
+                          <InputLabel id="duration-label">Duration</InputLabel>
+                          <Select
+                            labelId="duration-label"
+                            value={duration}
+                            onChange={handleDurationChange}
+                            placeholder="Meeting Duration"
+                          >
+                            {meetingDurations.map((time, index) => (
+                              <MenuItem key={index} value={time.value}>
+                                {time.name}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
                       </div>
                     </Grid>
                     <Grid item sm={6} xs={12}>
@@ -329,4 +353,16 @@ const useStyles = makeStyles((theme) => ({
       margin: 5,
     },
   },
+  formControl: {
+    minWidth: 120,
+  },
 }));
+
+const meetingDurations = [
+  { value: 15, name: "15 mins" },
+  { value: 30, name: "30 mins" },
+  { value: 45, name: "45 mins" },
+  { value: 60, name: "1 hr" },
+  { value: 90, name: "1:5 hrs" },
+  { value: 120, name: "2 hrs" },
+];
