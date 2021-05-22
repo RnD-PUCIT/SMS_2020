@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20210522132257_AddParentIdInPTMParticiaption")]
+    partial class AddParentIdInPTMParticiaption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -830,12 +832,14 @@ namespace IRAAPI.Migrations
                         .HasColumnName("link");
 
                     b.Property<int>("PTMId")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
                         .HasColumnName("ptm_id");
 
                     b.Property<int>("ParentId")
+                        .ValueGeneratedOnUpdateSometimes()
                         .HasColumnType("int")
-                        .HasColumnName("parent_id");
+                        .HasColumnName("ptm_id");
 
                     b.Property<string>("StartTime")
                         .HasColumnType("nvarchar(max)")

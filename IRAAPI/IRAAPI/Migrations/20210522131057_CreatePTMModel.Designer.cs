@@ -4,14 +4,16 @@ using IRAAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IRAAPI.Migrations
 {
     [DbContext(typeof(IRAAPIContext))]
-    partial class IRAAPIContextModelSnapshot : ModelSnapshot
+    [Migration("20210522131057_CreatePTMModel")]
+    partial class CreatePTMModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -794,7 +796,6 @@ namespace IRAAPI.Migrations
                         .HasColumnName("guid");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)")
                         .HasColumnName("title");
 
@@ -813,14 +814,6 @@ namespace IRAAPI.Migrations
                         .HasColumnName("id")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2")
-                        .HasColumnName("date");
-
-                    b.Property<int>("Duration")
-                        .HasColumnType("int")
-                        .HasColumnName("duration");
-
                     b.Property<Guid>("Guid")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("guid");
@@ -831,21 +824,11 @@ namespace IRAAPI.Migrations
 
                     b.Property<int>("PTMId")
                         .HasColumnType("int")
-                        .HasColumnName("ptm_id");
-
-                    b.Property<int>("ParentId")
-                        .HasColumnType("int")
-                        .HasColumnName("parent_id");
-
-                    b.Property<string>("StartTime")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("start_time");
+                        .HasColumnName("meeting_id");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PTMId");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("PTM_Participants");
                 });
@@ -1879,14 +1862,6 @@ namespace IRAAPI.Migrations
                         .HasForeignKey("PTMId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("IRAAPI.Models.Parent", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Parent");
 
                     b.Navigation("PTM");
                 });
