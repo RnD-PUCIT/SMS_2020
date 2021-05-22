@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import http from '../../services/httpService';
-import ParentRouting from '../routing/ParentRouting';
+import React, { useEffect, useState } from "react";
+import http from "../../services/httpService";
+import ParentRouting from "../routing/ParentRouting";
 
 const ParentDashboard = () => {
   //   State variables
@@ -17,7 +17,7 @@ const ParentDashboard = () => {
         const { data } = await http.get(`/subjects`);
 
         // Get selected student's index from browsers local storage
-        let index = localStorage.getItem('selectedChildIndex');
+        let index = localStorage.getItem("selectedChildIndex");
 
         if (!index) index = 0;
 
@@ -32,9 +32,9 @@ const ParentDashboard = () => {
         setDashboardInfo(dashboard);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          window.location = '/login';
+          window.location = "/login";
         } else if (error.response && error.response.status === 404) {
-          window.location = '/notFound';
+          window.location = "/notFound";
         }
       }
     }
@@ -43,12 +43,15 @@ const ParentDashboard = () => {
 
   const handleClick = (value) => {
     if (value) {
+      console.log(value);
       const seletedID = value.id;
 
       const studentsList = [...studentList];
-      setSelectedStudent(studentsList.filter((s) => s.id === seletedID)[0]);
 
-      const index = studentsList.indexOf(selectedStudent);
+      const selected = studentsList.filter((s) => s.id === seletedID)[0];
+      setSelectedStudent(selected);
+
+      const index = studentsList.indexOf(selected);
 
       setSubjects(dashboardInfo.subjects[index]);
 
@@ -56,7 +59,7 @@ const ParentDashboard = () => {
       Add selected index to browser's local storage
       to maintain the selected student on page refresh.
       */
-      localStorage.setItem('selectedChildIndex', index);
+      localStorage.setItem("selectedChildIndex", index);
     }
   };
 
