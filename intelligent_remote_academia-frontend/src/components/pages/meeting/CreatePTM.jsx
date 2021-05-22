@@ -101,8 +101,17 @@ export default function CreatePTM({ open, onClose }) {
     onClose();
   };
 
-  const handleFormSubmit = () => {
-    alert("submit");
+  const handleFormSubmit = (values) => {
+    const { title } = values;
+
+    const link =
+      "ira_" +
+      Math.floor(
+        Math.random() * Math.floor(Math.random() * Date.now())
+      ).toString();
+
+    console.log(link);
+    // close the dialog
     handleClose();
   };
 
