@@ -131,12 +131,12 @@ export default function CreatePTM({ open, onClose }) {
                   className={classes.titleField}
                 />
                 <div className="u_mt_huge">
-                  <Grid container spacing={3}>
-                    <Grid item sm={6} xs={12}>
+                  <Grid container spacing={5}>
+                    <Grid item sm={7} xs={12}>
                       <Typography
                         variant="h6"
-                        color="textSecondary"
-                        className="u_mb_small"
+                        color="primary"
+                        className="u_mb_tiny"
                       >
                         Event Details
                       </Typography>
@@ -171,97 +171,92 @@ export default function CreatePTM({ open, onClose }) {
                           </Select>
                         </FormControl>
                       </div>
-                    </Grid>
-                    <Grid item sm={6} xs={12}>
+                      {/* Participants details */}
                       <Typography
                         variant="h6"
-                        color="textSecondary"
-                        className="u_mb_small"
+                        color="primary"
+                        className="u_mt_medium"
                       >
                         Participant Details
                       </Typography>
-                      <Grid container spacing={1}>
-                        <Grid item xs={6}>
-                          <Autocomplete
-                            options={classList}
-                            onChange={(event, newValue) => {
-                              values.classId = newValue;
-                              handleClassChange(newValue);
-                            }}
-                            getOptionLabel={(option) => option.className}
-                            renderOption={(option, { selected }) => (
-                              <React.Fragment>
-                                {`${option.className} (${option.section})`}
-                              </React.Fragment>
-                            )}
-                            renderInput={(params) => (
+                      <div className={classes.eventTimeContainer}>
+                        <Autocomplete
+                          options={classList}
+                          className={`${classes.autoCompleteField} autocomplete`}
+                          onChange={(event, newValue) => {
+                            values.classId = newValue;
+                            handleClassChange(newValue);
+                          }}
+                          getOptionLabel={(option) => option.className}
+                          renderOption={(option, { selected }) => (
+                            <React.Fragment>
+                              {`${option.className} (${option.section})`}
+                            </React.Fragment>
+                          )}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              className={classes.placeholderField}
+                              id="classId"
+                              size="small"
+                              placeholder="Select Class"
+                              value={values.classId}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              helperText={touched.classId ? errors.classId : ""}
+                              error={touched.classId && Boolean(errors.classId)}
+                            />
+                          )}
+                        />
+                        <Autocomplete
+                          multiple
+                          className={`${classes.autoCompleteField} autocomplete`}
+                          options={parentsList}
+                          getOptionLabel={(option) => option.parentName}
+                          renderOption={(option, { selected }) => (
+                            <React.Fragment>
+                              <Avatar style={{ marginRight: "10px" }}>
+                                {option.parentName.charAt(0)}
+                              </Avatar>
+                              {`${option.parentName} (${option.studentName})`}
+                            </React.Fragment>
+                          )}
+                          onChange={(event, value) => {
+                            values.parentsId = value;
+                            setSelectedParticipants(value);
+                          }}
+                          renderInput={(params) => {
+                            return (
                               <TextField
                                 {...params}
-                                className={classes.placeholderField}
-                                id="classId"
-                                variant="filled"
                                 size="small"
-                                placeholder="Select Class"
-                                value={values.classId}
+                                id="parentsId"
+                                placeholder="Add Parents"
+                                className={`${classes.placeholderField} no-input-field-chips`}
+                                value={values.parentsId}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 helperText={
-                                  touched.classId ? errors.classId : ""
+                                  touched.parentsId ? errors.parentsId : ""
                                 }
                                 error={
-                                  touched.classId && Boolean(errors.classId)
+                                  touched.parentsId && Boolean(errors.parentsId)
                                 }
                               />
-                            )}
-                          />
-                        </Grid>
-                        <Grid item xs={6}>
-                          <Autocomplete
-                            multiple
-                            options={parentsList}
-                            getOptionLabel={(option) => option.parentName}
-                            renderOption={(option, { selected }) => (
-                              <React.Fragment>
-                                <Avatar style={{ marginRight: "10px" }}>
-                                  {option.parentName.charAt(0)}
-                                </Avatar>
-                                {`${option.parentName} (${option.studentName})`}
-                              </React.Fragment>
-                            )}
-                            onChange={(event, value) => {
-                              values.parentsId = value;
-                              setSelectedParticipants(value);
-                            }}
-                            renderInput={(params) => {
-                              return (
-                                <TextField
-                                  {...params}
-                                  variant="filled"
-                                  size="small"
-                                  id="parentsId"
-                                  placeholder="Add Parents"
-                                  className={`${classes.placeholderField} no-input-field-chips`}
-                                  value={values.parentsId}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  helperText={
-                                    touched.parentsId ? errors.parentsId : ""
-                                  }
-                                  error={
-                                    touched.parentsId &&
-                                    Boolean(errors.parentsId)
-                                  }
-                                />
-                              );
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-
-                      <Button disabled={selectedClass ? false : true}>
-                        schedule meeting for all
-                      </Button>
-
+                            );
+                          }}
+                        />
+                      </div>
+                      <div className={classes.optionsContainer}>
+                        <Button
+                          disabled={selectedClass ? false : true}
+                          variant="contained"
+                        >
+                          schedule meeting for all
+                        </Button>
+                      </div>
+                    </Grid>
+                    <Grid item sm={5} xs={12}>
                       <Paper
                         className={`shadow ${classes.participantsListContainer}`}
                       >
@@ -326,16 +321,10 @@ const useStyles = makeStyles((theme) => ({
   titleField: {
     "& input": {
       fontSize: 25,
+      paddingBottom: 15,
     },
   },
-  placeholderField: {
-    "& div": {
-      padding: "0 !important",
-    },
-    "& input": {
-      padding: "15px !important",
-    },
-  },
+
   parentsContainer: {
     display: "flex",
   },
@@ -354,7 +343,14 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   formControl: {
-    minWidth: 120,
+    minWidth: 200,
+  },
+  autoCompleteField: {
+    width: "41%",
+    display: "inline-block",
+  },
+  optionsContainer: {
+    marginTop: 10,
   },
 }));
 
@@ -363,6 +359,6 @@ const meetingDurations = [
   { value: 30, name: "30 mins" },
   { value: 45, name: "45 mins" },
   { value: 60, name: "1 hr" },
-  { value: 90, name: "1:5 hrs" },
+  { value: 90, name: "1.5 hrs" },
   { value: 120, name: "2 hrs" },
 ];
