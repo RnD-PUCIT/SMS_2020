@@ -23,5 +23,11 @@ namespace IRAAPI.Models
 
         [ForeignKey(nameof(ClassId))]
         public virtual Class Class { get; set; }
+
+        [Column("teacher_id")]
+        public int TeacherId { get; set; }
+
+        [ForeignKey(nameof(TeacherId))]
+        public virtual Teacher Teacher { get; set; }
     }
 }
