@@ -26,7 +26,7 @@ namespace IRAAPI
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
                     context.Database.Migrate();
-                    //Seed.SeedData(context, userManager, roleManager);
+                    Seed.SeedData(context, userManager, roleManager);
                 }
                 catch (Exception ex)
                 {

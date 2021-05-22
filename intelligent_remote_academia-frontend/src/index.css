@@ -108,9 +108,9 @@ main {
   padding: 20px;
 }
 
-input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
+/* input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
   text-align: right;
-}
+} */
 
 .action-button {
   position: fixed;
@@ -262,4 +262,12 @@ button:focus {
   z-index: 99999;
   left: 0;
   top: 0;
+}
+
+.no-input-field-chips .MuiAutocomplete-tag {
+  display: none;
+}
+
+.autocomplete .MuiAutocomplete-endAdornment {
+  top: calc(50% - 30px) !important;
 }

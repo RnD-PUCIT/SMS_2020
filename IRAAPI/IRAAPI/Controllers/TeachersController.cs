@@ -1,4 +1,7 @@
-﻿using IRAAPI.Models;
+﻿using AutoMapper;
+using IRAAPI.Dtos;
+using IRAAPI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,10 +14,12 @@ namespace IRAAPI.Controllers
     public class TeachersController : ControllerBase
     {
         private readonly IRAAPIContext _context;
+        private readonly IMapper _mapper;
 
-        public TeachersController(IRAAPIContext context)
+        public TeachersController(IRAAPIContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,5 +28,29 @@ namespace IRAAPI.Controllers
         {
             return await _context.Teachers.ToListAsync();
         }
+
+        [HttpPost]
+        [Route("allocateClassAndSubjects")]
+
+        public async Task<ActionResult> AllocateClassAndSubjects(List<TeacherSubjectAllocationDto> model)
+        {
+            try
+            {
+                var teacherSubjects = _mapper.Map<List<TeacherSubjectAlloc>>(model);
+
+                await _context.TeacherSubjectAllocs.AddRangeAsync(teacherSubjects);
+                var result = await _context.SaveChangesAsync() > 0;
+
+                if (!result)
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+
+                return Ok();
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
+
