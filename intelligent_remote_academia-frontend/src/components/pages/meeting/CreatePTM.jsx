@@ -89,12 +89,18 @@ export default function CreatePTM({ open, onClose }) {
     setDuration(event.target.value);
   };
 
+  const handleClose = () => {
+    setSelectedClass("");
+    setSelectedParticipants([]);
+    onClose();
+  };
+
   return (
     <div>
       <Dialog
         fullScreen
         open={open}
-        onClose={onClose}
+        onClose={handleClose}
         TransitionComponent={Transition}
       >
         <AppBar className={classes.appBar}>
@@ -102,7 +108,7 @@ export default function CreatePTM({ open, onClose }) {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={onClose}
+              onClick={handleClose}
               aria-label="close"
             >
               <CloseIcon />
@@ -110,7 +116,7 @@ export default function CreatePTM({ open, onClose }) {
             <Typography variant="h6" className={classes.title}>
               Create and Schedule PTM
             </Typography>
-            <Button autoFocus color="inherit" onClick={onClose}>
+            <Button color="inherit" onClick={handleClose}>
               save
             </Button>
           </Toolbar>
