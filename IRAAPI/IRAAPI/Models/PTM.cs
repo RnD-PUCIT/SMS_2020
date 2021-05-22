@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,5 +30,7 @@ namespace IRAAPI.Models
 
         [ForeignKey(nameof(TeacherId))]
         public virtual Teacher Teacher { get; set; }
+
+        public virtual ICollection<PTMParticipants> PTMParticipants { get; set; }
     }
 }
