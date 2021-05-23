@@ -48,7 +48,7 @@ export default function CreatePTM({ open, onClose }) {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [selectedDate, handleDateChange] = useState(new Date());
-  const [duration, setDuration] = useState(meetingDurations[1].value);
+  const [duration, setDuration] = useState(meetingDurations[0].value);
 
   const validationSchema = Yup.object({
     title: Yup.string().required("Please enter the title"),
@@ -104,13 +104,26 @@ export default function CreatePTM({ open, onClose }) {
   const handleFormSubmit = (values) => {
     const { title } = values;
 
-    const link =
-      "ira_" +
-      Math.floor(
-        Math.random() * Math.floor(Math.random() * Date.now())
-      ).toString();
+    const model = {
+      title,
+      classId: selectedClass,
+      participants: [],
+    };
 
-    console.log(link);
+    let time = selectedDate;
+    selectedParticipants.forEach((item) => {
+      const details = {
+        parentId: item.parentId,
+        date: selectedDate,
+        startTime: time,
+        duration: duration,
+      };
+      model.participants.push(details);
+      time = new Date(time.getTime() + duration * 60000);
+    });
+
+    console.log(model);
+
     // close the dialog
     handleClose();
   };
