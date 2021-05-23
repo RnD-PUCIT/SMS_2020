@@ -1,14 +1,26 @@
 import React, { useState } from "react";
-import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  Grid,
+  makeStyles,
+  Paper,
+  Snackbar,
+  Typography,
+} from "@material-ui/core";
 
 import colors from "../../../colors";
 import FeatherIcon from "../../common/icons/FeatherIcon";
 import CreatePTM from "./CreatePTM";
+import { Alert } from "@material-ui/lab";
 
 const CreateMeeting = () => {
   const classes = useStyles();
 
   const [openCreatePTM, setOpenCreatePTM] = useState(false);
+  const [meetingCreated, setMeetingCreated] = useState(false);
+
+  const handleSnackbarClose = () => {
+    setMeetingCreated(false);
+  };
 
   return (
     <React.Fragment>
@@ -41,7 +53,17 @@ const CreateMeeting = () => {
         </Grid>
       </Grid>
 
-      <CreatePTM open={openCreatePTM} onClose={() => setOpenCreatePTM(false)} />
+      <CreatePTM
+        open={openCreatePTM}
+        onClose={() => setOpenCreatePTM(false)}
+        onSuccess={() => setMeetingCreated(true)}
+      />
+
+      <Snackbar open={meetingCreated} onClose={handleSnackbarClose}>
+        <Alert severity="success" onClose={handleSnackbarClose}>
+          Meeting created successfully!
+        </Alert>
+      </Snackbar>
     </React.Fragment>
   );
 };

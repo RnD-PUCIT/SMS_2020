@@ -40,7 +40,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreatePTM({ open, onClose }) {
+export default function CreatePTM({ open, onClose, onSuccess }) {
   const classes = useStyles();
 
   const [classList, setClassList] = useState([]);
@@ -101,7 +101,7 @@ export default function CreatePTM({ open, onClose }) {
     onClose();
   };
 
-  const handleFormSubmit = (values) => {
+  const handleFormSubmit = async (values) => {
     const { title } = values;
 
     const model = {
@@ -122,10 +122,16 @@ export default function CreatePTM({ open, onClose }) {
       time = new Date(time.getTime() + duration * 60000);
     });
 
-    console.log(model);
+    try {
+      await http.post("/ptm/createPTM", model);
 
-    // close the dialog
-    handleClose();
+      onSuccess();
+      // close the dialog
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      alert("Error saving PTM details");
+    }
   };
 
   return (
