@@ -49,6 +49,7 @@ namespace IRAAPI.SignalRHub
             {
             }
         }
+        
         public async Task SendNotificationAlert(Notification objNotification)
         {
             HashSet<string> connections = _connectionManager.GetConnections(objNotification.userId.ToString());

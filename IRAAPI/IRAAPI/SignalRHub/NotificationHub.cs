@@ -8,6 +8,17 @@ namespace IRAAPI.SignalRHub
 {
     public class NotificationHub: Hub
     {
+        //public async Task askServer(string someTextFromClient)
+        //{
+        //    string str;
+        //    if(someTextFromClient=="hey")
+        //        str = "message was 'hey'";
+        //    else
+        //        str = "message was somethingelse";
+
+        //    await Clients.All.SendAsync("askServerResponse", str);
+        //}
+
         private IConnectionManager _connectionManager;
         private IHubContext<NotificationHub> _hubContext;
         public NotificationHub(IHubContext<NotificationHub> hubContext, IConnectionManager connectionManager)

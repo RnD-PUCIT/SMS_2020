@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import AlertDescriptive from "../../common/alerts/alertDescriptive";
+import AlertDescriptive from '../../common/alerts/alertDescriptive';
 import {
   AccordionContainer,
   SimpleAccordion,
-} from "../../common/accordians/accordion";
+} from '../../common/accordians/accordion';
 
 class CourseOutline extends Component {
   state = { courseContentOutline: this.props.courseContentOutline };
@@ -13,7 +13,7 @@ class CourseOutline extends Component {
     const { courseContentOutline: outline } = this.state;
     if (outline && outline.length) {
       return (
-        <div style={{ width: "100%" }}>
+        <div style={{ width: '100%' }}>
           {outline.map((syllabus, index) => {
             if (syllabus.term_wiseCourseOutlineWithFiles) {
               return (
@@ -22,8 +22,7 @@ class CourseOutline extends Component {
                   name={syllabus.termName}
                   statusArray={syllabus.term_wiseCourseOutlineWithFiles.map(
                     (subject) => subject.courseOutlines.status
-                  )}
-                >
+                  )}>
                   {syllabus.term_wiseCourseOutlineWithFiles.map(
                     (subjectItem, index) => (
                       <SimpleAccordion
@@ -43,9 +42,9 @@ class CourseOutline extends Component {
     } else {
       return (
         <AlertDescriptive
-          severity="error"
-          title="No Course Details"
-          description="Course Details have been uploaded yet. Kindly check later!"
+          severity='error'
+          title='No Course Details'
+          description='Course Details have not been uploaded yet. Kindly check later!'
         />
       );
     }

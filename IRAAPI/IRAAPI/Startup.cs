@@ -1,4 +1,4 @@
- using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using IRAAPI.Authentication;
 using IRAAPI.Models;
+using IRAAPI.SignalRHub;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,19 +37,19 @@ namespace IRAAPI
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("defaultcorspolicy",
-                        builder =>
-                        {
-                            //builder.WithOrigins("*").AllowAnyHeader()
-                            //            .AllowAnyMethod();
-                            builder.AllowAnyOrigin().AllowAnyHeader()
-                                            .AllowAnyMethod();
-                        });
+                options.AddPolicy("ClientPermission", policy =>
+                {
+                    policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                     .WithOrigins("http://localhost:3000")
+                     .AllowCredentials();
+                });
             });
+
 
             services.AddDbContext<IRAAPIContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:Default"]));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(option=>
+            services.AddIdentity<ApplicationUser, IdentityRole>(option =>
             {
                 option.Password.RequireDigit = false;
                 option.Password.RequiredUniqueChars = 0;
@@ -82,6 +83,12 @@ namespace IRAAPI
             });
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
+
+            //Adding SignalR services
+            services.AddSignalR(o =>
+            {
+                o.EnableDetailedErrors = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,8 +102,9 @@ namespace IRAAPI
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseCors("ClientPermission");
+
             app.UseRouting();
-            app.UseCors("defaultcorspolicy");
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -105,6 +113,8 @@ namespace IRAAPI
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Index}/{id?}");
+
+                endpoints.MapHub<NotificationHub>("/NotificationHub");
             });
         }
     }
