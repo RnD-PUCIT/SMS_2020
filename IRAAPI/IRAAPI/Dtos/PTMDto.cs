@@ -13,7 +13,6 @@ namespace IRAAPI.Dtos
     public class PTMParticipantDto
     {
         public Guid ParentId { get; set; }
-        public string Link { get; set; }
         public DateTime Date { get; set; }
         public string StartTime { get; set; }
         public int Duration { get; set; }

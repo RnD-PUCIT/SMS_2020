@@ -61,7 +61,7 @@ namespace IRAAPI.Controllers
                     meeting.PTMParticipants.Add(
                         new PTMParticipants
                         {
-                            Link = item.Link,
+                            Link = "ira-" + Guid.NewGuid().ToString(),
                             Date = item.Date,
                             StartTime = item.StartTime,
                             Duration = item.Duration,
