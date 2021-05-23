@@ -33,7 +33,7 @@ namespace IRAAPI.Models
         public DateTime Date { get; set; }
 
         [Column("start_time")]
-        public string StartTime { get; set; }
+        public DateTime StartTime { get; set; }
 
         [Column("duration")]
         public int Duration { get; set; }

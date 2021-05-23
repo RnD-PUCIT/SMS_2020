@@ -7,6 +7,7 @@ import Meeting from "./Meeting";
 
 const TeacherMeeting = () => {
   const [joinMeeting, setJoinMeeting] = useState(false);
+
   return (
     <React.Fragment>
       <PageHeading title="Meetings" />
@@ -18,6 +19,7 @@ const TeacherMeeting = () => {
       >
         join
       </Button>
+
       <CreateMeeting />
 
       {joinMeeting && (

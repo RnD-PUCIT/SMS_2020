@@ -40,7 +40,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CreatePTM({ open, onClose }) {
+export default function CreatePTM({ open, onClose, onSuccess }) {
   const classes = useStyles();
 
   const [classList, setClassList] = useState([]);
@@ -48,7 +48,13 @@ export default function CreatePTM({ open, onClose }) {
   const [selectedClass, setSelectedClass] = useState("");
   const [selectedParticipants, setSelectedParticipants] = useState([]);
   const [selectedDate, handleDateChange] = useState(new Date());
-  const [duration, setDuration] = useState(meetingDurations[1].value);
+  const [duration, setDuration] = useState(meetingDurations[0].value);
+
+  const validationSchema = Yup.object({
+    title: Yup.string().required("Please enter the title"),
+    classId: Yup.string().required("Please select the class"),
+    parentsId: Yup.string().required("Please add atleast 1 participant"),
+  }).nullable();
 
   const fetchData = async () => {
     try {
@@ -95,6 +101,39 @@ export default function CreatePTM({ open, onClose }) {
     onClose();
   };
 
+  const handleFormSubmit = async (values) => {
+    const { title } = values;
+
+    const model = {
+      title,
+      classId: selectedClass,
+      participants: [],
+    };
+
+    let time = selectedDate;
+    selectedParticipants.forEach((item) => {
+      const details = {
+        parentId: item.parentId,
+        date: selectedDate,
+        startTime: time,
+        duration: duration,
+      };
+      model.participants.push(details);
+      time = new Date(time.getTime() + duration * 60000);
+    });
+
+    try {
+      await http.post("/ptm/createPTM", model);
+
+      onSuccess();
+      // close the dialog
+      handleClose();
+    } catch (error) {
+      console.log(error);
+      alert("Error saving PTM details");
+    }
+  };
+
   return (
     <div>
       <Dialog
@@ -103,38 +142,60 @@ export default function CreatePTM({ open, onClose }) {
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar className={classes.appBar}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
+        <Formik
+          initialValues={{
+            title: "",
+            classId: "",
+            parentsId: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleFormSubmit}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleBlur,
+            handleChange,
+            handleSubmit,
+          }) => (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }}
             >
-              <CloseIcon />
-            </IconButton>
-            <Typography variant="h6" className={classes.title}>
-              Create and Schedule PTM
-            </Typography>
-            <Button color="inherit" onClick={handleClose}>
-              save
-            </Button>
-          </Toolbar>
-        </AppBar>
-        <div className={classes.body}>
-          <Formik
-            initialValues={{
-              title: "",
-              classId: "",
-              parentsId: [],
-            }}
-          >
-            {({ values, errors, touched, handleBlur, handleChange }) => (
-              <form>
+              <AppBar className={classes.appBar}>
+                <Toolbar>
+                  <IconButton
+                    edge="start"
+                    color="inherit"
+                    onClick={handleClose}
+                    aria-label="close"
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                  <Typography variant="h6" className={classes.title}>
+                    Create and Schedule PTM
+                  </Typography>
+                  <Button color="inherit" type="submit">
+                    save
+                  </Button>
+                </Toolbar>
+              </AppBar>
+
+              <div className={classes.body}>
                 <TextField
+                  id="title"
+                  autoFocus
                   placeholder="Add Title"
                   fullWidth
                   className={classes.titleField}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.title}
+                  helperText={touched.title ? errors.title : ""}
+                  error={touched.title && Boolean(errors.title)}
                 />
                 <div className="u_mt_huge">
                   <Grid container spacing={5}>
@@ -202,8 +263,11 @@ export default function CreatePTM({ open, onClose }) {
                           renderInput={(params) => (
                             <TextField
                               {...params}
-                              className={classes.placeholderField}
                               id="classId"
+                              label="Class"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
                               size="small"
                               placeholder="Select Class"
                               value={values.classId}
@@ -236,9 +300,12 @@ export default function CreatePTM({ open, onClose }) {
                               <TextField
                                 {...params}
                                 size="small"
-                                id="parentsId"
+                                label="Participants"
+                                InputLabelProps={{
+                                  shrink: true,
+                                }}
                                 placeholder="Add Parents"
-                                className={`${classes.placeholderField} no-input-field-chips`}
+                                className={`no-input-field-chips`}
                                 value={values.parentsId}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -302,10 +369,10 @@ export default function CreatePTM({ open, onClose }) {
                     </Grid>
                   </Grid>
                 </div>
-              </form>
-            )}
-          </Formik>
-        </div>
+              </div>
+            </form>
+          )}
+        </Formik>
       </Dialog>
     </div>
   );
