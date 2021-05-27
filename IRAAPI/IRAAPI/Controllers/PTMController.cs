@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IRAAPI.Dtos;
 using IRAAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace IRAAPI.Controllers
     public class PTMController : ControllerBase
     {
         private readonly IRAAPIContext _context;
+
         public PTMController(IRAAPIContext context)
         {
             _context = context;
@@ -84,6 +86,68 @@ namespace IRAAPI.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("getTeacherMeetings")]
+        [Authorize(Roles = "Teacher")]
+        public async Task<ActionResult<List<MeetingDto>>> GetTeacherMeetings()
+        {
+            var claims = User.Claims;
+
+            var userId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
+
+            if (userId == null)
+                return NotFound();
+
+            Guid teacherGuid = Guid.Parse(userId);
+
+            int teacherId = 0;
+
+            try
+            {
+                // Get teacher id
+                teacherId = await _context.Teachers.Where(t => t.UserId == teacherGuid)
+                .Select(t => t.Id)
+                .SingleOrDefaultAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            List<MeetingDto> meetings = new List<MeetingDto>();
+
+            PTM ptm = await _context.PTMs.Include(p => p.Class)
+            .SingleOrDefaultAsync(p => p.TeacherId == teacherId);
+
+            if (ptm == null)
+                return NotFound();
+
+            List<PTMParticipants> participants = await _context.PTMParticipants
+                .Include(p => p.Parent).Where(p => p.PTMId == ptm.Id)
+                .ToListAsync();
+
+            foreach (var participant in participants)
+            {
+                meetings.Add(new MeetingDto
+                {
+                    Id = participant.Guid,
+                    Title = ptm.Title,
+                    Date = participant.Date,
+                    StartTime = participant.StartTime,
+                    ParticipantId = participant.Parent.Guid,
+                    ParticipantName = participant.Parent.FirstName + " " + participant.Parent.LastName,
+                    Class = new ClassDto
+                    {
+                        Id = ptm.Guid,
+                        ClassName = ptm.Class.ClassName,
+                        Section = ptm.Class.Section
+                    }
+                });
+            }
+
+            return meetings;
         }
     }
 }
