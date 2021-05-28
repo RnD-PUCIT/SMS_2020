@@ -16,6 +16,7 @@ import ApplicationForm from "../pages/applicationForm/ApplicationForm";
 import ApplicationsDashboard from "../pages/applicationForm/ApplicationsDashboard";
 import CourseContent from "./../pages/courseContentOutline/courseContent";
 import Chat from "../pages/chat/Chat";
+import ParentMeeting from "../pages/meeting/ParentMeeting";
 
 const ParentRouting = ({
   subjects,
@@ -159,6 +160,7 @@ const ParentRouting = ({
         )}
       />
       <Route path="/messages" component={Chat} />
+      <Route path="/meetings" component={ParentMeeting} />
       <Redirect from="/" to="/subjects" exact />
     </Switch>
   );

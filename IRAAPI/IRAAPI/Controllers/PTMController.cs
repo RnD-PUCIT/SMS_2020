@@ -153,5 +153,65 @@ namespace IRAAPI.Controllers
 
             return meetings;
         }
+
+        [HttpGet]
+        [Route("getParentMeetings")]
+        [Authorize(Roles = "Parent")]
+        public async Task<ActionResult<List<MeetingDto>>> GetParentMeetings()
+        {
+            var claims = User.Claims;
+
+            var userId = claims.Where(p => p.Type == "userId").FirstOrDefault()?.Value;
+
+            if (userId == null)
+                return NotFound();
+
+            Guid parentGuid = Guid.Parse(userId);
+
+            int parentId = 0;
+
+            try
+            {
+                parentId = await _context.Parents.Where(t => t.UserId == parentGuid)
+                .Select(t => t.Id)
+                .SingleOrDefaultAsync();
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+            List<MeetingDto> meetings = new List<MeetingDto>();
+
+            List<PTMParticipants> details = await _context.PTMParticipants
+            .Include(p => p.PTM).Where(p => p.ParentId == parentId).ToListAsync();
+
+            foreach (var detail in details)
+            {
+                Teacher teacher = await _context
+                .Teachers.SingleOrDefaultAsync(t => t.Id == detail.PTM.TeacherId);
+
+                Class selectedClass = await _context.Classes.SingleOrDefaultAsync(c => c.Id == detail.PTM.ClassId);
+
+                meetings.Add(new MeetingDto
+                {
+                    Id = detail.Guid,
+                    Title = detail.PTM.Title,
+                    Date = detail.Date,
+                    StartTime = detail.StartTime,
+                    Link = detail.Link,
+                    ParticipantId = teacher.Guid,
+                    ParticipantName = teacher.FirstName + " " + teacher.LastName,
+                    Class = new ClassDto
+                    {
+                        Id = selectedClass.Guid,
+                        ClassName = selectedClass.ClassName,
+                        Section = selectedClass.Section
+                    }
+                });
+            }
+
+            return meetings;
+        }
     }
 }
