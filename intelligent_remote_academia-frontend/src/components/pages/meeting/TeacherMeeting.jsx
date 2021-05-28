@@ -1,26 +1,37 @@
 import { Button } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import PageHeading from "../../common/PageHeading";
 import CreateMeeting from "./CreateMeeting";
 import Meeting from "./Meeting";
+import MeetingsList from "./MeetingsList";
+import http from "../../../services/httpService";
 
 const TeacherMeeting = () => {
   const [joinMeeting, setJoinMeeting] = useState(false);
+  const [meetingsList, setMeetingsList] = useState([]);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const { data } = await http.get("/ptm/getTeacherMeetings");
+      setMeetingsList(data);
+    } catch (ex) {
+      console.log(ex);
+      alert("An error occured while getting meetings list");
+    }
+  };
 
   return (
     <React.Fragment>
       <PageHeading title="Meetings" />
 
-      <Button
-        onClick={() => {
-          setJoinMeeting(true);
-        }}
-      >
-        join
-      </Button>
-
       <CreateMeeting />
+
+      <MeetingsList meetings={meetingsList} />
 
       {joinMeeting && (
         <Meeting
