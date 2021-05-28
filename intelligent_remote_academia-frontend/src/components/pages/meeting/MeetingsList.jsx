@@ -54,18 +54,19 @@ const useStyles = makeStyles({
     flex: 1,
   },
   meetingContainer: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.light,
     borderRadius: 5,
-    color: "white",
     display: "flex",
     padding: "10px 20px",
+    marginBottom: 10,
   },
   subTitle: {
-    color: colors.light,
+    color: colors.medium,
     fontWeight: 300,
     fontSize: 14,
   },
   title: {
+    color: "black",
     fontWeight: 300,
   },
 });
