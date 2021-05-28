@@ -11,6 +11,8 @@ import colors from "../../../colors";
 const MeetingsList = ({ meetings, onJoinClick }) => {
   const classes = useStyles();
 
+  if (!meetings.length) return null;
+
   return (
     <React.Fragment>
       <Paper className={`shadow ${classes.container}`}>
