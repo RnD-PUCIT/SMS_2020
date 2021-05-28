@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+import http from "../../../services/httpService";
 
 import PageHeading from "../../common/PageHeading";
-import CreateMeeting from "./CreateMeeting";
-import Meeting from "./Meeting";
 import MeetingsList from "./MeetingsList";
-import http from "../../../services/httpService";
+import Meeting from "./Meeting";
 import AccountStore from "../../store/account/AccountStore";
 
-const TeacherMeeting = () => {
+const ParentMeeting = () => {
   const [joinMeeting, setJoinMeeting] = useState(false);
-  const [meetingsList, setMeetingsList] = useState([]);
+  const [meetingList, setMeetingList] = useState([]);
   const [roomName, setRoomName] = useState("");
   const [meetingSubject, setMeetingSubject] = useState("");
 
@@ -20,13 +19,8 @@ const TeacherMeeting = () => {
   }, []);
 
   const fetchData = async () => {
-    try {
-      const { data } = await http.get("/ptm/getTeacherMeetings");
-      setMeetingsList(data);
-    } catch (ex) {
-      console.log(ex);
-      alert("An error occured while getting meetings list");
-    }
+    const { data } = await http.get("/ptm/getParentMeetings");
+    setMeetingList(data);
   };
 
   const handleMeetingJoin = (meeting) => {
@@ -39,9 +33,7 @@ const TeacherMeeting = () => {
     <React.Fragment>
       <PageHeading title="Meetings" />
 
-      <CreateMeeting />
-
-      <MeetingsList meetings={meetingsList} onJoinClick={handleMeetingJoin} />
+      <MeetingsList meetings={meetingList} onJoinClick={handleMeetingJoin} />
 
       {joinMeeting && (
         <Meeting
@@ -57,4 +49,4 @@ const TeacherMeeting = () => {
   );
 };
 
-export default TeacherMeeting;
+export default ParentMeeting;

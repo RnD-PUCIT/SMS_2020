@@ -41,6 +41,11 @@ const sideBarLinks = {
       url: "/messages",
       icon: "FiMessageSquare",
     },
+    {
+      text: "Meetings",
+      url: "/meetings",
+      icon: "FiVideo",
+    },
   ],
   teacher: [
     {
