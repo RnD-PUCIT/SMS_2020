@@ -118,34 +118,37 @@ namespace IRAAPI.Controllers
 
             List<MeetingDto> meetings = new List<MeetingDto>();
 
-            PTM ptm = await _context.PTMs.Include(p => p.Class)
-            .SingleOrDefaultAsync(p => p.TeacherId == teacherId);
+            List<PTM> ptms = await _context.PTMs.Include(p => p.Class)
+            .Where(p => p.TeacherId == teacherId).ToListAsync();
 
-            if (ptm == null)
+            if (ptms == null)
                 return NotFound();
 
-            List<PTMParticipants> participants = await _context.PTMParticipants
+            foreach (var ptm in ptms)
+            {
+                List<PTMParticipants> participants = await _context.PTMParticipants
                 .Include(p => p.Parent).Where(p => p.PTMId == ptm.Id)
                 .ToListAsync();
 
-            foreach (var participant in participants)
-            {
-                meetings.Add(new MeetingDto
+                foreach (var participant in participants)
                 {
-                    Id = participant.Guid,
-                    Title = ptm.Title,
-                    Date = participant.Date,
-                    StartTime = participant.StartTime,
-                    Link = participant.Link,
-                    ParticipantId = participant.Parent.Guid,
-                    ParticipantName = participant.Parent.FirstName + " " + participant.Parent.LastName,
-                    Class = new ClassDto
+                    meetings.Add(new MeetingDto
                     {
-                        Id = ptm.Guid,
-                        ClassName = ptm.Class.ClassName,
-                        Section = ptm.Class.Section
-                    }
-                });
+                        Id = participant.Guid,
+                        Title = ptm.Title,
+                        Date = participant.Date,
+                        StartTime = participant.StartTime,
+                        Link = participant.Link,
+                        ParticipantId = participant.Parent.Guid,
+                        ParticipantName = participant.Parent.FirstName + " " + participant.Parent.LastName,
+                        Class = new ClassDto
+                        {
+                            Id = ptm.Guid,
+                            ClassName = ptm.Class.ClassName,
+                            Section = ptm.Class.Section
+                        }
+                    });
+                }
             }
 
             return meetings;
