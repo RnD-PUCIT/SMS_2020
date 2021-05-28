@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import colors from "../../../colors";
 
-const MeetingsList = ({ meetings }) => {
+const MeetingsList = ({ meetings, onJoinClick }) => {
   const classes = useStyles();
 
   return (
@@ -29,7 +29,9 @@ const MeetingsList = ({ meetings }) => {
               >{`Participant: ${meeting.participantName}`}</Typography>
             </div>
             <div className={classes.button}>
-              <Button variant="contained">join</Button>
+              <Button variant="contained" onClick={() => onJoinClick(meeting)}>
+                join
+              </Button>
             </div>
           </div>
         ))}

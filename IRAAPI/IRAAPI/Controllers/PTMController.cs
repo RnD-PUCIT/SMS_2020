@@ -136,6 +136,7 @@ namespace IRAAPI.Controllers
                     Title = ptm.Title,
                     Date = participant.Date,
                     StartTime = participant.StartTime,
+                    Link = participant.Link,
                     ParticipantId = participant.Parent.Guid,
                     ParticipantName = participant.Parent.FirstName + " " + participant.Parent.LastName,
                     Class = new ClassDto

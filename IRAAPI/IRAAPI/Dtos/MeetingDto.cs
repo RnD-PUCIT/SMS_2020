@@ -8,6 +8,7 @@ namespace IRAAPI.Dtos
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartTime { get; set; }
+        public string Link { get; set; }
         public ClassDto Class { get; set; }
         public Guid ParticipantId { get; set; }
         public string ParticipantName { get; set; }
