@@ -96,6 +96,10 @@ const sideBarLinks = {
       text: "Subjects",
       url: "/subjects",
     },
+    {
+      text: "Sessions",
+      url: "/sessions",
+    },
   ],
 };
 

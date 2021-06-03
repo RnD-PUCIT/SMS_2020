@@ -1,4 +1,6 @@
-﻿using IRAAPI.Models;
+﻿using IRAAPI.Dtos;
+using IRAAPI.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -22,6 +24,23 @@ namespace IRAAPI.Controllers
         public async Task<ActionResult<List<Session>>> GetSessionsList()
         {
             return await _context.Sessions.ToListAsync();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateSession(SessionDto model)
+        {
+            Session session = new Session
+            {
+                SessionYear = model.SessionYear
+            };
+
+            await _context.Sessions.AddAsync(session);
+            bool result = await _context.SaveChangesAsync() > 0;
+
+            if (!result)
+                return StatusCode(StatusCodes.Status500InternalServerError);
+
+            return Ok();
         }
     }
 }
