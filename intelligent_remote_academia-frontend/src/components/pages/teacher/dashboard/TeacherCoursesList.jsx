@@ -60,6 +60,8 @@ export default TeacherCoursesList;
 const useStyles = makeStyles({
   container: {
     padding: 20,
+    height: 300,
+    overflow: 'auto !important',
   },
   header: {
     padding: '10px 0',

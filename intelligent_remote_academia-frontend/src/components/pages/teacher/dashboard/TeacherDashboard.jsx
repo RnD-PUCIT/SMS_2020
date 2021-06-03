@@ -2,6 +2,7 @@ import { Grid } from '@material-ui/core';
 import React from 'react';
 
 import PageHeading from '../../../common/PageHeading';
+import TeacherClassesList from './TeacherClassesList';
 import TeacherCoursesList from './TeacherCoursesList';
 
 const TeacherDashboard = () => {
@@ -11,6 +12,9 @@ const TeacherDashboard = () => {
       <Grid container spacing={3}>
         <Grid item md={8}>
           <TeacherCoursesList />
+        </Grid>
+        <Grid item md={4}>
+          <TeacherClassesList />
         </Grid>
       </Grid>
     </React.Fragment>
