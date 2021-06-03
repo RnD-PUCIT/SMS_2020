@@ -26,7 +26,7 @@ namespace IRAAPI.Controllers
             return await _context.Sessions.ToListAsync();
         }
 
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult> CreateSession(SessionDto model)
         {
             Session session = new Session
