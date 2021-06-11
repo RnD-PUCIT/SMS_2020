@@ -17,7 +17,7 @@ namespace IRAAPI
 
         private static void SeedAdmin(IRAAPIContext context, UserManager<ApplicationUser> userManager)
         {
-            if(userManager.FindByNameAsync("admin").Result == null)
+            if (userManager.FindByNameAsync("admin").Result == null)
             {
                 CreateASPNetUser(userManager,
                     new RegisterModel
@@ -27,6 +27,8 @@ namespace IRAAPI
                         Password = "Password@123",
                         Role = "Admin"
                     });
+
+                var user = userManager.FindByNameAsync("admin").Result;
                 Admin admin = new Admin
                 {
                     FirstName = "Admin",
@@ -36,6 +38,7 @@ namespace IRAAPI
                     Address = "Lahore",
                     ContactPrimary = "03164141068",
                     Guid = Guid.NewGuid(),
+                    UserId = new Guid(user.Id)
                 };
                 context.Admins.Add(admin);
                 context.SaveChanges();

@@ -1,19 +1,17 @@
-import { Button, Divider, Paper, Typography } from '@material-ui/core';
-import { observer } from 'mobx-react';
-import React, { useContext, useEffect } from 'react';
-import DataTable from 'react-data-table-component';
-import { useHistory } from 'react-router-dom';
-import AdminStore from '../../../store/admin/AdminStore';
+import { Button, Divider, Paper, Typography } from "@material-ui/core";
+import React, { useContext, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import AdminStore from "../../../store/admin/AdminStore";
 
 const ClassesFeed = () => {
   const adminStore = useContext(AdminStore);
-  const studentsList = [...adminStore.studentsList];
 
   const history = useHistory();
 
   useEffect(() => {
     adminStore.loadStudents();
-  }, []);
+  }, [adminStore]);
+
   return (
     <React.Fragment>
       <Typography variant="h6">Classes Feed</Typography>
@@ -25,7 +23,7 @@ const ClassesFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/classes/add');
+            history.push("/classes/add");
           }}
         >
           Add Class
@@ -35,7 +33,7 @@ const ClassesFeed = () => {
           variant="contained"
           color="primary"
           onClick={() => {
-            history.push('/classes/subject-allocate');
+            history.push("/classes/subject-allocate");
           }}
         >
           Allocate Subjects

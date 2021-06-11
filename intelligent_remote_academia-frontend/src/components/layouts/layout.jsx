@@ -1,44 +1,53 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from './sidebar/sidebar';
+import React, { useContext, useEffect, useState } from "react";
+import Sidebar from "./sidebar/sidebar";
 
-import jwt_decode from 'jwt-decode';
-import http from '../../services/httpService';
-import Content from './mainContent/Content';
+import jwt_decode from "jwt-decode";
+import http from "../../services/httpService";
+import Content from "./mainContent/Content";
+import AccountStore from "../store/account/AccountStore";
 
 const Layout = () => {
   // State variables
   const [userInfo, setUserInfo] = useState(null);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState("");
+
+  const accountStore = useContext(AccountStore);
 
   // Init state data from api
   useEffect(() => {
     async function fetchData() {
       try {
         //Get token and decode it using jwt_decode library
-        const token = window.localStorage.getItem('token');
+        const token = window.localStorage.getItem("token");
         const decoded = jwt_decode(token);
 
         // Set the role of the user in the state
-        const { role: userRole } = decoded;
+        const { role: userRole, userId } = decoded;
+
         setRole(userRole.trim().toLowerCase());
+        window.localStorage.setItem("userId", userId);
+
+        accountStore.setUserId(userId);
       } catch (error) {
-        window.location = '/login';
+        window.location = "/login";
       }
 
       // Call api to get layout data
       try {
-        const { data } = await http.get('/layout');
+        const { data } = await http.get("/layout");
         setUserInfo(data);
+
+        accountStore.setFullName(data.firstName + " " + data.lastName);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-          window.location = '/login';
+          window.location = "/login";
         } else if (error.response && error.response.status === 404) {
-          window.location = '/notFound';
+          window.location = "/notFound";
         }
       }
     }
     fetchData();
-  }, []);
+  }, [accountStore]);
 
   if (userInfo) {
     return (

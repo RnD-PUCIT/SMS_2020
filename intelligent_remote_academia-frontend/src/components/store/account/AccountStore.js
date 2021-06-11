@@ -1,8 +1,10 @@
-import { makeAutoObservable } from 'mobx';
-import { createContext } from 'react';
+import { makeAutoObservable } from "mobx";
+import { createContext } from "react";
 
 class AccountStore {
-  role = '';
+  role = "";
+  fullName = "";
+  userId = "";
 
   constructor() {
     makeAutoObservable(this);
@@ -10,6 +12,14 @@ class AccountStore {
 
   setRole = (role) => {
     this.role = role;
+  };
+
+  setFullName = (name) => {
+    this.fullName = name;
+  };
+
+  setUserId = (id) => {
+    this.userId = id;
   };
 }
 

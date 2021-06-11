@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -10,14 +10,15 @@ import {
   Paper,
   TextField,
   Typography,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import http from '../../../../services/httpService';
+} from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import http from "../../../../services/httpService";
 
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from "@material-ui/icons/CheckBoxOutlineBlank";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { useHistory } from "react-router";
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -28,16 +29,18 @@ const ClassSubjectAllocation = () => {
   const [subjectsList, setSubjectsList] = useState([]);
   const [classSubjectArray, setClassSubjectArray] = useState([]);
 
+  const history = useHistory();
+
   useEffect(() => {
     async function fetchData() {
       try {
-        let response = await http.get('/teachers/getTeachersList');
+        let response = await http.get("/teachers/getTeachersList");
         setTeachersList(response.data);
 
-        response = await http.get('/classes/getClassesList');
+        response = await http.get("/classes/getClassesList");
         setClassesList(response.data);
 
-        response = await http.get('/subjects/getSubjectsList');
+        response = await http.get("/subjects/getSubjectsList");
         setSubjectsList(response.data);
       } catch (error) {
         console.log(error);
@@ -49,14 +52,14 @@ const ClassSubjectAllocation = () => {
 
   const formik = useFormik({
     initialValues: {
-      selectedTeacher: '',
-      selectedClass: '',
-      selectedSubjects: '',
+      selectedTeacher: "",
+      selectedClass: "",
+      selectedSubjects: "",
     },
     validationSchema: Yup.object({
-      selectedTeacher: Yup.string().required('Please select a teacher'),
-      selectedClass: Yup.string().required('Please select a class'),
-      selectedSubjects: Yup.string().required('Please add atleast 1 subject'),
+      selectedTeacher: Yup.string().required("Please select a teacher"),
+      selectedClass: Yup.string().required("Please select a class"),
+      selectedSubjects: Yup.string().required("Please add atleast 1 subject"),
     }).nullable(),
 
     onSubmit: async (values) => {
@@ -67,9 +70,7 @@ const ClassSubjectAllocation = () => {
       };
       arr.push(classSubject);
 
-      const teacherSubjectAllocation = {
-        allocation: [],
-      };
+      const model = [];
       arr.forEach((classSub) => {
         const {
           selectedClass: currentClass,
@@ -81,9 +82,15 @@ const ClassSubjectAllocation = () => {
             subjectId: subject.id,
             classId: currentClass.id,
           };
-          teacherSubjectAllocation.allocation.push(temp);
+          model.push(temp);
         });
       });
+      try {
+        await http.post("/teachers/allocateClassAndSubjects", model);
+        history.replace("/teachers");
+      } catch (error) {
+        console.log(error);
+      }
     },
   });
 
@@ -104,7 +111,7 @@ const ClassSubjectAllocation = () => {
           <Paper className="paper_padding--sm u_mt_small">
             <form onSubmit={formik.handleSubmit}>
               <Typography variant="h6">Select Teacher</Typography>
-              <Divider style={{ margin: '10px 0 20px 0' }} />
+              <Divider style={{ margin: "10px 0 20px 0" }} />
               <SearchTeacherField
                 formik={formik}
                 display="firstName"
@@ -117,13 +124,13 @@ const ClassSubjectAllocation = () => {
                   <Typography variant="h6" className="u_mt_small">
                     Select Class to Allocate
                   </Typography>
-                  <Divider style={{ margin: '10px 0 20px 0' }} />
+                  <Divider style={{ margin: "10px 0 20px 0" }} />
                 </Grid>
                 <Grid item xs={7} md={8}>
                   <Typography variant="h6" className="u_mt_small">
                     Select Subjects to Allocate
                   </Typography>
-                  <Divider style={{ margin: '10px 0 20px 0' }} />
+                  <Divider style={{ margin: "10px 0 20px 0" }} />
                 </Grid>
               </Grid>
               <Grid container spacing={3}>
@@ -210,7 +217,7 @@ const SearchTeacherField = ({ formik, id, label, options, display }) => {
       getOptionLabel={(option) => option[display]}
       renderOption={(option, { selected }) => (
         <React.Fragment>
-          <Avatar style={{ marginRight: '10px' }}>
+          <Avatar style={{ marginRight: "10px" }}>
             {option.firstName.charAt(0)}
           </Avatar>
 
@@ -227,7 +234,7 @@ const SearchTeacherField = ({ formik, id, label, options, display }) => {
           value={formik.values[id]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          helperText={formik.touched[id] ? formik.errors[id] : ""}
           error={formik.touched[id] && Boolean(formik.errors[id])}
         />
       )}
@@ -258,7 +265,7 @@ const SearchClassField = ({ formik, id, label, options, display }) => {
           value={formik.values[id]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          helperText={formik.touched[id] ? formik.errors[id] : ""}
           error={formik.touched[id] && Boolean(formik.errors[id])}
         />
       )}
@@ -297,7 +304,7 @@ const SearchSubjectsField = ({ formik, id, label, options, display }) => {
           value={formik.values[id]}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          helperText={formik.touched[id] ? formik.errors[id] : ''}
+          helperText={formik.touched[id] ? formik.errors[id] : ""}
           error={formik.touched[id] && Boolean(formik.errors[id])}
         />
       )}

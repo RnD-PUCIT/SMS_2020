@@ -108,9 +108,9 @@ main {
   padding: 20px;
 }
 
-input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
+/* input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-inputMarginDense {
   text-align: right;
-}
+} */
 
 .action-button {
   position: fixed;
@@ -169,5 +169,105 @@ input.MuiInputBase-input.MuiInput-input.MuiInputBase-inputMarginDense.MuiInput-i
   width: 100%;
   background-color: rgba(0, 0, 0, 0.89);
   z-index: 0;
-  padding: 20px 40px;
+}
+
+/* Sidebar Style */
+.MuiPaper-root.MuiDrawer-paper.makeStyles-drawerPaper-6.MuiDrawer-paperAnchorLeft.MuiDrawer-paperAnchorDockedLeft.MuiPaper-elevation0 {
+  box-shadow: 0px 0px 10px 0px rgb(27, 26, 26);
+  background: #233044;
+}
+
+.MuiPaper-root.MuiDrawer-paper.makeStyles-drawerPaper-6.MuiDrawer-paperAnchorLeft.MuiPaper-elevation16 {
+  background: #233044;
+}
+
+.break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.makeStyles-active-8 svg {
+  color: #4364f7 !important;
+}
+
+.shadow {
+  box-shadow: 0 2px 0 rgb(90 97 105 / 11%), 0 4px 8px rgb(90 97 105 / 12%),
+    0 10px 10px rgb(90 97 105 / 6%), 0 7px 70px rgb(90 97 105 / 10%) !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+}
+
+/* width */
+.chatList::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Handle */
+.chatList::-webkit-scrollbar-thumb {
+  background: #4364f7;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatList::-webkit-scrollbar-thumb:hover {
+  background: #3149b3;
+}
+
+.chatMessagesContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  margin: 10px;
+  margin-top: 20px;
+}
+
+/* Handle */
+.chatMessagesContainer::-webkit-scrollbar-thumb {
+  background: #4364f765;
+  border-radius: 50px;
+}
+
+/* Handle on hover */
+.chatMessagesContainer::-webkit-scrollbar-thumb:hover {
+  background: #3149b3;
+}
+
+*:focus-visible,
+button:focus {
+  outline: none !important;
+}
+
+.chatList
+  .MuiButtonBase-root.MuiListItem-root.MuiListItem-gutters.MuiListItem-button.MuiListItem-alignItemsFlexStart.Mui-selected {
+  background: #dbe9ff;
+}
+
+#jitsi-container {
+  position: relative;
+}
+
+#jitsi-container iframe {
+  position: fixed;
+  height: 100vh !important;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+}
+
+.jitsi-loading {
+  position: fixed;
+  height: 100vh !important;
+  z-index: 99999;
+  left: 0;
+  top: 0;
+}
+
+.no-input-field-chips .MuiAutocomplete-tag {
+  display: none;
+}
+
+.autocomplete .MuiAutocomplete-endAdornment {
+  top: calc(50% - 30px) !important;
 }

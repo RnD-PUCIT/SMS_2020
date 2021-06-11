@@ -17,6 +17,8 @@ public class AutoMapping : Profile
         CreateMap<CourseOutline, CourseOutlineDTO>();
         CreateMap<Class, ClassDto>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid));
         CreateMap<Subject, SubjectDto>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Guid));
+        CreateMap<TeacherSubjectAlloc, TeacherSubjectAllocationDto>();
+        CreateMap<TeacherSubjectAllocationDto, TeacherSubjectAlloc>();
 
         // means you want to map from User to UserDTO
     }

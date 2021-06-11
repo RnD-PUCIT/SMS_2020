@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Gradebook from '../gradebook/Gradebook';
-import Diary from '../diary/Diary';
-import CourseOutlineDashboard from './../courseUpload/courseOutlineDashboard';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Gradebook from "../gradebook/Gradebook";
+import Diary from "../diary/Diary";
+import CourseOutlineDashboard from "./../courseUpload/courseOutlineDashboard";
 
 const SubjectDashboard = (props) => {
   // Prop variables
@@ -35,7 +35,7 @@ const SubjectTabs = ({ classSlug, subjectSlug }) => {
   useEffect(() => {
     setTabLinks(tabsConst);
     history.replace(`/classes/${classSlug}/${subjectSlug}${tabsConst[0].url}`);
-  }, []);
+  }, [classSlug, subjectSlug, history]);
 
   // handler functions
   const handleTabClick = (tab) => {
@@ -52,9 +52,10 @@ const SubjectTabs = ({ classSlug, subjectSlug }) => {
         <Tabs
           value={selectedTab}
           onChange={handleChange}
-          indicatorColor='primary'
-          textColor='primary'
-          centered>
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
           {tabLinks.map((tab, index) => {
             return (
               <Tab
@@ -75,11 +76,11 @@ const SubjectTabs = ({ classSlug, subjectSlug }) => {
 };
 
 const tabsConst = [
-  { text: 'Grade Book', url: '/gradebook', component: <Gradebook /> },
-  { text: 'Diary', url: '/diary', component: <Diary /> },
+  { text: "Grade Book", url: "/gradebook", component: <Gradebook /> },
+  { text: "Diary", url: "/diary", component: <Diary /> },
   {
-    text: 'Course Outline',
-    url: '/courseOutline',
+    text: "Course Outline",
+    url: "/courseOutline",
     component: <CourseOutlineDashboard />,
   },
 ];

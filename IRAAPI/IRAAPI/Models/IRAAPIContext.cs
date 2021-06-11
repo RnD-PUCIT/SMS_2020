@@ -14,7 +14,7 @@ namespace IRAAPI.Models
         {
         }
 
-        public IRAAPIContext(DbContextOptions<IRAAPIContext> options)   : base(options)
+        public IRAAPIContext(DbContextOptions<IRAAPIContext> options) : base(options)
         {
         }
         public virtual DbSet<CourseOutline> CourseOutlines { get; set; }
@@ -46,6 +46,8 @@ namespace IRAAPI.Models
         public virtual DbSet<StudentApplicationFile> StudentApplicationFiles { get; set; }
         public virtual DbSet<GradeActivity> GradeActivities { get; set; }
         public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<PTM> PTMs { get; set; }
+        public virtual DbSet<PTMParticipants> PTMParticipants { get; set; }
 
 
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

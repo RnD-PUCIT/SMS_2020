@@ -1,14 +1,14 @@
-import { Divider, Grid, Paper, Typography } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react';
-import WcIcon from '@material-ui/icons/Wc';
-import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
-import PeopleIcon from '@material-ui/icons/People';
-import MenuBookIcon from '@material-ui/icons/MenuBook';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import { Alert, AlertTitle } from '@material-ui/lab';
-import AdminStore from '../../../store/admin/AdminStore';
-import { observer } from 'mobx-react';
+import { Divider, Grid, Paper, Typography } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import WcIcon from "@material-ui/icons/Wc";
+import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
+import PeopleIcon from "@material-ui/icons/People";
+import MenuBookIcon from "@material-ui/icons/MenuBook";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import AdminStore from "../../../store/admin/AdminStore";
+import { observer } from "mobx-react";
 
 const AdminDashboard = () => {
   const adminStore = useContext(AdminStore);
@@ -22,33 +22,33 @@ const AdminDashboard = () => {
 
     const countConst = [
       {
-        text: 'Students',
+        text: "Students",
         count: adminStore.studentsList.length,
         icon: <LocalLibraryIcon fontSize="inherit" color="inherit" />,
-        css: 'admin-dasboard-rounded-icon icon-green',
+        css: "admin-dasboard-rounded-icon icon-green",
       },
       {
-        text: 'Parents',
+        text: "Parents",
         count: adminStore.parentsList.length,
         icon: <WcIcon fontSize="inherit" color="inherit" />,
-        css: 'admin-dasboard-rounded-icon icon-blue',
+        css: "admin-dasboard-rounded-icon icon-blue",
       },
       {
-        text: 'Teachers',
+        text: "Teachers",
         count: adminStore.teachersList.length,
         icon: <PeopleIcon fontSize="inherit" color="inherit" />,
-        css: 'admin-dasboard-rounded-icon icon-orange',
+        css: "admin-dasboard-rounded-icon icon-orange",
       },
       {
-        text: 'Classes',
+        text: "Classes",
         count: adminStore.classesList.length,
         icon: <MenuBookIcon fontSize="inherit" color="inherit" />,
-        css: 'admin-dasboard-rounded-icon icon-red',
+        css: "admin-dasboard-rounded-icon icon-red",
       },
     ];
 
     setCount(countConst);
-  }, []);
+  }, [adminStore]);
   return (
     <React.Fragment>
       <Typography variant="h6">Admin Dashboard</Typography>
@@ -57,7 +57,7 @@ const AdminDashboard = () => {
         {count.map((item, index) => {
           return (
             <Grid item md={3} xs={6}>
-              <Paper style={{ padding: '22px 28px' }}>
+              <Paper style={{ padding: "22px 28px" }}>
                 <Grid container>
                   <Grid item xs={4}>
                     <div className={item.css}>{item.icon}</div>

@@ -1,14 +1,14 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
 
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
 
-import { useStyles } from '../../constants/layoutConsts';
-import ProfileAvatar from './profileAvatar';
+import { useStyles } from "../../constants/layoutConsts";
+import ProfileAvatar from "./profileAvatar";
 
-export default function Navbar(props) {
+export default function Navbar({ onMenuClick, userInfo }) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -23,9 +23,9 @@ export default function Navbar(props) {
 
   const handleMenuLinkClick = (text) => {
     // Check which link is clicked
-    if (text.toLowerCase() === 'logout') {
-      window.localStorage.removeItem('token');
-      window.location = '/login';
+    if (text.toLowerCase() === "logout") {
+      window.localStorage.clear();
+      window.location = "/login";
     }
 
     // Close the menu
@@ -39,7 +39,7 @@ export default function Navbar(props) {
           <IconButton
             color="inherit"
             edge="start"
-            onClick={props.onMenuClick}
+            onClick={onMenuClick}
             className={classes.menuButton}
           >
             <MenuIcon />
@@ -51,6 +51,7 @@ export default function Navbar(props) {
 
           <span className={classes.title} />
           <ProfileAvatar
+            user={userInfo}
             onMenuOpen={handleMenu}
             onMenuClose={handleClose}
             onMenuItemClick={handleMenuLinkClick}

@@ -52,7 +52,7 @@ const StudentDropdown = ({
 const StudentCard = ({ student, onClick }) => {
   return (
     <React.Fragment>
-      <Card style={{ borderRadius: "500px", marginBottom: "15px" }} raised>
+      <Card style={{ marginBottom: "15px" }} className={"shadow"}>
         <CardActionArea onClick={onClick}>
           <CardContent style={{ padding: "5px" }}>
             <ListItem>

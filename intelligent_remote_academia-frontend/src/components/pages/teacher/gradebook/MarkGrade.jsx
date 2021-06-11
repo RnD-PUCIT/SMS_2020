@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import React, { useEffect, useState } from "react";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 import {
   Avatar,
   Button,
@@ -13,11 +13,11 @@ import {
   ListItemText,
   makeStyles,
   TextField,
-} from '@material-ui/core';
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
-  borderedCell: { borderRight: '1px solid rgba(224, 224, 224, 1)' },
-  cellCentered: { textAlign: 'center' },
+  borderedCell: { borderRight: "1px solid rgba(224, 224, 224, 1)" },
+  cellCentered: { textAlign: "center" },
 });
 
 const MarkGrade = () => {
@@ -77,7 +77,7 @@ const MarkGrade = () => {
               </TableCell>
               <TableCell
                 className={classes.borderedCell}
-                style={{ textAlign: 'center' }}
+                style={{ textAlign: "center" }}
               >
                 Marks obtained
               </TableCell>
@@ -88,7 +88,7 @@ const MarkGrade = () => {
             {gradesList.map((row, index) => (
               <TableRow key={index}>
                 <TableCell className={classes.borderedCell}>
-                  <ListItem style={{ padding: '0' }}>
+                  <ListItem style={{ padding: "0" }}>
                     <ListItemAvatar>
                       <Avatar>{row.studentInfo.firstName.charAt(0)}</Avatar>
                     </ListItemAvatar>
@@ -99,18 +99,18 @@ const MarkGrade = () => {
                 </TableCell>
                 <TableCell
                   className={classes.borderedCell}
-                  style={{ textAlign: 'center' }}
+                  style={{ textAlign: "center" }}
                 >
                   <TextField
                     size="small"
                     type="number"
                     name="obtainedMarks"
                     value={row.obtainedMarks}
-                    style={{ width: '50px', textAlign: 'right' }}
+                    style={{ width: "50px", textAlign: "right" }}
                     onChange={(e) => handleInputChange(e, row)}
                   />
-                  <span style={{ fontSize: '25px' }}> / </span>
-                  <span style={{ fontSize: '16px' }}>{row.totalMarks}</span>
+                  <span style={{ fontSize: "25px" }}> / </span>
+                  <span style={{ fontSize: "16px" }}>{row.totalMarks}</span>
                 </TableCell>
                 <TableCell>
                   <TextField
@@ -127,8 +127,6 @@ const MarkGrade = () => {
           </TableBody>
         </Table>
       </Paper>
-
-      {gradesList.map(() => {})}
     </React.Fragment>
   );
 };
@@ -140,16 +138,16 @@ const gradesConst = [
     id: 1,
     studentInfo: {
       id: 1,
-      rollNumber: 'BITF17A040',
-      firstName: 'Sohaib',
-      lastName: 'Salman',
-      profilePic: '',
+      rollNumber: "BITF17A040",
+      firstName: "Sohaib",
+      lastName: "Salman",
+      profilePic: "",
     },
-    gradeDate: '2/13/2021',
+    gradeDate: "2/13/2021",
     totalMarks: 100,
     obtainedMarks: 0,
-    gradeTitle: 'Quiz 01',
-    remarks: '',
+    gradeTitle: "Quiz 01",
+    remarks: "",
     classId: 1,
     subjectId: 1,
     gradeTypeId: 1,
@@ -159,16 +157,16 @@ const gradesConst = [
     id: 1,
     studentInfo: {
       id: 1,
-      rollNumber: 'BITF17A012',
-      firstName: 'Arslan',
-      lastName: 'Yousaf',
-      profilePic: '',
+      rollNumber: "BITF17A012",
+      firstName: "Arslan",
+      lastName: "Yousaf",
+      profilePic: "",
     },
-    gradeDate: '2/13/2021',
+    gradeDate: "2/13/2021",
     totalMarks: 100,
     obtainedMarks: 0,
-    gradeTitle: 'Quiz 01',
-    remarks: '',
+    gradeTitle: "Quiz 01",
+    remarks: "",
     classId: 1,
     subjectId: 1,
     gradeTypeId: 1,
@@ -178,16 +176,16 @@ const gradesConst = [
     id: 1,
     studentInfo: {
       id: 1,
-      rollNumber: 'BITF17A026',
-      firstName: 'Daniyal',
-      lastName: 'Ahmed',
-      profilePic: '',
+      rollNumber: "BITF17A026",
+      firstName: "Daniyal",
+      lastName: "Ahmed",
+      profilePic: "",
     },
-    gradeDate: '2/13/2021',
+    gradeDate: "2/13/2021",
     totalMarks: 100,
     obtainedMarks: 0,
-    gradeTitle: 'Quiz 01',
-    remarks: '',
+    gradeTitle: "Quiz 01",
+    remarks: "",
     classId: 1,
     subjectId: 1,
     gradeTypeId: 1,
@@ -197,16 +195,16 @@ const gradesConst = [
     id: 1,
     studentInfo: {
       id: 1,
-      rollNumber: 'BITF17A041',
-      firstName: 'Tehreem',
-      lastName: 'Akhter',
-      profilePic: '',
+      rollNumber: "BITF17A041",
+      firstName: "Tehreem",
+      lastName: "Akhter",
+      profilePic: "",
     },
-    gradeDate: '2/13/2021',
+    gradeDate: "2/13/2021",
     totalMarks: 100,
     obtainedMarks: 0,
-    gradeTitle: 'Quiz 01',
-    remarks: '',
+    gradeTitle: "Quiz 01",
+    remarks: "",
     classId: 1,
     subjectId: 1,
     gradeTypeId: 1,
@@ -216,16 +214,16 @@ const gradesConst = [
     id: 1,
     studentInfo: {
       id: 1,
-      rollNumber: 'BITF17A019',
-      firstName: 'Zainab',
-      lastName: 'Zulfiqar',
-      profilePic: '',
+      rollNumber: "BITF17A019",
+      firstName: "Zainab",
+      lastName: "Zulfiqar",
+      profilePic: "",
     },
-    gradeDate: '2/13/2021',
+    gradeDate: "2/13/2021",
     totalMarks: 100,
     obtainedMarks: 0,
-    gradeTitle: 'Quiz 01',
-    remarks: '',
+    gradeTitle: "Quiz 01",
+    remarks: "",
     classId: 1,
     subjectId: 1,
     gradeTypeId: 1,

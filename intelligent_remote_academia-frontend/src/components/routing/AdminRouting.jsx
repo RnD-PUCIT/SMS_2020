@@ -1,18 +1,21 @@
-import React from 'react';
-import { Redirect, Route, Switch } from 'react-router';
-import AddClassForm from '../pages/admin/classes/AddClassForm';
-import ClassesFeed from '../pages/admin/classes/ClassesFeed';
-import AdminDashboard from '../pages/admin/dashboard/AdminDashboard';
-import ParentForm from '../pages/admin/parent/ParentForm';
-import ParentsFeed from '../pages/admin/parent/ParentsFeed';
-import SubjectsFeed from '../pages/admin/subjects/SubjectsFeed';
-import AddSubjectForm from '../pages/admin/subjects/AddSubjectForm';
-import AddTeacherForm from '../pages/admin/teacher/AddTeacherForm';
-import TeachersFeed from '../pages/admin/teacher/TeachersFeed';
-import StudentsFeed from '../pages/admin/students/StudentsFeed';
-import AddStudentForm from '../pages/admin/students/AddStudentForm';
-import ClassSubjectAllocation from '../pages/admin/classes/ClassSubjectAllocation';
-import TeacherClassAllocation from '../pages/admin/teacher/TeacherClassAllocation';
+import React from "react";
+import { Redirect, Route, Switch } from "react-router";
+
+import AddClassForm from "../pages/admin/classes/AddClassForm";
+import ClassesFeed from "../pages/admin/classes/ClassesFeed";
+import AdminDashboard from "../pages/admin/dashboard/AdminDashboard";
+import ParentForm from "../pages/admin/parent/ParentForm";
+import ParentsFeed from "../pages/admin/parent/ParentsFeed";
+import SubjectsFeed from "../pages/admin/subjects/SubjectsFeed";
+import AddSubjectForm from "../pages/admin/subjects/AddSubjectForm";
+import AddTeacherForm from "../pages/admin/teacher/AddTeacherForm";
+import TeachersFeed from "../pages/admin/teacher/TeachersFeed";
+import StudentsFeed from "../pages/admin/students/StudentsFeed";
+import AddStudentForm from "../pages/admin/students/AddStudentForm";
+import ClassSubjectAllocation from "../pages/admin/classes/ClassSubjectAllocation";
+import TeacherClassAllocation from "../pages/admin/teacher/TeacherClassAllocation";
+import SessionsFeed from "../pages/admin/sessions/SessionFeed";
+import CreateSession from "../pages/admin/sessions/CreateSession";
 
 const AdminRouting = () => {
   return (
@@ -44,6 +47,10 @@ const AdminRouting = () => {
       {/* Subject */}
       <Route exact path="/subjects" component={SubjectsFeed} />
       <Route exact path="/subjects/add" component={AddSubjectForm} />
+      {/* Session */}
+      <Route exact path="/sessions" component={SessionsFeed} />
+      <Route exact path="/sessions/add" component={CreateSession} />
+
       <Redirect from="/" to="/dashboard" />
     </Switch>
   );

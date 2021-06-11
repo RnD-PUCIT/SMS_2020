@@ -777,6 +777,85 @@ namespace IRAAPI.Migrations
                     b.ToTable("LectureContentFiles");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.PTM", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int")
+                        .HasColumnName("class_id");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int")
+                        .HasColumnName("teacher_id");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("title");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClassId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("PTM");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.PTMParticipants", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("date");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int")
+                        .HasColumnName("duration");
+
+                    b.Property<Guid>("Guid")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("guid");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("link");
+
+                    b.Property<int>("PTMId")
+                        .HasColumnType("int")
+                        .HasColumnName("ptm_id");
+
+                    b.Property<int>("ParentId")
+                        .HasColumnType("int")
+                        .HasColumnName("parent_id");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("start_time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PTMId");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("PTM_Participants");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Parent", b =>
                 {
                     b.Property<int>("Id")
@@ -1788,6 +1867,44 @@ namespace IRAAPI.Migrations
                     b.Navigation("CourseOutline");
                 });
 
+            modelBuilder.Entity("IRAAPI.Models.PTM", b =>
+                {
+                    b.HasOne("IRAAPI.Models.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.PTMParticipants", b =>
+                {
+                    b.HasOne("IRAAPI.Models.PTM", "PTM")
+                        .WithMany("PTMParticipants")
+                        .HasForeignKey("PTMId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IRAAPI.Models.Parent", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parent");
+
+                    b.Navigation("PTM");
+                });
+
             modelBuilder.Entity("IRAAPI.Models.Parent", b =>
                 {
                     b.HasOne("IRAAPI.Authentication.ApplicationUser", "User")
@@ -2014,6 +2131,11 @@ namespace IRAAPI.Migrations
             modelBuilder.Entity("IRAAPI.Models.GradeType", b =>
                 {
                     b.Navigation("SubjectGradeTypeAllocs");
+                });
+
+            modelBuilder.Entity("IRAAPI.Models.PTM", b =>
+                {
+                    b.Navigation("PTMParticipants");
                 });
 
             modelBuilder.Entity("IRAAPI.Models.SecurityQuestion", b =>
