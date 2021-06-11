@@ -1,21 +1,22 @@
+import { Grid } from '@material-ui/core';
 import React from 'react';
-import { Link } from 'react-router-dom';
+
+import PageHeading from '../../../common/PageHeading';
+import TeacherClassesList from './TeacherClassesList';
+import TeacherCoursesList from './TeacherCoursesList';
 
 const TeacherDashboard = () => {
   return (
     <React.Fragment>
-      <h1>Teachers Dashboard</h1>
-      <ul>
-        <li>
-          <Link to='diary-form'>Diary</Link>
-        </li>
-        <li>
-          <Link to='mark-attendance'>Attendance</Link>
-        </li>
-        <li>
-          <Link to='classes'>Classes</Link>
-        </li>
-      </ul>
+      <PageHeading title="Teacher Dashboard" />
+      <Grid container spacing={3}>
+        <Grid item md={8}>
+          <TeacherCoursesList />
+        </Grid>
+        <Grid item md={4}>
+          <TeacherClassesList />
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
